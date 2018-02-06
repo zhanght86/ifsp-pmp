@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动信息查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfTmpAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件信息 -->
+		<Field id="qActiveNo" 		desc="活动编号" 	edittype="textbox"        datatype="string" xpath="/activeNo"/>
+		<Field id="qActiveNm" 		desc="活动名称" 	edittype="textbox"        datatype="string" xpath="/activeNm"/>
+		<Field id="qActiveType" 	desc="活动类型" 	edittype="combobox" datasource="DDIC:1702" multiple="false" status="F" required="false" datatype="string" xpath="/activeType"/>
+		<Field id="qActiveStat" 	desc="活动状态" 	edittype="combobox" datasource="DDIC:1710" multiple="false" status="F" required="false" datatype="string" xpath="/activeStat"/>
+		
+		<Field id="qProdId"	desc="支付产品" init="true" datasource="pbsProdInfo:com.ruimin.ifs.pmp.payProdMng.dataset.pbsProdInfo" edittype="combogrid" 
+		fieldmap="qProdId=prodId;qProdIdName=prodName" searchfield="qprodId" viewfield="prodId,prodName" />
+		<Field id="qCardGpNo"	desc="账户分组" init="true" datasource="AcctGpConf:com.ruimin.ifs.pmp.mktActivity.dataset.AcctGpConf" edittype="combogrid" fieldmap="qCardGpNo=gpTpNo;qCardGpNoName=gpTpNm" searchfield="qgpTpNo" viewfield="gpTpNo,gpTpNm" />
+		
+		<!-- 列表信息 -->
+		<Field id="activeNo" 		desc="活动编号" 	edittype="textbox"   readonly="true"     datatype="string" xpath="/activeNo"/>
+		<Field id="activeNm" 		desc="活动名称" 	edittype="textbox"    width="300" colspan="3" required="true"  datatype="string" xpath="/activeNm"/>
+		<Field id="activeType" 		desc="活动类型" 	edittype="combobox" datasource="DDIC:1702" multiple="false" status="F" required="true" datatype="string" xpath="/activeType"/>
+		<Field id="activeStat" 	    desc="活动状态" 	readonly="true" edittype="combobox" datasource="DDIC:1710" multiple="false" status="F" required="false" datatype="string" xpath="/activeStat"/>
+		<Field id="SDate" 	desc="开始时间" edittype="datetimebox" required="true" datatype="timestamp" default="" readonly="false" status="F" xpath="/SDate"/>
+		<Field id="EDate" 	desc="结束时间" edittype="datetimebox" required="false" datatype="timestamp" default="" readonly="false" status="F" xpath="/EDate"/>
+		<Field id="budgetTp" 		desc="预算类型" 	edittype="combobox" datasource="DDIC:1711" multiple="false" status="F" required="true" datatype="string" xpath="/budgetTp"/>
+		<Field id="activeBudget" 		desc="活动预算（元）" 	method="com.ruimin.ifs.util.SysCQMethod.fenToYuan"   edittype="textbox"        datatype="string" xpath="/activeBudget"/>
+		<Field id="platBudget" 		desc="平台预算（元）" 	method="com.ruimin.ifs.util.SysCQMethod.fenToYuan"   edittype="textbox"        datatype="string" xpath="/platBudget"/>
+		<Field id="mchtCount" 		desc="参与商户"    edittype="textbox"        datatype="string" xpath="/mchtCount"/>
+		<Field id="opr" desc="操作" edittype="textbox" datatype="string" xpath="" />
+		
+		<Field id="activeLv" 		desc="优先级" 	 edittype="combobox" datasource="DDIC:1712" multiple="false" status="F" required="true" datatype="string" xpath="/activeLv"/>
+		<Field id="acctLimitType" 		desc="账户限制" 	 edittype="combobox" datasource="DDIC:1713" multiple="false" status="F" required="true" datatype="string" xpath="/acctLimitType"/>
+		<Field id="acctCntMax" 	width="320" required="false" colspan="3" desc="限制次数" 	edittype="textbox"   readonly="false"     datatype="string" xpath="/acctCntMax"/>
+		<Field id="cardGpNo" width="300" colspan="3"	init="true" desc="账户分组" required="true"  datasource="AcctGpConf:com.ruimin.ifs.pmp.mktActivity.dataset.AcctGpConf" edittype="combogrid" fieldmap="cardGpNo=gpTpNo;cardGpNoName=gpTpNm" searchfield="qgpTpNo" viewfield="gpTpNo,gpTpNm" xpath="/cardGpNo" />
+		<Field id="cardGpNoName" method="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfTmpAction.getGpName" desc="账户分组" align="center" edittype="textbox" datatype="string" xpath="/cardGpNo" />
+		<Field id="cycleFlg" 		desc="周期活动" 	 edittype="combobox" datasource="LIST:0,不是;1,是;" multiple="false" status="F" required="true" datatype="string" xpath="/cycleFlg"/>
+		<Field id="prodId" required="true" multiple="true" width="600"	desc="支付产品" init="true" 
+		datasource="pbsProdInfo:com.ruimin.ifs.pmp.payProdMng.dataset.pbsProdInfo" edittype="combogrid"
+		 			fieldmap="prodId=prodId;prodIdName=prodName" searchfield="qprodId" 
+						viewfield="prodId,prodName" xpath="/prdId"/>
+		<Field id="prodIdName" desc="支付产品反显专用"  align="center" method="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfTmpAction.getProdName" edittype="textbox" datatype="string" xpath="/prdId" />
+		
+		<!-- 新增审核字段  -->
+		<Field id="auditFlag" 	desc="审核状态" 	edittype="combobox" multiple="false" status="F"     datatype="string"  xpath="/auditFlag" />
+		<Field id="syncFlag" desc="审核标志位" datatype="string" align="center"  xpath="/syncFlag"/>    			
+	    <Field id="auditId" desc="审核信息编号" datatype="string" width="630" colspan="4" align="center" xpath="/auditId"/> 	
+	    <Field id="auditView" desc="审核意见" datatype="string" edittype="textarea" colspan="4" rows="6" width="635"  size="128" readonly="false" align="center"  xpath="/auditView" />
+	</Fields>
+	
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus" tip="新增"/>
+		<Command id="btnAddAudit" desc="保存" type="none" url="#" txn="" icon="" tip="新增"/>
+		<Command id="btnAddSave" 	desc="确认新增" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfTmpAction:addActive" url="#" txn="" icon="fa fa-save"/>
+		
+		<Command id="btnMod" desc="修改" type="none" url="#" txn="" icon="fa fa-pencil" tip="修改"/>
+		<Command id="btnModAudit" desc="保存" type="none" url="#" txn="" icon="fa fa-pencil" tip="保存"/>
+		<Command id="btnModSave" desc="确认修改" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfTmpAction:updateActive" url="#" txn="" icon="fa fa-pencil" tip="修改"/>
+		
+		<Command id="btnStatus" desc="暂停/恢复" type="none" url="#" txn="" icon="fa fa-gears" tip="暂停/恢复"/>
+		<Command id="btnStatusSave" desc="暂停/恢复" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfTmpAction:stautsActive" url="#" txn="" icon="fa fa-gears" tip="暂停/恢复"/>
+		
+		<Command id="btnConfig" desc="配置" type="none" url="#" txn="" icon="" tip="配置"/>
+		<Command id="btnConfigAudit" desc="保存" type="none" url="#" txn="" icon="" tip="保存"/>
+		<Command id="btnConfigSave" desc="确认修改" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodConfTmpAction:configMethod" url="#" txn="" icon="" tip="确认修改"/>
+		
+		<Command id="btnMchtIn" desc="参与商户" type="none" url="#" txn="" icon="" tip="参与商户"/>
+		<Command id="btnMchtInAudit" desc="提交" type="none" url="#" txn="" icon="" tip="提交"/>
+		<Command id="btnMchtInSave" desc="确认提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActiveQueryMchtAction:update" url="#" txn="" icon="" tip="确认提交"/>
+		<!-- 审核部分  -->
+		<Command id="btnAuditAgree" desc="通过" type="asyncsubmit"   icon="fa fa-check" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfAuditAction:pass"/>
+	    <Command id="btnAuditDisagree" desc="拒绝" type="asyncsubmit"   icon="fa fa-remove" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfAuditAction:refuse"/>
+		
+	</Commands>
+
+</Data>

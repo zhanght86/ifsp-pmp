@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 接入方式信息查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AccessTypeInfo">
+       <![CDATA[select access_type_code, access_type_name, access_type_desc, data_state, crt_tlr, crt_date_time, last_upd_tlr, last_upd_date_time from pbs_access_type_info
+        where 1=1 ]]>
+       <if test = "accessTypeCode != ''"><![CDATA[and access_type_code = #{accessTypeCode} ]]></if>
+	   <if test = "accessTypeName != ''"><![CDATA[and access_type_name like #{accessTypeName} ]]></if>
+	   <if test = "dataState != ''"><![CDATA[and data_state = #{dataState} ]]></if>
+	    order by crt_date_time desc
+	</select> 
+	
+	
+	<!-- 最大序列号查询 -->
+	<select id="queryMaxSeq" paramType="map" resultType="String">
+	select max(access_type_code)access_type_code from pbs_access_type_info where 1=1
+	</select>
+	
+	
+	<!-- 删除关联表中的数据 -->
+	<delete id="deleteRelAccessTxnByCode" paramType="map">
+	delete from pbs_rel_access_type_txn_type where access_type_code = #{accessTypeCode}
+	</delete>
+	
+	
+	<!-- 关联表最大序列号查询 -->
+	<select id="queryMaxSeq1" paramType="map" resultType="String">
+	select max(rel_no)rel_no from PBS_REL_ACCESS_TYPE_TXN_TYPE where 1=1
+	</select>
+	
+</mapper>

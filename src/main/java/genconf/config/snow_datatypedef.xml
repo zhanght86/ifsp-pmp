@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--业务数据类型-->
+<typeDef>
+	<type id="testDataType" name="测试业务数据类型" ref="StringType">
+		<attrs>
+			<attr key="length" value="30"/>
+			<attr key="isValidate" value="true"/>
+		</attrs>
+	</type>
+</typeDef>

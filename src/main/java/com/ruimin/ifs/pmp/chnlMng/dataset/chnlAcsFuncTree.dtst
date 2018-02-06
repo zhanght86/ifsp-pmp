@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define type="call" desc="通道接入-功能清单" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChnlAcsInfoAction:queryFuncTree" expmaxrcd="100" flowctxid="" flowretid=""></Define>
+	<Fields>
+	<!-- 组装树字段 -->
+		<Field id="_id" desc="id" xpath="/id"/>
+		<Field id="_parentId" desc="父id" xpath="/pid" />
+		<Field id="_text" desc="名称" xpath="/text" />
+		<Field id="_icon" desc="图标" xpath="/iconCls" />
+		<Field id="_state" desc="展开状态" xpath="/state" />			
+	</Fields>
+</Data>

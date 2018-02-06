@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="用户登录详情查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.LoginLogQueryAction:queryAllList" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="id" desc="记录主键" required="false" edittype="textbox" datatype="string" method="None"
+	 	  readonly="false" size="32" status="N" default=""  xpath="/id" />
+		<Field id="tlrno" desc="操作员编号" required="false" edittype="textbox" datatype="string" method="None"
+	 	  readonly="false" size="20" status="F" default="" xpath="/tlrno" />
+		<Field id="brno" desc="机构号" required="false" edittype="textbox" datatype="string" method="None"
+	 	  readonly="false" size="20" status="F" default="" xpath="/brno" />
+		<Field id="lastaccesstm" desc="成功登录时间" required="false" edittype="textbox" datatype="timestamp" method="None"
+	 	  readonly="false" size="32" status="F" default="" xpath="/lastaccesstm" />
+		<Field id="lastlogouttm" desc="退出系统时间" required="false" edittype="textbox" datatype="timestamp" method="None"
+	 	  readonly="false" size="32" status="F" default="" xpath="/lastlogouttm" />
+		<Field id="crtTm" desc="登录次数" required="false" edittype="textbox" datatype="string" method="None"
+	 	  readonly="false" size="10" status="F" default="" xpath="/crtTm" />
+		
+		<!-- 日志查询 &  登录详情   查询条件 -->
+		<Field id="qtlrNo" desc="操作员编号" edittype="textbox" datatype="string" xpath="" status="F" default="" />
+		<Field id="qbrCode"   desc="所属机构"   edittype="combogrid" 
+			datasource="BctlAllSelect:com.ruimin.ifs.mng.dataset.BctlAllSelect"  
+				fieldmap="qbrCode=brno;qbrCodeName=brcodeTypeName" viewfield="brno,brcode,brcodeTypeName" required="false" 
+					readonly="false" multiple="false" init="true"/>
+		<Field id="queryLastaccesstm" desc="开始日期" edittype="datebox" datatype="date" xpath="" status="F" default="" />
+		<Field id="queryLastlogouttm" desc="结束日期" edittype="datebox" datatype="date" xpath="" status="F" default="" />
+	</Fields>
+</Data>

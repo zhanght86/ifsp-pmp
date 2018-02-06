@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 账户表查询 -->
+	<select id="queryByAll" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AcctAnd">
+	  select * from PAY_ACCT_TYPE_BASE_INFO where  acct_type_stat='00' 
+	  <if test = "acctTypeNo != ''"> and acct_type_no=#{acctTypeNo }</if>
+	  <if test = "acctTypeName != ''"> and acct_type_name like #{acctTypeName }</if>
+	  order by acct_type_no 
+	</select>
+	<select id="queryByCode" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AcctAnd">
+	   select pati.acct_type_no,pati.acct_type_name from PAY_ACCT_TYPE_BASE_INFO pati left join PBS_REL_TXN_TYPE_ACCT_TYPE prt 
+	  on pati.acct_type_no=prt.acct_type_no where prt.txn_type_code = #{txnTypeCode} and pati.acct_type_stat='00'
+	</select>
+	<select id="queryOnSelect" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AcctAndTrade">
+	   select pati.acct_type_no,prt.rel_no from PAY_ACCT_TYPE_BASE_INFO pati left join PBS_REL_TXN_TYPE_ACCT_TYPE prt 
+	  on pati.acct_type_no=prt.acct_type_no where prt.txn_type_code = #{txnTypeCode} and pati.acct_type_stat='00'
+	</select>
+</mapper>

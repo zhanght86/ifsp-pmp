@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mchtNetExpenseDaily" language="groovy" pageWidth="942" pageHeight="842" columnWidth="902" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="1d85593a-c073-487d-96cd-8291d0f70de1">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="145"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="qTxnDtStart" class="java.lang.String"/>
+	<parameter name="qTxnDtEnd" class="java.lang.String"/>
+	<parameter name="qInAcctMerId" class="java.lang.String"/>
+	<parameter name="qInAcctMerName" class="java.lang.String"/>
+	<field name="txnDt" class="java.lang.String"/>
+	<field name="inAcctDate" class="java.lang.String"/>
+	<field name="inAcctMerId" class="java.lang.String"/>
+	<field name="inAcctMerName" class="java.lang.String"/>
+	<field name="pointId" class="java.lang.String"/>
+	<field name="prodName" class="java.lang.String"/>
+	<field name="txnNum" class="java.lang.String"/>
+	<field name="txnAmt" class="java.lang.Double"/>
+	<field name="setlFeeAmt" class="java.lang.Double"/>
+	<field name="setlAmt" class="java.lang.Double"/>
+	<variable name="sumFeeAmt" class="java.lang.Double" resetType="Group" resetGroup="pointId" incrementType="Group" incrementGroup="pointId" calculation="Sum">
+		<variableExpression><![CDATA[new java.lang.Double($V{sumFeeAmt}.doubleValue()+$F{setlFeeAmt}.doubleValue())]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="sumActualStlmAmt" class="java.lang.Double" resetType="Group" resetGroup="pointId" incrementType="Group" incrementGroup="pointId" calculation="Sum">
+		<variableExpression><![CDATA[new java.lang.Double($V{sumActualStlmAmt}.doubleValue()+$F{txnAmt}.doubleValue())]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="allFeeAmt" class="java.lang.Double">
+		<variableExpression><![CDATA[new java.lang.Double($V{allFeeAmt}.doubleValue()+$F{setlFeeAmt}.doubleValue())]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double(0.0)]]></initialValueExpression>
+	</variable>
+	<variable name="allActualStlmAmt" class="java.lang.Double">
+		<variableExpression><![CDATA[new java.lang.Double($V{allActualStlmAmt}.doubleValue()+$F{txnAmt}.doubleValue())]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Double(0.0)]]></initialValueExpression>
+	</variable>
+	<group name="txnDt">
+		<groupExpression><![CDATA[$F{txnDt}]]></groupExpression>
+	</group>
+	<group name="inAcctDate">
+		<groupExpression><![CDATA[$F{inAcctDate}]]></groupExpression>
+	</group>
+	<group name="inAcctMerId">
+		<groupExpression><![CDATA[$F{inAcctMerId}]]></groupExpression>
+	</group>
+	<group name="inAcctMerName">
+		<groupExpression><![CDATA[$F{inAcctMerName}]]></groupExpression>
+	</group>
+	<group name="pointId">
+		<groupExpression><![CDATA[$F{pointId}]]></groupExpression>
+		<groupFooter>
+			<band height="21">
+				<textField pattern="#,##0.00">
+					<reportElement x="701" y="0" width="100" height="20" uuid="d5b4807b-2e89-4abb-9566-e153690fdd7d"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumFeeAmt}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="801" y="0" width="100" height="20" uuid="78d264b0-b759-4af5-b8fa-d30840012cfd"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumActualStlmAmt}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="1" y="0" width="700" height="20" uuid="95a9f744-bbc9-496a-986b-bf0444aedf18"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[小计：]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="101" y="0" width="600" height="36" uuid="636017a4-9d9f-40b6-9a8f-92797eee9007"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[               商户网点费用报表]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="301" y="30" width="100" height="20" uuid="6d7684e9-b30b-4cd7-8739-beae48e02d25"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qInAcctMerId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="601" y="30" width="100" height="20" uuid="83a0da50-5c7f-4047-b52d-e31c29d89c85"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qInAcctMerName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="201" y="30" width="100" height="20" uuid="a74b3171-4283-4e2e-9059-f3122e0c6db6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[商户号：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="501" y="30" width="100" height="20" uuid="2dc26ee8-f9a4-4b38-9905-3afe9b4ca6ed"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[商户名称：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="0" width="100" height="20" uuid="45a8f9c5-b5c5-4972-ae21-aadfe5980f2b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[起始日期：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="501" y="0" width="100" height="20" uuid="ba498819-f24e-4da9-99dd-82493e91ec7b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[终止日期：]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="301" y="0" width="100" height="20" uuid="0afe33cf-3fcc-419e-80da-ea167dee0c30"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qTxnDtStart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="601" y="0" width="100" height="20" uuid="238bbcf2-d828-44ed-887b-a8093a1dc535"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{qTxnDtEnd}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="101" y="0" width="100" height="20" uuid="44c59b0c-7b5b-4538-a799-9f6a6bca7132"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[结算日期]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="401" y="0" width="100" height="20" uuid="dc607181-6d1e-4612-9ffe-7b9c11b2f7fe"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[网点编号]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="0" width="100" height="20" uuid="f0a38da8-8b34-4e84-a271-af605390f50e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[商户名称]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="0" width="100" height="20" uuid="49860f7d-0e22-422c-9e09-b38611b2c71d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[商户编号]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="501" y="0" width="100" height="20" uuid="88d91e72-2558-4211-bd6e-b08ea6f9a8ad"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[支付产品]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="0" width="100" height="20" uuid="14c206e4-701d-4ee1-adc5-f453ae80bb7c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[交易日期]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="601" y="0" width="100" height="20" uuid="06a89de6-99d8-46ef-ace7-04b43c3bf526"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[交易笔数]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="701" y="0" width="100" height="20" uuid="4bae17c6-50d4-46dc-b02d-7dba60d303c1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[手续费]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="801" y="0" width="100" height="20" uuid="39771ff4-6ba5-4cf7-91c5-171f312d61ed"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[交易金额]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="201" y="0" width="100" height="20" uuid="c28f6468-bd82-4c73-a821-04e2990879ab"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inAcctMerId}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="101" y="0" width="100" height="20" uuid="8178cb65-20ea-49e2-b8ac-43eec710c979"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inAcctDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="301" y="0" width="100" height="20" uuid="63970f9a-6be5-4d21-ac29-96ed9e8116e9"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inAcctMerName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="401" y="0" width="100" height="20" uuid="070d28c8-462a-42e9-8827-e85866cfcb1f"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pointId}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="501" y="0" width="100" height="20" uuid="d9e04625-6207-4e59-a170-d02c3e790f62"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prodName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="601" y="0" width="100" height="20" uuid="dfaf8eb5-92aa-443f-bc54-83328d8d3964"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txnNum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="1" y="0" width="100" height="20" uuid="31ea549e-077c-476c-a15e-2788f683dd04"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txnDt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="701" y="0" width="100" height="20" uuid="5e4db56f-2903-4588-8fe2-2999307a995c"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{setlFeeAmt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="801" y="0" width="100" height="20" uuid="8d8aa07d-2dae-4e79-87e5-0daeed6d4576"/>
+				<box bottomPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txnAmt}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="38">
+			<textField pattern="#,##0.00">
+				<reportElement x="701" y="18" width="100" height="20" uuid="75b8eef3-7591-4911-ad90-b9fbcdec100d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{allFeeAmt}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="18" width="700" height="20" uuid="9a5c82df-c0c6-4b89-a0f4-8dcb3b4a581d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[合计：]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="801" y="18" width="100" height="20" uuid="41c27653-e7b4-4b8f-b273-f891dbd8e0dc"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{allActualStlmAmt}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="1" width="900" height="17" uuid="8b0c688b-0d64-4aff-b136-f3835b9b2424"/>
+				<box>
+					<pen lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Double"/>
+					<leftPen lineWidth="0.0" lineStyle="Double"/>
+					<bottomPen lineWidth="0.0" lineStyle="Double"/>
+					<rightPen lineWidth="0.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

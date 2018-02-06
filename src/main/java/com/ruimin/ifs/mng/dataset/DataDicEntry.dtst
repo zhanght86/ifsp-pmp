@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="数据字典配置" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.DataDicEntryAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="id" desc="" status="F" align="center" edittype="textbox" datatype="string" size="32" xpath="/id" />
+		<Field id="dataTypeNo" status="F" align="center" required="true" desc="字典类型编号" edittype="textbox" datatype="string" rule="isNum" errmsg="必须为11位以内数字" size="11" xpath="/dataTypeNo" />
+		<Field id="dataTypeName" status="F" align="center" required="true" desc="字典类型名称" edittype="textbox" datatype="string" size="60" xpath="/dataTypeName" />
+		<Field id="dataNo" desc="字典码" status="F" align="center" required="true" edittype="textbox" datatype="string" size="20" xpath="/dataNo" />
+		<Field id="dataNoLen" desc="字典长度" align="center" status="F" required="true" edittype="textbox" datatype="string" size="10" xpath="/dataNoLen" />
+		<Field id="dataName" desc="数据名称" align="center" status="F" required="true" edittype="textbox" datatype="string" size="100" xpath="/dataName" />
+		<Field id="limitFlag" desc="限制标志" align="center" status="F" edittype="textbox" datatype="string" size="1" xpath="/limitFlag" />
+		<Field id="highLimit" desc="字典上限" align="center" status="F" edittype="textbox" datatype="string" size="20" xpath="/highLimit" />
+		<Field id="lowLimit" desc="字典下限" align="center" status="F" edittype="textbox" datatype="string" size="20" xpath="/lowLimit" />
+		<Field id="opr" desc="操作" align="center" edittype="textbox" datatype="string" xpath="" />
+		
+		<!-- 查询条件 -->
+		<Field id="qDataTypeNo" desc="字典类型编号" datatype="string"  size="22" />
+		<Field id="qDataTypeName" desc="字典类型名称" datatype="string" />
+		<Field id="qDataNo" desc="字典码" datatype="string" />
+		<Field id="qDataName" desc="数据名称" datatype="string" />
+    </Fields>
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.DataDicEntryAction:saveOrUpdate" url="#" txn="" />
+		<Command id="btnSave1"   desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.DataDicEntryAction:saveOrUpdate1" url="#" txn="" />
+		<Command id="btnDelete"   desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.DataDicEntryAction:delete" url="#" txn="" />
+	</Commands>
+</Data>

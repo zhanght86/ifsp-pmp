@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.payProdMng.comp.PbsProdInfoAction:querysigned" 
+			desc="签约商品数量" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+       <Field id="mchtId" desc="商户号" datatype="string" size="200" align="center" xpath="/mchtId"/>
+       <Field id="mchtName" desc="商户名称" datatype="string" size="200" align="center" xpath="/mchtName"/>
+        <!-- 查询条件 -->
+	    <Field id="qprodId" desc="产品编号"  datatype="string" xpath="" status="F" default="" />
+	</Fields> 
+	
+</Data>

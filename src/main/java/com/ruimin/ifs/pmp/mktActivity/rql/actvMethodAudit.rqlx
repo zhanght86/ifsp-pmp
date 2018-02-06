@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 活动方法审核 -->
+	<!-- 根据审核信息编号获取审核信息-->		
+	<select id="getAuditInfoByAduitId" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditInfo">
+		<![CDATA[select * from PMP_AUDIT_INFO where AUDIT_ID=#{auditId}]]>
+	</select>
+	<!-- 根据审核信息编号查询审核流程步骤表，得到审核步骤 -->		
+	<select id="getAuditStepInfo" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditStepInfo">
+		<![CDATA[select * from PMP_AUDIT_STEP_INFO where AUDIT_ID=#{auditId}]]>
+	</select>
+	<!-- 根据审核流程编号和步骤，查询下一审核步骤 	-->
+	<select id="getNextStep" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditStepInfo">
+		<![CDATA[select * from PMP_AUDIT_STEP_INFO where AUDIT_ID=#{auditId} and STEP_NO=#{stepNo}]]>
+	</select>	
+	<!-- 根据活动方法编号,查询临时表中的数据 	-->
+	<select id="selectMethodInfoByMethodNo" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfTmpVO">
+		<![CDATA[select * from tbl_active_method_inf_tmp where METHOD_NO=#{methodNo}]]>
+	</select>
+	<!-- 根据活动方法编号,查询正式表中的数据 	-->
+	<select id="selectMethodInfoReal" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfVO">
+		<![CDATA[select * from tbl_active_method_inf where METHOD_NO=#{methodNo}]]>
+	</select>
+	<!-- 根据活动方法编号,查询分段信息临时表中的数据 	-->
+	<select id="selectSectionInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.MethodSectionInfTmpVO">
+		<![CDATA[select * from TBL_METHOD_SECTION_INF_TMP where METHOD_NO=#{methodNo}]]>
+	</select>
+	<!-- 根据活动方法编号,查询分段信息正式表中的数据 	-->
+	<select id="selectSectionInfoReal" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.MethodSectionInfVO">
+		<![CDATA[select * from TBL_METHOD_SECTION_INF where METHOD_NO=#{methodNo}]]>
+	</select>
+	<!-- 插入活动方法信息正式表 -->
+	<insert id="insertMethodInfo" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfVO" >
+		insert into TBL_ACTIVE_METHOD_INF(METHOD_NO,METHOD_TP,METHOD_NM,PARAM_1_TP,PARAM_1_DATA,PARAM_2_TP,PARAM_2_DATA,PARAM_3_TP,PARAM_3_DATA,PARAM_4_TP,PARAM_4_DATA,UPDATE_TIME,
+		UPDATE_OPR,AUDIT_OPR,AUDIT_TIME,AUDIT_FLAG,REMARK,METHOD_STAT) values(#{methodNo},#{methodTp},#{methodNm},#{param1Tp},#{param1Data},#{param2Tp},#{param2Data},#{param3Tp},#{param3Data},#{param4Tp},#{param4Data},#{updateTime},
+		#{updateOpr},#{auditOpr},#{auditTime},#{auditFlag},#{remark},#{methodStat})
+	</insert>
+	<!--修改活动方法 -->
+	<update id="updateMethodInfo" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfVO" >
+		update 
+			TBL_ACTIVE_METHOD_INF
+		set
+			METHOD_NM=#{methodNm},
+			PARAM_1_DATA=#{param1Data},
+			PARAM_2_DATA=#{param2Data},
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			AUDIT_OPR=#{auditOpr},
+			AUDIT_TIME=#{auditTime},
+			AUDIT_FLAG=#{auditFlag},
+			METHOD_STAT=#{methodStat}
+		where 
+			METHOD_NO=#{methodNo}
+	</update>
+</mapper> 

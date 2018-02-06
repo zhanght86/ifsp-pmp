@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 根据操作员的机构编号查询 审核流程编号-->
+	<select id="selectAuditIdByBrno" paramType="map" resultType="String">
+			select  m.audit_proc_id from PMP_AUDIT_PROC_INFO m left join IFS_ORG n
+            on m.br_class=n.brclass where n.brno=#{brno}
+	</select>
+	
+	<!-- 根据操作员编号，查询角色编号 -->		
+	<select id="getRoleIdByTlrno" paramType="map" resultType="int">
+
+	select role_Id from IFS_STAFF_ROLE_REL where TLRNO=#{tlrno}
+
+	</select>
+	
+	<!-- 根据审核信息编号获取审核信息-->		
+	<select id="getAuditInfoByAduitId" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditInfo">
+	
+	select * from PMP_AUDIT_INFO where AUDIT_ID=#{auditId}
+	
+	</select>
+	
+	<!-- 根据审核信息编号和角色编号查询审核流程步骤表，得到审核步骤 -->		
+	<select id="getAuditStepInfo" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditStepInfo">
+	
+	select * from PMP_AUDIT_STEP_INFO where AUDIT_ID=#{auditId} and ROLE_ID=#{roleId}
+	
+	</select>
+	
+	<!-- 根据审核流程编号和步骤，查询下一审核步骤 	-->
+	<select id="getNextStep" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditStepInfo">
+	
+	select * from PMP_AUDIT_STEP_INFO where AUDIT_ID=#{auditId} and STEP_NO=#{stepNo}
+	
+	</select>
+	<!-- 审核通过，记录此次审核记录，插入到审核记录表中 -->
+	<update paramType="map" id="updateAuditStepInfo">
+		
+		update PMP_AUDIT_STEP_INFO set AUDIT_STATE = #{auditState}, AUDIT_OPR_NO= #{auditOprNo},AUDIT_DATET_IME= #{auditDatetIme},AUDIT_VIEW=#{auditView} where SEQ_ID=#{seqId}
+		
+	</update>
+	
+	<!--审核拒绝，记录此次审核记录，插入到审核记录表中 -->
+	 <update paramType="map" id="updateAuditStepInfoRefuse">
+		
+		update PMP_AUDIT_STEP_INFO set AUDIT_STATE = #{auditState}, AUDIT_OPR_NO= #{auditOprNo},AUDIT_DATET_IME= #{auditDatetIme},AUDIT_VIEW=#{auditView} where SEQ_ID=#{seqId}
+		
+	</update>
+	
+	<!-- 审核通过，更改审核信息表状态，AUDIT_STATE 01-审核通过 -->
+	<update paramType="map" id="updateAuditInfoState">
+		
+		update PMP_AUDIT_INFO set AUDIT_STATE = #{auditState},LAST_UPD_DATE_TIME= #{lastUpdDateTime} where AUDIT_ID= #{auditId}
+		
+	</update>
+	
+		<!-- 更改审核信息表状态，AUDIT_STATE 02-审核拒绝 -->
+	<update paramType="map" id="updateAuditInfoRefuse">
+		
+		update PMP_AUDIT_INFO set AUDIT_STATE = #{auditState},LAST_UPD_DATE_TIME= #{lastUpdDateTime} where AUDIT_ID= #{auditId}
+		
+	</update>
+	
+		<!-- 更改临时表的状态termState 启用-01 和syncState 已变更未同步-01 -->
+	<update paramType="map" id="updateTempStatAndSync">
+		
+		update PAYP_TERM_INF_TMP set TERM_STAT = #{termStat},SYNC_STATE= #{syncState},
+		 LAST_AUD_TLR = #{lastAudTlr},LAST_AUD_DATE_TIME =#{lastAudDateTime} where AUDIT_ID= #{auditId}
+		
+	</update>
+	
+		<!-- 更改临时表的最近审核员的信息 -->
+	<update paramType="map" id="updateTemplastAudInfo">
+		
+		update PAYP_TERM_INF_TMP set LAST_AUD_TLR = #{lastAudTlr},LAST_AUD_DATE_TIME =#{lastAudDateTime} where TERM_ID= #{termId}
+		
+	</update>
+	
+	<!--  更改临时表syncState 已同步-00 -->
+	<update paramType="map" id="updateTempSyncState">
+		
+		update PAYP_TERM_INF_TMP set SYNC_STATE= #{syncState} where AUDIT_ID= #{auditId}
+		
+	</update>
+	
+	<!-- 根据终端的编号从正式表中查询一条正式表的实体类 -->
+	<select paramType = "map" id="queryPaypTermInf"  resultType="com.ruimin.ifs.term.process.bean.PaypTermInf">
+	 
+	  select * from PAYP_TERM_INF where TERM_ID = #{termId}
+	
+	</select>
+	
+	<!-- 根据终端的编号从临时表中查询一条临时表的实体类 -->
+	<select paramType = "map" id="queryPaypTermInfTmp"  resultType="com.ruimin.ifs.term.process.bean.PaypTermInf_temp">
+	 
+	  select * from PAYP_TERM_INF_TMP where AUDIT_ID = #{auditId}
+	
+	</select>
+	
+	<!-- 根据终端的编号从正式表中删除终端信息的实体类 -->
+	<update paramType = "map" id="deleteTermFromal">
+	 
+	  delete from PAYP_TERM_INF where TERM_ID = #{termId}
+	
+	</update>
+	
+	<!-- 根据终端的编号从临时式表中删除终端信息的实体类 -->
+	<update paramType = "map" id="deleteTermTemp">
+	
+	delete from PAYP_TERM_INF_TMP where TERM_ID = #{termId}
+	
+	</update>	
+	
+	<!-- 修改临时表的终端信息为停用 -->
+	<update paramType = "map" id="updateTempTermStat">
+	 
+	 update PAYP_TERM_INF_TMP set TERM_STAT = #{termStat} where AUDIT_ID= #{auditId}
+	
+	</update>
+	
+	<!-- 修改正式表的终端信息为停用 -->
+	<update paramType = "map" id="updateTermStat">
+	 
+	 update PAYP_TERM_INF set TERM_STAT = #{termStat} where TERM_ID= #{termId}
+	
+	</update>
+	
+	
+	<!-- 修改临时表的mach_Id -->
+	<update paramType = "map" id="updateTermMachId">
+	 
+	 update PAYP_TERM_INF_TMP set MACH_ID = #{machId} where AUDIT_ID= #{auditId}
+	
+	</update>
+	
+</mapper> 

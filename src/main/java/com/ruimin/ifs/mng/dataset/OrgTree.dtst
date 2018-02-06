@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="机构树" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.BctlAllSelectAction:queryAllOrg" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="_id" desc="id" xpath="/id"/>
+		<Field id="_parentId" desc="父id" xpath="/pid" />
+		<Field id="_text" desc="名称" xpath="/text" />
+		<Field id="_icon" desc="图标" xpath="/iconCls" />
+		<Field id="_state" desc="图标" xpath="/state" />
+	</Fields>
+</Data>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="queryMchtLvCon" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.MchtLvConVO">
+		
+	select  trim(mcht_lv)as mcht_lv ,
+  		trim(mcht_lv_seq) as mcht_lv_seq,
+ 		trim(lv_desc) as lv_desc,
+  		trim(day_deposit_mix) as day_deposit_mix,
+  		trim(busi_cnt_mix) as busi_cnt_mix,
+ 	    trim(busi_amt_mix) as busi_amt_mix
+  from tbl_mcht_lv_con
+  where 1=1 and rd_stat = '01'
+   order by mcht_lv_seq desc
+  
+	</select>
+	
+	
+	<select id="queryMaxSeq" paramType="map" resultType="String">
+	
+  select max(mcht_lv_seq)mcht_lv_seq from tbl_mcht_lv_con 
+  where 1=1
+  
+	</select>
+	
+	
+
+	
+
+</mapper>

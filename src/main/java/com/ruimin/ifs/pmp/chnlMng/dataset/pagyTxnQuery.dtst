@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="通道核心交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnQueryAction:queryAll" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+     	   <!--查询条件 -->
+     	  <Field id="qTxnDateStart" desc="交易日期(起始)" edittype="datebox"  datatype="date" xpath="" status="F" default="" />
+	   	  <Field id="qTxnDateEnd" desc="交易日期(截止)" edittype="datebox"   datatype="date" xpath="" status="F" default="" />
+	   	  
+	   	  <Field id="qChnlNo" desc="接入渠道" edittype="combogrid" datatype="string" 
+	       	datasource="AliasChnl:com.ruimin.ifs.pmp.chnlMng.dataset.channelInfo" 
+	       	viewfield="chlId,chlName" init="true" multiple="false" default=""
+	       	fieldmap="qChnlNo=chlId;qChnlNoName=chlName" xpath="" status="F"/>
+	      <Field id="qChnlNoName" desc="接入渠道" method="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction.getChannelNames" />
+	   	  
+	   	  <Field id="qPagyNo" desc="支付通道" edittype="combogrid" datatype="string" 
+	       	datasource="AliasPagy:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo" 
+	       	viewfield="pagyNo,pagyName" init="true" multiple="false" default=""
+	       	fieldmap="qPagyNo=pagyNo;qPagyNoName=pagyName" xpath="" status="F"/>
+	      <Field id="qPagyNoName" desc="支付通道" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyInfoAction.getPagyNames" />
+           
+          <Field id="qTxnType" desc="交易类型" edittype="combogrid" datatype="string" 
+	       	datasource="AliasTxnType:com.ruimin.ifs.pmp.chnlMng.dataset.pagyTxnTypeInfo" 
+	       	viewfield="payTxnTypeId,payTxnTypeName" init="true" multiple="false" default=""
+	       	fieldmap="qTxnType=payTxnTypeId;qTxnTypeName=payTxnTypeName" xpath="" status="F"/>
+	      <Field id="qTxnTypeName" desc="交易类型" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnTypeInfoAction.getPagyTxnTypeNames" />
+	      
+          <Field id="qTxnState" desc="交易状态" align="center"  required="false" datasource="DDIC:1837" edittype="combobox" xpath="" ></Field>
+     	  <Field id="qChnlTxnSsn" desc="渠道交易流水号" align="center"  required="false" edittype="textbox" xpath="" ></Field>
+     	  <Field id="qPagyCoreTxnSsn" desc="通道核心交易流水号" align="center"  required="false" edittype="textbox" xpath="" ></Field>
+     	  <Field id="qThirdPagyTxnSsn" desc="支付通道交易流水号" align="center"  required="false" edittype="textbox" xpath="" ></Field>
+     	  <!--数据内容 -->
+     	  <Field id="coreTxnSsn" desc="通道核心交易流水号" edittype="textbox" readonly="true" width="270" datatype="string"  status="F" default="" xpath="/coreTxnSsn"/>
+     	  <Field id="coreTxnTime" desc="通道核心交易日期时间" edittype="datetimebox" readonly="true" align="center" datatype="timestamp"  status="F" default="" xpath="/coreTxnTime"/>
+     	  <Field id="status" desc="交易状态" datasource="DDIC:1837" edittype="combobox" readonly="true" align="center" datatype="string"  status="F" default="" xpath="/status"/>
+     	  <Field id="chlTxnSsn" desc="渠道交易流水号" edittype="textbox" width="270" readonly="true" datatype="string"  status="F" default="" xpath="/chlTxnSsn"/>
+     	  <Field id="chlTxnTime" desc="渠道交易日期时间" edittype="datetimebox" readonly="true" align="center" datatype="timestamp"  status="F" default="" xpath="/chlTxnTime"/>
+     	  <Field id="pagyTxnSsn" desc="支付通道交易流水号" edittype="textbox" width="270" readonly="true" datatype="string"  status="F" default="" xpath="/pagyTxnSsn"/>
+     	  <Field id="pagyTxnTime" desc="支付通道交易日期时间" edittype="datetimebox" readonly="true" align="center" datatype="timestamp"  status="F" default="" xpath="/pagyTxnTime"/>
+     	  <Field id="chlNo" desc="渠道编号" edittype="textbox"  datatype="string" readonly="true" status="F" default="" xpath="/chlNo"/>
+     	  <Field id="chlName" desc="渠道名称" edittype="textbox" align="center" datatype="string" readonly="true" status="F" default="" xpath="/chlName"/>
+     	  <Field id="payTxnTypeId" desc="交易类型编号" datatype="string" align="center" readonly="true" status="F" default="" xpath="/payTxnTypeId" />
+	      <Field id="payTxnTypeName" desc="交易类型" datatype="string" align="center" readonly="true" status="F" default=""  xpath="/payTxnTypeName"/>
+     	  <Field id="acctTypeNo" desc="账户类型编号" edittype="textbox" readonly="true" align="center" datatype="string"  status="F" default="" xpath="/acctTypeNo"/>
+     	  <Field id="acctTypeName" desc="账户类型" edittype="textbox" readonly="true" align="center" datatype="string"  status="F" default="" xpath="/acctTypeName"/>
+     	  <Field id="txnAmt" desc="交易金额" align="right" readonly="true" method="com.ruimin.ifs.pmp.pubTool.util.SysCQMethod.fenToYuan" edittype="textbox"  datatype="string"  status="F" default="" xpath="/txnAmt"/>
+     	  <Field id="chlMerId" desc="渠道商户号"   edittype="textbox" readonly="true" datatype="string"  status="F" default="" xpath="/chlMerId"/>
+     	  <Field id="acctNo" desc="账户号"   edittype="textbox" readonly="true" datatype="string"  status="F" default="" xpath="/acctNo"/>
+     	  <Field id="txnType" desc="交易种类"  align="center" readonly="true" datasource="DDIC:1838" edittype="combobox"  datatype="string"  status="F" default="" xpath="/txnType"/>
+     	  <Field id="pagyNo" desc="支付通道编号" align="center"  readonly="true" edittype="textbox"  datatype="string"  status="F" default="" xpath="/pagyNo"/>
+     	  <Field id="pagyName" desc="支付通道"   align="center" readonly="true" edittype="textbox"  datatype="string"  status="F" default="" xpath="/pagyName"/>
+     	 
+     	  <Field id="pagyType" desc="接入类型"   align="center" readonly="true" edittype="combobox" datatype="string" datasource="DDIC:1823"  status="F" default="" xpath="/pagyType"/>
+     	  <Field id="pagyMerId" desc="接入编号"  align="center" readonly="true" edittype="textbox" datatype="string" status="F" default="" xpath="/pagyMerId"/>
+     	  <Field id="pagySubMerId" desc="子商户号"    edittype="textbox" readonly="true" datatype="string" status="F" default="" xpath="/pagySubMerId"/>
+     	  <Field id="pagySubMerName" desc="子商户名称"  align="center" readonly="true" edittype="textbox" datatype="string" status="F" default="" xpath="/pagySubMerName"/>
+     	  <Field id="respCode" desc="系统响应码"  align="center"  readonly="true" edittype="textbox" datatype="string" status="F" default="" xpath="/respCode"/>
+     	  <Field id="respMsg" desc="系统响应信息" align="center"  readonly="true" edittype="textbox" datatype="string" status="F" default="" xpath="/respMsg"/>
+     	  <Field id="origPagyTxnSsn" desc="原交易流水号" width="270" readonly="true"  edittype="textbox" datatype="string" status="F" default="" xpath="/origPagyTxnSsn"/>
+     	  <Field id="origPagyTxnTime" desc="原交易日期时间" readonly="true" align="center" edittype="datetimebox"  datatype="timestamp"  status="F" default="" xpath="/origPagyTxnTime"/>
+     	  <Field id="opr" desc="操作" edittype="textbox" align="center" datatype="string"  status="F" default="" xpath="/"/>
+     	  <Field id="pagyTxnCode" desc="支付通道交易码"  readonly="true"  edittype="textbox" datatype="string" status="F" default="" xpath="/pagyTxnCode"/>
+     	  <Field id="pagyTxnName" desc="支付通道交易名称"  readonly="true"  edittype="textbox" datatype="string" status="F" default="" xpath="/pagyTxnName"/>
+     </Fields>
+     <Commands>
+		<Command id="btnReturn" desc="返回" type="none"  icon="fa fa-list" url="#" ></Command>
+	</Commands>
+</Data>     

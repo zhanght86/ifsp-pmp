@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 渠道信息查询 -->  
+<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.ChannelInfo">
+ <![CDATA[select * from PAGY_CHANNEL_INFO
+        where 1=1 ]]>
+       <if test = "qchlId != ''"><![CDATA[and CHL_ID like #{qchlId} ]]></if>
+	   <if test = "qchlName != ''"><![CDATA[and CHL_NAME like #{qchlName} ]]></if>
+	   <if test = "qchlStat != ''"><![CDATA[and CHL_STAT = #{qchlStat} ]]></if>
+	   <if test = "qchlAccNo != ''"><![CDATA[and CHL_ACC_NO like #{qchlAccNo} ]]></if>
+	    order by CHL_ID desc
+</select>
+
+
+<!-- 更新渠道信息表中的渠道状态 -->
+<update id="updateChnlStat" paramType="com.ruimin.ifs.pmp.chnlMng.process.bean.ChannelInfo">
+       update PAGY_CHANNEL_INFO
+       set chl_Stat = #{chlStat},       
+           last_upd_tlr = #{lastUpdTlr},
+           last_upd_date_time = #{lastUpdDateTime}
+       where chl_Id = #{chlId}
+</update>
+<!-- 更新渠道信息表中的渠道状态，首次启用的 -->
+<update id="updateChnlStatOpen" paramType="com.ruimin.ifs.pmp.chnlMng.process.bean.ChannelInfo">
+       update PAGY_CHANNEL_INFO
+       set chl_Stat = #{chlStat},       
+           last_upd_tlr = #{lastUpdTlr},
+           chl_Open_Date = #{chlOpenDate},
+           last_upd_date_time = #{lastUpdDateTime}
+       where chl_Id = #{chlId}
+</update>
+
+
+<!-- 渠道基本信息表最大序列号查询 -->
+	<select id="queryMaxSeq" paramType="map" resultType="String">
+	select max(chl_Id)chl_Id from PAGY_CHANNEL_INFO where 1=1
+	</select>
+<!-- 用于展示结果使用-->
+	<select id="query" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.ChannelResultInfo">
+	 select distinct(trim(a.PAY_TXN_TYPE_ID))PAY_TXN_TYPE_ID,group_concat(a.ACCT_TYPE_NO) ACCT_TYPE_NO from PAGY_CHL_TXN_ACCT_REL a
+     where a.CHANNEL_ID=#{chlId} group by a.PAY_TXN_TYPE_ID 
+	</select>	
+<!-- 渠道权限重复性验证-->
+	<select id="check" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyChlTxnAcctRel">
+	  select * from PAGY_CHL_TXN_ACCT_REL where trim(CHANNEL_ID)=#{chlId} and trim(PAY_TXN_TYPE_ID)=#{payTxnTypeId} 
+	  and  ACCT_TYPE_NO=#{acctTypeNoReal}                            
+	</select>
+<!-- 根据渠道号查询启用时间 -->	
+	<select id="selectOpenTime" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.ChannelInfo">
+	  select * from PAGY_CHANNEL_INFO  where trim(CHL_ID)=#{chlId}
+	</select>
+<!-- 获取渠道名字-->
+	<select id="getChnlNames" paramType="map" resultType="string">
+	  select c.CHL_NAME from PAGY_CHANNEL_INFO c  where c.CHL_ID in (#{chnlIdArray})
+	</select>
+
+	<!-- 根据渠道编号去查询渠道名称 -->
+	  <select id="queryByChnlName" paramType="map" resultType="string">
+	    select group_concat(chl_name) from PAGY_CHANNEL_INFO where chl_id in (#{prodIdArray})
+	 </select>
+	 <!-- 查询渠道名称 -->
+	 <select id="queryChnlName" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.SaveDataUser">
+	     select chl_id,chl_name from PAGY_CHANNEL_INFO where CHL_STAT='00' 
+	 </select>
+</mapper>

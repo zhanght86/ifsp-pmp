@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="风控操作查询,根据模型支持的风控动作查询下面应有的风控操作" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.risk.comp.RiskOperateAction:queryOperateVo" expmaxrcd="100" flowctxid="" flowretid="" />
+	  <Fields>
+	  		<!-- 查询条件 -->
+           <Field id="actionBitmap" desc="风控动作" align="center"  required="false" edittype="textbox"  ></Field>
+           	
+           <Field id="dataNo" desc="字典码" align="center"  required="false" edittype="textbox" xpath="/dataNo" ></Field>
+           <Field id="dataName" desc="动作" align="center"  required="false" edittype="textbox" xpath="/dataName" ></Field>
+       </Fields>
+</Data>

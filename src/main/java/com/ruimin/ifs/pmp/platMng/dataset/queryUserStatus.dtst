@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.platMng.comp.CheckNewInfoAction:queryByCheck" 
+			desc="审核消息" expmaxrcd="50"  /> 
+	 <Fields>
+	     <!-- 表格页面的字段 -->
+        <Field id="id" 	desc="审核信息编号" align="center" edittype="textbox" datatype="string" required="false" xpath="/id" />
+        <Field id="auditProcId" desc="审核业务类型" align="center" datatype="string" edittype="combobox" datasource="DDIC:1833" status="F"    xpath="/auditProcId" />
+        <Field id="stepNo" desc="审核流程编号" required="false" datatype="string" align="center" xpath="/stepNo" />
+        <Field id="stepName" desc="申请时间" datatype="timestamp" edittype="datetimebox"  align="center" xpath="/stepName" />  
+        <Field id="stepDesc" desc="申请人" datatype="string"  align="center" xpath="/stepDesc" />
+        <Field id="auditRoleId" desc="申请人" datatype="string"  align="center" xpath="/auditRoleId" />
+        
+        <Field id="flag" desc="操作" status="F" edittype="textbox" datatype="int" xpath="/flag" />
+       
+     </Fields>   
+        
+       
+</Data>

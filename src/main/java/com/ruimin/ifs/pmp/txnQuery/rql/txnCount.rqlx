@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 交易列表统计 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.CountResultVO">
+       select 
+       		Total.date1 as txn_date,
+       		Total.type1 as txn_Teml_Type,
+       		if(Total.num1=null,'0',Total.num1) as total_Items,
+   			if(Success.num2=null,'0',Success.num2) as success_Items,
+       		if(Failed.num3=null,'0',Failed.num3) as fail_Items,	
+       		if(Success.num2=null,'0%',concat(ROUND(Success.num2/Total.num1,4)*100,'%')) as success_Rate,
+       		if(Failed.num3=null,'0%',concat(ROUND(Failed.num3/Total.num1,4)*100,'%')) as fail_Rate
+       from
+			(select count(*) num1, TXN_DT date1, TXN_TEML_TYPE type1 from PBS_ORDER_INFO 
+			where 1=1
+			<if test = "qTxnDateStart != ''"><![CDATA[and TXN_DT >= #{qTxnDateStart} ]]></if>
+       		<if test = "qTxnDateEnd != ''"><![CDATA[and TXN_DT <= #{qTxnDateEnd} ]]></if>	
+       		<if test = "qAccessType != ''"><![CDATA[and TXN_TEML_TYPE = #{qAccessType} ]]></if>
+       		group by TXN_DT,TXN_TEML_TYPE) Total
+       
+       left join		
+			(select count(*) num2, TXN_DT date2, TXN_TEML_TYPE type2 from PBS_ORDER_INFO 
+			where (TXN_STATE = '00' or TXN_STATE = '01')
+			<if test = "qTxnDateStart != ''"><![CDATA[and TXN_DT >= #{qTxnDateStart} ]]></if>
+       		<if test = "qTxnDateEnd != ''"><![CDATA[and TXN_DT <= #{qTxnDateEnd} ]]></if>	
+       		<if test = "qAccessType != ''"><![CDATA[and TXN_TEML_TYPE = #{qAccessType} ]]></if>
+       		group by TXN_DT,TXN_TEML_TYPE) Success
+       		on Total.date1 = Success.date2 and Total.type1 = Success.type2
+       
+       left join		
+			(select count(*) num3, TXN_DT date3, TXN_TEML_TYPE type3 from PBS_ORDER_INFO 
+			where TXN_STATE = '99'
+			<if test = "qTxnDateStart != ''"><![CDATA[and TXN_DT >= #{qTxnDateStart} ]]></if>
+       		<if test = "qTxnDateEnd != ''"><![CDATA[and TXN_DT <= #{qTxnDateEnd} ]]></if>	
+       		<if test = "qAccessType != ''"><![CDATA[and TXN_TEML_TYPE = #{qAccessType} ]]></if>
+       		group by TXN_DT,TXN_TEML_TYPE) Failed
+	   		on Total.date1 = Failed.date3 and Total.type1 = Failed.type3
+	   	order by Total.date1 DESC,Total.type1 
+       	
+	</select>
+</mapper>

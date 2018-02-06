@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="角色管理" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.mng.comp.RoleMngEntryAction:queryAll" flowretid="" log="false" pagesize="10" type="call"/>
+	<Fields>
+		<!-- 岗位信息-->
+		<Field id="select" desc="选择" edittype="radiobox" datatype="boolean" xpath="/select"/>
+		
+		<Field id="roleId" desc="角色编号" align="center" status="F" edittype="textbox" datatype="string" method="None" size="8" xpath="/roleId" />
+		<Field id="roleName" desc="角色名称" align="center" status="F" required="true" edittype="textbox" datatype="string" method="None"   xpath="/roleName" />
+		<Field id="status" desc="有效标志" align="center" status="F"  edittype="combobox" datasource="LIST:00,00-有效;99,99-无效" datatype="string" method="None"   xpath="/status" />
+<!-- 	     <Field id="effectDate" desc="生效日期" status="F" edittype="textbox" datatype="date" method="None" size="8" default="" xpath="/effectDate" /> -->
+<!-- 		<Field id="expireDate" desc="失效日期" status="F" edittype="textbox" datatype="date" method="None" size="8" default="" xpath="/expireDate" /> -->
+<!-- 		<Field datasource="DDIC:105" desc="机构级别" edittype="combobox" id="brclass"  status="F" xpath="/brclass"/>		 -->
+		<Field id="brclass" desc="所属机构级别" align="center" status="F" required="true" edittype="combobox" method="None" readonly="false"   xpath="/brclass" datasource="DDIC:105" />
+
+        <Field id="effectDate" desc="生效日期" align="center" edittype="datebox" xpath="/effectDate" datatype="date" readonly="false" status="F" />
+        <Field id="expireDate" desc="失效日期" align="center" edittype="datebox" xpath="/expireDate" datatype="date" readonly="false" status="F" />
+		<Field id="isLock" desc="锁定标志" align="center" status="F" edittype="textbox" datatype="string" method="None" readonly="true" size="8" default="" xpath="/isLock"/>
+		<Field id="crtDt" desc="创建时间" align="center" status="F" edittype="textbox" datatype="string" method="None" readonly="true" size="8" default="" xpath="/crtDt"/>
+		<Field id="lastUpdTlr" desc="最后更新操作员号" status="F" edittype="textbox" datatype="string" method="None" readonly="true" size="8" default="" xpath="/lastUpdTms"/>
+		<Field id="lastUpdDate" desc="最后更新时间" status="F" edittype="textbox" datatype="string" method="None" readonly="true" size="8" default="" xpath="/lastUpdOper" />
+		<Field desc="操作" id="opr" status="N" xpath=""/>
+		
+		<!-- 查询条件  -->
+		<Field id="qRoleId" desc="角色编号" status="F" edittype="textbox" datatype="string" method="None" size="10"/>
+		<Field id="qRoleName" desc="角色名称" status="F"  edittype="textbox" datatype="string" method="None" size="30" default=""  />
+		<Field id="qStatus" desc="有效标志" status="F"  edittype="combobox" datasource="LIST:00,00-有效;99,99-无效" datatype="string" method="None"  default=""  />
+		<Field id="qBrclass" desc="所属机构级别" status="F" edittype="combobox" method="None" datasource="DDIC:105" />
+		
+	</Fields>
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus" tip="新增"/>
+		<Command id="btUpt" desc="修改" type="none" icon="fa fa-pencil" flowid="" url="#" txn="" />
+		<Command id="btnStatus" desc="有效/无效" type="none" url="#" txn="" icon="fa fa-gears" tip="有效/无效"/>
+		<Command id="btnStatusSub" desc="" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.RoleMngEntryAction:setStatus" url="#" txn="" icon="" tip=""/>
+		<Command id="btnRoleAuthorityManagement" desc="设置角色权限" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.RoleMngEntryAction:setRoleMng" txn="" tip=""/>
+		<Command id="btnViewOper" desc="人员查看" type="none" url="" txn="" tip="人员查看"/>
+		<Command id="btnShowDetail" desc="明细" type="none" icon="fa fa-list" flowid="" url="#" txn="" />
+
+		<Command id="btUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.RoleMngEntryAction:updateRole" icon="fa fa-save" url="#" txn="updaterole" />
+		<Command id="btnSave"  desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.RoleMngEntryAction:addRoleFunc" url="#" txn="" icon="" tip=""/>
+	</Commands>
+</Data>

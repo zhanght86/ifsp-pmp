@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询所有记录 -->
+	<select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AccountType">
+		<![CDATA[select acct_type_no, acct_type_name,acct_type_desc,acct_type_stat,crt_tlr,crt_date_time,
+             last_upd_tlr, last_upd_date_time from PAY_ACCT_TYPE_BASE_INFO where 1=1 ]]>
+		<if test = "qAcctTypeNo != ''"><![CDATA[and acct_type_no = #{qAcctTypeNo} ]]></if>
+		<if test = "qAcctTypeName != ''"><![CDATA[and acct_type_name like #{qAcctTypeName} ]]></if>
+		order by acct_type_no desc
+	</select>
+	<!-- 获取最大的记录编号 -->
+	<select id="getMaxSeq" paramType="string" resultType="string">
+		<![CDATA[select max(acct_type_no)  from PAY_ACCT_TYPE_BASE_INFO where 1=1]]>		
+	</select>
+	
+	
+	<!-- 获取账户类型名字-->	
+	<select id="getAcctTypeNoName" paramType="map" resultType="string">
+	  select c.ACCT_TYPE_NAME from PAY_ACCT_TYPE_BASE_INFO c  where c.ACCT_TYPE_NO in (#{acctTypeNoArray})
+	</select>
+	<!-- 查询支付账户类型，下拉选，多选，渠道权限使用-->
+	<select id="queryAcctTypeBaseInfo" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AcctType">
+	select ACCT_TYPE_NO,ACCT_TYPE_NAME from PAY_ACCT_TYPE_BASE_INFO where 1=1 order by ACCT_TYPE_NO
+	</select>	
+
+	<!-- 根据账户类型编号去查询账户类型名称 -->
+	<select id="queryByAcctTypeNo" paramType="map" resultType="string">
+	    select group_concat(acct_type_name) from PAY_ACCT_TYPE_BASE_INFO where acct_type_no in (#{acctTypeNoArray})
+	 </select>
+	 <!-- 查询支付账户类型基础信息表(支付系统全局使用)名称 -->
+	 <select id="queryAcctTypeName"  paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.SaveDataUser">
+	     select acct_type_no,acct_type_name from PAY_ACCT_TYPE_BASE_INFO where ACCT_TYPE_STAT='00'
+	 </select>
+
+</mapper> 

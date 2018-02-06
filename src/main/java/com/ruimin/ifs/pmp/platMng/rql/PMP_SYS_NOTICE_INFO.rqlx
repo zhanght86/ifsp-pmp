@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		
+	<!-- 查询系统公告表-->
+	<select id="queryNoticeInfoByState" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpSysNoticeInfoVO">
+		select * from PMP_SYS_NOTICE_INFO 
+		where NOTICE_STATE='00'
+		<if test = "qcrtDateTime != '' "> and CRT_DATE_TIME like #{qcrtDateTime}</if>
+		<if test = "qnoticeTitle != '' "> and NOTICE_TITLE like #{qnoticeTitle}</if>
+		<if test = "qnoticeState != '' "> and NOTICE_STATE like #{qnoticeState}</if>
+		order by CRT_DATE_TIME DESC
+	</select>
+	
+	
+	<select id="queryNoticeInfo" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpSysNoticeInfoVO">
+		select * from PMP_SYS_NOTICE_INFO 
+		where 1=1
+		<if test = "qcrtDateTime != '' "> and CRT_DATE_TIME like #{qcrtDateTime}</if>
+		<if test = "qnoticeTitle != '' "> and NOTICE_TITLE like #{qnoticeTitle}</if>
+		<if test = "qnoticeState != '' "> and NOTICE_STATE like #{qnoticeState}</if>
+		<if test = "noticeNo != '' "> and NOTICE_NO like #{noticeNo}</if>
+		order by CRT_DATE_TIME DESC
+	</select>
+	
+	<!-- 查询当前系统公告编号最大值-->
+	<select id="queryMaxNoticeNo" paramType="map" resultType="String">
+     select max(NOTICE_NO)NOTICE_NO from PMP_SYS_NOTICE_INFO 
+     where 1=1
+	</select>
+	
+	<update paramType="map" id="updateMethod1">
+	
+	update PMP_SYS_NOTICE_INFO 
+	set NOTICE_TITLE = #{noticeTitle},
+		NOTICE_CONTENT=#{noticeContent},
+	      NOTICE_PIC_ID= #{noticePicId},
+	      LAST_UPD_TLR= #{lastUpdTlr},
+	      LAST_UPD_DATE_TIME= #{lastUpdDateTime}
+    where NOTICE_NO = #{noticeNo}   				                                    
+   </update>
+	
+	<update paramType="map" id="updateMethod2">
+	
+	update PMP_SYS_NOTICE_INFO 
+	set NOTICE_STATE = #{noticeState},
+	    LAST_UPD_TLR= #{lastUpdTlr},
+	    LAST_UPD_DATE_TIME= #{lastUpdDateTime}
+	where NOTICE_NO = #{noticeNo}  				                                    
+   </update>
+	
+</mapper> 

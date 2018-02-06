@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction:selOrg" 
+	desc="商户选择机构" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+	<!-- 查询字段 -->
+	<Field id="qCtName" desc="地区名称" datatype="string" align="center"/>
+	
+	<!-- 普通字段 -->	
+	<Field id="ctCode" desc="地区编号" datatype="string" align="center" xpath="/ctCode"/> 
+	<Field id="ctName" desc="地区名称" datatype="string" align="center" xpath="/ctName"/> 
+	<Field id="ctFlg" desc="机构编号" datatype="string" align="center" xpath="/ctFlg"/> 
+	</Fields>
+	
+</Data>

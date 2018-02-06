@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:queryMainInit" 
+	desc="商户基本信息管理" expmaxrcd="50" flowctxid="" flowretid=""/> 
+	<Fields>
+	<!-- 查询字段 -->
+		<Field id="qmchtId"  desc="商户编号" edittype="textbox" datatype="string"/>
+		<Field id="qmchtType" desc="商户种类" datatype="string" datasource="DDIC:1804" edittype="combobox" align="center"/>
+		<Field id="qmchtStat" desc="商户状态" datatype="string" datasource="DDIC:1803" edittype="combobox" align="center"/>
+		<Field id="qmchtOrgId" desc="所属机构" datatype="string" align="center" edittype="combogrid"  
+	 		datasource="mchtSelOrg:com.ruimin.ifs.pmp.mchtMng.dataset.mchtSelOrg"  
+			viewfield="brno,brname"  searchfield="qbrname"
+			init="true" multiple="false" default=""
+			fieldmap="qmchtOrgId=brcode;qmchtOrgIdName=brname;"/>
+		<!-- 渠道商户号 -->	
+		<Field id="qChlMchtNo" desc="渠道商户号" datatype="string" align="center" edittype="combogrid"  
+	 		datasource="PbsChlMchtInfo:com.ruimin.ifs.pmp.mchtMng.dataset.PbsChlMchtInfo"  
+			viewfield="chlMchtNo,chlMchtName"  searchfield="chlMchtNo"
+			init="true" multiple="false" default=""
+			fieldmap="qChlMchtNo=chlMchtNo;"/>
+			
+		<Field id="qmchtMngSel" desc="上级商户" datatype="string" align="center"  edittype="combogrid"  
+	 		datasource="mchtMng:com.ruimin.ifs.pmp.mchtMng.dataset.mchtMng4"  
+			viewfield="mchtId,mchtSimpleName"  searchfield="qmchtSimpleName"
+			init="true" multiple="false" default=""
+			fieldmap="qmchtMngSel=mchtId"/>	
+			
+		<Field id="qmchtName" desc="商户全名" edittype="textbox" datatype="string" width="406"/>
+		<Field id="qmchtSimpleName" desc="商户简称" edittype="textbox" datatype="string"/>
+	<!-- 主表单字段 -->      
+		<Field id="mchtId" desc="商户编号" datatype="string" align="center" readonly="true" xpath="/mchtId" />    
+		<Field id="mchtSimpleName" desc="商户简称" datatype="string" align="center" required="false" xpath="/mchtSimpleName"/>    
+		<Field id="mchtType" desc="商户种类" datatype="string" datasource="DDIC:1804" edittype="combobox" required="false" align="center"  xpath="/mchtType"/>    	
+		<Field id="chlSysNo" desc="进件渠道号" datatype="string" edittype="textbox" align="center"  xpath="/chlSysNo"/>    
+		<Field id="mchtStat" desc="商户状态" datatype="string" datasource="DDIC:1803" edittype="combobox" align="center"  readonly="true" xpath="/mchtStat"/>    
+		<Field id="mchtOrg" desc="所属机构" datatype="string" align="center" readonly="true" xpath="/mchtOrg"/> 	   
+		<Field id="mchtMngNo" desc="上级商户号" datatype="string" align="center" edittype="textbox" xpath="/mchtMngNo"/>    		
+		<Field id="regDate" desc="注册日期" datatype="date" align="center" xpath="/regDate"/>
+		<Field id="mchtPhone" desc="手机号" datatype="string" align="center" xpath="/mchtPhone"/>  
+	
+
+		<Field id="opr" desc="操作" datatype="string" align="center"/>      
+
+		<Field id="syncState" desc="审核标志位" datatype="string" align="center"  xpath="/syncState"/>    			
+	    <Field id="auditId" desc="审核信息编号" datatype="string" width="630" colspan="4" align="center" xpath="/auditId"/> 	
+	    <Field id="auditView" desc="审核意见" datatype="string" edittype="textarea" colspan="4" rows="6" width="635"  size="128" readonly="false" align="center"  xpath="/auditView" />
+	   
+	</Fields> 
+	
+	<Commands>	 
+	<!-- 主界面按钮 -->
+		<Command id="btnAdd" desc="新增" type="none" icon="fa fa-plus"/>
+		<Command id="btnUpd" desc="修改" type="none" icon="fa fa-pencil"/>
+		<Command id="btnFrz" desc="冻结/解冻" type="asyncsubmit" icon="fa fa-gears"/>
+		<Command id="btnOff" desc="注销" type="none" icon="fa fa-gears"/>
+		<Command id="btnAddRecord" desc="补录" type="none" icon="fa fa-pencil"/>
+
+	<!-- 冻结/解冻 -->	
+		<Command id="btnFrzSub" desc="提交" type="asyncsubmit" url="#" txn="" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:frzMcht" icon="fa fa-gears"/>
+	<!-- 注销 -->	
+		<Command id="btnOffSub" desc="提交" type="asyncsubmit" url="#" txn="" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:offMcht" icon="fa fa-gears"/>	
+
+	    <Command id="btImport" desc="Excel批量导入" type="none" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:batchImport" icon="fa fa-plus" url="#" txn="" />
+	<!-- 发送短信 -->
+		<Command id="btnNote" desc="发送短信" type="none" icon="fa fa-plus"/>
+		<Command id="btnNoteRecordSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:noteMcht"/>
+	</Commands>	
+</Data>

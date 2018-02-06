@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction:weixinBERL" 
+	desc="微信支付方式" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+	<!-- 查询字段 -->
+	<Field id="qwxberlId" desc="微信支付方式编号" datatype="string" align="center"/>
+	
+	<!-- 普通字段 -->	
+	<Field id="wxberlId" desc="微信支付方式编号" datatype="string" align="center" xpath="/wxberlId"/> 
+	<Field id="wxberlName" desc="微信支付方式名称" datatype="string" align="center" xpath="/wxberlName"/> 
+
+	</Fields>
+	
+</Data>

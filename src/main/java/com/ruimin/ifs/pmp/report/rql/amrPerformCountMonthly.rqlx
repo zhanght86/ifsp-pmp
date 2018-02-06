@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的业务员绩效统计月报信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.AmrPerformMonthlyVO">
+		select 
+			amr.STLM_MONTH,
+			amr.MCHT_AMR_NO,
+			amr.MCHT_AMR_NAME,
+			amr.SIGED_CONT_MCHT_COUNT,
+			amr.TXN_MCHT_COUNT,
+			DATE_FORMAT(amr.STLM_DATE_TIME,'%Y-%m-%d %H:%i:%s') as STLM_DATE_TIME
+		from BTH_MCHT_AMR_PERFOR_FILE amr
+		WHERE
+			1=1
+			<if test = "qStlmMonthStart != '' "> and amr.STLM_MONTH &gt;= #{qStlmMonthStart}</if>
+			<if test = "qStlmMonthEnd != '' "> and amr.STLM_MONTH &lt;= #{qStlmMonthEnd}</if>
+			<if test="qMchtAmrNo !='' "> and amr.MCHT_AMR_NO like #{qMchtAmrNo}</if>
+   			<if test="qMchtAmrName !=''"> and amr.MCHT_AMR_NAME like #{qMchtAmrName}</if>
+		order by amr.STLM_MONTH desc,amr.MCHT_AMR_NO desc
+	</select>
+</mapper>

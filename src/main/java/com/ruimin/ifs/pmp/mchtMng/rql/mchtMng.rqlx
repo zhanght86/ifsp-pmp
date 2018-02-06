@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		<!-- 商户信息详细查询 -->		
+	<select id="queryMassInfoInit" paramType="map" resultType="map">
+	SELECT
+	mcht.MCHT_ID,
+	mcht.MCHT_SIMPLE_NAME,
+	mcht.MCHT_TYPE,
+	mcht.MCHT_STAT,
+	(IFNULL(pma.CHL_SYS_NO, '')) CHL_SYS_NO,
+	org.brname MCHT_ORG,
+	mcht.MCHT_MNG_NO,
+	mcht.REG_DATE,
+	mcht.AUDIT_ID,
+	mcht.MCHT_PHONE
+FROM
+	PBS_MCHT_BASE_INFO_TMP mcht
+LEFT JOIN ifs_org org ON mcht.mcht_org_id = org.brcode
+LEFT JOIN pbs_mcht_assist_info_tmp pma ON pma.MCHT_ID = mcht.MCHT_ID
+where 1=1
+			<if test = "qmchtId != ''"><![CDATA[and mcht.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and mcht.MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "qmchtMngSel != ''"><![CDATA[and mcht.MCHT_MNG_NO like #{qmchtMngSel} ]]></if>
+		<if test = "qmchtType != ''"><![CDATA[and mcht.MCHT_TYPE = #{qmchtType} ]]></if>
+		<if test = "qmchtStat != ''"><![CDATA[and mcht.MCHT_STAT = #{qmchtStat} ]]></if>
+		<if test = "qmchtOrgId != ''"><![CDATA[and mcht.MCHT_ORG_ID like #{qmchtOrgId} ]]></if>
+		<if test = "qChlMchtNo != ''"><![CDATA[and pma.CHL_SYS_NO like #{qChlMchtNo} ]]></if>
+		<if test = "auditId != ''"><![CDATA[and mcht.AUDIT_ID = #{auditId} ]]></if>
+    order by mcht.reg_date desc , mcht.mcht_id desc
+	</select>
+<!-- 商户信息详细查询 -->		
+	<select id="queryMassInfo" paramType="map" resultType="map">
+		select  
+		 	mcht.*,
+		 	org.brname   		MCHT_ORG,
+    		upMcht.mcht_name    mcht_mng,
+     		ct.ct_name 			mcht_area,
+     		TRIM(IFNULL(pma.CHL_SYS_NO,''))      CHL_SYS_NO,
+	     picInfo.`pic_id0` as pic_id0,
+	     picInfo.`pic_id1` as pic_id1,
+	     picInfo.`pic_id2` as pic_id2,
+	     picInfo.`pic_id3` as pic_id3,
+	     picInfo.`pic_id4` as pic_id4,
+	     picInfo.`pic_id5` as pic_id5,
+	     picInfo.`pic_id6` as pic_id6,
+	     picInfo.`pic_id7` as pic_id7,
+	     picInfo.`pic_id8` as pic_id8,
+	     picInfo.`pic_id9` as pic_id9,
+	     picInfo.`pic_id10` as pic_id10,
+	     picInfo.`pic_id11` as pic_id11,
+	     picInfo.`pic_id12` as pic_id12,
+	     picInfo.`pic_id13` as pic_id13,
+	     picInfo.`pic_id14` as pic_id14,
+	     picInfo.`pic_id15` as pic_id15,
+	     picInfo.`pic_id16` as pic_id16,
+	     picInfo.`pic_id17` as pic_id17,
+	     picInfo.`pic_id18` as pic_id18,
+	     picInfo.`pic_id19` as pic_id19,
+	     picInfo.`pic_id20` as pic_id20,
+	     picInfo.`pic_id21` as pic_id21,
+	     picInfo.`pic_id22` as pic_id22,
+	     picInfo.`pic_id23` as pic_id23,
+	     picInfo.`pic_id24` as pic_id24,
+	     picInfo.`pic_id25` as pic_id25,
+	     picInfo.`pic_id26` as pic_id26,
+	     picInfo.`pic_id27` as pic_id27,
+	     picInfo.`pic_id28` as pic_id28,
+	     picInfo.`pic_id29` as pic_id29,
+	     picInfo.`pic_id30` as pic_id30,
+	     picInfo.`pic_id31` as pic_id31,
+	     picInfo.`pic_id32` as pic_id32,
+	     picInfo.`pic_id33` as pic_id33,
+	     picInfo.`pic_id34` as pic_id34,
+	     picInfo.`pic_id35` as pic_id35,
+	     picInfo.`pic_id36` as pic_id36,
+	     picInfo.`pic_id37` as pic_id37,
+	     picInfo.`pic_id38` as pic_id38,
+	     picInfo.`pic_id39` as pic_id39
+    from 
+    PBS_MCHT_BASE_INFO_TMP mcht
+     left join ifs_org org on mcht.mcht_org_id = org.brcode
+     left join pbs_mcht_assist_info_tmp pma on pma.MCHT_ID=mcht.MCHT_ID
+     left join (select mcht_id, mcht_name from PBS_MCHT_BASE_INFO_TMP) upMcht on mcht.mcht_mng_no = upMcht.mcht_id
+     left join (select ct_code, ct_name from ifs_ct_cd) ct on mcht.mcht_area_no = ct.ct_code
+     left join ( select picTemp.mcht_id,
+    max(case picTemp.mcht_pic_type when '00' then picTemp.mcht_pic_id end) as "pic_id0",
+    max(case picTemp.mcht_pic_type when '01' then picTemp.mcht_pic_id end) as "pic_id1",
+    max(case picTemp.mcht_pic_type when '02' then picTemp.mcht_pic_id end) as "pic_id2",
+    max(case picTemp.mcht_pic_type when '03' then picTemp.mcht_pic_id end) as "pic_id3",
+    max(case picTemp.mcht_pic_type when '04' then picTemp.mcht_pic_id end) as "pic_id4",
+    max(case picTemp.mcht_pic_type when '05' then picTemp.mcht_pic_id end) as "pic_id5",
+    max(case picTemp.mcht_pic_type when '06' then picTemp.mcht_pic_id end) as "pic_id6",
+    max(case picTemp.mcht_pic_type when '07' then picTemp.mcht_pic_id end) as "pic_id7",
+    max(case picTemp.mcht_pic_type when '08' then picTemp.mcht_pic_id end) as "pic_id8",
+    max(case picTemp.mcht_pic_type when '09' then picTemp.mcht_pic_id end) as "pic_id9",
+    max(case picTemp.mcht_pic_type when '10' then picTemp.mcht_pic_id end) as "pic_id10",
+    max(case picTemp.mcht_pic_type when '11' then picTemp.mcht_pic_id end) as "pic_id11",
+    max(case picTemp.mcht_pic_type when '12' then picTemp.mcht_pic_id end) as "pic_id12",
+    max(case picTemp.mcht_pic_type when '13' then picTemp.mcht_pic_id end) as "pic_id13",
+    max(case picTemp.mcht_pic_type when '14' then picTemp.mcht_pic_id end) as "pic_id14",
+    max(case picTemp.mcht_pic_type when '15' then picTemp.mcht_pic_id end) as "pic_id15",
+    max(case picTemp.mcht_pic_type when '16' then picTemp.mcht_pic_id end) as "pic_id16",
+    max(case picTemp.mcht_pic_type when '17' then picTemp.mcht_pic_id end) as "pic_id17",
+    max(case picTemp.mcht_pic_type when '18' then picTemp.mcht_pic_id end) as "pic_id18",
+    max(case picTemp.mcht_pic_type when '19' then picTemp.mcht_pic_id end) as "pic_id19",
+    max(case picTemp.mcht_pic_type when '20' then picTemp.mcht_pic_id end) as "pic_id20",
+    max(case picTemp.mcht_pic_type when '21' then picTemp.mcht_pic_id end) as "pic_id21",
+    max(case picTemp.mcht_pic_type when '22' then picTemp.mcht_pic_id end) as "pic_id22",
+    max(case picTemp.mcht_pic_type when '23' then picTemp.mcht_pic_id end) as "pic_id23",
+    max(case picTemp.mcht_pic_type when '24' then picTemp.mcht_pic_id end) as "pic_id24",
+    max(case picTemp.mcht_pic_type when '25' then picTemp.mcht_pic_id end) as "pic_id25",
+    max(case picTemp.mcht_pic_type when '26' then picTemp.mcht_pic_id end) as "pic_id26",
+    max(case picTemp.mcht_pic_type when '27' then picTemp.mcht_pic_id end) as "pic_id27",
+    max(case picTemp.mcht_pic_type when '28' then picTemp.mcht_pic_id end) as "pic_id28",
+    max(case picTemp.mcht_pic_type when '29' then picTemp.mcht_pic_id end) as "pic_id29",
+    max(case picTemp.mcht_pic_type when '30' then picTemp.mcht_pic_id end) as "pic_id30",
+    max(case picTemp.mcht_pic_type when '31' then picTemp.mcht_pic_id end) as "pic_id31",
+    max(case picTemp.mcht_pic_type when '32' then picTemp.mcht_pic_id end) as "pic_id32",
+    max(case picTemp.mcht_pic_type when '33' then picTemp.mcht_pic_id end) as "pic_id33",
+    max(case picTemp.mcht_pic_type when '34' then picTemp.mcht_pic_id end) as "pic_id34",
+    max(case picTemp.mcht_pic_type when '35' then picTemp.mcht_pic_id end) as "pic_id35",
+    max(case picTemp.mcht_pic_type when '36' then picTemp.mcht_pic_id end) as "pic_id36",
+    max(case picTemp.mcht_pic_type when '37' then picTemp.mcht_pic_id end) as "pic_id37",
+    max(case picTemp.mcht_pic_type when '38' then picTemp.mcht_pic_id end) as "pic_id38",
+    max(case picTemp.mcht_pic_type when '39' then picTemp.mcht_pic_id end) as "pic_id39"
+    
+     from pbs_mcht_pic_info_tmp picTemp 
+    group by picTemp.mcht_id) picInfo 
+    on picInfo.mcht_id = mcht.mcht_id
+    left join ifs_staff staff on staff.tlrno = mcht.crt_tlr
+    where 
+    
+     staff.brcode in(
+    select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+    )
+		<if test = "qmchtId != ''"><![CDATA[and mcht.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and mcht.MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "qmchtMngSel != ''"><![CDATA[and mcht.MCHT_MNG_NO like #{qmchtMngSel} ]]></if>
+		<if test = "qmchtType != ''"><![CDATA[and mcht.MCHT_TYPE = #{qmchtType} ]]></if>
+		<if test = "qmchtStat != ''"><![CDATA[and mcht.MCHT_STAT = #{qmchtStat} ]]></if>
+		<if test = "qmchtOrgId != ''"><![CDATA[and mcht.MCHT_ORG_ID like #{qmchtOrgId} ]]></if>
+		<if test = "agentId != ''"><![CDATA[and mcht.AGENT_ID = #{agentId} ]]></if>
+		<if test = "auditId != ''"><![CDATA[and mcht.AUDIT_ID = #{auditId} ]]></if>
+    order by mcht.reg_date desc , mcht.mcht_id desc
+	</select>
+	<select id="queryMassInfo2" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtMngVO2">
+		
+		select a.*,
+       b.brname as mcht_org,
+       c.mcht_name as mcht_mng,
+       d.ct_name as mcht_area,
+        e.MCHT_NO as mcht_no 
+
+  from PBS_MCHT_BASE_INFO a
+  left join ifs_org b on a.mcht_org_id = b.brcode
+  
+  left join (select mcht_id, mcht_name from PBS_MCHT_BASE_INFO) c on a.mcht_mng_no = c.mcht_id
+  
+  left join (select ct_code, ct_name from ifs_ct_cd) d on a.mcht_area_no = d.ct_code
+  
+  left join ifs_staff staff on staff.tlrno = a.crt_tlr
+            
+  LEFT JOIN PAGY_SUB_MCHT_INFO e ON e.Pay_mcht_No=a.mcht_id where 1 = 1
+	and e.pagy_no=303 and e.mcht_no is not null  and chl_id= 'C0001' 
+	and staff.brcode in(
+    select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+    ) 
+		<if test = "qmchtId != ''"><![CDATA[and a.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and a.MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "qmchtType != ''"><![CDATA[and a.MCHT_TYPE = #{qmchtType} ]]></if>
+		<if test = "qmchtStat != ''"><![CDATA[and a.MCHT_STAT = #{qmchtStat} ]]></if>
+		<if test = "qmchtOrgId != ''"><![CDATA[and a.MCHT_ORG_ID like #{qmchtOrgId} ]]></if>
+		<if test = "qmchtName != ''"><![CDATA[and a.MCHT_NAME like #{qmchtName} ]]></if>
+		<if test = "auditId != ''"><![CDATA[and a.AUDIT_ID = #{auditId} ]]></if>
+		order by a.reg_date desc , a.mcht_id desc
+
+	</select>
+	
+	<!-- 根据主商户号查询子商户 -->
+	<select id="queryMassInfo3" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtMngVO2">
+select a.*,
+       b.brname as mcht_org,
+       c.mcht_name as mcht_mng,
+       d.ct_name as mcht_area,
+        e.MCHT_NO as mcht_no 
+
+  from PBS_MCHT_BASE_INFO a
+  left join ifs_org b on a.mcht_org_id = b.brcode
+  
+  left join (select mcht_id, mcht_name from PBS_MCHT_BASE_INFO) c on a.mcht_mng_no = c.mcht_id
+  
+  left join (select ct_code, ct_name from ifs_ct_cd) d on a.mcht_area_no = d.ct_code
+  
+  left join ifs_staff staff on staff.tlrno = a.crt_tlr
+            
+  LEFT JOIN PAGY_SUB_MCHT_INFO e ON e.Pay_mcht_No=a.mcht_id where 1 = 1
+	and e.pagy_no=303 and chl_id= 'C0001' 
+	and staff.brcode in(
+   select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+    ) 
+    
+       <if test="mchtId != '' and  mchtId!=null "><![CDATA[   and  a.MCHT_MNG_NO = #{mchtId}]]></if>
+       <if test="mchtId == '' or mchtId==null "><![CDATA[   and a.MCHT_MNG_NO is not null ]]></if>
+		order by a.reg_date desc , a.mcht_id desc
+	</select>
+	
+	<!-- 商户信息详细查询 -->		
+	<select id="queryMassInfo4" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtMngVO">
+		select mcht.*,
+    org.brname as mcht_org,
+    upMcht.mcht_name as mcht_mng,
+     ct.ct_name as mcht_area,
+     picInfo.`pic_id1` as pic_id1,
+     picInfo.`pic_id2` as pic_id2,
+     picInfo.`pic_id3` as pic_id3,
+     picInfo.`pic_id4` as pic_id4,
+     picInfo.`pic_id5` as pic_id5,
+     picInfo.`pic_id6` as pic_id6
+    from 
+    PBS_MCHT_BASE_INFO mcht
+     left join ifs_org org on mcht.mcht_org_id = org.brcode
+     left join (select mcht_id, mcht_name from PBS_MCHT_BASE_INFO_TMP) upMcht on mcht.mcht_mng_no = upMcht.mcht_id
+     left join (select ct_code, ct_name from ifs_ct_cd) ct on mcht.mcht_area_no = ct.ct_code
+     left join ( select picTemp.mcht_id,
+    max(case picTemp.mcht_pic_type when '01' then picTemp.mcht_pic_id end) as "pic_id1",
+    max(case picTemp.mcht_pic_type when '02' then picTemp.mcht_pic_id end) as "pic_id2",
+    max(case picTemp.mcht_pic_type when '03' then picTemp.mcht_pic_id end) as "pic_id3",
+    max(case picTemp.mcht_pic_type when '04' then picTemp.mcht_pic_id end) as "pic_id4",
+    max(case picTemp.mcht_pic_type when '05' then picTemp.mcht_pic_id end) as "pic_id5",
+    max(case picTemp.mcht_pic_type when '06' then picTemp.mcht_pic_id end) as "pic_id6"
+     from pbs_mcht_pic_info_tmp picTemp 
+    group by picTemp.mcht_id) picInfo 
+    on picInfo.mcht_id = mcht.mcht_id
+    left join ifs_staff staff on staff.tlrno = mcht.crt_tlr
+    where 
+    
+     staff.brcode in(
+    	select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+    )
+		<if test = "qmchtId != ''"><![CDATA[and mcht.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and mcht.MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "qmchtType != ''"><![CDATA[and mcht.MCHT_TYPE = #{qmchtType} ]]></if>
+		<if test = "qmchtStat != ''"><![CDATA[and mcht.MCHT_STAT = #{qmchtStat} ]]></if>
+		<if test = "qmchtOrgId != ''"><![CDATA[and mcht.MCHT_ORG_ID like #{qmchtOrgId} ]]></if>
+		<if test = "qmchtName != ''"><![CDATA[and mcht.MCHT_NAME like #{qmchtName} ]]></if>
+		<if test = "auditId != ''"><![CDATA[and mcht.AUDIT_ID = #{auditId} ]]></if>
+    order by mcht.reg_date desc , mcht.mcht_id desc
+	</select>
+	
+	
+<!-- 获取正式表中的商户名和Id -->
+	<select id="queryMchtName" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtBaseInfoReal">
+		select a.*, pma.setl_Acct_Name,pma.ACCOUNT_TYPE
+  			from PBS_MCHT_BASE_INFO a
+  			left join ifs_staff staff
+    			on staff.tlrno = a.crt_tlr
+    	LEFT JOIN pbs_mcht_assist_info_tmp pma ON pma.MCHT_ID = a.MCHT_ID
+ 			where a.mcht_stat = '00'
+  			 and staff.brcode in
+       			(
+       			select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+        		)
+		<if test = "qmchtId != ''"><![CDATA[and a.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and a.MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "qmchtType != ''"><![CDATA[and a.MCHT_TYPE = #{qmchtType} ]]></if>
+		order by a.mcht_id desc
+	
+	</select>
+	
+	<select id="queryMchtName1" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtBaseInfoRealAdd">
+		select a.*,pma.setl_Acct_Name,pma.ACCOUNT_TYPE
+  			from PBS_MCHT_BASE_INFO a
+  			left join ifs_staff staff
+    			on staff.tlrno = a.crt_tlr
+  			 LEFT JOIN pbs_mcht_assist_info_tmp pma ON pma.MCHT_ID = a.MCHT_ID
+ 			where a.mcht_stat = '00'
+  			    and staff.brcode in
+       			(
+       			select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+        		)
+        		and a.mcht_id not in(
+        		        select mcht_id from PBS_MCHT_CONTR_INFO_TMP
+        		)
+		<if test = "qmchtId != '' "><![CDATA[ and a.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qmchtSimpleName != '' "><![CDATA[ and a.MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		order by a.mcht_id desc	
+	</select>
+	
+<!-- 获取商户编号最大值 -->
+	<select id="queryMaxMchtId" paramType="map" resultType="String">
+		SELECT max(c.MCHT_ID) from (
+		select max(MCHT_ID) MCHT_ID from PBS_MCHT_BASE_INFO_TMP b	where b.MCHT_ID like #{currentDate}
+		UNION
+		select max(MCHT_ID) from mss_qrc_base_info a where a.MCHT_ID like #{currentDate}
+		) c
+	</select>
+	
+	
+<!-- 获取图片序号最大值 -->
+	<select id="queryMaxPicSeq" paramType="" resultType="String">
+		select max(PIC_SEQ_NO) PIC_SEQ_NO from PBS_MCHT_PIC_INFO_TMP	
+	</select>
+
+	
+<!-- 更新图片信息-->
+	<update id="updMchtPic" paramType="map" >
+		update
+			PBS_MCHT_PIC_INFO_TMP
+		set
+			MCHT_PIC_ID=#{picId},
+			LAST_UPD_TLR=#{lastUpdTlr},
+			LAST_UPD_ATE_TIME=#{lastUpdAteTime}			
+		where 1=1
+			and MCHT_ID=#{mchtId}
+			and MCHT_PIC_TYPE=#{picType}		
+	</update>
+
+	<select id="queryMchtPicNull" paramType="map" resultType="String">
+			SELECT
+	MCHT_PIC_TYPE
+FROM
+	pbs_mcht_pic_info_tmp a
+WHERE
+	a.MCHT_ID = #{mchtId}
+	AND a.MCHT_PIC_TYPE=#{mchtPicType}
+
+		</select>
+	<select id="queryMchtPic" paramType="map" resultType="String">
+			SELECT
+	MCHT_PIC_ID
+FROM
+	pbs_mcht_pic_info_tmp a
+WHERE
+	a.MCHT_ID = #{mchtId}
+	AND a.MCHT_PIC_TYPE=#{mchtPicType}
+		</select>
+	
+<!-- 删除图片信息-->
+	<update id="delMchtPic" paramType="map" >
+		delete from
+			PBS_MCHT_PIC_INFO_TMP	
+		where 1=1
+			and MCHT_ID=#{mchtId}
+			and MCHT_PIC_TYPE=#{picType}
+	</update>
+	
+	<!-- 删除图片信息-->
+	<update id="delPicOne" paramType="String" >
+		delete from
+			PBS_MCHT_PIC_INFO_TMP	
+		where 1=1
+			and MCHT_ID=#{mchtId}
+	</update>
+<!-- 查询指定商户编号下，图片信息是否存在-->
+	<select id="queryPicExist" paramType="String" resultType="String">
+		select count(mcht_id)
+  		from 
+  			PBS_MCHT_PIC_INFO_TMP
+ 		where  
+ 			MCHT_ID=#{mchtId}
+	</select>
+
+
+<!-- 冻结/解冻-->
+	<update id="frzMchtOrNot" paramType="map" >
+		update
+			PBS_MCHT_BASE_INFO_TMP
+		set
+		    AUDIT_ID=#{auditId},
+		    SYNC_STATE=#{syncState},
+			LAST_UPD_TLR=#{trlno},
+			LAST_UPD_DATE_TIME=#{lastUpdDateTime},
+			MCHT_STAT = #{mchtStat}
+
+		where
+			MCHT_ID=#{mchtId}			
+	</update>
+	
+	
+<!-- 注销-->
+	<update id="offMcht" paramType="map" >
+		update
+			PBS_MCHT_BASE_INFO_TMP
+		set
+		    AUDIT_ID=#{auditId},
+		    SYNC_STATE=#{syncState},
+			LAST_UPD_TLR=#{trlno},
+			LAST_UPD_DATE_TIME=#{lastUpdDateTime},
+			MCHT_STAT = #{mchtStat}			
+		where
+			MCHT_ID=#{mchtId}			
+	</update>	
+	
+	
+<!-- 查询 审核流程编号-->
+	<select id="selectAuditIdByBrno" paramType="map" resultType="String">
+			select  m.audit_proc_id from PMP_AUDIT_PROC_INFO m left join IFS_ORG n
+            on m.br_class=n.brclass where n.brno=#{brno}
+	</select>
+	
+
+<!-- 查询 商户补全信息（原只查询地区码，后来做了信息扩展）。这里只是为了方便，将地区名存放到地区号里传回。
+日后再改，建议把结果存到继承类中。20170308zjc-->
+	<select id="queryMchtAreaNo" paramType="String" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtBaseInfoReal">
+		select mcht.mcht_area_no as mcht_area_no,  area.ct_name as ct_name,mcht.mcht_name,mcht.mcht_simple_name,mcht.mcht_Person_Name,mcht.mcht_Phone,mcht.mcht_email
+			from pbs_mcht_base_info mcht left join ifs_ct_cd area on mcht.mcht_area_no = area.ct_code
+			where mcht_id =#{qmchtId}			
+	</select>
+	
+	
+	<!-- 查询符合条件的审核步骤 -->
+	<select id="selectTepList" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditProcStep">
+		select *
+  		from PMP_AUDIT_PROC_STEP a<!-- 流程步骤 -->
+  		left join PMP_AUDIT_PROC_INFO b on a.audit_proc_id = b.audit_proc_id<!-- 流程 -->
+  		left join IFS_ORG c on b.br_class = c.brclass<!-- 机构 信息-->
+  		left join IFS_STAFF d on c.brcode = d.brcode<!-- 操作员 -->
+ 		where d.TLRNO = #{tlrno}<!-- 操作员编号 -->
+   		and b.audit_proc_type = #{auditType}	<!-- 审核类型 -->	
+	</select>
+	<!-- 查询客户经理手机号 -->
+	<select id="queryTel" paramType="String" resultType="String">
+		select mobile from ifs_staff where tlrno=#{tlrno}
+	</select>
+		
+	<!-- 2017-03-20新增 -->
+	<select id="queryMchtAreaNoMapp" paramType="String" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtBaesInfoRealMapping">
+	select mcht.mcht_area_no as mcht_area_no,  area.ct_name as ct_name,mcht.mcht_name,mcht.mcht_simple_name,mcht.mcht_Person_Name,mcht.mcht_Phone,mcht.mcht_email
+			from pbs_mcht_base_info mcht left join ifs_ct_cd area on mcht.mcht_area_no = area.ct_code
+			where mcht_id =#{qmchtId}
+	</select>
+	
+	<!-- 查询商户联系手机号 -->
+	<select id="getoldPhoneByMchtId" paramType="String" resultType="String">
+		select MCHT_PHONE from PBS_MCHT_BASE_INFO where MCHT_ID=#{mchtId}
+	</select>
+	
+	<select id="queryByMchtId" paramType="String" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtBaseInfo">
+			select * 
+			from pbs_mcht_base_info
+			where mcht_id =#{mchtId}			
+	</select>
+	<select id="getAllMchtId" paramType="" resultType="string">
+			select mcht_id
+			from pbs_mcht_base_info
+	</select>
+	<select id="getAgentId" paramType="String" resultType="String">
+			select AGENT_ID 
+			from PBS_AGENT_INFO
+			where AGENT_ID =#{agentId}			
+	</select>
+		<select id="getMchtTlrno" paramType="String" resultType="com.ruimin.ifs.po.TblBctl">
+			SELECT o.BRNO,o.BRCODE FROM ifs_org o,(SELECT BRCODE FROM IFS_STAFF WHERE TLRNO=#{Tlrno}) b  WHERE BLN_UP_BRCODE=b.BRCODE OR  o.`BRCODE`=b.BRCODE
+		</select>
+		<select id="queryMchtAreaNoPic" paramType="String" resultType="String">
+			SELECT
+	MCHT_PIC_TYPE
+FROM
+	pbs_mcht_pic_info_tmp a
+WHERE
+	a.MCHT_ID = #{mchtId,jdbcType=VARCHAR}
+AND (
+	a.MCHT_PIC_ID IS NULL
+	OR a.MCHT_PIC_ID = ''
+	)
+		</select>
+				<select id="queryMchtLicnNo" paramType="map" resultType="String">
+select MCHT_LICN_NO from pbs_mcht_base_info_tmp a where a.MCHT_LICN_NO=#{mchtLicnNo} and a.MCHT_ID <![CDATA[<>]]> #{mchtId}
+		</select>
+	
+		<!-- 根据主键查询图片正式表信息 -->
+		<select id="selPicReal" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtPicInfoReal">
+		SELECT * FROM pbs_mcht_pic_info WHERE MCHT_ID=#{mchtId} AND MCHT_PIC_TYPE=#{mchtPicType}
+		</select>
+		
+		
+		<!-- 根据主键查询图片临时表信息 -->
+		<select id="selPicTmp"  paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtPicInfo">
+		SELECT * FROM pbs_mcht_pic_info_tmp WHERE MCHT_ID=#{mchtId} AND MCHT_PIC_TYPE=#{mchtPicType}
+		</select>
+		
+		<!-- 更新图片正式表-->
+	<update id="updPicReal" paramType="map" >
+		UPDATE pbs_mcht_pic_info
+		SET 
+			 PIC_SEQ_NO = #{picSeqNo},
+			 MCHT_PIC_ID = #{mchtPicId},
+		 	 MCHT_PIC_PATH =#{mchtPicPath},
+			 CRT_TLR = #{crtTlr},
+		 	 CRT_DATE_TIME =#{crtDateTime},
+		 	 LAST_UPD_ATE_TIME =#{lastUpdAteTime}		
+		where
+			MCHT_ID=#{mchtId} and
+			MCHT_PIC_TYPE=#{mchtPicType}		
+	</update>	
+		
+		
+			<!-- 更新图片正式表-->
+	<update id="updPicTmp" paramType="map" >
+		UPDATE pbs_mcht_pic_info_tmp
+		SET 
+			 PIC_SEQ_NO = #{picSeqNo},
+			 MCHT_PIC_ID = #{mchtPicId},
+		 	 MCHT_PIC_PATH =#{mchtPicPath},
+			 CRT_TLR = #{crtTlr},
+		 	 CRT_DATE_TIME =#{crtDateTime},
+		 	 LAST_UPD_ATE_TIME =#{lastUpdAteTime}		
+		where
+			MCHT_ID=#{mchtId} and
+			MCHT_PIC_TYPE=#{mchtPicType}		
+	</update>	
+		
+			<!-- 新增商户图片信息 -->
+	<insert id="insertPbsMchtPicInfo" paramType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtPicInfo">
+		INSERT INTO PBS_MCHT_PIC_INFO_TMP (
+	MCHT_PIC_TYPE,
+	CRT_TLR,
+	MCHT_PIC_ID,
+	PIC_SEQ_NO,
+	CRT_DATE_TIME,
+	MCHT_ID
+)
+		values
+		(#{mchtPicType},#{crtTlr},#{mchtPicId},#{picSeqNo},#{crtDateTime},#{mchtId})
+	</insert>
+	
+	<update paramType="map" id="updMchtRiskLevel">
+		UPDATE pbs_mcht_base_info_tmp SET RISK_LEVEL=#{riskLevel} WHERE MCHT_ID =#{mchtId}
+	</update>
+	<update paramType="map" id="updConsetlAcctAreaCode">
+		UPDATE pbs_mcht_contr_info_tmp SET SETL_ACCT_AREA_CODE=#{setlAcctAreaCode} WHERE MCHT_ID =#{mchtId}
+	</update>
+	
+	
+	<!-- modify by lengjingyu 20180131 生成商户编号:商户号的生成不在以商户基本信息表为准,而是新增了一个商户号累加表,每次获取累加,每日重置 jira-1977 -->
+	<select paramType="string" id="selectSequencePerDay" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.SequencePerDay">
+		SELECT * FROM sequence_per_day WHERE NAME = #{name} FOR UPDATE
+	</select>
+	<!-- modify end jira-1977-->
+	
+	
+	
+	
+	
+</mapper>

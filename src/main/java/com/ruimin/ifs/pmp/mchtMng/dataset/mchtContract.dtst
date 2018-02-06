@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:queryMain" 
+	desc="商户合同管理主页面" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+	<!-- 查询字段 -->
+		<Field id="qmchtId" desc="商户号" edittype="textbox" datatype="string" />
+		<Field id="qmchtSimpleName" desc="商户简称" edittype="textbox" datatype="string" />
+		<Field id="qconId" desc="平台合同编号" edittype="textbox" datatype="string" />
+		<Field id="qpaperConId" desc="纸质合同编号" edittype="textbox" datatype="string" />
+		<Field id="qsetlAcctNo" desc="结算账号" datatype="string"  edittype="textbox" align="center"  />
+		<Field id="qconState" desc="合同状态" datatype="string" datasource="DDIC:1808" edittype="combobox" align="center"  />
+	<!-- 主表单字段 -->
+	    <Field id="mchtId" desc="商户号" datatype="string" align="center" readonly="true"  xpath="/mchtId" />      	   
+		<Field id="mchtSimpleName" desc="商户简称" datatype="string" align="center" required="true" readonly="true" xpath="/mchtSimpleName" />  
+		<Field id="conId" desc="平台合同编号" datatype="string" edittype="textbox" align="center"  readonly="true" xpath="/conId" />      
+		<Field id="paperConId" desc="纸质合同编号" datatype="string" edittype="textbox" required="true"  align="center" xpath="/paperConId" />    
+		<Field id="startDate" desc="合同生效日" datatype="date"  edittype="datebox" required="true"   align="center"   xpath="/startDate" />    
+		<Field id="conState" desc="合同状态" datatype="string" datasource="DDIC:1808" edittype="combobox" align="center"  xpath="/conState" />
+		<Field id="opr" desc="操作" edittype="textbox" align="center" datatype="string" xpath="" />
+		<Field id="mchtType" desc="商户类型" datatype="string"  align="center"  xpath="/mchtType" />
+		<Field id="chlSysNo" desc="进件渠道号" datatype="string" edittype="textbox" align="center"  xpath="/chlSysNo"/>    
+		    
+	<!-- 增加的字段 -->
+	    <Field id="extendFlag" desc="延期标志" datatype="string" align="center" required="true"  datasource="DDIC:1806" edittype="combobox"    xpath="/extendFlag" />    
+		<Field id="conTerm" desc="合同期限" datatype="string" align="center" datasource="DDIC:1807" edittype="combobox" required="true" xpath="/conTerm" />  
+		<Field id="endDate" desc="合同失效日期" datatype="date" edittype="datebox" align="center" required="false" readonly="true" xpath="/endDate" />      
+		<Field id="setlSymbol" desc="结算标志" datatype="string" datasource="DDIC:1810" edittype="combobox" readonly="false" required="true" align="center"   xpath="/setlSymbol" />    
+		
+		<Field id="setlCycle" desc="结算周期" datatype="string" datasource="DDIC:1811"  edittype="combobox"   readonly="true" align="center"  xpath="/setlCycle" />
+		<Field id="specSetlDay" desc="结算日" datatype="string" align="center" required="true"  xpath="/specSetlDay" readonly="false"/>    
+		
+		<Field id="setlAcctType" desc="结算账户类型" datatype="string" datasource="DDIC:1813" colspan="3" align="center" edittype="combobox" required="true" xpath="/setlAcctType" />  
+		<Field id="setlAcctName" desc="结算账户户名" datatype="string" align="center" required="true" xpath="/setlAcctName" />      
+		<Field id="setlAcctNo" desc="结算账户账号" datatype="string" edittype="textbox" align="center" required="true" xpath="/setlAcctNo" />    
+		<Field id="setlCertType" desc="账户证件类型" datatype="string" datasource="DDIC:1814" edittype="combobox" align="center"   xpath="/setlCertType" />    
+		<Field id="setlCertNo" desc="账户证件号码" datatype="string" align="center" edittype="textbox"  xpath="/setlCertNo" />
+		<Field id="setlBankPhone" desc="银行预留手机号" datatype="string" align="center" edittype="textbox"  xpath="/setlBankPhone" />
+		
+		<!-- 证通划款新增 -->
+		<Field id="setlAcctBankNo" desc="开户行号" datatype="string" readonly="false"  size="32" required="true" align="center"  xpath="/setlAcctBankNo"/>
+		<Field id="setlAcctBankName" desc="开户行名" datatype="string" readonly="false" size="64" required="true" align="center"  xpath="/setlAcctBankName"/>
+		<!-- <Field id="setlAcctAreaCode" desc="开户行区划代码" datatype="string" readonly="false" size="6" required="true" align="center"  xpath="/setlAcctAreaCode"/> -->
+		 
+		  <Field id="setlAcctAreaCode" desc="开户行区划代码"  
+         multiple="false" align="center" 
+         datasource="AcctAreaCode:com.ruimin.ifs.pmp.baseParaMng.dataset.accAreaCode"  
+			edittype="combogrid" fieldmap="setlAcctAreaCode=qhCode" 
+			searchfield="qProviceNm,qCityNm" viewfield="qhCode,qhName"  init="true"
+			  xpath="/setlAcctAreaCode" required="true"/>	
+		
+		<Field id="crtTlr" desc="创建柜员" datatype="string"  edittype="textbox"  align="center"  xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期" datatype="string" edittype="textbox"  align="center"  xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最后更新柜员" datatype="string"  edittype="textbox"  align="center"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDateTime" desc="最后更新时间" datatype="string" edittype="textbox"  align="center"  xpath="/lastUpdDateTime" />
+	<!-- 图片字段 -->
+		<Field id="picId1" desc="图片编号[1]" datatype="string" xpath="/picId1"/>
+		<Field id="picId2" desc="图片编号[2]" datatype="string" xpath="/picId2"/>
+		<Field id="picId3" desc="图片编号[3]" datatype="string" xpath="/picId3"/>
+		<Field id="picId4" desc="图片编号[4]" datatype="string" xpath="/picId4"/>
+		<Field id="picId5" desc="图片编号[5]" datatype="string" xpath="/picId5"/>
+		
+  <!-- 特殊字段 -->
+        <Field id="mchtId1" desc="商户号"  
+         multiple="false" align="center" init="true"    
+         datasource="mchtMngForContract:com.ruimin.ifs.pmp.mchtMng.dataset.mchtMngForContract"  
+			edittype="combogrid" fieldmap="mchtId1=mchtId;mchtSimpleName=mchtSimpleName;accountType=accountType;setlAcctName=setlAcctName" 
+			searchfield="qmchtId,qmchtSimpleName" viewfield="mchtId,mchtSimpleName" 
+			  xpath="/mchtId" />	   
+	
+		<Field id="setlType" desc="结算方式" align="center" placeholder="占位符" edittype="combogrid" required="true" datatype="string" init="true" multiple="false"
+			datasource="mchtSetlType:com.ruimin.ifs.pmp.mchtMng.dataset.mchtSetlType"           viewfield="setlType,setlTypeName" fieldmap="setlType=setlType;setlTypeName=setlTypeName"  readonly="false" status="F" xpath="/setlType"/>
+		<Field id="setlTypeName" desc="结算方式（反显）" datatype="string"
+		method="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction.getSetlTypeName"
+		 edittype="textbox" align="center" required="false" xpath="/setlType" /> 
+	<!--  <Field id="setlAcctInstitute" desc="开户机构" datatype="string"  edittype="combogrid" align="center"  
+	datasource="openAcctOrgan:com.ruimin.ifs.pmp.baseParaMng.dataset.openAcctOrgan"
+	viewfield="acctInstName"  searchfield="qacctInstName"
+			init="true" multiple="false" default=""
+			fieldmap="setlAcctInstitute=acctInstNo;setlAcctInstituteName=acctInstName" xpath="/setlAcctInstitute" />
+	
+	<Field id="setlAcctInstituteName" desc="开户机构" datatype="string"  edittype="textbox" align="center"  
+	 method="com.ruimin.ifs.pmp.baseParaMng.comp.OpenAcctOrganAction.getSetlAcctInstituteName" xpath="/setlAcctInstitute" />
+	 -->
+	 <!-- 证通机构信息 -->
+	  <Field id="setlAcctInstitute" desc="开户机构"  
+         multiple="false" align="center"
+         datasource="EtcOrg:com.ruimin.ifs.pmp.baseParaMng.dataset.etcOrgInfo"  
+			edittype="combogrid" fieldmap="setlAcctInstitute=ptyCd;setlAcctInstituteName=ptyNm" 
+			searchfield="qPtyCd,qPtyNm" viewfield="ptyCd,ptyNm"  init="true"
+			  xpath="/setlAcctInstitute" />	   
+		<Field id="setlAcctInstituteName" desc="开户机构"  datatype="string" method="com.ruimin.ifs.pmp.baseParaMng.comp.EtcOrgInfoAction.getSetlAcctInstituteName" xpath="/setlAcctInstitute"/>
+		<Field id="acctInstNo" desc="开户机构号" datatype="string" readonly="true" align="center"  xpath="/setlAcctInstitute"/>
+	<!-- 临时表添加的字段 -->
+	<Field id="auditView" desc="审核意见" datatype="string" edittype="textarea" colspan="4" width="635" size="128" readonly="false" align="center"  xpath="/auditView" />
+	<Field id="auditId" desc="审核流程编号" datatype="string" edittype="textbox"  align="center" width="270" colspan="6"  xpath="/auditId" />
+	<Field id="syncState" desc="同步状态" datatype="string" edittype="textbox"  align="center"  xpath="/syncState" />
+	
+	<Field id="whetherIn" desc="是否进件" datatype="string" edittype="combobox" datasource="LIST:01,是;02,否"/>
+	<Field id="goToPagy" desc="进件通道" datatype="string" edittype="combobox" multiple="true" datasource="LIST:313,平安通道"/>
+	   
+	
+	<!-- 交易限额表增加的两个字段 -->
+	<Field id="limitOne" desc="单笔支付限额" datatype="string" edittype="textbox" align="center"  width="100" size="12" xpath="/limitOne" />
+	<Field id="limitDay" desc="单日限额" datatype="string" edittype="textbox"  align="center"  width="100"  size="12" xpath="/limitDay" />
+	
+	<Field id="str" desc="计数" datatype="string" edittype="textbox" />
+		<!-- 辅表迁移字段 -->
+	
+      <Field id="accountType" desc="结算账户类型" edittype="combobox" datasource="LIST:1,对公;2,对私;" required="true" datatype="string" size="1" xpath="/accountType" />
+      <Field id="accountBoss" desc="结算账户人身份" edittype="combobox" datasource="LIST:1,法人;2,法人亲属;" datatype="string" size="1" xpath="/accountBoss" />
+	</Fields> 
+	
+	<Commands>	 
+	<!-- 主界面按钮 -->
+		<Command id="btnAdd" desc="新增" type="addrecord" icon="fa fa-plus"/>
+		<Command id="btnUpd" desc="修改" type="none" icon="fa fa-wrench"/>
+		<Command id="btnFrz" desc="中止/恢复" type="none" icon="fa fa-ban" />
+		<Command id="btnServ" desc="服务" type="none" icon="fa fa-certificate"/>
+		<Command id="btnRtn" desc="返回" type="none" url="#" txn="" />
+		<Command id="btnPic" desc="选取文件"  type="none" />
+		<Command id="btnPicSub" desc="保存" type="none"  />
+	<!-- 新增窗口 -->		
+		<Command id="btnAddSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:addMcht"/>
+	<!-- 修改窗口 -->		
+		<Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:updMcht"/>
+	<!-- 中止/恢复 -->	
+		<Command id="btnFrzSub" desc="提交" type="asyncsubmit"   icon="fa fa-save" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:frzMcht" />
+	<!-- 合同服务 -->	
+	    <Command id="btnSerSub" desc="提交" type="asyncsubmit"   icon="" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:serviceSubmit"/>
+	<!--审核按钮 -->
+	    <Command id="btnAuditAgree" desc="通过" type="asyncsubmit"   icon="fa fa-check" flowid="com.ruimin.ifs.pmp.mchtMng.comp.ContractAuditAction:pass"/>
+	    <Command id="btnAuditDisagree" desc="拒绝" type="asyncsubmit"   icon="fa fa-remove" flowid="com.ruimin.ifs.pmp.mchtMng.comp.ContractAuditAction:refuse"/>
+	    <Command id="btnReturn" desc="返回" type="none"  icon="fa fa-list" url="#"  ></Command>
+	</Commands>
+	
+</Data>

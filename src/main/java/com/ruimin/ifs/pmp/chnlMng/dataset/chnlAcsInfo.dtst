@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChnlAcsInfoAction:queryMain" 
+	desc="通道接入信息" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+	<!-- 查询字段 -->
+		<!-- 页面展示通道名称，传入后台通道编号 -->
+			<Field id="qpagyNo" desc="通道名称" edittype="combogrid" datatype="string" datasource="pagyInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo"
+				viewfield="pagyNo,pagyName" searchfield="qpagyName" init="true" multiple="false" default=""
+				fieldmap="qpagyNo=pagyNo;qpagyNoName=pagyName"/>
+		<Field id="qmainMchtAcsType" desc="接入方式" edittype="combobox" datatype="string" datasource="DDIC:1823"/>
+		<Field id="qmainMchtNo" desc="接入编号" datatype="string"/>
+		<Field id="qmainMchtName" desc="接入名称" datatype="string"/>
+		<Field id="qmainMchtStat" desc="接入状态" edittype="combobox" datatype="string" datasource="DDIC:1824"/>
+		
+	<!-- 查询页面表单字段 -->
+		<Field id="pagyNo" desc="通道编号" datatype="string" align="center" xpath="/pagyNo"/>
+		<Field id="pagyName" desc="通道名称" datatype="string" align="center" xpath="/pagyName"/>
+		<Field id="mainMchtAcsType" desc="接入方式" edittype="combobox" datatype="string" datasource="DDIC:1823" align="center" required="true" xpath="/mainMchtAcsType"/>
+		<Field id="mainMchtNo" desc="接入编号" datatype="string" align="center" required="true" xpath="/mainMchtNo"/>
+		<Field id="mainMchtName" desc="接入名称" datatype="string" align="center" required="true" xpath="/mainMchtName"/>
+		<Field id="mainMchtStat" desc="接入状态" edittype="combobox" datatype="string" datasource="DDIC:1824" align="center" required="true" xpath="/mainMchtStat"/>
+		<Field id="opr" desc="操作栏" datatype="string" align="center" />    
+	
+	<!-- 补充字段 -->
+		<Field id="mainMchtPublicNo" desc="公众号/应用ID" datatype="string" align="center" xpath="/mainMchtPublicNo"/>
+		<Field id="mainMchtSetlCycleType" desc="清算周期" edittype="combobox" datatype="string" datasource="DDIC:1828" align="center" required="true" xpath="/mainMchtSetlCycleType"/>
+		<Field id="mainMchtSetlCycle" desc="清算日" datatype="string" align="center" required="true" xpath="/mainMchtSetlCycle"/>
+		<Field id="mainMchtSetlAccno" desc="清算帐号" datatype="string" align="center" required="true" xpath="/mainMchtSetlAccno"/>
+		<Field id="mainMchtSetlTm" desc="清算时间" datatype="string" align="center" required="true" method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.timeFormat" xpath="/mainMchtSetlTm"/>
+		<Field id="mainMchtMccCode" desc="行业编号" datatype="string" align="center" xpath="/mainMchtMccCode"/>
+		<Field id="mainMchtMccName" desc="行业名称" datatype="string" align="center" xpath="/mainMchtMccName"/>
+		<Field id="crtTlr" desc="创建操作员" datatype="string" align="center" xpath="/crtTlr"/>	
+		<Field id="crtDateTime" desc="创建日期时间" datatype="string" align="center" xpath="/crtDateTime"/>			
+		<!-- 特殊 -->
+			<Field id="pagyNameSel" desc="通道名称" edittype="combogrid" datatype="string" 
+				datasource="pagyInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo" 
+				viewfield="pagyNo,pagyName" searchfield="qpagyName" init="true" multiple="false"
+				fieldmap="pagyNo=pagyNo;pagyNameSel=pagyName" xpath="pagyName"/>		
+			<Field id="mainMchtNoAC" desc="修改前接入编号-用于修改记录" datatype="string"/>
+				
+	<!-- 证书信息字段 -->
+		<Field id="encryptType" desc="选择加密算法" edittype="combobox" datatype="string" datasource="DDIC:1829" align="center" width="350" xpath="/encryptType"/>		
+		<Field id="recCrtOpr" desc="创建操作员" datatype="string" align="center" xpath="/recCrtOpr"/>	
+		<Field id="recCrtTs" desc="创建日期时间" datatype="string" align="center" xpath="/recCrtTs"/>			
+		<!-- RSA -->
+			<Field id="certifiDate" desc="证书生效日期" edittype="datebox" datatype="date" align="center" xpath="/certifiDate"/>
+			<Field id="certifiEndDate" desc="证书失效日期" edittype="datebox" datatype="date" align="center" xpath="/certifiEndDate"/>
+			<Field id="certifiName" desc="证书名称" datatype="string" align="center" readonly="true" method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.cutStr" xpath="/certifiPath"/>	
+			<Field id="certifiPasswd" desc="证书密码" edittype="password" datatype="string" align="center" method="com.ruimin.ifs.pmp.pubTool.util.Base64Coder.decode" xpath="/certifiPasswd"/>	
+			<Field id="certifiPath" desc="证书路径" datatype="string" align="center" readonly="true" xpath="/certifiPath"/>		
+			<Field id="certifiCode" desc="证书文件编码" datatype="string" align="center" xpath="/certifiCode"/>	
+		<!-- MD5 -->
+			<Field id="md5Date" desc="MD5生效日期" edittype="datebox" datatype="date" align="center" xpath="/md5Date"/>
+			<Field id="md5EndDate" desc="MD5失效日期" edittype="datebox" datatype="date" align="center" xpath="/md5EndDate"/>
+			<Field id="md5Passwd" desc="密钥值" datatype="string" align="center" method="com.ruimin.ifs.pmp.pubTool.util.Base64Coder.decode" xpath="/md5Passwd"/>
+			<Field id="md5EncryptWayType" desc="MD5加密方式" datatype="string" align="center" xpath="/md5EncryptWayType"/>
+		<!-- 签名 -->
+			<Field id="needSign" desc="是否需要签名" edittype="combobox" datatype="string" datasource="DDIC:1831" align="center" width="350"/>
+			
+		<!-- 功能清单字段 -->
+			<!-- 特殊 -->
+				<Field id="checkNode" desc="已勾选节点" datatype="string"/>	
+		<Field id="mainMchtRateCode" desc="费率规则" edittype="combogrid" datatype="string" required="true"
+		   datasource="rateBaseInfo:com.ruimin.ifs.pmp.chnlMng.dataset.rateBaseInfo" 
+		   viewfield="chlRateCodeName"  init="true" multiple="false" default="" 
+		   readonly="false" width="300" fieldmap="mainMchtRateCode=chlRateCode;mainMchtRateCodeName=chlRateCodeName" xpath="/mainMchtRateCode"/>
+     
+        <Field id="mainMchtRateCodeName" desc="费率信息" edittype="textbox" datatype="string" 
+		  method="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction.getchlRateName"  xpath="/mainMchtRateCode"/>
+  
+	</Fields>
+
+	<Commands>
+	<!-- 查询页面按钮 -->
+		<Command id="btnAdd" desc="新增" type="addrecord" icon="fa fa-plus"/>
+		<Command id="btnUpd" desc="修改" type="asyncsubmit" icon="fa fa-pencil" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChnlAcsInfoAction:queryUsingNode"/>
+		<!-- <Command id="btnUpd" desc="修改" type="none" icon="fa fa-pencil"/> -->
+		<Command id="btnStp" desc="启用/停用" type="asyncsubmit" icon="fa fa-gears"/>
+	<!-- 新增 -->	
+		<Command id="btnAddSub" desc="提交" type="asyncsubmit" url="#" txn="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChnlAcsInfoAction:addAcs" icon="fa fa-save"/>	
+		<Command id="btnCertAddSub" desc="上传证书" type="none" flowid="" icon="fa fa-plus" url="#" txn="" />
+	<!-- 修改 -->	
+		<Command id="btnUpdSub" desc="提交" type="asyncsubmit" url="#" txn="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChnlAcsInfoAction:updAcs" icon="fa fa-save"/>	
+		<Command id="btnCertUpdSub" desc="上传证书" type="none" flowid="" icon="fa fa-plus" url="#" txn="" />
+	<!-- 注销 -->	
+		<Command id="btnStpSub" desc="提交" type="asyncsubmit" url="#" txn="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChnlAcsInfoAction:stpAcs" icon="fa fa-save"/>
+	<!-- 返回通道核心配置页面 -->
+		<Command id="btnPagyCore" desc="返回通道核心配置页面" type="none" flowid="" icon="fa fa-gears" url="#" txn="" />
+	</Commands>
+</Data>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 券商APP查询 -->  
+<select id="queryList" paramType="map" resultType="map">
+	select * from BBS_APP_INFO
+        where 1=1
+       <if test = "qAppId != ''"><![CDATA[and APPID like #{qAppId} ]]></if>
+	   <if test = "qAppName != ''"><![CDATA[and APP_NAME like #{qAppName} ]]></if>
+	   <if test = "qTraderName != ''"><![CDATA[and TRADER_NAME like #{qTraderName} ]]></if>
+	   <if test = "qOrgId != ''"><![CDATA[and ORG_ID like #{qOrgId} ]]></if>
+	   <if test = "qStat != ''"><![CDATA[and STAT = #{qStat} ]]></if>
+	    order by CRT_DATE_TIME desc
+</select>
+<!-- 更新app状态 -->
+<update id="changeStatus" paramType="map">
+       update BBS_APP_INFO
+       set STAT = #{newStatus},       
+           last_upd_tlr = #{tlrno},
+           last_upd_date_time = #{currentDateTime}
+       where APPID = #{appid}
+</update>
+<select id="queryAppId" paramType="String" resultType="String">
+	select * from BBS_APP_INFO
+       where APPID=#{qAppId}
+</select>
+</mapper>

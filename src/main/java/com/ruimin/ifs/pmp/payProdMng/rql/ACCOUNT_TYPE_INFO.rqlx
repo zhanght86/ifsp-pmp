@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		
+	<!-- 查询指定接入方式下的账户-->
+	<select id="queryAccountTypeInfo" paramType="Map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AccountType">
+		SELECT * FROM PAY_ACCT_TYPE_BASE_INFO
+		WHERE acct_Type_No IN(
+		select acct_Type_No from PBS_REL_TXN_TYPE_ACCT_TYPE where TXN_TYPE_CODE=#{qtxnTypeCode}
+		) 	and acct_Type_Stat='00'
+		order by CRT_DATE_TIME DESC
+	</select>
+
+</mapper> 

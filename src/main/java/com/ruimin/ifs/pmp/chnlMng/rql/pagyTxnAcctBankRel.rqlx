@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 通道信息查询 -->
+	<select id="queryList" paramType="map"
+		resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyTxnAcctBankRelVO">
+ <![CDATA[select ACCT_TYPE_NO,count(*) bank_Count from PAGY_TXN_ACCT_BANK_REL
+        where 1=1 ]]>
+		<if test="pagyTxnCode != ''"><![CDATA[and PAGY_TXN_CODE like #{pagyTxnCode} ]]></if>
+		group by ACCT_TYPE_NO order by ACCT_TYPE_NO DESC
+	</select>
+
+	<select id="queryRelList" paramType="map"
+		resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyTxnAcctBankRelVO">
+		select * from PAGY_TXN_ACCT_BANK_REL where 1=1 
+		and PAGY_TXN_CODE = #{pagyTxnCode}
+		ORDER BY CRT_DATE_TIME DESC
+	</select>
+
+	<select id="queryBankList" paramType="map"
+		resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyTxnAcctBankRelVO">
+ <![CDATA[select a.ACCT_TYPE_NO ACCT_TYPE_NO,a.BANK_NO BANK_NO,b.BANK_NAME BANK_NAME from PAGY_TXN_ACCT_BANK_REL a,PAY_BANK_BASE_INFO b 
+        where a.BANK_NO=b.BANK_NO  ]]>
+		<if test="pagyTxnCode != ''"><![CDATA[and a.PAGY_TXN_CODE like #{pagyTxnCode} ]]></if>
+		<if test="acctTypeNo != ''"><![CDATA[and a.ACCT_TYPE_NO like #{acctTypeNo} ]]></if>
+	</select>
+</mapper>

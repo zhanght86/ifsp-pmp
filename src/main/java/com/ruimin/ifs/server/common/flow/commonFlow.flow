@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flowLogic id="commonFlow" name="通用处理流程" desc="通用处理流程"  type="1" flowTransaction="false" onlineTransaction="route">
+	<flow>
+		<action id="start" ref="component.compcont.StartAction" type="system" propagation="none" name="开始">
+			<transitions>
+				<transition dest="perProcess" />
+			</transitions>
+		</action>
+		<!-- 业务组件 -->
+		<action id="perProcess" name="处理前执行" ref="com.ruimin.ifs.server.common.comp.CommonProcessAction:preProcess" desc="" type="custom">
+			<attrs>
+			</attrs>
+			<!-- 输入参数 -->
+			<inputs>
+				<input name="requetMsg" dataType="java.lang.String" value="inputMsg" valueType="variable"></input>
+				<input name="systemData" dataType="com.ruimin.ifs.core.common.bean.SystemDataObject" value="$systemData" valueType="variable"></input>
+			</inputs>
+			<!-- 返回参数 -->
+			<outputs>
+				<output name="retvalue" dataType="java.lang.String" value="innerProcBean.actionId" valueType="variable"></output>
+			</outputs>
+			<!-- 路由 -->
+			<transitions>
+				<transition dest="process" condition="" type="" />
+				<transition dest="exceptionProc" condition="Exception" type="Exception" />
+			</transitions>
+		</action>
+		<!-- 业务组件 -->
+		<action id="process" name="执行" ref="com.ruimin.ifs.server.common.comp.CommonProcessAction:execAction" desc="" type="custom">
+			<attrs>
+			</attrs>
+			<!-- 输入参数 -->
+			<inputs>
+				<input name="actionId" dataType="java.lang.String" value="innerProcBean.actionId" valueType="variable"></input>
+				<input name="requestMsg" dataType="java.lang.String" value="inputMsg" valueType="variable"></input>
+				<input name="systemData" dataType="com.ruimin.ifs.core.common.bean.SystemDataObject" value="$systemData" valueType="variable"></input>
+			</inputs>
+			<!-- 返回参数 -->
+			<outputs>
+				<output name="retvalue" dataType="java.lang.String" value="innerProcBean.retMsg" valueType="variable"></output>
+			</outputs>
+			<!-- 路由 -->
+			<transitions>
+				<transition dest="postProcess" condition="" type="" />
+				<transition dest="exceptionProc" condition="Exception" type="Exception" />
+			</transitions>
+		</action>
+		
+		<!-- 业务组件 -->
+		<action id="exceptionProc" name="异常执行" ref="com.ruimin.ifs.server.common.comp.CommonProcessAction:exceptionProcess" desc="" type="custom">
+			<attrs>
+			</attrs>
+			<!-- 输入参数 -->
+			<inputs>
+				<input name="systemData" dataType="com.ruimin.ifs.core.common.bean.SystemDataObject" value="$systemData" valueType="variable"></input>
+			</inputs>
+			<outputs>
+			</outputs>
+			<!-- 路由 -->
+			<transitions>
+				<transition dest="end" condition="" type="" />
+			</transitions>
+		</action>
+		
+		<!-- 业务组件 -->
+		<action id="postProcess" name="执行" ref="com.ruimin.ifs.server.common.comp.CommonProcessAction:postProcess" desc="" type="custom">
+			<attrs>
+			</attrs>
+			<!-- 输入参数 -->
+			<inputs>
+				<input name="systemData" dataType="com.ruimin.ifs.core.common.bean.SystemDataObject" value="$systemData" valueType="variable"></input>
+				<input name="returnMsg" dataType="java.lang.String" value="innerProcBean.retMsg" valueType="variable"></input>
+			</inputs>
+			<!-- 返回参数 -->
+			<outputs>
+				<output name="retvalue" dataType="java.lang.String" value="outputMsg" valueType="variable"></output>
+			</outputs>
+			<!-- 路由 -->
+			<transitions>
+				<transition dest="end" condition="" type="" />
+			</transitions>
+		</action>
+		<action id="end" ref="component.compcont.EndAction" type="system" propagation="none" name="结束节点">
+		</action>
+	</flow>
+	<datadef>
+		<!-- 输入 -->
+		<dataInputs>
+			<dataInput id="inputMsg" dataType="javabean" arrayType="None" desc="请求报文" ref="java.lang.String"/>
+		</dataInputs>
+		<!-- 输出 -->
+		<dataOutputs>
+			<dataOutput id="outputMsg" dataType="javabean" arrayType="None" desc="返回报文" ref="java.lang.String"/>
+		</dataOutputs>
+		<!-- 内部使用 -->
+		<dataInners>
+			<dataInner id="innerProcBean" dataType="javabean" arrayType="None" desc="内部javabean" ref="com.ruimin.ifs.server.common.bean.CommonProcBean"/>
+		</dataInners>
+		<!-- 系统 -->
+		<dataSystems>
+			<dataSystem id="$systemData" dataType="javabean" arrayType="None" desc="系统内置" ref="com.ruimin.ifs.core.common.bean.SystemDataObject"></dataSystem>
+		</dataSystems>
+	</datadef>
+</flowLogic>
+

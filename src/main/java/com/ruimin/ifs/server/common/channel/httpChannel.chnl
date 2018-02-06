@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fsserver id="httpChannel" name="httpservlet通道" type="Channel" desc="">
+	<flowLogic id="channelflow" name="通道流程" desc="通道流程">
+		<flow>
+			<action id="start" ref="component.compcont.StartAction" type="system" propagation="none" name="开始" x="177" y="20">
+				<transitions>
+					<transition dest="msgIntercept" />
+				</transitions>
+			</action>
+			<action id="msgIntercept" ref="component.channel.MsgInterceptAction" type="system" propagation="none" name="消息截取" x="167" y="105">
+				<attrs>
+					<attr key="channelParam" value="channel" />
+					<attr key="transactionCodeParam" value="busCode" />
+					
+					
+					<attr key="generatorClass" value="com.ruimin.ifs.server.common.process.OscfCommonSerialNumber" />
+					<attr key="interceptClass" value="com.ruimin.ifs.server.common.process.HttpHandKeyInterceptor" />
+				</attrs>
+				<transitions>
+					<transition dest="msgFilter" condition="$retValue = '0'" />
+					<transition dest="end" condition="$retValue != '0'" />
+				</transitions>
+			</action>
+			<action id="msgFilter" ref="component.channel.MsgFilterAction" type="system" propagation="none" name="消息过滤" x="166" y="231">
+				<attrs>
+					<attr key="filterClass" value="" />
+				</attrs>
+				<transitions>
+					<transition dest="msgRoute" condition="$retValue = '0'" />
+					<transition dest="end" condition="$retValue != '0'" />
+				</transitions>
+			</action>
+			<action id="msgRoute" ref="component.channel.MsgRouteAction" type="system" propagation="none" name="路由组件" x="357" y="299">
+				<attrs>
+					<attr key="routeUrl" value="com.ruimin.ifs.server.common.resource.route.httpchannel_route" />
+					<attr key="isLoadBalance" value="true" />
+					<attr key="policyUrl" value="flux" />
+				</attrs>
+				<transitions>
+					<transition dest="end" />
+				</transitions>
+			</action>
+			<action id="end" ref="component.compcont.EndAction" type="system" propagation="none" name="结束节点" x="74" y="299">
+			</action>
+		</flow>
+		<datadef>
+			<!-- 输入 -->
+			<dataInputs>
+			</dataInputs>
+			<!-- 输出 -->
+			<dataOutputs>
+			</dataOutputs>
+			<!-- 内部使用 -->
+			<dataInners>
+			</dataInners>
+			<!-- 系统 -->
+			<dataSystems>
+				<dataSystem id="$systemData" dataType="javabean" arrayType="None" desc="系统内置" ref=" com.ruimin.ifs.core.common.bean.SystemDataObject"></dataSystem>
+			</dataSystems>
+		</datadef>
+	</flowLogic>
+	<loadinits>
+	</loadinits>
+	<communicationServer id="channel_http_servlet" ref="channel.server.channel_http_servlet" desc="httpServlet服务通道" name="httpServlet服务通道" type="http_servlet">
+		<attrs>
+			<attr key="charset" value="UTF-8" />
+			<attr key="blockTime" value="30" />
+		</attrs>
+	</communicationServer>
+	<!--主动超时监控
+	<checkTime timeout="5000" timeoutCode="" checkStep="1000" />
+	-->
+	<!-- type :buffer/javabean/string 错误信息-->
+	<failret type="buffer" ref="com.ruimin.ifs.server.common.buffer.ErrorJsonBuffer"></failret>
+	<failretProc>
+		<action id="bftAction" ref="component.compsys.BFTAction" type="bft">
+			<inputs>
+				<input id="in1" value="flowcontext.$systemData" dataType="system" />
+			</inputs>
+			<outputs>
+			    <output id="out1" value="servercontext.failret" dataType="buffer" />
+			</outputs>
+			<!-- 转换组件调用，支持多个 -->
+			<procActions>
+				<procAction id="get2setErrorCode" name="赋值组件" ref="component.compsys.AssignAction" desc="" type="system">
+				<assigns>
+				    <assign toValue="out1.errorCode.value" fromValueType="variable" fromValue="in1.errorCode" ></assign>
+				    <assign toValue="out1.errorMsg.value" fromValueType="variable" fromValue="in1.errorMessage" ></assign>
+				</assigns>
+				</procAction>
+			</procActions>
+		</action>
+	</failretProc>
+</fsserver>
+

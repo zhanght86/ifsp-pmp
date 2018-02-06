@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="queryTxnTypeInfo" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.TxnTypeInfo">
+	       select * from PBS_TXN_TYPE_INFO where data_state='00'
+	       <if test = "txnTypeCode != ''"> and txn_type_code=#{txnTypeCode }</if>
+	       <if test = "txnTypeName != ''"> and txn_type_name like #{txnTypeName }</if>
+	       order by txn_type_code
+	</select>
+	
+	<select id="queryByCode" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.TxnTypeInfoVo">
+	  select ptti.txn_type_code,ptti.txn_type_name from pbs_txn_type_info ptti left join pbs_rel_access_type_txn_type prat
+	  on ptti.txn_type_code=prat.txn_type_code where prat.access_type_code = #{accessTypeCode}
+	</select>
+	
+	<select id="getTxnTypeName" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.TxnTypeInfo">
+	  select c.txn_type_name from pbs_txn_type_info c  where c.txn_type_code = #{txnTypeCode}
+	</select>
+</mapper>

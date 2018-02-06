@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+
+	<select id="queryByAll" paramType="map"
+		resultType="com.ruimin.ifs.pmp.platMng.process.bean.SaveUserData">
+
+		select auditInfo.*,
+		case when auditInfo.Apply_Tlr_No !=#{tlrno} and auditStep.seq_id is not
+		null then '1' else '0' end as flag
+
+		from pmp_audit_info auditInfo left join
+		(
+		
+				
+	SELECT x.*
+  FROM (SELECT ordSection.seq_id,
+               ordSection.audit_id,
+               ordSection.role_id,
+               ordSection.step_no,
+               @rownum := @rownum + 1,
+               
+               IF(@auditId = ordSection.audit_id,
+                  @rank := @rank + 1,
+                  @rank := 1) AS rank,
+               @auditId := ordSection.audit_id
+          FROM (SELECT seq_id, audit_id, role_id, step_no
+                  FROM pmp_audit_step_info
+                 WHERE audit_state = '00'
+                 ORDER BY step_no) ordSection,
+               (SELECT @rownum := 0, @auditId := NULL, @rank := 0) a) x
+ WHERE x.rank = 1
+   AND x.role_id IN (SELECT roleRel.role_id
+                       FROM ifs_staff_role_rel roleRel
+                      WHERE roleRel.Tlrno = #{tlrno})
+		
+		
+		) auditStep
+		on auditInfo.Audit_Id = auditStep.audit_id
+		left join ifs_staff staff on staff.tlrno = auditInfo.Apply_Tlr_No
+		where
+		staff.brcode in(
+			select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+		)
+		<if test="applyDateTime != '' "> and APPLY_DATE_TIME like #{applyDateTime}</if>
+		<if test="applyTlrNo != '' "> and APPLY_TLR_NO like #{applyTlrNo}</if>
+		<if test="auditType != '' "> and AUDIT_TYPE = #{auditType}</if>
+		<if test="auditState != '' "> and AUDIT_STATE = #{auditState}</if>
+		order by AUDIT_STATE,APPLY_DATE_TIME DESC
+	</select>
+
+	<select id="queryByAuditId" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditStepInfo">
+	    select * from PMP_AUDIT_STEP_INFO where AUDIT_ID=#{auditId}
+	    order by STEP_NO 
+	</select>
+	<select id="queryByUserName" paramType="map"
+		resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditStepInfo">
+		select * from PMP_AUDIT_STEP_INFO where AUDIT_ID=#{auditId} and
+		AUDIT_OPR_NO=#{userName}
+	</select>
+	
+	<!-- 主页显示审核信息查询 -->
+	<select id="queryByOnlyCheck" paramType="map"
+		resultType="com.ruimin.ifs.pmp.platMng.process.bean.SaveUserData">
+		select auditInfo.*,
+		case when auditInfo.Apply_Tlr_No !=#{tlrno} and auditStep.seq_id is not
+		null then '1' else '0' end as flag
+
+		from pmp_audit_info auditInfo left join
+		(
+		
+	SELECT x.*
+  FROM (SELECT ordSection.seq_id,
+               ordSection.audit_id,
+               ordSection.role_id,
+               ordSection.step_no,
+               @rownum := @rownum + 1,
+               
+               IF(@auditId = ordSection.audit_id,
+                  @rank := @rank + 1,
+                  @rank := 1) AS rank,
+               @auditId := ordSection.audit_id
+          FROM (SELECT seq_id, audit_id, role_id, step_no
+                  FROM pmp_audit_step_info
+                 WHERE audit_state = '00'
+                 ORDER BY step_no) ordSection,
+               (SELECT @rownum := 0, @auditId := NULL, @rank := 0) a) x
+ WHERE x.rank = 1
+   AND x.role_id IN (SELECT roleRel.role_id
+                       FROM ifs_staff_role_rel roleRel
+                      WHERE roleRel.Tlrno = #{tlrno})
+
+		) auditStep
+		on auditInfo.Audit_Id = auditStep.audit_id
+		left join ifs_staff staff on staff.tlrno = auditInfo.Apply_Tlr_No
+		where
+		staff.brcode in(
+		select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+		)
+		and audit_state = '00'  and  auditInfo.Apply_Tlr_No !=#{tlrno} and auditStep.seq_id is not
+		null
+		order by AUDIT_STATE,APPLY_DATE_TIME DESC
+	</select>
+
+
+	<!-- 根据审核角色ID查询审核角色名称 -->
+	<select id="queryRoleName" paramType="map"
+		resultType="com.ruimin.ifs.pmp.platMng.process.bean.RoleNameInfo">
+		select c.role_name from IFS_ROLE c where c.ROLE_ID in (#{prodIdArray})
+	</select>
+</mapper>

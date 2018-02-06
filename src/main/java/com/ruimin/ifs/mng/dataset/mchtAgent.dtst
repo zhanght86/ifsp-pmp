@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.MchtAgentAction:queryAgent" 
+	desc="代理商信息管理" expmaxrcd="50" flowctxid="" flowretid=""/> 
+		<Fields>
+			<Field id="qagentId" desc="代理商编号" datatype="string"   />
+			<Field id="qagentName" desc="代理商名称" datatype="string" /> 
+			
+			<Field id="agentId" desc="代理商编号" datatype="string" align="center"  readonly="true" xpath="/agentId" />
+			<Field id="agentName" desc="代理商名称" datatype="string" size="120" align="center" required="true" xpath="/agentName" />    
+			<Field id="setlAcctName" desc="结算账户户名" datatype="string" size="120" align="center" required="true" xpath="/setlAcctName" />    
+			<Field id="setlAcctNo" desc="结算账户帐号" datatype="string" size="32" rule="isNum" errmsg="格式错误,只能输入数字" align="center" required="true" xpath="/setlAcctNo" />    
+			<Field id="acctInstNo" desc="开户机构号" datatype="string" readonly="true" align="center"  xpath="/setlAcctInstitute"/>
+			<Field id="setlAcctBankNo" desc="开户行号" datatype="string" readonly="false"  size="32" required="true" align="center"  xpath="/setlAcctBankNo"/>
+			<Field id="setlAcctBankName" desc="开户行名" datatype="string" readonly="false" size="120" required="true" align="center"  xpath="/setlAcctBankName"/>
+			<Field id="setlAcctAreaCode" desc="开户行区划代码" datatype="string" readonly="false" size="12"  align="center"  xpath="/setlAcctAreaCode"/>
+			<Field id="contactsName" desc="联系人姓名" size="10" datatype="string" align="center" xpath="/contactsName" />    
+			<Field id="contactsPhone" desc="联系电话" datatype="string" align="center" xpath="/contactsPhone" />    
+			<Field id="contactsAddr" desc="联系地址" size="42" datatype="string" align="center" xpath="/contactsAddr" />    
+			<Field id="zipNo" desc="邮编" datatype="string" size="6" rule="isNum" errmsg="格式错误,只能输入数字" align="center" xpath="/zipNo" />
+			<Field id="profitShareType" desc="分润方式" datatype="string" datasource="DDIC:2005" required="true" align="center"  edittype="combobox" xpath="/profitShareType" />    
+			<Field id="profitShareScale" desc="分润比例"  datatype="string" align="center" required="true" xpath="/profitShareScale" />    
+			<Field id="crtTlr" desc="创建柜员" datatype="string" align="center" xpath="/crtTlr" />    
+			<Field id="crtDateTime" desc="创建日期时间" datatype="string" align="center" xpath="/crtDateTime" />    
+			<Field id="lastUpdTlr" desc="最近更新柜员" datatype="string" align="center" xpath="/lastUpdTlr" />    
+			<Field id="lastUpdDateTime" desc="最近更新日期时间" datatype="string" align="center" xpath="/lastUpdDateTime" />    
+			<Field id="opr" desc="操作" datatype="string" align="center"/>  
+		<!-- 特殊字段 -->
+        <Field id="setlAcctInstitute" desc="开户机构"  
+         multiple="false" align="center" 
+         datasource="EtcOrg:com.ruimin.ifs.pmp.baseParaMng.dataset.etcOrgInfo"  
+			edittype="combogrid" fieldmap="setlAcctInstitute=ptyCd;setlAcctInstituteName=ptyNm" 
+			searchfield="qPtyCd,qPtyNm" viewfield="ptyCd,ptyNm"  init="true"
+			  xpath="/setlAcctInstitute" />	   
+		<Field id="setlAcctInstituteName" desc="开户机构"  datatype="string" method="com.ruimin.ifs.pmp.baseParaMng.comp.EtcOrgInfoAction.getSetlAcctInstituteName" xpath="/setlAcctInstitute"/>
+		</Fields>
+		
+	<Commands>	 
+	<!-- 主界面按钮 -->
+		<Command id="btnAdd" desc="新增" type="addrecord" icon="fa fa-plus"/>
+		<Command id="btnUpd" desc="修改" type="none" icon="fa fa-pencil"/>
+		<!-- 新增窗口 -->		
+		<Command id="btnAddSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.mng.comp.MchtAgentAction:addMchtAgent"/>
+		<!-- 修改窗口 -->		
+		<Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.mng.comp.MchtAgentAction:updMchtAgent"/>
+		<!-- 删除窗口 -->	
+		<Command id="btnDlt" desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		<Command id="btnDltSubmit"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.MchtAgentAction:dltMchtAgent" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>	
+	</Commands>
+	</Data>

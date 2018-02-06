@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fsserver id="commonServer" name="通用业务处理服务" channel="*" transactionCode="*" type="Business" insideCode="**" desc="通用业务处理服务">
+    <!-- 服务接收对象 
+    type：接收数据转换类型 
+    	buffer ref为buffer路径 （buffer 的unfromat）
+        javabean ref为javabean路径 （转为java对象实例）
+        string ref为空（不进行转换）
+    -->
+    <request type="string" ref=""></request>
+	<requestProc>
+		<action id="reqbftAction" ref="component.compsys.BFTAction" type="bft">
+			<inputs>
+				<input id="request" value="servercontext.request" dataType="string" />
+			</inputs>
+			<outputs>
+			    <output id="flowInMsg" value="flowcontext.inputMsg" dataType="in" />
+			</outputs>
+			<!-- 转换组件调用，支持多个 -->
+			<procActions>
+				<!--不配置表示从input赋值output(input 和output只能有一个)-->
+			</procActions>
+		</action>
+	</requestProc>
+	
+	<flowLogic ref="com.ruimin.ifs.server.common.flow.commonFlow" />
+	<response type="string" ref=""></response>
+	<responseProc>
+		<action id="respbftAction" ref="component.compsys.BFTAction" type="bft">
+			<inputs>
+				<input id="flowOutMsg" value="flowcontext.outputMsg" dataType="out" />
+			</inputs>
+			<outputs>
+			    <output id="response" value="servercontext.response" dataType="buffer" />
+			</outputs>
+			<!-- 转换组件调用，支持多个 -->
+			<procActions>
+				<!--不配置表示从input赋值output(input 和output只能有一个)-->
+			</procActions>
+		</action>
+	</responseProc>
+	<!--错误信息与通道保持一致-->
+	<failret type="buffer" ref="com.ruimin.ifs.server.common.buffer.ErrorJsonBuffer"></failret>
+	<failretProc>
+		<action id="bftAction" ref="component.compsys.BFTAction" type="bft">
+			<inputs>
+				<input id="in1" value="flowcontext.$systemData" dataType="system" />
+			</inputs>
+			<outputs>
+			    <output id="out1" value="servercontext.failret" dataType="buffer" />
+			</outputs>
+			<!-- 转换组件调用，支持多个 -->
+			<procActions>
+				<procAction id="get2setErrorCode" name="赋值组件" ref="component.compsys.AssignAction" desc="" type="system">
+				<assigns>
+				    <assign toValue="out1.errorCode.value" fromValueType="variable" fromValue="in1.errorCode" ></assign>
+				    <assign toValue="out1.errorMsg.value" fromValueType="variable" fromValue="in1.errorMessage" ></assign>
+				</assigns>
+				</procAction>
+			</procActions>
+		</action>
+	</failretProc>
+	<loadinits>
+		<loadinit impClass="com.ruimin.ifs.server.common.process.CommonServerLoadInit" desc="server初始化加载"></loadinit>
+	</loadinits>
+</fsserver>

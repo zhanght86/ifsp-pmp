@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="50" log="false"  flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:queryPagyCategroyCfgl" desc="合同服务" expmaxrcd="50"  /> 
+	<Fields>
+	
+		<Field id="qLevelTwoCode" desc="二级行业类别编号" edittype="textbox" datatype="string"/>
+	
+		<Field id="levelTwoCode" desc="二级行业类别编号" datatype="string" edittype="textbox" align="center"  xpath="/levelTwoCode" />      
+		<Field id="categoryDesc" desc="二级行业类别名称" datatype="string" edittype="textbox" align="center"  xpath="/categoryDesc" />      
+         
+	</Fields> 
+
+</Data>

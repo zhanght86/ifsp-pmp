@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.AcctGpConfAction:queryAll" 
+			desc="账户分组详情表单项" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+
+        
+        
+        <Field id="gpTpNo" desc="分组编号" datatype="string" size="200" align="center" xpath="/gpTpNo" />
+        <Field id="gpTpNm" desc="分组名称" datatype="string" size="200" align="center" xpath="/gpTpNm" />
+        <Field id="gpSeq" desc="小组序号" datatype="string" size="200" align="center" xpath="/gpSeq" />
+        <Field id="gpNm" desc="小组名称" datatype="string" size="200" align="center" xpath="/gpNm" />
+        <Field id="memTp" desc="成员类型" datatype="string" edittype="combobox" size="200" align="center" datasource="DDIC:1709" xpath="/memTp" />
+        <Field id="memNm" desc="账户名称" datatype="string" size="200" align="center" xpath="/memNm" />
+        <Field id="acctTpLen" desc="标示长度" datatype="string" size="200" align="center" xpath="/acctTpLen" />
+        <Field id="acctTp" desc="标示" datatype="string" size="200" align="center" xpath="/acctTp" />
+        
+        
+    
+        
+ 
+    
+        
+        
+        
+		<!-- 查询条件 -->
+		<Field id="qgpTpNo" desc="分组编号" edittype="textbox" datatype="string"  />
+		
+        
+		
+        
+        
+       
+		
+		
+		
+       
+	</Fields> 
+	
+	
+	<Commands>	 
+	
+	</Commands>
+	
+</Data>

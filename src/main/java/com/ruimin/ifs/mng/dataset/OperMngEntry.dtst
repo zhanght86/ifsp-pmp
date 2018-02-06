@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="操作员管理" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.mng.comp.OperMngEntryAction:queryAll" flowretid="" log="false" pagesize="10" type="call"/>
+	<Fields>
+		<Field id="tlrno" desc="操作员号" align="center" status="F" method="None" 
+		datatype="string" rule="isNum" errmsg="必须为20位以内数字" size="20" xpath="/tlrno" default="" required="true"/>
+		
+		<Field id="tlrName" desc="操作员名称" align="center" status="F" method="None" 
+		datatype="string" xpath="/tlrName" default="" required="true"/>		
+		
+		<Field id="workNo" desc="工号" align="center" status="F" method="None" 
+		datatype="string" xpath="/workNo" default="" required="false"/>
+		
+		<Field id="phone" desc="座机" align="center" status="F" method="None" 
+		datatype="string" xpath="/phone" default="" required="false"/>
+		
+		<Field id="password" desc="密码" align="center" status="F" method="None" 
+		datatype="string" xpath="/password" default="" required="false"/>
+		
+		<Field id="mobile" desc="手机" align="center" status="F" method="None" 
+		datatype="string" rule="isNum" errmsg="必须为11位以内数字" xpath="/mobile" default="" required="false"/>
+		
+		<Field id="email" desc="企业邮箱" align="center" status="F" method="None" 
+		datatype="string"  xpath="/email" default="" required="false"/>
+		
+		<Field id="flag" desc="操作员状态" align="center" status="F" readonly="true" 
+		datasource="LIST:00,启用;99,停用" required="true" edittype="combobox" method="None" datatype="string" size="4" xpath="/flag" default="" />
+	
+		<Field id="isLock" desc="锁定状态" align="center" status="N" method="None" 
+		datasource="LIST:1,已锁定;0,未锁定" edittype="combobox" datatype="string" size="4" xpath="/isLock" default="" />
+		
+		<Field id="lastaccesstm" desc="最近登录时间" align="center" edittype="textbox" 
+		datatype="timestamp" status="F" method="None" width="180" size="6" xpath="/lastaccesstm" default=""/>
+		
+		<Field id="lastlogouttm" desc="最近签退时间" align="center" edittype="textbox" 
+		datatype="timestamp" status="F" method="None" width="180" size="6" xpath="/lastlogouttm" default=""/>
+		
+		<Field id="brcode" desc="操作员机构" align="center" edittype="combotree" 
+		datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree"  
+		readonly="false" init="true" fieldmap="brcode=_id;brcodeName=_text" viewfield="_text" 
+		required="true" status="F" xpath="/brcode" />
+			
+		<Field id="brcodeName" align="center" 
+		method="com.ruimin.ifs.mng.comp.BctlAllSelectAction.getOrgName" 
+		desc="操作机构" status="F" xpath="/brcode" />	
+								
+		<Field desc="操作" id="opr" align="center" status="N" xpath=""/>
+		
+		<!-- 查询条件 -->
+		<Field id="qtlrno" datatype="string" size="20" edittype="textbox" desc="操作员ID" />
+		
+		<Field id="qtlrname" datatype="string" edittype="textbox" desc="操作员名称" />
+		
+		<Field desc="机构" id="qbrcode" edittype="combotree" 
+		datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree" 
+		fieldmap="qbrcode=_id;qbrcodeName=_text" viewfield="_text" />
+	    
+	    <Field id="qflag" desc="操作员状态" datatype="string" edittype="combobox" 
+	    datasource="LIST:00,启用;99,停用;"></Field>
+       
+        <Field id="qisLock" desc="锁定状态" datatype="string" edittype="combobox" 
+        datasource="LIST:1,锁定;0,未锁定;"></Field>
+        
+        
+	</Fields>
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus" tip="新增"/>
+		<Command id="btnMod" desc="修改" type="none" url="#" txn="" icon="fa fa-pencil" tip="修改"/>
+		<Command id="btnSave"  desc="保存" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.mng.comp.OperMngEntryAction:saveOrUpdate" url="#" txn="" icon="fa fa-save" tip="保存"/>
+		
+		<Command id="unLock" desc="解锁" type="none" url="#" txn="" icon="fa fa-unlock" tip="解锁"/>
+		<Command id="unLockSub" desc="" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.mng.comp.OperMngEntryAction:unLock" url="#" txn="" icon="" tip=""/>
+		
+		<Command id="btnStatus" desc="启用/停用" type="none" url="#" txn="" icon="fa fa-gears" tip="启用/停用"/>		
+		<Command id="btnStatusSub" desc="" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.mng.comp.OperMngEntryAction:modStat" url="#" txn="" icon="" tip=""/>
+				
+		<Command id="btnDelete" desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		<Command id="btnDeleteSub"  desc="" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.mng.comp.OperMngEntryAction:delete" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		
+		<Command id="btnResetPwd" desc="重置密码" type="none" url="#" txn="" icon="fa fa-history" tip="重置密码"/>
+		<Command id="btnResetPwdSub"  desc="" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.mng.comp.OperMngEntryAction:restPassword" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+
+		<Command id="btnShowDetail" desc="" type="none" icon="fa fa-list" flowid="" url="#" txn="详情" />
+	
+		<Command id="bt"  desc="" type="none" flowid="com.ruimin.ifs.mng.comp.OperMngEntryAction:queryRole" url="#" txn="" icon="" tip=""/>
+	</Commands>
+	
+</Data>

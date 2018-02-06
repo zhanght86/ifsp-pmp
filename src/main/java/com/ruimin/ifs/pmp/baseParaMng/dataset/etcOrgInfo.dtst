@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="证通机构信息" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.EtcOrgInfoAction:pageQuery" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+             <Field id="qPtyCd" desc="机构编号" align="center" required="true" status="F" ></Field>
+             <Field id="qPtyNm" desc="机构名称" align="center" required="true" status="F"></Field>
+             
+             <!-- 查询条件 -->
+             <Field id="ptyCd" desc="机构编号" align="center"  edittype="textbox" xpath="/ptyCd"></Field>
+             <Field id="ptyNm" desc="机构名称" align="center" edittype="textbox" xpath="/ptyNm"></Field>
+     </Fields>
+</Data>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+	<!-- 商户签约 -->
+	<route channel="61" transactionCode="621001" serverId="commonServer"  actionId="com.ruimin.ifs.server.common.comp.MerServerAction:merSign"/>
+	
+	<!-- 签约银行账户:更新 -->
+	<route channel="61" transactionCode="621002" serverId="commonServer"  actionId="com.ruimin.ifs.server.common.comp.MerServerAction:changeAcct"/>
+	
+	<!-- 审核进度: 查询 -->
+	<route channel="61" transactionCode="621003" serverId="commonServer"  actionId="com.ruimin.ifs.server.common.comp.MerServerAction:queryVerifyProg"/>
+	
+</routes>

@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 分页查询活动列表-->
+	<select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveInfTmpVO">
+		select
+      trim(act.ACTIVE_NO) as ACTIVE_NO,
+      trim(act.ACTIVE_NM) as ACTIVE_NM,
+      trim(act.ACTIVE_TYPE) as ACTIVE_TYPE,
+      trim(act.ACTIVE_STAT) as ACTIVE_STAT,
+      trim(act.BUDGET_TP) as BUDGET_TP,
+      trim(act.ACTIVE_BUDGET) as ACTIVE_BUDGET ,
+      trim(act.PLAT_BUDGET) as PLAT_BUDGET ,
+      trim(act.ACTIVE_DESC) as ACTIVE_DESC ,
+      trim(act.ACCT_LIMIT_TYPE) as  ACCT_LIMIT_TYPE,
+      act.ACCT_CNT_MAX ,
+      RPAD(act.S_DATE,'14','0') as S_DATE,
+      RPAD(act.E_DATE,'14','0') as E_DATE,
+      act.CYCLE_FLG,
+      act.ACTIVE_LV,
+      act.CARD_GP_NO,
+      act.PTK_TIMES,
+      act.UPDATE_TIME,
+      act.AUDIT_ID,
+      act.AUDIT_FLAG,
+      act.UPDATE_OPR,
+      
+      (select count(1) from TBL_ACTIVE_MCHT_IN_INF_TMP mchtIn where mchtIn.Active_No=act.ACTIVE_NO and mchtIn.In_Flg='01') as mcht_count,
+      pro.prd_id
+      from TBL_ACTIVE_INF_TMP act
+      left join
+      (select  active_no ,GROUP_CONCAT(prdConf.prd_id) as prd_id from TBL_ACTIVE_PRD_CONF_TMP prdConf  where 1=1 and prdConf.Data_State='1'
+      group by active_no) pro
+      on act.active_no = pro.active_no
+      
+     
+      where 1=1
+          <if test = "activeNo != '' "> and act.active_no = #{activeNo}</if>
+          <if test = "activeNm != '' "> and act.active_nm like #{activeNm}</if>
+		  <if test = "activeType != '' "> and act.active_type = #{activeType}</if>
+		  <if test = "activeStat != '' "> and act.active_stat = #{activeStat}</if>
+		  <if test = "prodId != '' "> and pro.PRD_ID like #{prodId}</if>
+		  <if test = "gpTp != '' "> and act.CARD_GP_NO = #{gpTp}</if>
+		  <if test = "auditId != '' "> and act.audit_id = #{auditId}</if>
+      order by act.active_no desc
+	</select>
+	<!-- 根据活动类型获取当前类型下最大活动序号-->
+	<select id="getMaxSeqByType" paramType="string" resultType="string">
+		select 
+			max(active_no) 
+		from 
+			tbl_active_inf_tmp 
+		where 
+			substr(active_type,1,1)=substr(#{activeType},1,1)
+	</select>
+	<!--添加活动 -->
+	<insert id="addActive" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveInfTmpVO" >
+		insert into TBL_ACTIVE_INF_TMP
+		(ACTIVE_NO,ACTIVE_NM,ACTIVE_TYPE,ACTIVE_STAT,BUDGET_TP,ACTIVE_BUDGET,PLAT_BUDGET,ACTIVE_DESC,ACCT_LIMIT_TYPE,ACCT_CNT_MAX,S_DATE,
+		E_DATE,CYCLE_FLG,ACTIVE_LV,CARD_GP_NO,UPDATE_TIME,UPDATE_OPR,AUDIT_OPR,AUDIT_TIME,SYNC_FLAG,AUDIT_ID,AUDIT_FLAG)
+		values(#{activeNo},#{activeNm},#{activeType},#{activeStat},#{budgetTp},#{activeBudget},#{platBudget},#{activeDesc},#{acctLimitType},#{acctCntMax},#{SDate},#{EDate},#{cycleFlg},#{activeLv},
+		#{cardGpNo},#{updateTime},#{updateOpr},#{auditOpr},#{auditTime},#{syncFlag},#{auditId},#{auditFlag})
+	</insert>
+	
+	<!-- 根据活动方法编号查询活动列表-->
+	<select id="queryListByMethod" paramType="String" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveInfTmpVO">
+		select 
+		   distinct trim(act.active_no) as "active_no" ,
+		    trim(act.active_nm) as "active_nm",
+		    trim(act.active_type) as "active_type",
+		    trim(act.s_date) as "s_date",
+		    trim(act.e_date) as "e_date"
+	    from 
+		    TBL_ACTIVE_METHOD_CONF_TMP con,
+		    TBL_ACTIVE_INF_TMP   act
+	    where 
+		    act.active_no = con.active_no
+		    and trim(con.method_no)=#{methodNo}
+		    and con.data_state='1'
+		order by trim(act.active_no) desc
+	</select>
+	<update id="updateActive" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveInfTmpVO" >
+		update 
+			TBL_ACTIVE_INF_TMP
+		set
+			ACTIVE_NM=#{activeNm},
+			BUDGET_TP=#{budgetTp},
+			ACTIVE_BUDGET=#{activeBudget},
+			PLAT_BUDGET=#{platBudget},
+			ACCT_LIMIT_TYPE=#{acctLimitType},
+			ACCT_CNT_MAX=#{acctCntMax},
+			S_DATE=#{SDate},
+			E_DATE=#{EDate},
+			CYCLE_FLG=#{cycleFlg},
+			ACTIVE_LV=#{activeLv},
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			AUDIT_OPR=#{auditOpr},
+			AUDIT_TIME=#{auditTime},
+			SYNC_FLAG=#{syncFlag},
+			AUDIT_ID=#{auditId},
+			AUDIT_FLAG=#{auditFlag}
+		where 
+			ACTIVE_NO=#{activeNo}
+	</update>
+	<update id="statusActive" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveInfTmpVO" >
+		update 
+			TBL_ACTIVE_INF_TMP
+		set
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			AUDIT_OPR=#{auditOpr},
+			AUDIT_TIME=#{auditTime},
+			SYNC_FLAG=#{syncFlag},
+			ACTIVE_STAT=#{activeStat},
+			AUDIT_ID=#{auditId},
+			AUDIT_FLAG=#{auditFlag}
+		where 
+			ACTIVE_NO=#{activeNo}
+	</update>
+</mapper> 

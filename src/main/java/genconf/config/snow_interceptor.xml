@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 拦截器 -->
+<interceptors>
+	<flow>
+	</flow>
+	<action>
+		<!-- <interceptor name="MyInterceptor" class="com.ruimin.ifs.interceptor.MyActionInterceptor" matches="com.ruimin.ifs.*.*" /> -->
+	</action>
+	<channel>
+
+	</channel>
+	<server>
+
+	</server>
+</interceptors>

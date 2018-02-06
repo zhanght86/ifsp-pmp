@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="二维码类型维护" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcTypeInfoAction:queryChannelType" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 基础信息 -->
+	       <Field id="qrcTypeNo" desc="二维码类型编号" align="center" edittype="textbox" datatype="string"  required="false" xpath="/qrcTypeNo" />
+           <Field id="qrcTypeName" desc="二维码类型名称" align="center" edittype="textbox" datatype="string" required="true" xpath="/qrcTypeName" />
+    </Fields>
+</Data>

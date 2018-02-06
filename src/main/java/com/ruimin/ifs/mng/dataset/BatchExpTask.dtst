@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="批量导出" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.BatchExpTaskAction:listAllBatchExpTask" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+
+		<Field id="id" desc="ID" xpath="/tskId" />
+		<Field id="tskNm" desc="任务名称" xpath="/tskNm" />
+		<!-- <Field id="taskDesc" desc="任务描述" xpath="/tskDesc" /> -->
+		<Field id="tskStartTms" desc="下载开始时间" edittype="datetimebox" datatype="timestamp" xpath="/tskStartTms" />
+		<Field id="tskEndTms" desc="处理结束时间" datatype="timestamp" xpath="/tskEndTms" />
+		<Field id="expRcdNum" desc="已处理记录笔数" datatype="number" xpath="/expRcdNum" />
+		<Field id="expRcdSumNum" desc="记录总笔数" datatype="number" xpath="/expRcdSumNum" />
+		<Field id="expFileSize" desc="文件大小(Byte)" datatype="number" xpath="/expFileSize" />
+		<Field id="tskStat" desc="任务状态" edittype="combobox" datasource="DDIC:114" xpath="/tskStat" />
+		<Field id="expFileNm" desc="文件路径" xpath="/expFileNm" />
+		<Field id="fileNm" desc="文件名" xpath="/tskDesc" />
+		<Field id="op" desc="操作" xpath="/tskId" />
+		
+	</Fields>
+	<Commands>
+	</Commands>
+</Data>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.service.comp.ServiceBasicMessageAction:queryMain" desc="服务机构基本信息"
+		expmaxrcd="50" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询字段 -->
+		<Field id="qserviceCode" desc="服务机构号" edittype="textbox" datatype="string" />
+		<Field id="qserviceName" desc="服务机构名称" edittype="textbox" datatype="string" />
+
+		<!-- 主表单字段 -->
+		<Field id="serviceCode" desc="服务机构号" readonly="true" datatype="string"
+			align="center" xpath="/serviceCode" />
+			
+		<Field id="serviceName" desc="服务机构名称"  required="true"
+			datatype="string" align="center" xpath="/serviceName" />
+			
+		<Field id="splitType" desc="分润类型" required="true" 
+			datatype="string"  datasource="DDIC:1930" edittype="combobox"
+			 align="center" xpath="/splitType" />
+			
+		<Field id="splitValue" desc="分润值" required="true" 
+			datatype="string"  align="center" xpath="/splitValue" />
+			
+		<Field id="contactName" desc="联系人" required="true" 
+			datatype="string"  align="center" xpath="/contactName" />
+			
+		<Field id="contactTel" desc="联系电话" required="true" 
+			datatype="string"  align="center" xpath="/contactTel" />
+			
+		<Field id="contactAdd" desc="联系地址" required="true" 
+			datatype="string"  align="center" xpath="/contactAdd" />
+			
+		<Field id="zipCode" desc="邮政编码" required="false" 
+			datatype="string" size = "6" rule ="isNumber6" errmsg = "请输入合法的邮政编码"
+			  align="center" xpath="/zipCode" />
+			
+		<Field id="opr" desc="操作栏" datatype="string" align="center" />
+	</Fields>
+
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn=""
+			icon="fa fa-plus" />
+		<Command id="btnAddSave" desc="保存" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.service.comp.ServiceBasicMessageAction:addActive" url="#"
+			txn="" icon="fa fa-save" />
+
+		<Command id="btnMod" desc="修改" type="none" url="#" txn=""
+			icon="fa fa-wrench" />
+		<Command id="btnModSave" desc="保存" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.service.comp.ServiceBasicMessageAction:modActive"
+			url="#" txn="" icon="fa fa-pencil" />
+			
+		<Command id="btnDel" desc="删除" type="none" url="#" txn=""
+			icon="fa fa-remove" />
+		<Command id="btnDelSave" desc="确认删除" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.service.comp.ServiceBasicMessageAction:delActive"
+			url="#" txn="" icon="fa fa-pencil" />
+
+		<Command id="btnConnec" desc="关联" type="none" url="#" txn=""
+			icon="fa fa-compress" />
+		<Command id="btnConnecSave" desc="提交" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.service.comp.ServiceBasicMessageAction:connecActive"
+			url="#" txn="" icon="fa fa-pencil" />
+		
+	</Commands>
+</Data>

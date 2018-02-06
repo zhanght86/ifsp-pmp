@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 银联卡表全查询 -->
+	<select id="queryListTmp" paramType="map" resultType="com.ruimin.ifs.pmp.baseParaMng.process.bean.BankBin">
+	   select * from PBS_BANK_BIN_INFO where 1=1 
+	   <if test="issueOrgId !='' "> and issue_org_id like #{issueOrgId}</if>
+	   <if test="cardBinNo !='' "> and card_bin_no like #{cardBinNo}</if>
+	   <if test="cardType !='' "> and card_type=#{cardType}</if> 
+	   order by SEQ_NO asc
+	</select>
+	<!-- 银联卡表修改 -->
+	<update id="updateBank" paramType="com.ruimin.ifs.pmp.baseParaMng.process.bean.BankBin">
+	     update PBS_BANK_BIN_INFO set 
+	     ISSUE_ORG_ID=#{issueOrgId},
+	     ISSUE_NAME=#{issueName},
+	     CARD_TYPE=#{cardType},
+	     CARD_NO_LEN=#{cardNoLen},
+	     CARD_BIN_NO=#{cardBinNo},
+	     CUP_FLAG=#{cupFlag},
+	     LAST_UPD_TLR=#{lastUpdTlr},
+	     LAST_UPD_DATE_TIME=#{lastUpdDateTime},
+	     INTERNAL_ACCT_TYPE=#{internalAcctType}
+	     where SEQ_NO=#{seqNo}
+	     
+	</update>
+	<!-- -->
+	<select id="queryBankBinByBin" paramType="map" resultType="int">
+		select count(*) from PBS_BANK_BIN_INFO where 
+		CARD_BIN_NO=#{cardBinNo}
+		 and ISSUE_NAME=#{issueName} 
+		 and CARD_TYPE_LEN = #{cardTypeLen}
+		  and ISSUE_ORG_ID=#{issueOrgId}
+	</select>
+	<select id="queryBankBinSeqNo" paramType="map" resultType="String">
+		select min(SEQ_NO)+1  from PBS_BANK_BIN_INFO WHERE (SEQ_NO + 1) not in (select SEQ_NO from PBS_BANK_BIN_INFO)
+	</select>
+	<!-- 删除原有表中的所有数据 -->
+	<update id="deleteAll" paramType="">
+	     delete from PBS_BANK_BIN_INFO 
+	</update>
+</mapper>	

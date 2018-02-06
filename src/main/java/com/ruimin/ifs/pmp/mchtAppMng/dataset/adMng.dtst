@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.AdMngAction:queryMain" 
+			desc="广告位" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>	
+		<Field id="adId" desc="广告编号" datatype="string" size="200" align="center" xpath="/adId"/>
+	
+		<Field id="qadPst" desc="广告位置" edittype="combobox" datatype="string" 
+			datasource="LIST:1,商戶App收款" align="center" />
+		<Field id="qadInfo" desc="广告描述" datatype="string" size="200" align="center" />
+		<Field id="qadStat" desc="使用状态" edittype="combobox" datatype="string" 
+			datasource="LIST:0,使用中;1,暂停使用" align="center" />
+	
+        <Field id="adPst" desc="广告位置" edittype="combobox" datatype="string" 
+			datasource="LIST:1,商戶App收款" align="center" xpath="/adPst" />
+        <Field id="picPst" desc="图片位置" edittype="combobox" datatype="string" 
+			datasource="LIST:01,01;02,02;03,03;04,04;05,05;06,06" align="center" xpath="/picPst" />  
+        <Field id="adStat" desc="使用状态" edittype="combobox" datatype="string" 
+			datasource="LIST:0,使用中;1,暂停使用" align="center" xpath="/adStat" />
+        <Field id="adInfo" desc="广告描述" edittype="textarea" datatype="string" rows="3" colspan="4" width="635" align="center" size="100" xpath="/adInfo"/>
+        <Field id="picId" desc="图片编号" datatype="string" align="center" xpath="/picId"/>
+        <Field id="picUrl" desc="广告链接" edittype="textarea" datatype="string" rows="3" colspan="4" width="635" align="center" xpath="/picUrl"/>
+        <Field id="opr" desc="操作栏" datatype="string" align="center"/>
+	</Fields> 
+	
+	
+	<Commands>	
+	<Command id="btnUpd" desc="修改" type="none" url="" txn="" icon="fa fa-wrench"/>
+	<Command id="btnUpdate" desc="确认修改" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.AdMngAction:update" url="#" txn="" icon=""/>
+	
+	<Command id="btnAdd" desc="新增" type="addrecord" url="" txn="" icon="fa fa-plus"/>
+    <Command id="btnSave" desc="确认保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.AdMngAction:add" url="#" txn="" /> 
+	
+	<Command id="disableEnable" 	desc="停用/启用" type="none" url="#" txn="" icon="fa fa-cog"/>
+	<Command id="btnDisableEnable" desc="停用/启用"  type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.AdMngAction:disableEnable" url="#" txn=""/> 
+	
+	<Command id="btnDel" 	desc="删除" type="none" url="#" txn="" icon="fa fa-remove"/>
+	<Command id="btnDelSub" desc="删除提交"  type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.AdMngAction:delete" url="#" txn=""/> 
+	</Commands>
+	
+</Data>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.BankBinAction2:queryByAll" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+              
+             <Field id="seqNo" desc="序号" align="center" size="6" readonly="true" required="true" status="F" xpath="/seqNo"></Field>
+             <Field id="issueOrgId" desc="发卡机构编号" align="center" size="11" required="true" status="F" xpath="/issueOrgId"></Field>
+             <Field id="issueName" desc="发卡行名称" align="center" size="30" required="true" status="F" xpath="/issueName"></Field>
+             <Field id="cardType" desc="卡类型" align="center" size="2" edittype="combobox" datasource="DDIC:1815" required="true" status="F" xpath="/cardType"></Field>
+             <Field id="cardNoLen" desc="卡号长度" align="center" size="2" required="true" status="F" xpath="/cardNoLen"></Field>
+             <Field id="cardBinNo" desc="卡BIN号" align="center" size="12" required="true" status="F" xpath="/cardBinNo"></Field>
+             <Field id="cupFlag" desc="是否银联品牌卡" align="center" size="2" edittype="combobox" datasource="DDIC:1816" required="true" status="F" xpath="/cupFlag"></Field>
+             <Field id="dataSource" desc="数据来源" align="center" size="3" edittype="combobox" datasource="DDIC:1817" readonly="true" required="true" status="F" xpath="/dataSource"></Field>
+             <Field id="internalAcctType" desc="系统内部账户类型" align="center"  edittype="combobox" datasource="List:A001,本行借记卡;A002,本行贷记卡;A003,他行借记卡;A004,他行贷记卡;"  required="true" status="F" xpath="/internalAcctType"></Field>
+             <Field desc="详情" id="opr" status="N"></Field>
+             
+             <!-- 查询条件 -->
+             <Field id="qissueOrgId" desc="发卡机构编号" align="center" size="11" edittype="textbox"></Field>
+             <Field id="qcardBinNo" desc="卡BIN号" align="center" size="12" edittype="textbox"></Field>
+             <Field id="qcardType" desc="卡类型" align="center" size="2" edittype="combobox" datasource="DDIC:1815"></Field>
+     </Fields>
+     <Commands>
+             
+             <Command id="btUpt" desc="修改" type="none" flowid="" icon="fa fa-pencil" url="#" txn="" ></Command>
+             <Command id="btUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.BankBinAction2:updateBank" icon="fa fa-save" url="#" txn="updateacct"></Command>
+             
+             <Command id="btImport" desc="全量导入" type="none" flowid="" icon="fa fa-plus" url="#" txn="" />
+		     <Command id="btDelete" desc="删除" type="none" url="#" txn="" icon="fa fa-remove" tip="删除"/>
+		     <Command id="btnDelete"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.BankBinAction2:deleteBank" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		     
+		     <Command id="btnDetail" desc="明细" type="none" flowid="" icon="fa fa-list" url="#" txn=""></Command>
+     </Commands>
+</Data>

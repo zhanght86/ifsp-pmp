@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.EventMngAction:queryMain" 
+	desc="商户基本信息管理" expmaxrcd="50" flowctxid="" flowretid=""/>
+	<Fields>
+		<Field id="eventId" desc="事件编号" edittype="textbox" datatype="string" xpath="/eventId"/>
+	<!-- 查询字段 -->
+		<Field id="qcrtDate" desc="申报日期" datatype="date" edittype="datebox"/>
+		<Field id="qeventTitle" desc="事件标题" edittype="textbox" datatype="string"/>
+		<Field id="qphoneNo" desc="用户手机号" datatype="string" edittype="textbox" align="center"/>
+		<Field id="qmchtId" desc="商户编号" datatype="string" edittype="textbox" align="center"/>
+		<Field id="qmchtSimpleName" desc="商户简称" datatype="string" edittype="textbox" align="center"/>
+		<Field id="qeventStat" desc="申报状态" edittype="combobox" datatype="string" 
+			datasource="LIST:0,未处理;1,处理中;2,处理成功;3,处理失败" align="center"/>
+	<!-- 主表单字段 -->
+		<Field id="crtDate" desc="申报日期" datatype="date" edittype="datebox" align="center" xpath="/crtDate" />    
+		<Field id="eventTitle" desc="事件标题" datatype="string" align="center" xpath="/eventTitle"/>
+		<Field id="phoneNo" desc="用户手机号" datatype="string" align="center" xpath="/phoneNo"/>
+		<Field id="userName" desc="用户姓名" datatype="string" align="center" xpath="/userName"/>    
+		<Field id="mchtId" desc="商户编号" datatype="string" align="center" xpath="/mchtId"/>
+		<Field id="mchtSimpleName" desc="商户简称" datatype="string" align="center" xpath="/mchtSimpleName"/>
+		<Field id="eventStat" desc="申报状态" edittype="combobox" datatype="string" 
+			datasource="LIST:0,未处理;1,处理中;2,处理成功;3,处理失败" align="center" xpath="/eventStat"/>
+		<Field id="opr" desc="操作栏" datatype="string" align="center"/>
+	<!-- 补充字段 -->
+		<Field id="userId" desc="用户号" datatype="string" align="center" xpath="/userId" />
+		<Field id="eventInfo" desc="事件内容" edittype="textarea" rows="10" colspan="4" width="600" datatype="string" align="center" xpath="/eventInfo" />
+		<Field id="eventFdback" desc="事件反馈" edittype="textarea" rows="10" colspan="4" width="600" align="center" xpath="/eventFdback" />
+		
+		<Field id="eventStat1" desc="申报状态" edittype="combobox" datatype="string" 
+			datasource="LIST:1,处理中;2,处理成功;3,处理失败" align="center" xpath="/eventStat"/>
+	</Fields>
+	
+	<Commands>	 
+		<Command id="btnUpd" desc="事件处理" type="none" icon="fa fa-pencil"/>
+		<Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.EventMngAction:update"/>
+		<Command id="btnRtn" desc="返回" type="none" url="#" txn="" />
+	</Commands>	
+</Data>

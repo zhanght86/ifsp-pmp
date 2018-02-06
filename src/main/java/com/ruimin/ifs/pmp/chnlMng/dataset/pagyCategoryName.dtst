@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="行业类目" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyCategoryNameAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="categoryCode" desc="行业编码" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/categoryCode" />
+		<Field id="userCode" desc="类目使用方" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/userCode" />		
+		<Field id="categoryLevel" desc="级别" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/categoryLevel" />
+		<Field id="pCategoryCode" desc="父行业编码" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/pCategoryCode" />	
+		<Field id="categoryDesc" desc="名词描述" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/categoryDesc" />	
+	    <!-- 查询条件 -->
+	    <Field id="qpCategoryCode" desc="父行业编码" edittype="textbox" datatype="string" />
+	    <Field id="quserCode" desc="类目使用方" edittype="textbox" datatype="string"/>	
+	    <Field id="qcategoryLevel" desc="级别" edittype="textbox" datatype="string"/>	        
+	</Fields>
+	<Commands>
+	  
+	</Commands>
+</Data>

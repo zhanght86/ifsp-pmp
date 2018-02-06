@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.example.comp.DemoAction:listAll" desc="" expmaxrcd="100" flowctxid="ctx" flowretid="SFields" />
+	<Fields>
+		<Field id="select" desc="复选框" edittype="checkbox" datatype="boolean" default="" readonly="false" xpath="/checked" />
+		<Field id="select2" desc="复选框(多个)" edittype="checkboxs" cols="2" datasource="LIST:male,男;female,女" readonly="false" xpath="/checks" />
+
+		<Field id="r1" desc="单选框" edittype="radiobox" datatype="boolean" default="" readonly="false" xpath="/r1" />
+		<Field id="r2" desc="单选框(多个)" edittype="radioboxs" cols="2" datasource="LIST:male,男;female,女" readonly="false" xpath="/r2" />
+
+		<Field id="f1" desc="普通文本" edittype="datalabel" default="default" readonly="false" xpath="/f1" />
+		<Field id="f2" desc="文本框" edittype="textbox" default="default" size="10" required="true" readonly="false" xpath="/f2" />
+		<Field id="f3" desc="大文本域" edittype="textarea" default="default" rows="4" readonly="false" xpath="/f3" />
+
+
+		<Field id="n1" desc="整型数字框" edittype="numberbox" datatype="number" default="2" readonly="false" xpath="n1" />
+		<Field id="n2" desc="浮点数字框" edittype="numberbox" datatype="number" scale="2" default="2.229" readonly="false" xpath="n2" />
+		<Field id="n3" desc="货币框" edittype="numberbox" datatype="currency" scale="2" default="2.228" readonly="false" xpath="n3" />
+
+		<Field id="s1" desc="静态下拉框-LIST(单选)" multiple="false" placeholder="占位符" edittype="combobox" default="female" datasource="LIST:male,男;female,女" readonly="false" xpath="s1" />
+		<Field id="s2" desc="静态下拉框-LIST(多选)" required="true" placeholder="占位符" edittype="combobox" datasource="LIST:0,10;1,20;2,30;3,40;" multiple="true" datatype="string" default="0,1" readonly="false" xpath="s2" />
+		<Field id="c1" desc="动态下拉表格(单选)" status="N" placeholder="占位符" edittype="combogrid" datatype="string" datasource="CQDemo:com.ruimin.ifs.example.dataset.SampleFields" searchfield="f2" viewfield="f1,f2" init="true" multiple="false" default="2"
+			fieldmap="c1=f1;c1Name=f2" size="20" readonly="false" xpath="c1" />
+
+		<Field id="s4" desc="静态下拉框-DDIC(单选)" multiple="false" placeholder="占位符" edittype="combobox" datasource="DDIC:100" datatype="string" size="10" readonly="false" />
+		<Field id="s5" desc="静态下拉框-DIC(多选)" multiple="true" required="true" placeholder="占位符" edittype="combobox" datasource="DDIC:100" datatype="string" size="10" readonly="false" />
+		<Field id="c1Name" desc="动态下拉表格(单选)Name" default="睿民科技2" readonly="false" />
+		<Field id="c2" desc="动态下拉表格(多选)" status="N" multiple="true" placeholder="占位符" edittype="combogrid" searchfield="" datasource="CQDemo:com.ruimin.ifs.example.dataset.SampleFields" viewfield="brname" init="true" fieldmap="c2=brcode;c2Name=brname"
+			size="20" default="0,2" readonly="false" />
+		<Field id="c2Name" desc="动态下拉表格(多选)Name" default="睿民科技0,睿民科技2" readonly="false" />
+		<Field id="c3" desc="动态下拉树(单选)" status="N" multiple="false" datasource="Tree:com.ruimin.ifs.example.dataset.Tree" placeholder="占位符" method="" fieldmap="c3=funcid;c3Name=funcname" viewfield="funcname" edittype="combotree" init="false" default="100001"
+			readonly="false" />
+		<Field id="c3Name" desc="动态下拉树(单选)Name" default="机构管理" readonly="false" />
+		<Field id="c4" desc="动态下拉树(多选)" status="N" multiple="true" datasource="Tree:com.ruimin.ifs.example.dataset.Tree" placeholder="占位符" method="" fieldmap="c4=funcid;c4Name=funcname" viewfield="funcname" edittype="combotree" init="false" default="100001"
+			readonly="false" />
+		<Field id="c4Name" desc="动态下拉树(多选)Name" default="机构管理" readonly="false" />
+		<Field id="c5" desc="弹出选择" status="N" multiple="true" placeholder="占位符" method="" fieldmap="c5=col1;c5Name=col2" viewfield="funcname" edittype="combodialog" url="/demo/jsp/datagrid_default.jsp" init="false" default="" readonly="false" xpath="c5" />
+		<Field id="c5Name" desc="弹出选择Name" default="" readonly="false" xpath="c5" />
+
+
+		<Field id="d1" desc="日期框" edittype="datebox" datatype="date" default="2012-12-12" readonly="false" xpath="d1" />
+		<Field id="d2" desc="日期时间框" edittype="datetimebox" datatype="timestamp" default="2012-12-12 12:12:21" readonly="false" xpath="d2" />
+	</Fields>
+	<Commands>
+		<Command id="btSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.example.comp.MyFirstAction:saveOrUpdate" icon="fa fa-user" url="#" txn="" />
+	</Commands>
+</Data>

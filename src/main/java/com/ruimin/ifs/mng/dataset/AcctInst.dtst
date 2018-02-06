@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.MchtAgentAction:queryAcctInst" 
+	desc="开户机构信息" expmaxrcd="50" flowctxid="" flowretid=""/> 
+		<Fields>
+			<Field id="qacctInstNo" desc="开户机构编号" datatype="string" />
+			<Field id="qacctInstName" desc="开户机构名称" datatype="string" />
+			
+			<Field id="acctInstNo" desc="开户机构编号" datatype="string" align="center" xpath="/acctInstNo" />
+			<Field id="acctInstName" desc="开户机构名称" datatype="string" align="center" xpath="/acctInstName" />
+
+		</Fields>
+	</Data>

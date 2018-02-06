@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="通道清算明细信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.report.comp.PagyClearingDtlAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qSettleDate" desc="清算日期" edittype="datebox"    datatype="date" />
+		<Field id="qPagyNo" desc="通道编号" edittype="textbox"  datatype="string" />
+		<Field id="qPagyMainMchtNo" desc="通道主商户号" edittype="textbox"  datatype="string" />
+		<!-- 基础信息 -->
+       <Field id="stlmDate" desc="清算日期" align="center" readonly="true" edittype="textbox" datatype="string"   xpath="/stlmDate" />
+	   <Field id="pagyNo" desc="通道编号" edittype="textbox" readonly="true" datatype="string" xpath="/pagyNo" />
+	   <Field id="pagyName" desc="通道名称" edittype="textbox" readonly="true"  datatype="string" xpath="/pagyName" />	
+	   <Field id="pagyMainMchtNo" desc="通道主商户号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/pagyMainMchtNo"/>
+		<Field id="txnType" desc="交易类型" datasource="DDIC:1842"  edittype="combobox" align="center" datatype="string" xpath="/txnType"/>
+		<Field id="txnCode" desc="交易码" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/txnCode"/>
+		<Field id="txnTime" desc="交易时间" align="center" readonly="true" required="false" edittype="textbox" datatype="string" status="F" xpath="/txnTime"/>
+		<Field id="txnAmt" desc="交易金额" align="center" readonly="true" required="false" edittype="textbox" datatype="string" status="F" xpath="/txnAmt"/>
+	    <Field id="tramFeeAmt" desc="通道手续费" align="center" readonly="true" required="true"  edittype="textbox" datatype="string" status="F" xpath="/tramFeeAmt"/>
+        <Field id="setlAmt" desc="清算金额" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/setlAmt"/>
+        <Field id="retTpamFeeAmt" desc="返还手续费"   readonly="true" align="center" edittype="textbox" datatype="string" status="F" xpath="/retTpamFeeAmt"/>
+    	<Field id="thirdSsn" desc="通道流水号" edittype="textarea" width="600" colspan="4" readonly="true" align="center" datatype="string" xpath="/thirdSsn"/>
+    	<Field id="realFee" desc="实算手续费"   edittype="textbox" align="center" datatype="string" xpath="/realFee"/>
+    </Fields>
+
+	<Commands>
+		<Command id="btnDownload" desc="下载报表" type="none" url="#" txn="" icon="fa fa-download"/>
+	</Commands>
+</Data>

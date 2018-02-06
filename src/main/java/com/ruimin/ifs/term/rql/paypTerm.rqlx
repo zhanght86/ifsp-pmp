@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		<!-- 终端信息查询 -->
+	<select id="queryPaypTermInfo" paramType="map" resultType="com.ruimin.ifs.term.process.bean.PaypTermDetailInf">
+		<![CDATA[
+		select p.*,
+      a.mcht_name as mcht_name,
+       a.mcht_simple_name as mcht_simple_name,
+       a.mcht_org_id as mcht_org_id,    
+       b.brname    as mcht_org,k.TERM_ZMK as zmk,k.TERM_ZAK_NAME as zak,k.TERM_ZPK_NAME as zpk
+  
+    from  PAYP_TERM_INF_TMP p 
+    
+    left join PBS_MCHT_BASE_INFO a
+      on a.mcht_id = p.pay_mcht_id
+      left join ifs_org b
+      on a.mcht_org_id = b.brcode left join PAYP_TERM_KEY k on trim(k.term_id)=p.term_id and trim(k.mcht_id)=p.mcht_id
+    
+		 WHERE 1=1]]>
+		<if test="termId !='%%'"><![CDATA[and p.term_Id like #{termId} ]]></if>
+		<if test="mchtId !='%%'"><![CDATA[and p.mcht_Id like #{mchtId} ]]></if>
+		<if test="termStat !='%%'"><![CDATA[and p.term_Stat like #{termStat} ]]></if>
+		<if test="termType !='%%'"><![CDATA[and p.term_Type like #{termType} ]]></if>
+		<if test="auditId !='%%'"><![CDATA[and  p.audit_Id like #{auditId} ]]></if>
+		<if test="mchtName !='%%'"><![CDATA[and a.mcht_name like #{mchtName} ]]></if>
+		<if test="machInst !='%%'"><![CDATA[and a.mcht_org_id like #{machInst} ]]></if>
+		order by p.term_Id
+	</select>
+	<select id="queryPaypMachInfo" paramType="map" resultType="com.ruimin.ifs.term.process.bean.PaypMachInf">
+        <![CDATA[SELECT * FROM PAYP_MACH_INF WHERE 1=1]]>
+      
+        <if test="machId != '' and  machId!=null"><![CDATA[and MACH_ID like #{machId} ]]></if>
+        <if test="batchNo != '' and  batchNo!=null "><![CDATA[and BATCH_NO like #{batchNo} ]]></if>
+        <if test="propertyType != ''and  propertyType!=null"><![CDATA[and PROPERTY_TYPE like #{propertyType} ]]></if>
+        <if test="machType != '' and  machType!=null "><![CDATA[and MACH_TYPE like #{machType} ]]></if>
+         <if test="machInst != '' and  machInst!=null "><![CDATA[and MACH_INST like #{machInst} ]]></if>
+          <if test="machStat != '' and  machStat!=null "><![CDATA[and MACH_STAT like #{machStat} ]]></if>
+          
+        order by crt_Date_Time DESC ,MACH_ID 
+    </select>
+    
+    <select id="queryNoBingMachIdList" paramType="map" resultType="com.ruimin.ifs.term.process.bean.PaypMachInf">
+        <![CDATA[SELECT * FROM PAYP_MACH_INF  where  mach_stat ='0']]>
+    </select>
+    
+   <!-- 根据商户ID 查询对应的产品信息       -->
+     <select id="queryMchtProdInfo" paramType="map" resultType="com.ruimin.ifs.term.process.bean.MchtProdInfo">
+        <![CDATA[
+         select m.txn_type_code  ,m.txn_type_name,m.txn_type_desc ,f.prod_id,f.prod_name,f.prod_desc,
+ g.access_type_code,g.access_type_name,g.access_type_desc from PBS_TXN_TYPE_INFO m left join PBS_PROD_REL_TXN_TYPE n on m.txn_type_code=n.txn_type_code left join PBS_PROD_INFO f on f.prod_id=n.prod_id left join PBS_ACCESS_TYPE_INFO g on g.access_type_code=f.access_type_code where g.data_state='00' and n.PROD_ID in(
+ select  b.prod_id from PBS_PROD_INFO               a,
+                       PBS_MCHT_REL_CONTR_PROD_TMP b,
+                       PBS_MCHT_CONTR_INFO_TMP     c,
+                       PBS_PROD_INFO               p                   
+                 where trim(a.prod_id) = trim(b.prod_id)
+                   and c.con_id = b.con_id
+                   and p.prod_id = b.prod_id                  
+         ]]>
+       <if test="mchtId != '' and  mchtId!=null "><![CDATA[   and  c.MCHT_ID=#{mchtId}]]></if>
+       <if test="mchtId == '' or mchtId==null "><![CDATA[   and  1=2]]></if>
+       <![CDATA[    ) order by f.prod_id desc]]>
+    </select>
+     <!-- 根据商户ID 查询对应的产品信息总数      -->
+     <select id="queryMchtProdInfoCount" paramType="map" resultType="int">
+        <![CDATA[
+         select  count(*) from PBS_TXN_TYPE_INFO m left join PBS_PROD_REL_TXN_TYPE n on m.txn_type_code=n.txn_type_code left join PBS_PROD_INFO f on f.prod_id=n.prod_id left join PBS_ACCESS_TYPE_INFO g on g.access_type_code=f.access_type_code where g.data_state='00' and n.PROD_ID in(
+ select  b.prod_id from PBS_PROD_INFO               a,
+                       PBS_MCHT_REL_CONTR_PROD_TMP b,
+                       PBS_MCHT_CONTR_INFO_TMP     c,
+                       PBS_PROD_INFO               p                   
+                 where trim(a.prod_id) = trim(b.prod_id)
+                   and c.con_id = b.con_id
+                   and p.prod_id = b.prod_id                  
+         ]]>
+       <if test="mchtId != '' and  mchtId!=null "><![CDATA[   and  c.MCHT_ID=#{mchtId}]]></if>
+       <if test="mchtId == '' or mchtId==null "><![CDATA[   and  1=2]]></if>
+       <![CDATA[    ) order by f.prod_id desc]]>
+    </select>  
+    
+    <select id="queryKey" paramType="map" resultType="com.ruimin.ifs.term.process.bean.PaypTermKey">
+        <![CDATA[
+         select * from PAYP_TERM_KEY where 1=1                
+         ]]>
+       <if test="mchtId != '' and  mchtId!=null "><![CDATA[   and  trim(MCHT_ID)=#{mchtId}]]></if>
+       <if test="termId != '' or termId!=null "><![CDATA[   and  trim(TERM_ID)=#{termId}]]></if>
+    </select>  
+    
+    <select id="selectMachId" paramType="String" resultType="String">
+    	<![CDATA[
+            select mach_id from PAYP_MACH_INF 
+            where mach_id=#{MachId}                
+         ]]>
+    </select>
+</mapper>

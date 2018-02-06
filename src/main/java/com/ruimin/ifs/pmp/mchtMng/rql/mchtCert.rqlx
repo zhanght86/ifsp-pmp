@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtCertInfoVO">
+		select a.* 
+		from PBS_MCHT_CERT_INFO a, PBS_MCHT_BASE_INFO b
+		where 1=1 and a.CERTIFI_BL = b.MCHT_ID
+			<if test = "mchtId != '' "> and a.CERTIFI_BL like #{mchtId}</if>
+			<if test = "mchtSimpleName != '' "> and b.MCHT_SIMPLE_NAME like #{mchtSimpleName}</if>
+			<if test = "certifiStatus != '' "> and a.CERTIFI_STATUS = #{certifiStatus}</if>
+		order by REC_CRT_TS desc
+	</select>
+	
+	<!-- 查询出最大的商户证书编号 -->
+	<select id = "findMaxCertifiId" paramType="" resultType="String">
+		
+		SELECT MAX(CERTIFI_ID) FROM PBS_MCHT_CERT_INFO	
+	</select>
+	
+	<!-- 通过商户号查询是否已有该配置信息 -->
+	<select id = "queryMchtExits" paramType="map" resultType="int">
+		
+		SELECT count(*) FROM PBS_MCHT_CERT_INFO	where CERTIFI_BL = #{certifiBl}
+	
+	</select>
+	
+	<!-- 通过证书号查询是否已有该配置信息 -->
+	<select id = "queryCertExits" paramType="map" resultType="int">
+		
+		SELECT count(*) FROM PBS_MCHT_CERT_INFO	where CERTIFI_ID = #{certifiId}
+	
+	</select>
+		
+</mapper> 

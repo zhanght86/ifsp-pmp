@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr//dwr30.dtd">
+<dwr>
+
+	<allow>
+		<!-- dwr查询请求 -->
+		<create creator="new" javascript="CommonQueryResultProcess">
+			<param name="class" value="com.ruimin.ifs.framework.process.BankResultProcess" />
+			<include method="processAsyncBean" />
+		</create>
+
+		<!-- dwr更新请求 -->
+		<create creator="new" javascript="CommonQueryUpdateProcess">
+			<param name="class" value="com.ruimin.ifs.framework.process.BankUpdateProcess" />
+			<include method="savaOrUpdate" />
+		</create>
+
+		<create creator="new" javascript="SessionTicketProcess">
+			<param name="class" value="com.ruimin.ifs.framework.databus.SessionTicketProcess" />
+			<include method="setAciveTicket" />
+			<include method="clearTcket" />
+		</create>
+
+		<create creator="new" javascript="DwrFunctions">
+			<param name="class" value="com.ruimin.ifs.framework.dwr.DwrFunctions" />
+			<include method="setCurrentTabFuncId" />
+		</create>
+		
+		
+		<!-- 用户密码重置 -->
+		<create creator="new" javascript="PwdDwr">
+			<param name="class" value="com.ruimin.ifs.dwr.PwdDwr" />
+			<include method="reset" />
+		</create>
+		<!-- 商户接入参数中md5密钥 -->
+		<create creator="new" javascript="GetMd5Value">
+			<param name="class" value="com.ruimin.ifs.dwr.GetMd5Value" />
+			<include method="reset" />
+		</create>
+		<!-- 判断商户合同是否有产品-->
+		<create creator="new" javascript="QContractProd">
+			<param name="class" value="com.ruimin.ifs.dwr.QContractProd" />
+			<include method="query" />
+		</create>
+					<!-- 产品停用是提醒 -->
+		<create creator="new" javascript="MchtAccessRemove">
+			<param name="class" value="com.ruimin.ifs.dwr.MchtAccessRemove" />
+			<include method="remove" />
+		</create>
+		<convert match="map" converter="java.util.Map" />
+		<convert match="com.ruimin.ifs.framework.dwr.bean.QueryResultBean" javascript="QueryResultBean" converter="bean" />
+		<convert match="com.ruimin.ifs.core.exception.SnowException" converter="bean" />
+		<convert match="com.ruimin.ifs.framework.dwr.bean.DataSetResultBean" converter="bean" />
+		<convert match="com.ruimin.ifs.framework.dwr.bean.ResultBean" converter="bean" />
+		<convert match="com.ruimin.ifs.framework.dwr.bean.MultiUpdateRequestBean" converter="bean" />
+
+		<convert match="com.ruimin.ifs.framework.dataobject.UpdateRequestBean" converter="bean"></convert>
+		<convert match="com.ruimin.ifs.framework.dwr.bean.UpdateResultBean" converter="bean" />
+
+	</allow>
+
+	<signatures>
+		<![CDATA[
+		import java.util.List;
+		import java.util.Map;
+		import com.ruimin.ifs.framework.dwr.bean.QueryResultBean;
+		import com.ruimin.ifs.framework.dwr.bean.DataSetResultBean;
+		import com.ruimin.ifs.framework.dwr.bean.MultiUpdateRequestBean;
+		import com.ruimin.ifs.framework.dwr.bean.UpdateResultBean;
+		import com.ruimin.ifs.framework.process.BankResultProcess;
+		import com.ruimin.ifs.framework.process.BankUpdateProcess;
+		import com.ruimin.ifs.framework.dataobject.UpdateRequestBean;
+		BankResultProcess.processAsyncBean(Map<String,String> map,HttpServletRequest request,HttpServletResponse response);
+		BankUpdateProcess.savaOrUpdate(MultiUpdateResultBean bean,HttpServletRequest request,HttpServletResponse response);
+		MultiUpdateRequestBean.setUpdateResult(Map<String,UpdateResultBean> map);
+		MultiUpdateRequestBean.setParamMap(Map<String,String> map);
+		UpdateResultBean.setReturnParam(Map<String,String> map);
+		]]>
+	</signatures>
+
+</dwr>

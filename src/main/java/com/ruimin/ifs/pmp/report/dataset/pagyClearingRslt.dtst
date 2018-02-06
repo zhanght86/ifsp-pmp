@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="通道清算汇总信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.report.comp.PagyClearingRsltAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qStlmDateStart" desc="清算日期(起始)" edittype="datebox"    datatype="date" />
+		<Field id="qStlmDateEnd" desc="清算日期(截止)" edittype="datebox"  datatype="date" />
+		<Field id="qPagyNo" desc="通道名称" edittype="combogrid" datatype="string" datasource="pagyInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo"
+				viewfield="pagyNo,pagyName" searchfield="qpagyName" init="true" multiple="false" default=""
+				fieldmap="qPagyNo=pagyNo;qPagyNoName=pagyName"/>
+		<Field id="qPagyNoName" desc="通道名称" edittype="textbox"  datatype="string" />
+		<!-- 基础信息 -->
+       <Field id="stlmDate" desc="清算日期" align="center" readonly="true" edittype="textbox" datatype="string"   xpath="/stlmDate" />
+	   <Field id="pagyNo" desc="通道编号" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/pagyNo" />
+	   <Field id="pagyName" desc="通道名称" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/pagyName" />	
+	   <Field id="pagyMainMchtNo" desc="通道主商户号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/pagyMainMchtNo"/>
+		<Field id="setlAmt" desc="清算金额" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/setlAmt"/>
+		<Field id="txnCount" desc="正交易笔数" align="center" readonly="true" required="false" edittype="textbox" datatype="string" status="F" xpath="/txnCount"/>
+		<Field id="txnAmt" desc="正交易金额" align="center" readonly="true" required="false" edittype="textbox" datatype="string" status="F" xpath="/txnAmt"/>
+	    <Field id="refundTxnCount" desc="退货交易笔数" align="center" readonly="true" required="true"  edittype="textbox" datatype="string" status="F" xpath="/refundTxnCount"/>
+        <Field id="refundTxnAmt" desc="退货交易金额" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/refundTxnAmt"/>
+        <Field id="tramFeeAmt" desc="通道应付手续费"   readonly="true" align="center" edittype="textbox" datatype="string" status="F" xpath="/tramFeeAmt"/>
+    	<Field id="retTpamFeeAmt" desc="返还手续费" edittype="textbox"  readonly="true" align="center" datatype="string" xpath="/retTpamFeeAmt"/>
+    	<Field id="realFee" desc="实算手续费" edittype="textbox"  readonly="true" align="center" datatype="string" xpath="/realFee"/>
+    	
+    	<Field id="operate" desc="操作" edittype="textbox" readonly="true" align="center" datatype="string"/>
+    </Fields>
+
+	<Commands>
+		<Command id="btnDownload" desc="下载报表" type="none" url="#" txn="" icon="fa fa-download"/>
+	</Commands>
+</Data>

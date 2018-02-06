@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的通道清算汇总信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthPagyClearingRsltVO">
+		SELECT
+			clr.STLM_DATE,
+			clr.PAGY_NO,
+			clr.PAGY_NAME,
+			clr.PAGY_MAIN_MCHT_NO,
+			clr.SETL_AMT as SETL_AMT,
+			clr.TXN_COUNT,
+			clr.TXN_AMT as TXN_AMT,
+			clr.REFUND_TXN_COUNT,
+			clr.REFUND_TXN_AMT as REFUND_TXN_AMT,
+			clr.TRAM_FEE_AMT as TRAM_FEE_AMT,
+			clr.RET_TPAM_FEE_AMT as RET_TPAM_FEE_AMT,
+			clr.REAL_FEE as REAL_FEE
+		FROM
+			BTH_PAGY_BAL_ACCT_FILE clr
+		WHERE
+			1=1
+			<if test = "qStlmDateStart != '' "> and clr.STLM_DATE &gt;= #{qStlmDateStart}</if>
+			<if test = "qStlmDateEnd != '' "> and clr.STLM_DATE &lt;= #{qStlmDateEnd}</if>
+			<if test = "qPagyNo != '' "> and clr.PAGY_NO = #{qPagyNo}</if>
+		order by clr.STLM_DATE desc ,clr.PAGY_NO DESC,clr.PAGY_MAIN_MCHT_NO desc
+	</select>
+</mapper>

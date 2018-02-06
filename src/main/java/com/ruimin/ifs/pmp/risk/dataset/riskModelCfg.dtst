@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.risk.comp.RiskModelCfgAction:queryAll" 
+	desc="模型管理" expmaxrcd="50" flowctxid="" flowretid=""/> 
+	<Fields>
+	<!-- 查询字段 -->
+		<Field id="qriskModelId" desc="模型编号" edittype="textbox" datatype="string"/>
+		<Field id="qriskModelName" desc="模型名称" edittype="textbox" datatype="string"/>
+		<Field id="qriskModelType" desc="模型类型" edittype="combobox" align="center" datasource="DDIC:1921" multiple="false" />
+		<Field id="qstatus" desc="模型状态" edittype="combobox"  datasource="DDIC:1923" datatype="string" />
+		<Field id="qactionBitmap" desc="风控动作" multiple="false" datasource="DDIC:1920" edittype="combobox" />
+		
+	<!-- 主表单字段 -->      
+		<Field id="riskModelId" desc="模型编号" datatype="string" required="true" align="center" xpath="/riskModelId"/> 	   
+		<Field id="riskModelType" desc="模型类型" datatype="string" required="true" datasource="DDIC:1921" align="center" edittype="combobox" xpath="/riskModelType" width="300"/>    
+		<Field id="riskModelName" desc="模型名称" size="60" datatype="string" align="center" required="true" xpath="/riskModelName"  width="250"/>    
+		<Field id="actionBitmap" desc="风控动作"  datatype="string" datasource="DDIC:1920" align="center" required="true"  edittype="combobox" xpath="/actionBitmap" />  
+		<Field id="valueExplain" desc="閾值説明" datatype="string" align="center" required="true" xpath="/valueExplain" width="300"/>      
+		<Field id="status" desc="使用状态" datatype="string" datasource="DDIC:1923"  edittype="combobox" align="center" required="true" xpath="/status" width="300"/>    
+  		<Field id="changeValueModel" desc="閾值模板" datatype="string" align="center" required="true" xpath="/changeValueModel" width="300"/> 
+		<Field id="opr" desc="操作栏" datatype="string" align="center"/>      
+	<!-- 其他 -->
+		<Field id="riskModelDesc" desc="模型说明" size="128" datatype="string"  align="center" required="true" xpath="/riskModelDesc" width="300"/>    
+		
+		<!-- 修改功能-->
+		<Field id="riskModelTypeSel" desc="模型类型" edittype="combobox" align="center" datasource="DDIC:1921" multiple="false" status="F" required="false" datatype="string"/>    
+		<Field id="actionBitmapSel" desc="风控动作" init="true" align="center"  multiple="true" datasource="DDIC:1920" edittype="combobox" required="false" />    
+		
+		
+	</Fields> 
+	
+	<Commands>	 
+	<!-- 主界面按钮 -->
+		
+		<Command id="btnUpd" desc="修改" type="none" icon="fa fa-pencil"/>
+		<Command id="btnEnableOrDisable" desc="启用/停用" type="none" url="#" txn="" icon="fa fa-gears" tip="启用/停用"/>		
+		<Command id="btnEnableOrDisableSubMit" desc="" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.pmp.risk.comp.RiskModelCfgAction:enableOrDisable" url="#" txn="" icon="" tip=""/>
+		<Command id="btnCfg" desc="参数配置" type="none" icon="fa fa-gears"/>
+	
+	<!-- 修改窗口 -->		
+		<Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.risk.comp.RiskModelCfgAction:updModel"/>
+	    <Command id="btnReturn" desc="返回" type="none"  icon="fa fa-list" url="#" ></Command>
+	</Commands>	
+</Data>

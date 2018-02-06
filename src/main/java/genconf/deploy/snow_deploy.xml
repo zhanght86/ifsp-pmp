@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy>
+	<server>
+		<bizServerGroups>
+		</bizServerGroups>
+		<frontServerGroups>
+		</frontServerGroups>
+	</server>
+	<!-- 
+	<frontMutual ref="fsresources.reqfront.Socket" type="Socket" name="服务与前置平台采用sockt通讯" desc="服务与前置平台采用sockt通讯"> 
+ 		<attr key="ip" value="$nodeIp"/>
+		<attr key="port" value="$nodePort"/>
+		<attr key="timeout" value="60000"/> 
+		<attr key="processorCount" value="5"></attr>
+	</frontMutual> 
+	 -->
+	<!--
+	<frontMutual ref="fsresources.reqfront.Jms" type="Jms" name="服务与前置平台采用jms通讯" desc="服务与前置平台采用jms通讯">
+		<attr key="jndiConnectFactory" value="/PreConnectionFactory"/>
+		<attr key="providerUrl" value="jnp://130.251.106.19:1099"/>
+		<attr key="timeout" value="60000"/>
+	</frontMutual>
+	 -->
+</deploy>

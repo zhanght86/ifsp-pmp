@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="交易类型信息" type="call" pagesize="100" log="false" flowid="com.ruimin.ifs.pmp.sysConf.comp.TxnTypeMngAction:queryTxnTypeInfo" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+	    <Field id="select" desc="选择" edittype="checkbox"  status ="F" datatype="boolean" xpath=""/>
+		<Field id="txnTypeCode" desc="交易类型编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/txnTypeCode"/>
+		<Field id="txnTypeName" desc="交易类型名称" align="center" required="true" edittype="textbox" datatype="string" status="F"  xpath="/txnTypeName" />
+		<Field id="txnTypeDesc" desc="交易类型描述" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/txnTypeDesc" />
+		<Field id="dataState" desc="数据有效状态" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/dataState" />
+		<Field id="crtTlr" desc="创建柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDate" desc="最近更新日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdDate" />
+		
+		<Field id="opr" desc="关联交易" />
+		
+	    <!-- 查询条件 -->
+	    <Field id="qtxnTypeCode" desc="交易类型编号" />
+	    <Field id="qtxnTypeName" desc="交易类型名称" />
+	    
+	</Fields>
+	<Commands>
+	    <Command id="btnAdd" desc="新增" type="addrecord" url="#" icon="fa fa-plus"></Command>
+	    <Command id="btnSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.TxnTypeMngAction:addTxnTypeInfo" url="#" icon=""></Command>
+	    
+	    <Command id="btnMod" desc="修改" type="none" url="#" icon="fa fa-pencil"></Command>
+	    <Command id="btnSave1" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.TxnTypeMngAction:updateTxnTypeInfo" url="#" icon=""></Command>
+	    
+	    <Command id="btnDelete" desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.TxnTypeMngAction:deleteTxnTypeInfo" url="#" icon="fa fa-minus"></Command>
+	    
+	    <Command id="btnAddSection01" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnDeleteSection01"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+		
+	</Commands>
+</Data>

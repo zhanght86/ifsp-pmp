@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_FILE_NAME" value="manage" />
+	<property name="LOG_HOME" value="d:apps/logs/${LOG_FILE_NAME}" />
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoding>UTF-8</encoding>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>
+			<![CDATA[
+				%date{yy-MM-dd HH:mm:ss.SSS}[%level][%t][%L]-%logger{15}-%msg%n
+			]]>
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoding>UTF-8</encoding>
+		<append>false</append>
+		<file>${LOG_HOME}/${LOG_FILE_NAME}.log</file>
+		<!-- Support multiple-JVM writing to the same log file -->
+		<prudent>false</prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${LOG_HOME}/%d{yyyyMMdd}/${LOG_FILE_NAME}.%i.log</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 150MB -->
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!-- %date{yy-MM-dd HH:mm:ss.SSS}[%level][%t][%L][%X{client_ip}]%X{user_id}-%X{user_name}-%logger{15}-%msg%n -->
+			<pattern>
+			<![CDATA[
+				%date{yy-MM-dd HH:mm:ss.SSS}[%level][%t][%L]-%logger{15}-%msg%n
+			]]>
+			</pattern>
+		</encoder>
+	</appender>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="stdout" />
+	</root>
+
+	<logger name="java.sql" level="INFO">
+		<appender-ref ref="stdout" />
+	</logger>
+</configuration>

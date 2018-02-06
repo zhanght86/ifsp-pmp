@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="区划码" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.AccAreaInfoAction:pageQuery" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+    	  <!-- 查询条件 -->
+             <Field id="qProviceNm" desc="省名称" align="center" required="true" status="F" ></Field>
+             <Field id="qCityNm" desc="市/区名称" align="center" required="true" status="F"></Field>
+             
+             <Field id="qhCode" desc="区划码" align="center"  edittype="textbox" xpath="/qhCode"></Field>
+             <Field id="qhName" desc="区划名称" align="center" edittype="textbox" xpath="/qhName"></Field>
+     </Fields>
+</Data>

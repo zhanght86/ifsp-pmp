@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<select id="queryTermNorInfoForApplyKey" paramType="map" resultType="com.ruimin.ifs.po.ImpTermInfTmp">
+		select * from IMP_TERM_INF_TMP t  WHERE TERM_STAT='1' and t.term_id not in (select r.term_id from Imp_Term_Tmk_Reg r)
+		<if test="termId!=''" > AND t.TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND t.MCHT_ID=#{mchtId} </if>
+	</select>
+	<select id="listAllKeyApply" paramType="map" resultType="com.ruimin.ifs.pmp.term.process.bean.ImpTermTmkReg">
+		select * from IMP_TERM_TMK_REG  WHERE 1=1
+		ORDER BY LAST_UPD_DATE_TIME desc
+	</select>
+	
+	<select id="getBatchNo" paramType="map" resultType="com.ruimin.ifs.pmp.term.process.bean.ImpTermTmkReg">
+		select * from IMP_TERM_TMK_REG where substr(BATCH_NO,1,8)=#{batchNo}
+		order by LAST_UPD_DATE_TIME desc
+	</select>
+	
+	<select id="listAllRefuseReason" paramType="map" resultType="com.ruimin.ifs.po.ImpTermRefuseReason">
+		select * from IMP_TERM_REFUSE_REASON  WHERE 1=1 
+		<if test="termId!=''"> AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''"> AND MCHT_ID=#{mchtId} </if>
+		ORDER BY LAST_AUD_DATE_TIME desc
+	</select>
+	
+	<select id="queryTermInfo" paramType="map" resultType="com.ruimin.ifs.po.ImpTermInfTmp">
+		select * from IMP_TERM_INF_TMP  WHERE 1=1 and TERM_BRH in (brCode)
+		<if test="termId!=''" > AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND MCHT_ID=#{mchtId} </if>
+		<if test="termStat!=''" > AND TERM_STAT=#{termStat} </if>
+		ORDER BY TERM_ID desc
+	</select>
+	
+	<select id="queryTermInfoByState" paramType="map" resultType="com.ruimin.ifs.po.ImpTermInfTmp">
+		select * from IMP_TERM_INF_TMP  WHERE 1=1 
+		<if test="termId!=''" > AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND MCHT_ID=#{mchtId} </if>
+		AND TERM_STAT in ('1') 
+		ORDER BY TERM_ID desc
+	</select>
+	
+	<select id="queryTermInfoByCheck" paramType="map" resultType="com.ruimin.ifs.po.ImpTermInfTmp">
+		select * from IMP_TERM_INF_TMP  WHERE 1=1 
+		<if test="termId!=''" > AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND MCHT_ID=#{mchtId} </if>
+		<if test="apprFlag!=''" >and TERM_STAT in ('0','4','5','6','7') </if>
+		
+		ORDER BY TERM_ID desc
+	</select>
+	
+	<select id="queryPaypTermKeyByCheck" paramType="map" resultType="com.ruimin.ifs.pmp.term.process.bean.PaypTermKey">
+		select * from PAYP_P_TERM_KEY  WHERE 1=1 AND key_st in('0','1','2')
+		<if test="keyIndex!=''" >AND KEY_INDEX=#{keyIndex}  </if>
+		<if test="keySt!=''" > AND KEY_ST=#{keySt} </if>
+		
+	</select>
+	
+	<select id="queryPaypTermKeyByCheck1" paramType="map" resultType="com.ruimin.ifs.pmp.term.process.bean.PaypTermKey">
+		select * from PAYP_P_TERM_KEY  WHERE 1=1 AND key_st in('3','4')
+		<if test="termId!=''" > AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND MCHT_ID=#{mchtId} </if>
+		<if test="keyIndex!=''" >AND KEY_INDEX=#{keyIndex}  </if>
+		<if test="keySt!=''" > AND KEY_ST=#{keySt} </if>
+		<if test="tmkSt!=''" >AND TMK_ST=#{tmkSt}  </if>
+	</select>
+
+	<select id="queryTermInfoByCheckNew" paramType="map" resultType="com.ruimin.ifs.po.ImpTermInfTmp">
+		select * from IMP_TERM_INF_TMP  WHERE 1=1 
+		<if test="termId!=''" > AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND MCHT_ID=#{mchtId} </if>
+		AND TERM_STAT in ('0','4','5','6','7') 
+		ORDER BY TERM_ID desc
+	</select>
+	
+	<select id="queryCount" paramType="" resultType="int">
+		select * from PAYP_TERM_INF_TMP
+	</select>
+	<select id="queryTermId" paramType="" resultType="String">
+		select max(term_id) from PAYP_TERM_INF_TMP
+	</select>
+	<select id="queryTermNorInfo" paramType="map" resultType="com.ruimin.ifs.po.ImpTermInfTmp">
+		select * from IMP_TERM_INF_TMP  WHERE 1=1 
+		<if test="termId!=''" > AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND MCHT_ID=#{mchtId} </if>
+	     AND TERM_STAT='1' ORDER BY TERM_ID desc
+	</select>
+	<select id="queryTermFreInfo" paramType="map" resultType="com.ruimin.ifs.po.ImpTermInfTmp">
+		select * from IMP_TERM_INF_TMP  WHERE 1=1 
+		<if test="termId!=''" > AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND MCHT_ID=#{mchtId} </if>
+	     AND TERM_STAT='2' ORDER BY TERM_ID
+	</select>
+	<select id="queryMachInfo" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInven">
+		select * from IMP_MACH_INVEN  WHERE 1=1 
+		<if test="machInvenId!=''" > AND MACH_INVEN_ID=#{machInvenId} </if>
+		<if test="batchNo!=''" > AND BATCH_NO=#{batchNo} </if>
+		<if test="invenStat!=''" > AND INVEN_STAT=#{invenStat} </if>
+		<if test="machType!=''" > AND MACH_TYPE=#{machType} </if>
+		ORDER BY MACH_INVEN_ID desc
+	</select>
+	
+	<select id="queryMachInfoByState" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInven">
+		select * from IMP_MACH_INVEN  WHERE 1=1 
+		<if test="machInvenId!=''" > AND MACH_INVEN_ID=#{machInvenId} </if>
+		<if test="batchNo!=''" > AND BATCH_NO=#{batchNo} </if>
+		<if test="machType!=''" > AND MACH_TYPE=#{machType} </if>
+		<if test="apprFlag!=''" >and INVEN_STAT in ('1') </if>
+		ORDER BY MACH_INVEN_ID desc
+	</select>
+	
+	<select id="queryImpMach" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 
+		 AND PAD_ID_ID=#{invenId}
+		 AND TERM_ID=#{termId} 
+	</select>
+	<select id="queryImpMachNew" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 
+		 AND PAD_ID_ID IN (select MACH_INVEN_ID from IMP_MACH_INVEN where MACH_TYPE='1' )
+		 AND TERM_ID=#{termId} 
+	</select>
+	
+	<select id="queryImpMachById" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 AND TERM_ID=#{termId} 
+	</select>
+	
+	<select id="queryImpMachNew2" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 
+		 AND PAD_ID_ID IN (select MACH_INVEN_ID from IMP_MACH_INVEN where MACH_TYPE!='1' )
+		 AND TERM_ID=#{termId} 
+	</select>
+	
+	<select id="selectNew1" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 
+		 AND PAD_ID_ID IN (select MACH_INVEN_ID from IMP_MACH_INVEN where MACH_TYPE='0' )
+		 AND TERM_ID=#{termId} 
+	</select>
+	
+	<select id="selectNew2" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 
+		 AND PAD_ID_ID IN (select MACH_INVEN_ID from IMP_MACH_INVEN where MACH_TYPE ='1' )
+		 AND TERM_ID=#{termId} 
+	</select>
+	
+	<select id="selectNew3" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 
+		 AND PAD_ID_ID IN (select MACH_INVEN_ID from IMP_MACH_INVEN where MACH_TYPE ='2' )
+		 AND TERM_ID=#{termId} 
+	</select>
+	
+	<select id="selectNew4" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 
+		 AND PAD_ID_ID IN (select MACH_INVEN_ID from IMP_MACH_INVEN where MACH_TYPE ='3' )
+		 AND TERM_ID=#{termId} 
+	</select>
+		
+	<select id="queryPrdId" paramType="map" resultType="Int">
+		select * from PRD_PRPT_INFO where 1=1 
+		<if test="mchtType!=''" > AND PRD_TYPE=#{mchtType} </if>
+		AND PRD_ID IN(
+			select PRD_ID from IMP_MCHT_PRD_REL where 
+				 MCHT_ID IN(select MCHT_ID from IMP_MCHT_CHNL_INFO where
+				    CHNL_MCHT_ID IN(   
+				 	select MCHT_ID from IMP_TERM_INF where 1=1 
+				 	<if test="termId!=''" > AND TERM_ID =#{termId} </if>)))
+	</select>
+		
+	<select id="queryMachInfoNew" paramType="String" resultType="com.ruimin.ifs.po.ImpMachInven">
+		select * from IMP_MACH_INVEN  WHERE 1=1 
+		AND MACH_INVEN_ID=#{machInvenId} 
+		ORDER BY MACH_INVEN_ID desc
+	</select>
+	<select id="queryMachInfoBind" paramType="map" resultType="com.ruimin.ifs.po.ImpMachInvenBind">
+		select * from IMP_MACH_INVEN_BIND  WHERE 1=1 
+		<if test="machInvenId!=''" > AND PAD_ID_ID=#{machInvenId} </if>
+		<if test="termId!=''" > AND TERM_ID=#{termId} </if>
+		<if test="mchtId!=''" > AND MCHT_ID=#{mchtId} </if>
+		ORDER BY TERM_ID desc
+	</select>
+	<select id="queryTermBind" paramType="map" resultType="com.ruimin.ifs.po.ImpTermBind">
+		select * from IMP_TERM_BIND  WHERE 1=1 
+		 AND TERM_NO=#{termNo} 
+		 AND IMEI=#{imei} 
+		ORDER BY TERM_NO desc
+	</select>
+	<select id="queryImpTermBind" paramType="map" resultType="com.ruimin.ifs.po.ImpTermBind">
+		 select * from IMP_TERM_BIND  WHERE 1=1 
+		 <if test="termNo!=''" > AND TERM_NO=#{termNo} </if>
+		 <if test="imei!=''" > AND IMEI=#{imei} </if>
+		ORDER BY TERM_NO desc
+	</select> 
+	<select id="queryMposTermInfo" paramType="map" resultType="com.ruimin.ifs.po.ImpTermInfTmp">
+		select * from IMP_TERM_INF_TMP  WHERE 1=1 AND term_stat='1' AND term_type='3'
+		ORDER BY TERM_ID desc
+	</select>
+	
+	<select id="queryTermKey" paramType="string" resultType="Integer">
+		 select count(*) from PAYP_P_TERM_KEY  WHERE key_index =#{keyIndex}
+	</select> 
+	
+	<select id="queryTermKeyOne" paramType="string" resultType="Integer">
+		 select count(*) from PAYP_P_TERM_KEY  WHERE term_id =#{termId}
+	</select> 
+	
+	<select id="queryTermKeyTwo" paramType="" resultType="com.ruimin.ifs.pmp.term.process.bean.PaypTermKey">
+		select * from(select * from PAYP_P_TERM_KEY  WHERE 1=1 AND term_id is null and key_st = '1')
+		where rownum = 1
+       
+	</select>
+	
+	
+	
+</mapper> 

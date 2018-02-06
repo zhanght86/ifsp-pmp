@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.service.comp.ServiceMchtPollingAction:queryMain" 
+		 desc="内部机构服务机构关联表" expmaxrcd="50" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询字段 -->
+		<Field id="qserviceName" desc="服务机构名称" edittype="textbox" datatype="string" />
+		<Field id="qmchtName" desc="商户名称" edittype="textbox" datatype="string" />
+		<Field id="qtermId" desc="终端编号" edittype="textbox" datatype="string" />
+		<Field id="qpollingDate" desc="巡检日期" edittype="datebox" datatype="date" />
+
+		<!-- 主表单字段 -->
+		<Field id="serviceId" desc="序号" readonly="true" datatype="string" align="center" xpath="/serviceId" />
+		<Field id="brname" desc="所属机构" readonly="true" datatype="string" align="center" xpath="/brname" />
+		<Field id="mchtId" desc="商户编号" readonly="true"  colspan="3" datatype="string" align="center" xpath="/mchtId" />
+		<Field id="mchtName" desc="商户名称" readonly="true" colspan="3" datatype="string" width="400" align="center" xpath="/mchtName" />
+		<Field id="mchtPersonName" desc="联系人" readonly="true" datatype="string" align="center" xpath="/mchtPersonName" />
+		<Field id="mchtPhone" desc="联系电话" readonly="true" datatype="string" align="center" xpath="/mchtPhone" />
+		<Field id="pollingDate" desc="巡检日期" align="center" edittype="datebox"
+			datatype="date" readonly="true" xpath="/pollingDate"/>	
+		<Field id="serviceCode" desc="服务机构号" readonly="true" datatype="string" align="center" xpath="/serviceCode" />
+		<Field id="serviceName" desc="服务机构名称"  readonly="true" datatype="string" width="400" align="center" xpath="/serviceName" />
+		<Field id="termId" desc="终端编号" readonly="true" datatype="string" align="center" xpath="/termId" />
+		<Field id="manageName" desc="经营名称" readonly="true" datatype="string" align="center" xpath="/manageName" />
+		<Field id="manageAddr" desc="经营地址" readonly="true" datatype="string" align="center" xpath="/manageAddr" />
+		<Field id="equipmentId" desc="设备号" readonly="true" datatype="string" align="center" xpath="/equipmentId" />
+		<Field id="configurationCode" desc="配置码" readonly="true" datatype="string" align="center" xpath="/configurationCode" />
+		<Field id="keyboardCode" desc="键盘号" readonly="true" datatype="string" align="center" xpath="/keyboardCode" />
+		<Field id="versionsCode" desc="版本号" readonly="true" datatype="string" align="center" xpath="/versionsCode" />
+		<Field id="mchtAmrNo" desc="客户经理工号" readonly="true" datatype="string" align="center" xpath="/mchtAmrNo" />
+		<Field id="pollingResult"   desc="巡检结果" readonly="true"  datatype="string" align="center"  xpath="/pollingResult" />
+	   
+	   <Field id="remark"   desc="备注" readonly="true"	edittype="textarea"  datatype="string" align="center" 
+	   colspan="4" width="610" rows="8"  status="F" default="" xpath="/remark" />
+	   
+		<Field id="opr" desc="操作栏" datatype="string" align="center" />
+	</Fields>
+	<Commands>
+		<Command id="btnImport" desc="导入" type="none" url="#" txn="" icon="fa fa-upload" />
+	</Commands>
+
+</Data>

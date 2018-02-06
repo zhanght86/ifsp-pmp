@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="系统日志查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.BizLogQueryAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 表格字段 -->
+		<Field id="id" desc="日志编号" status="F" required="false" edittype="textbox"
+			datatype="int" method="None" readonly="false" 
+			size="8" default="" xpath="/id" />
+		<Field id="txnDate" desc="操作日期" status="F" align="center" required="false" edittype="textbox"
+			datatype="date" method="None" readonly="false" 
+			size="30" default="" xpath="/txnDate" />
+		<Field id="txnStartTime" desc="操作时间" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			 size="30" default="" xpath="/txnStartTime" />
+		<Field id="txnEndTime" desc="操作结束时间" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			 size="30" default="" xpath="/txnEndTime" />
+		<Field id="ipAdr" desc="操作员IP" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			 size="30" default="" xpath="/ipAdr"  />
+		<Field id="oprcode" desc="操作员编号" status="N" align="center" method="None"
+			width="50" readonly="false" size="20"
+			xpath="/oprcode" default="" />
+		<Field id="tlrName" desc="操作员姓名" status="N" align="center" method="None"
+			width="50" readonly="false" size="20"
+			xpath="/tlrName" default="" />
+		<Field id="txnBizLog1" desc="操作详情" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			 size="100" default="" xpath="/txnBizLog1" />
+			
+		<!-- 查询条件 -->
+		<Field id="startDate" desc="开始日期" edittype="datebox" datatype="date" xpath="" status="F" default="" />
+		<Field id="endDate" desc="结束日期" edittype="datebox" datatype="date" xpath="" status="F" default="" />
+		<Field id="tlrno" desc="操作员编号" edittype="textbox" datatype="string" xpath="" status="F" default="" />
+		<Field id="oprcode1" desc="操作员姓名" edittype="textbox" datatype="string" xpath="" status="F" default="" />
+		
+	</Fields>
+</Data>

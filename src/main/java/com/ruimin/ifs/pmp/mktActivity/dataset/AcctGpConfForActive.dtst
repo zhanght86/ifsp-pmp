@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动信息查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.AcctGpConfAction:queryGpNoAndName" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件信息 -->
+		<Field id="qGpTpNo" 		desc="分组编号" 	edittype="textbox"        datatype="string" xpath="/gpTpNo"/>
+		
+		
+		<!-- 列信息 -->
+		<Field id="gpSeq" 		desc="列编号" 	edittype="textbox"        datatype="string" xpath="/gpSeq"/>
+		<Field id="gpNm" 		desc="列名称" 	edittype="textbox"        datatype="string" xpath="/gpNm"/>
+	</Fields>
+</Data>

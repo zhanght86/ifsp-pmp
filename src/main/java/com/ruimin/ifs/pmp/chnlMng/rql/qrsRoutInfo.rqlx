@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 二维码路由查询 -->
+<select id="queryByRoutId" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.QrsRouteInfo">
+	<![CDATA[SELECT
+				q.ROUTE_ID,
+				replace(q.MCHT_ID,'|',',') as MCHT_ID,
+				replace(q.PROD_ID,'|',',') as PROD_ID,
+				replace(q.ACCT_TYPE,'|',',') as ACCT_TYPE,
+				q.PAGY_NO,
+				q.PRIORITY,
+				q.`STATUS`,
+				q.ROUTE_DESC,
+				q.CRT_TLR,
+				q.CRT_DATE_TIME,
+				q.LAST_UPD_TLR,
+				q.LAST_UPD_DATE_TIME
+			FROM
+				qrs_route_info q
+				WHERE 1=1]]>
+	<if test = "routeId!= ''"><![CDATA[and q.ROUTE_ID like #{routeId} ]]></if>
+	<if test = "mchtId!= ''"><![CDATA[and q.MCHT_ID like #{mchtId} ]]></if>
+	<!-- modify by lengjingyu 20180205 二维码路由管理界面，路由按照优先级排升序  jira-1850 -->
+			ORDER BY q.PRIORITY
+	<!-- modify end -->
+</select>	
+
+<!-- 获取路由编号最大值 -->
+	<select id="queryMaxRoutId" paramType="String" resultType="String">
+		select max(ROUTE_ID) ROUTE_ID from qrs_route_info	
+		where ROUTE_ID like #{currentDate}
+	</select>
+</mapper>

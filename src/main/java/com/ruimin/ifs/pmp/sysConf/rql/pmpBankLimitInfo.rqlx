@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<select paramType="" id="findMaxBankLimitNo" resultType="string">
+		SELECT
+		MAX(LIMIT_NO) FROM PBS_BANK_LIMIT_INFO
+	</select>
+
+	<delete paramType="map" id="deleteBankLimitByBankNo">
+		DELETE FROM PBS_BANK_LIMIT_INFO WHERE
+		BANK_NO = #{bankNo}
+	</delete>
+
+	<select paramType="map" id="findBankLimitByBankNo"
+		resultType="com.ruimin.ifs.pmp.sysConf.process.bean.PmpBankLimitInfoVO">
+		SELECT * FROM PBS_BANK_LIMIT_INFO WHERE 1=1 AND DATA_STATE = '00'
+		AND BANK_NO=#{bankNo}
+		ORDER BY CRT_DATE_TIME DESC
+	</select>
+</mapper>

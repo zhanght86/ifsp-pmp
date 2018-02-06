@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="商户证书配置和接入参数配置" type="call" pagesize="10" log="false" 
+	  flowid="com.ruimin.ifs.pmp.accessPara.comp.AccessParaAction:queryAll" 
+	  expmaxrcd="100" flowctxid="" flowretid="" />
+	
+	<Fields>
+		<!-- 基础信息 -->
+		<Field desc="证书编号" 	id="certifiId" 	 	align="center" edittype="textbox" datatype="string" 
+			required="true" readonly="true" size="50"  xpath="/certifiId" /> 
+		
+		<Field desc="MD5密钥" 	id="certifiPasswd" align="center" edittype="textbox" datatype="string"
+			required="true" size="44" colspan="4" width="600" xpath="/certifiPasswd" />
+			
+		<Field desc="证书路径" 	id="certifiPath" 	align="center" edittype="textbox" datatype="string" 
+			required="false" readonly="false" size="500" status="F" xpath="/certifiPath" />
+			
+		<Field desc="证书类型" 	id="certifiType" 	align="center" edittype="combobox" datatype="string" 
+			datasource="LIST:01,公钥证书;02,私钥证书;03,MD5" 
+			required="false" readonly="false" status="F" xpath="certifiType" />
+					
+		<Field desc="使用类型"		id="certifiUseType" align="center" edittype="combobox" datatype="string"  
+			datasource="LIST: 3000,支付平台;3001,本行借记卡核心;3002,本行贷记核心;3003,银联全渠道收单;3004,银联在线发卡;3005,微信支付;3006,支付宝支付;3007,手Q支付;3008,其它" 	
+			required="false" readonly="false" status="F" xpath="/certifiUseType" />
+			
+		<Field desc="证书状态" 		id="certifiStatus" 	align="center" edittype="combobox" datatype="string" 
+			datasource="LIST:00,启用;01,停用" 
+			required="true" readonly="false" status="F" xpath="/certifiStatus" />
+			
+		<Field desc="生效日期" 	id="certifiDate" 	align="center" edittype="datebox" datatype="date" 
+			required="true" readonly="false" status="F" xpath="/certifiDate" />
+		
+		<Field desc="失效日期" 	id="certifiEndDate" align="center" edittype="datebox" datatype="date" 
+			required="true" readonly="false" status="F" xpath="/certifiEndDate" />
+			
+		<Field desc="加密方式" 	id="encryptWayType" align="center" edittype="combobox" datatype="string" 
+			datasource="LIST:01,签名;02,加密"
+			required="false" readonly="false" status="F"  xpath="/encryptWayType" />
+			
+		<Field desc="加密类型" 	id="encryptType" 	align="center" edittype="textbox" datatype="string" 
+			datasource="LIST:01,数字证书;02,Md5"
+			required="false" readonly="false" status="F"  xpath="/mchtId" />
+		
+		<Field desc="创建日期" 	id="recCrtTs" 		align="center" edittype="textbox" datatype="string" 
+			xpath="/recCrtTs" />
+		
+		<Field desc="更新日期" 	id="recUpdTs" 		align="center" edittype="textbox" datatype="string" 
+			xpath="/recUpdTs" />
+		
+		<Field desc="创建人" 		id="recCrtOpr" 		align="center" edittype="textbox" datatype="string" 
+			xpath="/recCrtOpr" />
+		
+		<Field desc="更改人" 		id="recUpdOpr" 		align="center" edittype="textbox" datatype="string" 
+			xpath="/recUpdOpr" />
+		
+		<Field desc="接入编号" 	id="certifiBl" 	 	align="center" edittype="textbox" datatype="string" 
+			required="true" readonly="false" size="32" status="F" xpath="/certifiBl" />
+			
+		<Field id="opr" desc="操作栏" datatype="string" align="center" />
+
+		<!-- 查询条件 -->
+		<Field desc="接入编号" 	id="qCertifiId" 		align="center" edittype="textbox" datatype="string" 
+			required="false" readonly="false" size="32" status="F" />
+		
+		<Field desc="证书状态" 		id="qcertifiStatus" align="center" edittype="combobox" datatype="string" 
+			datasource="LIST:00,启用;01,停用" 
+			required="false" readonly="false" status="F" />	
+    </Fields>
+    
+	<Commands>
+		<!-- 1.新增 -->
+		<Command id="btnAdd" desc="新增" type="addrecord" flowid="" icon="fa fa-plus" url="#" txn="" />
+		<Command id="btnAddSave" desc="保存" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.accessPara.comp.AccessParaAction:addAccInfo"
+			icon="fa fa-save" url="#" txn="" />
+	
+		<!-- 2.修改 -->	
+		<Command id="btnUpt" desc="修改" type="none" icon="fa fa-pencil" flowid="" url="#" txn="" />
+		<Command id="btnUpdSave" desc="保存" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.accessPara.comp.AccessParaAction:updAccInfo"
+			icon="fa fa-save" url="#" txn="" />
+		
+		<!-- 3.启用/停用 -->
+		<Command id="btnStatus" desc="启用/停用" type="none" url="#" txn="" icon="fa fa-gears" tip="启用/停用" />
+		<Command id="btnStatusSub" desc="" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.accessPara.comp.AccessParaAction:setAccStatus"
+			url="#" txn="" icon="" tip="" />
+
+	</Commands>
+</Data>

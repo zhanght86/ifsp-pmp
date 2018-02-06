@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction:queryAll" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+          <!-- 页面表格中的字段 -->
+          <Field id="ttsCode" desc="策略编号" align="center" size="8" required="false" edittype="textbox" xpath="/ttsCode" ></Field>
+          <Field id="ttsResp" desc="策略名称"  align="center" required="true" edittype="textbox" xpath="/ttsResp" ></Field>
+          <Field id="ttsType" desc="策略类型" align="center" datasource="DDIC:1821" required="true" edittype="combobox" xpath="/ttsType" ></Field>
+          <Field id="ttsStat" desc="策略状态" align="center" datasource="DDIC:1822" required="true" edittype="combobox" xpath="/ttsStat" ></Field>
+          <Field id="crtTlr" desc="创建柜员" align="center" edittype="textbox" required="false" status="F" xpath="/crtTlr"></Field>
+          <Field id="crtDateTime" desc="创建日期时间" align="center" edittype="datebox" required="false" status="F" xpath="/crtDateTime"></Field>
+          <Field id="lastUpdTlr" desc="最近更新柜员" align="center" edittype="textbox" status="F" xpath="/lastUpdTlr"></Field>
+          <Field id="lastUpdDateTime" desc="最近更新日期时间" align="center" edittype="datebox" status="F" xpath="/lastUpdDateTime"></Field>
+          
+           
+          <!-- 查询字段 -->
+          <Field id="qttsCode" desc="策略编号" size="8" edittype="textbox"></Field>
+          <Field id="qttsResp" desc="策略名称" size="42" edittype="textbox"></Field>
+          <Field id="qttsType" desc="策略类型" size="2" datasource="DDIC:1821" edittype="combobox"></Field>
+          <Field id="qttsStat" desc="策略状态" size="2" datasource="DDIC:1822" edittype="combobox"></Field>
+          
+          <Field desc="交易描述" id="opr" status="N"></Field>
+     </Fields>
+     <Commands>
+          <Command id="btAdd" desc="新增" type="addrecord" flowid="" icon="fa fa-plus" url="#" txn="" tip="新增"></Command>
+          <Command id="btSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction:addRoutMng" icon="fa fa-save" url="#" txn="addRoutMng"></Command>
+          
+          <Command id="btUpt" desc="修改" type="none" flowid="" icon="fa fa-wrench" url="#" txn="" ></Command>
+          <Command id="btUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction:updateRoutMng" icon="fa fa-save" url="#" txn="updateRoutMng"></Command>
+          
+          <Command id="btStatus" desc="启用/停用" type="none" flowid="" icon="fa fa-certificate" url="#" txn=""></Command>
+          <Command id="btnStatusSub" desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction:updateRoutMngStatus" icon="" url="#" txn=""></Command>
+          <Command id="btnDetail" desc="明细" type="none" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction:queryName" icon="fa fa-list" url="#" txn=""></Command>
+          
+          
+
+     </Commands>
+</Data>

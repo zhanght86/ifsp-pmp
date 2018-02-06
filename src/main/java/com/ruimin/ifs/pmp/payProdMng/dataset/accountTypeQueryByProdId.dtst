@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="账户类型管理" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.payProdMng.comp.AccountTypeQueryAction:queryAccountTypeByProdId" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 表格字段 -->
+		<Field id="select" desc="选择" edittype="checkbox"  status ="F" datatype="boolean" xpath=""/>
+		<Field id="acctTypeCode" desc="账户类型编号" status="F" align="center" required="true" edittype="textbox"
+			datatype="string" method="None" readonly="true" 
+			 default="" xpath="/acctTypeNo" />
+	    <Field id="txnTypeCode" desc="交易类型编号" status="F" align="center" required="true" edittype="textbox"
+			datatype="string" method="None" readonly="true" 
+			 default="" xpath="/txnTypeCode" />
+		<Field id="acctTypeName" desc="账户类型名称" status="F" align="center" required="true" edittype="textbox"
+			datatype="string" method="None" readonly="false" 
+			 default=""  xpath="/acctTypeName" />
+		<Field id="acctTypeDesc" desc="账户描述" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			 default="" xpath="/acctTypeDesc" />
+		<Field id="dataState" desc="账户状态" status="F" align="center" required="false"
+			edittype="combobox" datatype="string" datasource="DDIC:1800" multiple="false" method="None" readonly="false" 
+			 default="" xpath="/acctTypeStat" />
+		<Field id="crtTlr" desc="创建柜员" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			  default="" xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期时间" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			  default="" xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			 default="" xpath="/lastUpdTlr" />
+		<Field id="lastUpdDateTime" desc="最近更新日期时间" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			 default="" xpath="/lastUpdDateTime" />
+		<!-- 查询条件 -->
+	    <Field id="qprodId" desc="产品编号"  datatype="string" xpath="" status="F" default="" />
+	</Fields>
+
+</Data>

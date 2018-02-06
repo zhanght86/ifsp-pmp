@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="账户类型管理" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 表格字段 -->
+		<Field id="acctTypeNo" desc="账户类型编号" status="F" align="center" required="true" edittype="textbox"
+			datatype="string" method="None" readonly="true" 
+			size="2" default="" xpath="/acctTypeNo" />
+		<Field id="acctTypeName" desc="账户类型名称" status="F" align="center" required="true" edittype="textbox"
+			datatype="string" method="None" readonly="false" 
+			default=""  xpath="/acctTypeName" />
+		<Field id="acctTypeDesc" desc="账户描述" status="F" align="center" required="false"
+			edittype="textarea" datatype="string" method="None" readonly="false" 
+			  default="" xpath="/acctTypeDesc" />
+		<Field id="acctTypeStat" desc="账户状态" status="F" align="center" required="false"
+			edittype="combobox" datatype="string" datasource="DDIC:1800" multiple="false" method="None" readonly="false" 
+			  default="" xpath="/acctTypeStat" />
+		<Field id="crtTlr" desc="创建柜员" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			  default="" xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期时间" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			  default="" xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			  default="" xpath="/lastUpdTlr" />
+		<Field id="lastUpdDateTime" desc="最近更新日期时间" status="F" align="center" required="false"
+			edittype="textbox" datatype="string" method="None" readonly="false" 
+			 size="14" default="" xpath="/lastUpdDateTime" />
+		<Field id="opr" desc="操作" edittype="textbox" align="center" datatype="string" xpath="" />
+		
+		<!-- 查询条件 -->
+		<Field id="qAcctTypeNo" desc="账户类型编号" edittype="textbox" datatype="string" xpath="" status="F" default="" />
+		<Field id="qAcctTypeName" desc="账户类型名称" edittype="textbox" datatype="string" xpath="" status="F" default="" />
+		
+	</Fields>
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<!-- 修改时的btnUpdate -->
+		<Command id="btnUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction:update" url="#" txn="" />
+		<!-- 新增的btnSave1 -->
+		<Command id="btnSave1"   desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction:saveOrUpdate" url="#" txn="" />
+		<Command id="btnDelete"   desc="启用/停用" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction:delete" url="#" txn="" />
+	</Commands>
+</Data>

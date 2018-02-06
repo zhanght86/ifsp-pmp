@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 审核任务查询 -->
+	<select id="query" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.ImpAuditInfo">
+		<![CDATA[select * from IMP_AUDIT_INFO where 1=1 order by AUDIT_ID ]]>
+	</select>
+	
+	<!-- 审核流程查询 -->
+	<select id="queryPro" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.ImpAuditPro">
+		<![CDATA[ select * from IMP_AUDIT_PRO where 1=1 ]]>
+		<if test = "auditId != '' "><![CDATA[ and AUDIT_ID = #{auditId} ]]></if>
+		<![CDATA[ order by AUDIT_LEVEL ]]>
+	</select>
+	
+	<!-- 审核流程查询 -->
+	<select id="queryMchtOprRole" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.ImpAuditPro">
+		<![CDATA[ select pro.* from IMP_AUDIT_PRO pro left join IMP_AUDIT_INFO info on pro.AUDIT_ID=info.AUDIT_ID where 1=1 and info.AUDIT_STAT='1' and pro.AUDIT_LEVEL=0 and info.AUDIT_TYPE='00' ]]>
+		<if test = "roleId != '' "><![CDATA[ and AUDIT_ROLE like #{roleId} ]]></if>
+	</select>
+	
+	<!-- 查询当前使用商户数 -->
+	<select id="queryNextAuditRole" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.ImpAuditPro">
+		<![CDATA[ select * from IMP_AUDIT_PRO where 1=1 ]]>
+		<if test = "auditId != '' ">  and AUDIT_ID = #{auditId} </if>
+		<if test = "auditLevel != '' ">  and AUDIT_LEVEL = #{auditLevel} </if>
+	</select>
+	
+	
+	<!-- 查询当前使用商户数 -->
+	<select id="queryFirstAuditRole" paramType="map" resultType="String">
+		<![CDATA[ select * from (select AUDIT_ROLE from IMP_AUDIT_PRO where 1=1 and PRO_ID = #{proId} order by AUDIT_LEVEL ) where rownum=1 ]]>
+	</select>
+	
+	<!-- 查询 -->
+	<select id="queryAuditProByFirstRole" paramType="map" resultType="String">
+		<![CDATA[ select * from (select AUDIT_ROLE from IMP_AUDIT_PRO where 1=1 and PRO_ID = #{proId} order by AUDIT_LEVEL ) where rownum=1 ]]>
+	</select>
+	
+</mapper> 

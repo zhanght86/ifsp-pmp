@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.example.comp.DemoAction:listAll" desc="表单项" expmaxrcd="50" flowctxid="" flowretid="" />
+
+	<Fields>
+	</Fields>
+	<Commands>
+		<Command id="btn1" desc="按钮xxxxxx-图标" icon="fa fa-user" type="none" />
+		<Command id="btn2" desc="按钮-无图标" icon="" type="none" />
+		<Command id="btn3" desc="按钮-plain" icon="" type="none" />
+		<Command id="btn4" desc="" icon="fa fa-user" type="none" />
+
+		<Command id="btn8" desc="提交前检查" icon="" type="none" />
+	</Commands>
+</Data>

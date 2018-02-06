@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="模型阈值配置模板" type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.risk.comp.RiskValueOperateAction:queryOp"
+		expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="riskId" desc="风控编号" align="center" required="false"
+			edittype="textbox" xpath="/riskId"></Field>
+		<Field id="valueId" desc="阈值编号" align="center" readonly="true"
+			width="100" required="false" edittype="textbox" xpath="/valueId"></Field>
+		<Field id="riskLevel" desc="风险等级" align="center" width="100"
+			required="false" edittype="textbox" xpath="/riskLevel"></Field>
+		<Field id="riskOperate" desc="风控操作" align="center" width="100"
+			required="false" edittype="textbox" xpath="/riskOperate"></Field>
+
+		<Field id="param1" desc="等级1" required="true" align="center"
+			width="100" edittype="combogrid"
+			datasource="riskOperate:com.ruimin.ifs.pmp.risk.dataset.riskOperate"
+			fieldmap="param1=dataNo;param1Name=dataName" viewfield="dataName"
+			xpath="/param1" />
+		<Field id="param1Name"
+			method="com.ruimin.ifs.pmp.risk.comp.RiskValueOperateAction.getName"
+			align="center" desc="等级1" edittype="textbox" datatype="string" xpath="/param1" />
+
+		<Field id="param2" desc="等级2" required="true" align="center"
+			width="100" edittype="combogrid"
+			datasource="riskOperate:com.ruimin.ifs.pmp.risk.dataset.riskOperate"
+			fieldmap="param2=dataNo;param2Name=dataName" viewfield="dataName"
+			xpath="/param2" />
+		<Field id="param2Name"
+			method="com.ruimin.ifs.pmp.risk.comp.RiskValueOperateAction.getName"
+			align="center" desc="等级2" edittype="textbox" datatype="string" xpath="/param2" />
+		<Field id="param3" desc="等级3" required="true" align="center"
+			width="100" edittype="combogrid"
+			datasource="riskOperate:com.ruimin.ifs.pmp.risk.dataset.riskOperate"
+			fieldmap="param3=dataNo;param3Name=dataName" viewfield="dataName"
+			xpath="/param3" />
+		<Field id="param3Name"
+			method="com.ruimin.ifs.pmp.risk.comp.RiskValueOperateAction.getName"
+			align="center" desc="等级3" edittype="textbox" datatype="string" xpath="/param3" />
+			
+		<Field id="value" desc="阀值"  align="center" readonly="true"
+			 required="false" edittype="textbox" xpath="/value"></Field>
+	</Fields>
+
+</Data>

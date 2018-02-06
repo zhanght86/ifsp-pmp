@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 查询数据 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.risk.process.bean.MchtRiskGradeVo">
+		select * from RISK_MCHT_CFG where 1=1
+		  <if test = "qMchtNo != '' "> and MCHT_NO like #{qMchtNo}</if>
+          <if test = "qMchtName != '' "> and MCHT_NAME like #{qMchtName}</if>
+		  <if test = "qRiskLevel != '' "> and RISK_LEVEL like #{qRiskLevel}</if>
+		order by CRT_DATE_TIME desc,MCHT_NO desc
+	</select>
+	
+
+	
+	<!-- 修改用户黑名单信息 -->
+	<update  id="handWorkGrade" paramType="com.ruimin.ifs.pmp.risk.process.bean.MchtRiskGradeVo">
+		update
+			RISK_MCHT_CFG
+		set
+			RISK_LEVEL = #{riskLevel},
+			LAST_UPD_TLR = #{lastUpdTlr},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 
+			MCHT_NO = #{mchtNo}	
+	</update>
+	
+	
+</mapper> 

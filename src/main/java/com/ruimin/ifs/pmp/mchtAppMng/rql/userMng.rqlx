@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息详细查询 -->		
+	<select id="queryMassInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MchtUserVO">
+		 select a.*,t.MCHT_SIMPLE_NAME,t.MCHT_ARTIF_ID,mssMcht.NICK_NAME as nick_name from 
+            		(select u.*,l.mcht_id from mss_user_base_info u left join mss_user_mcht_link l on u.user_id=l.user_id where u.user_type='0') a
+      		left join pbs_mcht_base_info_tmp t on a.mcht_id=t.mcht_id where t.mcht_amr_no=#{tlrno}
+      		left join MSS_MCHT_NICK_LINK mssMcht on a.mcht_id=mssMcht.MCHT_ID
+		<if test = "qmchtId != ''"><![CDATA[and t.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and t.MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "quserName != ''"><![CDATA[and a.USER_NAME like #{quserName} ]]></if>
+		<if test = "qmchtArtifId != ''"><![CDATA[and t.MCHT_ARTIF_ID like #{qmchtArtifId} ]]></if>	
+		order by a.mcht_id
+	</select>
+
+	<select id="queryMassInfo2" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MchtUserVO">
+		 select a.*,t.MCHT_SIMPLE_NAME,t.MCHT_ARTIF_ID,mssMcht.NICK_NAME as nick_name from 
+            		(select u.*,l.mcht_id from mss_user_base_info u left join mss_user_mcht_link l on u.user_id=l.user_id where u.user_type='0') a
+      		left join pbs_mcht_base_info_tmp t on a.mcht_id=t.mcht_id 
+      		left join MSS_MCHT_NICK_LINK mssMcht on a.mcht_id=mssMcht.MCHT_ID
+      		where t.mcht_org_id in (
+      		select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList((select brcode from ifs_staff where tlrno=#{tlrno})))
+      		) 
+
+		<if test = "qmchtId != ''"><![CDATA[and t.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and t.MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "quserName != ''"><![CDATA[and a.USER_NAME like #{quserName} ]]></if>
+		<if test = "qmchtArtifId != ''"><![CDATA[and t.MCHT_ARTIF_ID like #{qmchtArtifId} ]]></if>	
+		order by a.mcht_id
+	</select>
+	
+	<select id="queryMassInfo1" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MchtUserVO">
+		select b.user_id_ass,b.emp_no,a.user_Name,a.phone_No from MSS_USER_BASE_INFO a 
+		left join MSS_MNG_ASS_LINK b on b.user_id_ass = a.user_id 
+		where b.user_id_mng=#{userId} 
+		order by b.user_id_ass
+	</select>
+
+	<select id="queryInfoById" paramType="String" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MchtUserVO">
+		select * from MSS_USER_BASE_INFO where user_id=#{userId}
+	</select>
+	
+	<select id="queryInfoByDeviceType" paramType="String" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MchtUserVO">
+		select * from MSS_USER_BASE_INFO where device_type=#{deviceType}
+	</select>
+</mapper>

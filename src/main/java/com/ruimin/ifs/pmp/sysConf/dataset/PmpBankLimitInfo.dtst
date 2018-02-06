@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="产品银行限额信息" expmaxrcd="100" flowctxid=""
+		flowid="com.ruimin.ifs.pmp.sysConf.comp.PmpBankInfoAction:queryBankLimitByBankNo"
+		flowretid="" log="false" pagesize="20" type="call" />
+
+
+	<Fields>
+		<!-- 产品银行限额信息 -->
+		<Field id="limitNo" desc="限额编号" align="center" status="F"
+			edittype="textbox" datatype="string" method="None" size="8" default=""
+			xpath="/limitNo" />
+
+		<Field id="bankNo" desc="银行编号" align="center" status="F"
+			edittype="textbox" datatype="string" method="None" size="8" default=""
+			xpath="/bankNo" />
+
+		<Field id="custType" desc="客户类型" align="center" status="F"
+			edittype="textbox" datatype="string" method="None" size="64"
+			required="true" default="" xpath="/custType" />
+
+		<Field id="limitOne" desc="单笔交易限额" align="center" status="F"
+			edittype="textbox" datatype="string" required="true"
+			method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.transFenToYuan"
+			size="13" default="" xpath="/limitOne" />
+
+		<Field id="limitDay" desc="当日交易限额" align="center" status="F"
+			edittype="textbox" datatype="string" required="true"
+			method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.transFenToYuan"
+			size="13" default="" xpath="/limitDay" />
+
+		<Field id="limitMon" desc="当月交易限额" align="center" status="F"
+			edittype="textbox" datatype="string"
+			method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.transFenToYuan"
+			size="13" default="" xpath="/limitMon" />
+
+		<Field id="dataState" desc="有效状态" align="center" status="F"
+			edittype="combobox" datatype="string" method="None" size="2" default=""
+			datasource="List:00,00-启用;99,99-停用" xpath="/dataState" />
+
+		<Field id="crtTlr" desc="创建柜台" align="center" status="F"
+			edittype="textbox" datatype="string" method="None" size="20" default=""
+			readonly="true" xpath="/crtTlr" />
+
+		<Field id="crtDateTime" desc="创建日期时间" align="center" status="F"
+			edittype="textbox" datatype="string" method="None" size="14" default=""
+			readonly="true" xpath="/crtDateTime" />
+
+		<Field id="lastUpdTlr" desc="最近更新柜员" align="center" status="F"
+			edittype="textbox" datatype="string" method="None" size="20" default=""
+			readonly="true" xpath="/lastUpdTlr" />
+
+		<Field id="lastUpdDateTime" desc="最近更新时间" align="center" status="F"
+			edittype="textbox" datatype="string" method="None" size="14" default=""
+			readonly="true" xpath="/lastUpdDateTime" />
+
+
+	</Fields>
+
+
+	<Commands>
+
+		<Command id="btnAddConfig" desc="新增" type="addrecord" url="#"
+			txn="" icon="fa fa-plus" />
+		<Command id="btnDeleteConfig" desc="删除" type="delrecord" url="#"
+			txn="" icon="fa fa-minus" />
+	</Commands>
+
+</Data>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.platMng.comp.NoticeTitleAction:queryNoticeInfoByState" 
+			desc="首页" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+	   
+        <Field id="noticeTitle" desc="公告标题" datatype="string" size="200" align="center" xpath="/noticeTitle" />
+        <Field id="noticeNO" desc="公告编号" datatype="string" size="200" align="center" xpath="/noticeNO" />
+        <Field id="noticeContent" desc="公告内容"  required="true"  colspan="4" edittype="textarea"  
+        	datatype="string" size="400"  width="610" rows = "8" status ="F"  readonly="true"  align="center" xpath="/noticeContent" />
+        <Field id="noticePicId" desc="图片ID" datatype="string" size="200" align="center" xpath="/noticePicId" />
+        <Field id="noticePicPath" desc="图片路径" datatype="string" size="200" align="center" xpath="/noticePicPath" />
+        <Field id="noticeState" desc="公告状态" datatype="string" size="200" align="center" xpath="/noticeState" />
+        <Field id="crtTlr" desc="创建柜员" datatype="string" size="200" align="center" xpath="/crtTlr" />
+        <Field id="lastUpdTlr" desc="最近更新柜员" datatype="string" size="200" align="center" xpath="/lastUpdTlr" />   
+        
+        <Field id="oper" desc="操作" status="F" edittype="textbox" datatype="string" size="100" xpath=""/>
+        
+        
+         <Field id="crtDateTime" 	desc="创建日期时间" align="center" edittype="datetimebox" datatype="timestamp" 	required="false" xpath="/crtDateTime" />
+         <Field id="lastUpdDateTime" desc="最近更新时间" align="center" edittype="textbox" datatype="timestamp" status="F" method="None" width="180" size="6" xpath="/lastUpdDateTime" default=""/>
+	     
+	</Fields> 
+	<Commands>	 
+	</Commands>
+	
+</Data>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 费率模板信息查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.RateBaseInfo">
+       <![CDATA[select rate_id, rate_name, section_type, rate_state, crt_tlr, crt_date_time, last_upd_tlr, last_upd_date_time from pbs_rate_base_info
+        where 1=1 ]]>
+       <if test = "rateId != ''"><![CDATA[and rate_id = #{rateId} ]]></if>
+	   <if test = "rateName != ''"><![CDATA[and rate_name like #{rateName} ]]></if>
+	   <if test = "sectionType != ''"><![CDATA[and section_type = #{sectionType} ]]></if>
+	    order by rate_id desc
+	</select> 
+	
+	
+	<select id="query" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractAcctRate">
+	select * from pbs_mcht_contract_acct_rate where rate_id =#{rateId} and data_state='00'
+	</select>
+	
+	
+	<!-- 费率基本信息表最大序列号查询 -->
+	<select id="queryMaxSeq" paramType="map" resultType="String">
+	select max(rate_id)rate_id from pbs_rate_base_info where 1=1
+	</select>
+	
+	
+	<!-- 费率规则表最大序列号查询 -->
+	<select id="queryMaxSeq1" paramType="map" resultType="String">
+	select max(rate_rule_no)rate_rule_no from pbs_rate_rule_info where 1=1
+	</select>
+	
+	<!-- 获取费率名字-->	
+	<select id="getchlRateName" paramType="map" resultType="String">
+	  select c.rate_Name from PBS_RATE_BASE_INFO c  where c.rate_Id in (#{chlRateArray})
+	</select>
+	
+	<select id="querySelect" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.RateBaseInfo">
+		select * from PBS_RATE_BASE_INFO where  RATE_STATE='00' order by RATE_ID	
+		</select>
+</mapper>

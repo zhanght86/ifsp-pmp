@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息详细查询 -->		
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.VerBaseInfo">
+		select a.* from MSS_VER_MNG a where 1=1
+		<if test = "qdeviceType != ''"><![CDATA[and a.DEVICE_TYPE = #{qdeviceType} ]]></if>
+		<if test = "qappVer != ''"><![CDATA[and a.APP_VER like #{qappVer} ]]></if>
+		<if test = "qupdFlag != ''"><![CDATA[and a.UPD_FLAG = #{qupdFlag} ]]></if>
+		order by a.APP_VER
+	</select>
+
+	<select id="queryExit" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.VerBaseInfo">
+		select * from MSS_VER_MNG where DEVICE_TYPE = #{deviceType} and APP_VER = #{appVer}
+	</select>
+	
+</mapper>

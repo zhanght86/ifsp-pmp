@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 商户临时表数据查询 -->
+	<select id="queryListTmp" paramType="map" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtInfTmp">
+		<![CDATA[select * from IMP_MCHT_INF_TMP a where 1=1 ]]>
+		<if test = "qMchtId != '' "> and a.MCHT_ID like #{qMchtId}</if>
+		<if test = "qMchtCnAbbr != '' "> and a.MCHT_CN_ABBR like #{qMchtCnAbbr}</if>
+		<if test = "qCrtTimeStart != '' "><![CDATA[ and a.CRT_DATE_TIME >= #{qCrtTimeStart} ]]></if>
+		<if test = "qCrtTimeEnd != '' "><![CDATA[ and a.CRT_DATE_TIME <= #{qCrtTimeEnd} ]]></if>
+		<if test = "qIsVirMcht != '' "> and a.IS_VIR_MCHT = #{qIsVirMcht}</if>
+		<if test = "qMchtStat != '' "> and a.MCHT_STAT = #{qMchtStat}</if>
+		<if test = "mchtLicnNo != '' "> and a.MCHT_LICN_NO = #{mchtLicnNo}</if>
+		<if test = "brcode != '' "> and a.MCHT_ORG_ID in (#{brcode})</if>
+		<if test = "ylchnlMchtId != '' ">
+			and a.MCHT_ID in (select b.MCHT_ID from IMP_MCHT_CHNL_INFO b where b.CHNL_NO = 'TD000007' and CHNL_MCHT_ID = #{ylchnlMchtId})
+			and 'TD000007' in (select RULE_INFO from PRD_USE_RULE d where d.PRD_ID 
+			in (select c.PRD_ID from IMP_MCHT_PRD_REL c where a.MCHT_ID = c.MCHT_ID)
+			)
+		</if>
+		<ifs>
+			<if test = "apprFlag == 0 "> and (MCHT_STAT != '10' and MCHT_STAT != '11' )</if>
+			<elseif test = "apprFlag == 1 "> and (MCHT_STAT = '03' or MCHT_STAT= '04' or MCHT_STAT='05' or MCHT_STAT='06' or MCHT_STAT='07' or MCHT_STAT = '12')</elseif>
+			<elseif test = "apprFlag == 2 "> and (MCHT_STAT = '10' or MCHT_STAT= '11' )</elseif>
+			<elseif test = "apprFlag == '' "> and 1 != 1 </elseif>
+		</ifs>
+		order by MCHT_ID desc
+	</select>
+	
+	<!-- 商户表数据查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtInf">
+		<![CDATA[select * from IMP_MCHT_INF where 1=1 ]]>
+		<if test = "qMchtId != '' "> and MCHT_ID like #{qMchtId}</if>
+		<if test = "qMchtCnAbbr != '' "> and MCHT_CN_ABBR like #{qMchtCnAbbr}</if>
+		<if test = "qMchtStat != '' "> and MCHT_STAT = #{qMchtStat}</if>
+		<if test = "brcode != '' "> and MCHT_ORG_ID in #{brcode}</if>
+		order by last_Upd_Date_Time desc
+	</select>
+	
+	<!-- 查询:根据渠道商户号查询商户信息 -->
+	<select id="queryMchtByChnlMcht" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtInf">
+		<![CDATA[select a.* from IMP_MCHT_INF a left join IMP_MCHT_CHNL_INFO b on a.MCHT_ID=b.MCHT_ID where b.CHNL_MCHT_ID=#{chnlMchtId} ]]>
+	</select>
+	
+	
+	<!-- 查询:渠道临时 -->
+	<select id="queryChnlTmp" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtChnlInfoTmp">
+		<![CDATA[select * from IMP_MCHT_CHNL_INFO_TMP where 1=1 and MCHT_ID = #{id}]]>
+	</select>
+	
+	<!-- 查询:渠道正式 -->
+	<select id="queryChnl" paramType="map" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtChnlInfo">
+		<![CDATA[select * from IMP_MCHT_CHNL_INFO where 1=1 ]]>
+		<if test = "mchtId != '' "> and MCHT_ID = #{mchtId}</if>
+	</select>
+	
+	<!-- 查询:产品临时 -->
+	<select id="queryPrdTmp" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtPrdRelTmp">
+		<![CDATA[select * from IMP_MCHT_PRD_REL_TMP where 1=1 and MCHT_ID = #{id}]]>
+	</select>
+	
+	<!-- 查询:产品临时 -->
+	<select id="queryPrdTmpP" paramType="map" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtPrdRelTmp">
+		<![CDATA[select * from IMP_MCHT_PRD_REL_TMP where 1=1 and MCHT_ID = #{mchtId} and PRD_ID = #{prdId}]]>
+	</select>
+	
+	<!-- 查询:产品正式 -->
+	<select id="queryPrd" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtPrdRel">
+		<![CDATA[select * from IMP_MCHT_PRD_REL where 1=1 and MCHT_ID = #{id}]]>
+	</select>
+	
+	<!-- 查询:清算临时 -->
+	<select id="querySetlTmp" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtSetlInfTmp">
+		<![CDATA[select * from IMP_MCHT_SETL_INF_TMP where 1=1 and MCHT_ID = #{id}]]>
+	</select>
+	
+	<!-- 查询:清算正式 -->
+	<select id="querySetl" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtSetlInfTmp">
+		<![CDATA[select * from IMP_MCHT_SETL_INF where 1=1 and MCHT_ID = #{id}]]>
+	</select>
+	
+	<!-- 查询:图片 -->
+	<select id="queryPic" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtPicInfo">
+		<![CDATA[select * from IMP_MCHT_PIC_INFO where 1=1 and MCHT_ID = #{id}]]>
+	</select>
+	
+	<!-- 查询:选择渠道 -->
+	<select id="queryChnlList" paramType="map" resultType="string">
+		select chnl_no from IMP_MCHT_CHNL_INFO_TMP where 1=1
+		<if test = "qMchtId != '' "> and mcht_id = #{qMchtId}</if>
+	</select>
+	
+	<!-- 查询:拒绝原因 -->
+	<select id="queryRefsLastOne" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtRefs">
+		select * from (
+			select * from imp_mcht_refs where mcht_id = #{id} order by txn_time desc
+		) where rownum = 1
+	</select>
+	
+	<!-- 查询:正式表商户状态 -->
+	<select id="queryMchtStat" paramType="string" resultType="string">
+			select mcht_stat from imp_mcht_inf where mcht_id = #{id}
+	</select>
+	<!-- 	ttt -->
+		<!-- 查询:选择渠道商户 -->
+	<select id="queryAllMchtChnls" paramType="map" resultType="com.ruimin.ifs.term.process.bean.MchtBaseInfo">
+		select * from PBS_MCHT_BASE_INFO where 1=1 
+		<if test = "mchtId != '' "> and MCHT_ID like #{mchtId}</if>
+	</select>
+	
+			<!-- 查询:选择渠道商户 -->
+	<select id="queryAllMchtChnlsNew" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtChlInfo">
+		select * from IMP_MCHT_CHNL_INFO where chnl_mcht_id = #{chnlMchtId}
+	</select>
+	
+	<!-- 查询营业执照号码是否已存在 -->
+	<select id="licnNOIsExist" paramType="string" resultType="int">
+		select count(MCHT_LICN_NO) from IMP_MCHT_INF_TMP where MCHT_LICN_NO = #{licnNo}
+	</select>
+	
+	<!-- 查询支付产品下的银联渠道编号 -->
+	<select id="queryPrdChnlId" paramType="string" resultType="string">
+		select RULE_INFO from PRD_USE_RULE where PRD_ID =#{prdId} and RULE_INFO = 'TD000007'
+	</select>
+	
+	<!-- 查询商户下的银联渠道信息 -->
+	<select id="queryMchtChnlId" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtChnlInfo">
+		select * from IMP_MCHT_CHNL_INFO where MCHT_ID =#{mchtId} and CHNL_NO = 'TD000007'
+	</select>
+	
+			
+	<!-- 查询:收单机构代码 -->
+	<select id="queryAcquirBranch" paramType="string" resultType="com.ruimin.ifs.po.TblBctl">
+		<![CDATA[select * from IFS_ORG where brclass < '3' ]]>
+	</select>
+	
+</mapper> 

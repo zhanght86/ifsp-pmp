@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.risk.comp.RiskMngAction:queryMain" desc="风控管理"
+		expmaxrcd="50" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询字段 -->
+		<Field id="qriskId" desc="风险编号" edittype="textbox" datatype="string" />
+		<Field id="qriskName" desc="风险名称" edittype="textbox" datatype="string" />
+		<!-- 下拉字段 -->
+		<Field id="qprodId" desc="支付产品" init="true" align="center"
+			datasource="mchtContractPro:com.ruimin.ifs.pmp.payProdMng.dataset.pbsProdInfo"
+			edittype="combogrid" fieldmap="qprodId=prodId;qprodIdName=prodName"
+			viewfield="prodId,prodName" />
+		<Field id="qriskStauts" desc="风险状态" datatype="string"
+			datasource="DDIC:1922" edittype="combobox" align="center" />
+
+		<!-- 主表单字段 -->
+		<Field id="riskId" desc="风险编号" readonly="true" datatype="string"
+			align="center" xpath="/riskId" />
+		<Field id="riskName" desc="风险名称" width="600" required="true"
+			datatype="string" align="center" colspan="3" xpath="/riskName" />
+		<Field id="riskStauts" desc="风险状态" required="true" colspan="3"
+			datatype="string" datasource="DDIC:1922" edittype="combobox" align="center"
+			xpath="/riskStauts" />
+		<Field id="openDate" desc="开始日期" required="true" edittype="datebox"
+			datatype="date" align="center" xpath="/openDate" />
+		<Field id="endDate" desc="结束日期" edittype="datebox" datatype="date"
+			align="center" xpath="/endDate" />
+		<Field id="opr" desc="操作栏" datatype="string" align="center" />
+
+		<Field id="riskModelId" desc="模型" width="600" colspan="3" align="center"
+			required="true" init="true"  
+			datasource="riskModelCfg:com.ruimin.ifs.pmp.risk.dataset.riskModelCfg"
+			edittype="combogrid" fieldmap="riskModelId=riskModelId;riskModelIdName=riskModelName"
+			  searchfield="qriskModelId"  viewfield="riskModelId,riskModelName" xpath="/riskModelId" />
+		<Field id="riskModelIdName"
+			method="com.ruimin.ifs.pmp.risk.comp.RiskModelCfgAction.getRiskModelName"
+			align="center" desc="模型" edittype="textbox" datatype="string" xpath="/riskModelId" />
+
+
+		<Field id="actionBitmap" desc="风控动作" width="600" colspan="3"
+			align="center" edittype="combobox" datasource="DDIC:1920" required="true"
+			init="true" datatype="string" xpath="/actionBitmap" />
+
+		<Field id="valueId" desc="模型阈值选择" width="600" colspan="3" align="center"
+			multiple="true" required="true" init="true"
+			datasource="riskModelCfgModel1:com.ruimin.ifs.pmp.risk.dataset.riskModelCfgModel1"
+			edittype="combogrid" fieldmap="valueId=valueId;valueIdName=valueExplain"
+			viewfield="valueId,valueExplain" xpath="/valueId" />
+		
+			
+		<Field id="prodId" desc="支付产品" colspan="3" required="true"
+			multiple="true" width="600" align="center" init="true"
+			datasource="mchtContractPro:com.ruimin.ifs.pmp.payProdMng.dataset.pbsProdInfo"
+			edittype="combogrid" fieldmap="prodId=prodId;prodIdName=prodName"
+			searchfield="qprodName" viewfield="prodId,prodName" xpath="/prodId" /> 
+		<Field id="prodIdName"  
+			method="com.ruimin.ifs.pmp.payProdMng.comp.PbsProdInfoAction.getProdName"
+			align="center" desc="支付产品" edittype="textbox" datatype="string" xpath="/prodId" />
+	</Fields>
+
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn=""
+			icon="fa fa-plus" />
+		<Command id="btnAddSave" desc="确认新增" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.risk.comp.RiskMngAction:addActive" url="#"
+			txn="" icon="fa fa-save" />
+
+		<Command id="btnMod" desc="修改" type="none" url="#" txn=""
+			icon="fa fa-wrench" />
+		<Command id="btnModSave" desc="确认修改" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.risk.comp.RiskMngAction:modificationActive"
+			url="#" txn="" icon="fa fa-pencil" />
+
+		<Command id="btnStatus" desc="启用/暂停使用" type="none" url="#" txn=""
+			icon="fa fa-certificate" />
+		<Command id="btnStatusSave" desc="提交" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.risk.comp.RiskMngAction:stautsActive" url="#"
+			txn="" icon="fa fa-gears" />
+	
+		
+	</Commands>
+</Data>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动信息临时表查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvInfTmpAction:queryByMethod" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件信息 -->
+    	<!-- 列表信息 -->
+    	<Field id="activeNo" 		desc="活动编号" 	edittype="textbox"        datatype="string" xpath="/activeNo"/>
+    	<Field id="activeNm" 		desc="活动名称" 	edittype="textbox"        datatype="string" xpath="/activeNm"/>
+    	<Field id="activeType" 		desc="活动类型" 	edittype="textbox"        datatype="string" xpath="/activeType"/>
+    	<Field id="SDate" 		desc="活动开始时间" 	method="com.ruimin.ifs.util.SysCQMethod.toDateStr" edittype="textbox"       datatype="string" xpath="/SDate"/>
+    	<Field id="EDate" 		desc="活动结束时间" method="com.ruimin.ifs.util.SysCQMethod.toDateStr"	edittype="textbox"       datatype="string" xpath="/EDate"/>
+    </Fields>
+	
+	<Commands>
+	
+	</Commands>
+</Data>

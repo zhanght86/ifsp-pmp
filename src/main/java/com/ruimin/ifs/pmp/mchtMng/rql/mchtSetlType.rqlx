@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="querySeltTypeNoSetlType" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtSetlType">
+	   select DATA_NO as SETL_TYPE,DATA_NAME as SETL_TYPE_NAME from IFS_DATA_DIC where 1=1 
+	   and DATA_TYPE_NO = '1809' and DATA_NO = '01'
+	</select>
+	
+	<select id="querySeltTypeSetlType" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtSetlType">
+	   select DATA_NO as SETL_TYPE,DATA_NAME as SETL_TYPE_NAME from IFS_DATA_DIC where 1=1 
+	   and DATA_TYPE_NO = '1809' and (DATA_NO = '02' or DATA_NO = '03')
+	</select>
+	
+	<select id="queryMchtMngId" paramType="map" resultType="String">
+		select MCHT_MNG_NO  from PBS_MCHT_BASE_INFO WHERE 1=1  
+		<if test="qmchtId !='' "> and MCHT_ID = #{qmchtId}</if>
+	</select>
+	
+	<!-- 根据编号查询名称 -->
+	<select id="queryNameById" paramType="string" resultType="String">
+		select DATA_NAME as SETL_TYPE_NAME from IFS_DATA_DIC where 1=1 
+	   	and DATA_TYPE_NO = '1809' 
+	   	and DATA_NO = #{dataNo}
+	</select>
+	
+	
+	
+	
+</mapper>	

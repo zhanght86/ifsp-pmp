@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 商户信息详细查询 -->
+	<select id="queryMainInfo" paramType="map"
+		resultType="com.ruimin.ifs.pmp.baseParaMng.process.bean.PbsMchtMccInfo">
+		select 
+			MCC_ID,MCHT_GRP_ID,MCC_DESC,MCC_STATE
+		from 
+			PBS_MCHT_MCC_INFO
+		where 1 = 1
+			<if test="qmccId != ''"><![CDATA[and trim(MCC_ID) = #{qmccId} ]]></if>
+			<if test="qmchtGrpId != ''"><![CDATA[and trim(MCHT_GRP_ID) = #{qmchtGrpId} ]]></if>
+			<if test="qmccDesc != ''"><![CDATA[and MCC_DESC like #{qmccDesc} ]]></if>
+		order by 
+			CRT_DATE_TIME desc
+	</select>
+
+	<!-- 判断商户组别记录是否存在 -->
+	<select id="checkMchtMccExist" paramType="map"
+		resultType="int">
+		select count(*) from PBS_MCHT_MCC_INFO where trim(MCC_ID)= #{mccId}
+	</select>
+
+	<!-- 修改商户Mcc记录信息 -->
+	<update id="updMchtMcc" paramType="com.ruimin.ifs.pmp.baseParaMng.process.bean.PbsMchtMccInfo">
+	update 
+		PBS_MCHT_MCC_INFO
+	set
+		MCHT_GRP_ID=#{mchtGrpId},
+		MCC_DESC=#{mccDesc},
+		LAST_UPD_TLR=#{lastUpdTlr},
+		LAST_UPD_DATE_TIME=#{lastUpdDateTime}
+	where
+		trim(MCC_ID)= #{mccId}
+	</update>
+	
+	<!-- 在组别表中查找该组别下的MCC信息记录 -->
+	<select id="queryGrpByMchtMccId" paramType="map"
+		resultType="int">
+		select count(*) 
+		from PBS_MCHT_MCC_INFO a,PAGY_SUB_MCHT_INFO b
+		where b.PAGY_NO = #{pagyNo}
+			and a.MCC_ID = #{mccId}	
+			and a.MCHT_GRP_ID = b.MCHT_MCC_CODE
+			and a.MCC_ID = b.MCHT_MCC_SUB_CODE
+			and a.MCC_STATE = #{grpState}
+	</select>
+	
+	<!-- 删除MCC信息记录 -->
+	<delete id="delMchtMcc" paramType="map" >	
+		delete from PBS_MCHT_MCC_INFO WHERE trim(MCC_ID)=#{mccId}
+			
+	</delete>
+
+</mapper>

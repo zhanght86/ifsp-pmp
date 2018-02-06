@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="表单项" expmaxrcd="100" flowid="com.ruimin.ifs.pmp.mktActivity.comp.MerchantRatingsAction:getHistoryList" flowretid="" log="false" pagesize="10" type="call"/>
+	<Fields>
+	    <!-- 评级信息历史表数据 -->
+		<Field id="rankDate" desc="评级日期" align="center" status="F" edittype="textbox" datatype="date" size="100" xpath="/rankDate"/>
+		<Field id="mchtId" desc="商户号" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/mchtId"/>
+		<Field id="mchtNm" desc="商户名" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/mchtNm"/>
+		<Field id="mchtLvC" desc="当月等级" align="center" edittype="combobox" datasource="DDIC:1703"  datatype="string" multiple="false" placeholder="占位符"  xpath="/mchtLvC" />
+		<Field id="dayDepositL" desc="上月日均存款" align="center" status="F" method="com.ruimin.ifs.bbs.common.util.CommonUtil.transFenToYuan" edittype="textbox" datatype="currency" size="100" xpath="/dayDepositL"/>
+		<Field id="busiCntL" desc="上月消费笔数" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/busiCntL"/>
+		<Field id="busiAmtL" desc="上月消费金额" align="center" status="F" method="com.ruimin.ifs.bbs.common.util.CommonUtil.transFenToYuan" edittype="textbox" datatype="currency" size="100" xpath="/busiAmtL"/>
+		<Field id="MFlg" desc="手工变更标志" align="center" edittype="combobox"  datasource="DDIC:1706" datatype="string" multiple="false" placeholder="占位符"  xpath="/MFlg" />
+		<Field id="updateTime" desc="更新时间" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/updateTime"/>
+		<Field id="updateOpr" desc="更新操作员" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/updateOpr"/>
+		<Field id="qmhctId" desc="商户号" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath=""/>
+	</Fields>
+</Data>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="商户网点费用日报表" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.report.comp.MchtNetExpenseDailyAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qTxnDtStart" desc="起始日期(起始)" edittype="datebox"    datatype="date" />
+		<Field id="qTxnDtEnd" desc="终止日期(截止)" edittype="datebox"  datatype="date" />
+		<Field id="qInAcctMerId" desc="商户号" datatype="string" size="32"/>
+		<Field id="qInAcctMerName" desc="商户名称" datatype="string" size="64" align="center" /> 
+		<!-- 基础信息 -->
+        <Field id="txnDt" desc="交易日期" align="center" readonly="true" edittype="textbox" datatype="string"   xpath="/txnDt" />
+        <Field id="inAcctDate" desc="结算日期" align="center" readonly="true" edittype="textbox" datatype="string"   xpath="/inAcctDate" />
+	    <Field id="inAcctMerId" desc="商户编号" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/inAcctMerId" />
+	    <Field id="inAcctMerName" desc="商户名称" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/inAcctMerName" />	
+	    <Field id="pointId" desc="网点编号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/pointId"/>
+		<Field id="txnNum" desc="交易笔数" align="center" readonly="true" edittype="textbox" datatype="string" xpath="/txnNum"/>
+		<Field id="txnAmt" desc="交易金额" align="center" readonly="true" edittype="textbox" datatype="double" xpath="/txnAmt"/>
+		<Field id="setlFeeAmt" desc="手续费" align="center" readonly="true" edittype="textbox" datatype="double" xpath="/setlFeeAmt"/>
+		<Field id="prodName" desc="支付产品" align="center" readonly="true" edittype="textbox" datatype="string" xpath="/prodName"/>
+    
+      
+    </Fields>
+
+	<Commands>
+		<Command id="btnDownload" desc="下载报表" type="none" url="#" txn="" icon="fa fa-download"/>
+	</Commands>
+</Data>

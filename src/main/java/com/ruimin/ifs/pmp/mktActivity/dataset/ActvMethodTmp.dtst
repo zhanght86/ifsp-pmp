@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动方法信息查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodTmpAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件信息 -->
+		<Field id="qMethodNo" 		desc="方法编号" 	edittype="textbox"        datatype="string" xpath="/methodNo"/>
+		<Field id="qMethodName" 	desc="方法名称" 	edittype="textbox"         datatype="string" xpath="/methodNm" />
+		<Field id="qMethodType" 	desc="方法类型"   edittype="combobox"   datasource="DDIC:1702" multiple="false" status="F" required="false"     datatype="string" xpath="/methodTp" />
+    	<!-- 列表信息 -->
+    	<Field id="methodNo" 		desc="方法编号" 	edittype="textbox"    required="true"     datatype="string" xpath="/methodNo"/>
+    	<Field id="methodTp" 	    desc="方法类型"   edittype="combobox"   datasource="DDIC:1702" multiple="false" status="F" required="true"     datatype="string" xpath="/methodTp" />
+    	<Field id="methodNm" 	desc="方法名称" 	edittype="textbox"     required="true"   colspan="3" width="300" datatype="string" xpath="/methodNm" />
+    	<Field id="param1Tp" 	desc="方法限制类型1" 	edittype="combobox" datasource="DDIC:1707"  readonly="true"   width="275"   datatype="string" xpath="/param1Tp" />
+    	<Field id="param1Data" 	desc="方法限制值1" 	edittype="textbox"    required="false"     datatype="string" xpath="/param1Data" />
+    	<Field id="param2Tp" 	desc="方法限制类型2" 	edittype="combobox" datasource="DDIC:1707"   readonly="true"   width="275"     datatype="string" xpath="/param2Tp" />
+    	<Field id="param2Data" 	desc="方法限制值2" 	edittype="textbox"   readonly="false"       datatype="string" xpath="/param2Data" />
+		<Field id="useState" 	desc="使用状态" 	edittype="textbox"         datatype="string" xpath="/useState" />
+		<Field id="methodStat" 	desc="方法状态" 	edittype="combobox"   datasource="DDIC:1701" multiple="false" status="F"     datatype="string"  xpath="/methodStat" />
+    	<Field id="opr" desc="操作" edittype="textbox" datatype="string" />
+		<!-- 审核部分  -->
+		<Field id="auditFlag" 	desc="审核状态" 	edittype="combobox" multiple="false" status="F"     datatype="string"  xpath="/auditFlag" />
+		<Field id="syncFlag" desc="审核标志位" datatype="string" align="center"  xpath="/syncFlag"/>    			
+	    <Field id="auditId" desc="审核信息编号" datatype="string" width="630" colspan="4" align="center" xpath="/auditId"/> 	
+	    <Field id="auditView" desc="审核意见" datatype="string" edittype="textarea" colspan="4" rows="6" width="635"  size="128" readonly="false" align="center"  xpath="/auditView" />
+    	
+    </Fields>
+	
+	<Commands>
+		<Command id="btnAdd" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnAddAudit" 	desc="新增" type="none" url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnAddSave" 	desc="确认新增" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodTmpAction:addMethod" url="#" txn="" icon="fa fa-save"/>
+		<Command id="btnDelete" 	desc="删除" type="none" url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnDeleteSave" 	desc="确认删除" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodTmpAction:deleteMethod" url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnUpdate" 	desc="修改" type="none"  url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnUpdateAudit" 	desc="保存" type="none"  url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnUpdateSave" 	desc="确认修改" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodTmpAction:updateMethod" url="#" txn="" icon="fa fa-pencil"/>
+		<!-- 审核部分  -->
+		<Command id="btnAuditAgree" desc="通过" type="asyncsubmit"   icon="fa fa-check" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodAuditAction:pass"/>
+	    <Command id="btnAuditDisagree" desc="拒绝" type="asyncsubmit"   icon="fa fa-remove" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodAuditAction:refuse"/>
+	
+	</Commands>
+</Data>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- snowweb 页面显示调整 -->
+<webcfgs>
+	<webcfg>
+		<!-- 表格头部对齐方式 -->
+		<cfgName>gridHeadAlign</cfgName>
+		<cfgValue>center</cfgValue>
+	</webcfg>
+	<webcfg>
+		<!-- 查询是否显示重置按钮 -->
+		<cfgName>queryResetBtn</cfgName>
+		<cfgValue>true</cfgValue>
+	</webcfg>
+	<webcfg>
+		<!-- 表单输入框默认宽度,默认150 -->
+		<cfgName>inputWidth</cfgName>
+		<cfgValue>200</cfgValue>
+	</webcfg>
+	<webcfg>
+		<!-- 允许同时打开最大tab页数，小于等于0表示不限制 -->
+		<cfgName>maxTabCount</cfgName>
+		<cfgValue>0</cfgValue>
+	</webcfg>
+	<webcfg>
+		<!-- 默认使用的主题样式 -->
+		<cfgName>theme</cfgName>
+		<cfgValue>Ace</cfgValue>
+	</webcfg>
+	<webcfg>
+		<!-- 页面附加META，支持多个，HTTP-EQUIV 与CONTENT以@分隔，多个以#分隔 -->
+		<cfgName>pageAddMeta</cfgName>
+		<cfgValue></cfgValue>
+	</webcfg>
+	<webcfg>
+		<!-- 页面附加css，支持多个，以逗号,分隔 -->
+		<cfgName>pageAddCss</cfgName>
+		<cfgValue></cfgValue><!--例如:pages/example/css/demo.css,....-->
+	</webcfg>
+	<webcfg>
+		<!-- 页面附加js，支持多个，以逗号,分隔 -->
+		<cfgName>pageAddJs</cfgName>
+		<cfgValue></cfgValue>
+	</webcfg>
+</webcfgs>

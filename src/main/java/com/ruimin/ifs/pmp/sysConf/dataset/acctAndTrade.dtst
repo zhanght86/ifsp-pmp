@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.sysConf.comp.AcctAndTradeAction:queryAcctByAll" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+          <Field id="relNo" desc="记录编号" align="center" edittype="textbox" xpath="/relNo"></Field>
+          <Field id="txnTypeCode" desc="交易类型编号" align="center" edittype="textbox" xpath="/txnTypeCode"></Field>
+          <!-- 账户类型 -->
+          <Field id="acctTypeNo" desc="账户类型" align="center" edittype="combogrid" status="F" xpath="/acctTypeNo"
+          datasource="accountType:com.ruimin.ifs.pmp.sysConf.dataset.accountType" fieldmap="acctTypeNo=acctTypeNo;acctTypeNoName=acctTypeName"
+          datatype="string" readonly="false" viewfield="acctTypeNo,acctTypeName" init="true"></Field>
+          
+          <Field id="acctTypeNoName" desc="账户类型名称" method="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction.queryByAcctTypeNo"  align="center"  
+            edittype="textbox" xpath="/acctTypeNo" ></Field>
+     </Fields>
+     <Commands>
+           <Command id="btnAddSection01" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		  <Command id="btnDeleteSection01"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+      </Commands>
+</Data>

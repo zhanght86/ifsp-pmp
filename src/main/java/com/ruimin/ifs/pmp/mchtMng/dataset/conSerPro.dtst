@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" log="false"  flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:queryMain" desc="合同服务" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+   <Field id="prodId" desc="产品编号" required="false" datatype="string" size="200" align="center" xpath="/prodId" />
+    <Field id="prodName" desc="产品名称"  datatype="string" size="200" align="center" xpath="/prodName" />
+  <!-- 特殊字段 -->
+    <Field id="prodName1" desc="支付产品" datatype="string" align="center" edittype="combogrid"   
+        datasource="mchtContractPro:com.ruimin.ifs.pmp.payProdMng.dataset.mchtContractPro"  
+			viewfield="prodName"  init="true" multiple="false" default=""
+			fieldmap="prodId=prodId;prodName1=prodName"  />	   
+	</Fields> 
+	
+	
+</Data>

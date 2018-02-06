@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<select id="queryOperateVo1" paramType="" resultType="com.ruimin.ifs.pmp.risk.process.bean.RiskOperateVo">
+		select 
+			DATA_NO,
+			DATA_NAME
+        from 
+        	ifs_data_dic  
+        where   
+        	DATA_TYPE_NO = '1924'
+        and 
+        	DATA_NO in ('00','03')
+        order by
+        	DATA_NO
+		
+	</select>
+	<select id="queryOperateVo2" paramType="" resultType="com.ruimin.ifs.pmp.risk.process.bean.RiskOperateVo">
+		select 
+			DATA_NO,
+			DATA_NAME
+        from 
+        	ifs_data_dic  
+        where   
+        	DATA_TYPE_NO = '1924'
+        order by
+        	DATA_NO
+		
+	</select>
+	<select id="queryOperateVo3" paramType="" resultType="com.ruimin.ifs.pmp.risk.process.bean.RiskOperateVo">
+		select 
+			DATA_NO,
+			DATA_NAME
+        from 
+        	ifs_data_dic  
+        where   
+        	DATA_TYPE_NO = '1924'
+        and 
+        	DATA_NO in ('00','01')
+        order by
+        	DATA_NO
+		
+	</select>
+
+	
+</mapper>

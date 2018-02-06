@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动方法分段信息查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.actvMethodSectionTmpAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件信息 -->
+		<Field id="qMethodNo" 		desc="方法编号" 	edittype="textbox"        datatype="string" xpath="/methodNo"/>
+		<!-- 列表数据-->
+		<Field id="methodNo" 		desc="方法编号" 	edittype="textbox"        datatype="string" xpath="/methodNo"/>
+		<Field id="sectionSeq" 		desc="分段序号" 	edittype="textbox"    required="true"    datatype="string" xpath="/sectionSeq"/>
+		<Field id="sectionLeft" 		desc="分段左闭" 	edittype="textbox"   required="true"      datatype="string" xpath="/sectionLeft"/>
+		<Field id="sectionRight" 		desc="分段右开" 	edittype="textbox"    required="true"     datatype="string" xpath="/sectionRight"/>
+		<Field id="sectionParam1" 		desc="参数1" 	edittype="textbox"   required="true"      datatype="string" xpath="/sectionParam1"/>
+		<Field id="sectionParam2" 		desc="参数2" 	edittype="textbox"        datatype="string" xpath="/sectionParam2"/>
+		<Field id="updateTime" 		desc="最后更新时间" 	edittype="textbox"        datatype="string" xpath="/updateTime"/>
+		<Field id="updateOpr" 		desc="最后操作人员" 	edittype="textbox"        datatype="string" xpath="/updateOpr"/>
+    </Fields>
+		
+	
+	<Commands>
+		<Command id="btnAddSection01" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnDeleteSection01"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+		<Command id="btnAddSection02" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnDeleteSection02"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+	</Commands>
+</Data>

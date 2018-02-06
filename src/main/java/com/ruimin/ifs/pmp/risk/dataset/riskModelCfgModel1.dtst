@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="模型阈值配置模板" type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.risk.comp.RiskModelCfgModel1Action:queryCfg"
+		expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="riskModelId" desc="模型编号" align="center" required="false"
+			edittype="textbox" xpath="/riskModelId"></Field>
+		<Field id="valueId" desc="阈值编号" align="center" required="false"
+			edittype="textbox" xpath="/valueId"></Field>
+
+		<Field id="account" desc="账户类型" align="center"
+			datasource="queryAcctTypeName:com.ruimin.ifs.pmp.chnlMng.dataset.queryAcctTypeName"
+			edittype="combogrid" fieldmap="account=acctTypeNo;accountName=acctTypeName"
+			viewfield="acctTypeNo,acctTypeName" required="true" init="true"
+			xpath="/account"></Field>
+		<Field id="accountName" desc="账户类型名称" align="center" edittype="textbox"
+			xpath="/account"   
+			method="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction.queryByAcctTypeNo"></Field>
+
+		<Field id="amt" desc="单笔最大额" align="center"
+			method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.transFenToYuan"
+			required="true" edittype="textbox" xpath="/amt"></Field>
+
+		<Field id="totalCount" desc="笔数" align="center" required="true"
+			edittype="textbox" xpath="/totalCount"></Field>
+
+
+		<Field id="crtTlr" desc="创建柜员" datatype="string" align="center"
+			required="false" xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建时间" datatype="string" align="center"
+			required="false" xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" datatype="string" align="center"
+			required="false" xpath="/lastUpdTlr" />
+		<Field id="lastUpdDateTime" desc="最近更新时间" datatype="string"
+			align="center" required="false" xpath="/lastUpdDateTime" />
+
+		<!-- 特殊 -->
+		<Field id="valueExplain" desc="阈值说明" datatype="string" align="center"
+			required="false" xpath="/valueExplain" />
+		<Field id="valueIdString" desc="被风控引用的阈值编号组合" datatype="string" 
+			align="center" required="false"  xpath="/valueIdString"/>
+
+	</Fields>
+
+	<Commands>
+		<Command id="btnAddSection" desc="新增" type="addrecord" url="#"
+			txn="" icon="fa fa-plus" />
+		<Command id="btnDeleteSection" desc="删除" type="delrecord" url="#"
+			txn="" icon="fa fa-minus" />
+		<Command id="btUpdate" desc="提交" type="asyncsubmit" icon="fa fa-save"
+			flowid="com.ruimin.ifs.pmp.risk.comp.RiskModelCfgModel1Action:update" />
+
+	</Commands>
+</Data>

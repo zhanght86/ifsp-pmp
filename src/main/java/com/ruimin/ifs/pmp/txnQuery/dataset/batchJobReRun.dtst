@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.txnQuery.comp.BatchJobRecordAction:queryAll" 
+			desc="支付业务系统交易查询" expmaxrcd="50" flowctxid="" flowretid="" />
+	 <Fields>
+	    <!-- 表格页面的字段 -->
+	    <Field id="settleDate"      desc="清算日期" edittype="textbox" status="F" datatype="string" align="center" xpath="/settleDate" />
+	    <Field id="jobId"           desc="批量任务Id" edittype="textbox" status="F" xpath="/jobId" />
+	    
+
+	</Fields> 
+	
+	<Commands>
+	      <Command id="doReRun"  desc="重跑" type="asyncsubmit" icon="fa fa-trash" flowid ="com.ruimin.ifs.pmp.txnQuery.comp.BatchJobRecordAction:doReRun" url="#" txn =""></Command>
+	</Commands>
+</Data>

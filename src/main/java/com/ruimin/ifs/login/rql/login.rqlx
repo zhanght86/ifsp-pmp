@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="queryUserByUsernameAndPassword" paramType="map" resultType="com.ruimin.ifs.po.TblStaff">
+		select * from IFS_STAFF where TLRNO=#{username}
+	</select>
+	<select id="getSystemParamByKey" paramType="map" resultType="com.ruimin.ifs.po.TblSysParam">
+		select * from IFS_SYS_PARAM where PARAM_ID=#{key1} and MAGIC_ID=#{key2}
+	</select>
+	<select id="queryUserFuncsByRoles" paramType="string" resultType="com.ruimin.ifs.po.TblFunction">
+		select func.* from IFS_MENU_INF func, IFS_RES_INF funcref, 
+		IFS_STAFF_ROLE_REL staffref, IFS_ROLE role where staffref.TLRNO = #{param} and staffref.ROLE_ID = role.ROLE_ID and
+		role.ROLE_ID = funcref.ROLE_ID and funcref.FUNCID = func.FUNCID
+	</select>
+	<select id="queryOrgByNo" paramType="map" resultType="com.ruimin.ifs.po.TblBctl">
+		select * from IFS_ORG where BRNO=#{brno}
+	</select>
+		<select id="getUserRole" paramType="String" resultType="com.ruimin.ifs.po.TblBctl">
+		SELECT*FROM  IFS_STAFF_ROLE_REL  WHERE TLRNO=#{username}
+	</select>
+	<update id="updateStaffStatusLogOut" paramType="map">
+		update IFS_STAFF set STATUS='0', LASTLOGOUTTM=#{lastLogOutTm} where STATUS='1'
+	</update>
+</mapper> 

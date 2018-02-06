@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="账户类型" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.QueryAcctTypeAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 表格字段 -->
+		<Field id="acctTypeNo" desc="账户类型编号" status="F" align="center" required="true" edittype="textbox"
+			datatype="string" method="None" readonly="true" 
+			size="2" default="" xpath="/acctTypeNo" />
+		<Field id="acctTypeName" desc="账户类型名称" status="F" align="center" required="true" edittype="textbox"
+			datatype="string" method="None" readonly="false" 
+			default=""  xpath="/acctTypeName" />
+
+		<!-- 查询条件 -->
+		<Field id="qAcctTypeNo" desc="账户类型编号" edittype="textbox" datatype="string" xpath="" status="F" default="" />
+		<Field id="qAcctTypeName" desc="账户类型名称" edittype="textbox" datatype="string" xpath="" status="F" default="" />
+		
+	</Fields>
+
+</Data>

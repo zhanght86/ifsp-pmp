@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.OpenAcctOrganAction:queryByAll" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+             <Field id="acctInstNo" desc="开户机构编号" align="center" required="true" status="F" xpath="/acctInstNo"></Field>
+             <Field id="acctInstName" desc="开户机构名称" align="center" required="true" status="F" xpath="/acctInstName"></Field>
+             
+             <!-- 查询条件 -->
+             <Field id="qacctInstNo" desc="开户机构编号" align="center" size="12" edittype="textbox"></Field>
+             <Field id="qacctInstName" desc="开户机构名称" align="center" size="42" edittype="textbox"></Field>
+     </Fields>
+     <Commands>
+             <Command id="btAdd" desc="新增" type="addrecord"  icon="fa fa-plus" url="#" txn="" tip="新增"></Command>
+             <Command id="btSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.OpenAcctOrganAction:addAcct" icon="fa fa-save" url="#" txn="addacct"></Command>
+             
+             <Command id="btUpt" desc="修改" type="none" icon="fa fa-pencil" url="#" txn="" ></Command>
+             <Command id="btUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.OpenAcctOrganAction:updateAcct" icon="fa fa-save" url="#" txn="updateacct"></Command>
+             
+             <Command id="btImport" desc="Excel全量导入" type="none"  icon="fa fa-plus" url="#" />
+		     <Command id="btDelete" desc="删除" type="none" url="#" icon="fa fa-remove" tip="删除"/>
+		     <Command id="btnDelete"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.baseParaMng.comp.OpenAcctOrganAction:deleteAcct" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+     </Commands>
+</Data>

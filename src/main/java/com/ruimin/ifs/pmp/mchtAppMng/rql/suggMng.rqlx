@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息详细查询 -->		
+	<select id="queryMassInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.SuggBaseInfo">
+		select c.* from(
+select a.*,b.mcht_amr_no from MSS_SUGG_BASE_INFO a,pbs_mcht_base_info_tmp b where a.mcht_id=b.mcht_id)  c where c.mcht_amr_no=#{tlrno}
+		<if test = "qcrtDate != ''"><![CDATA[and crt_date like #{qcrtDate} ]]></if>
+		<if test = "qrate != ''"><![CDATA[and rate = #{qrate} ]]></if>
+		order by sugg_stat,crt_date desc
+	</select>
+	
+	<select id="queryMassInfo2" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.SuggBaseInfo">
+		select c.* from(
+select a.*,b.mcht_org_id  from MSS_SUGG_BASE_INFO a,pbs_mcht_base_info_tmp b where a.mcht_id=b.mcht_id) c where c.mcht_org_id in (
+	select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList((select brcode from ifs_staff where tlrno=#{tlrno})))
+)
+		<if test = "qcrtDate != ''"><![CDATA[and crt_date like #{qcrtDate} ]]></if>
+		<if test = "qrate != ''"><![CDATA[and rate = #{qrate} ]]></if>
+		order by sugg_stat,crt_date desc
+	</select>
+
+	<update id="update" paramType="String" >
+		update MSS_SUGG_BASE_INFO set sugg_stat = '2' where sugg_id = #{suggId}
+	</update>
+	
+</mapper>

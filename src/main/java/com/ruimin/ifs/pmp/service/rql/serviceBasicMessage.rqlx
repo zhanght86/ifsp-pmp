@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 查询数据 -->
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.service.process.bean.ServiceBasicMessageVo">
+		select *
+		from SERVICE_BASIC_MESSAGE where stat = '00'
+		  <if test = "qserviceCode != '' "> and SERVICE_CODE like #{qserviceCode}</if>
+          <if test = "qserviceName != '' "> and SERVICE_NAME like #{qserviceName}</if>
+		order by CRT_DATE_TIME desc
+	</select>
+	
+	<!-- 获取黑名单最大ID-->
+	<select id="getMaxCode" paramType="" resultType="string">
+		select max(SERVICE_CODE) as SERVICE_CODE from SERVICE_BASIC_MESSAGE
+	</select>
+	
+	<!-- 修改服务机构基本信息 -->
+	<update  id="modifyBasic" paramType="com.ruimin.ifs.pmp.service.process.bean.ServiceBasicMessageVo">
+		update
+			SERVICE_BASIC_MESSAGE
+		set
+			SERVICE_NAME = #{serviceName},
+			SPLIT_TYPE = #{splitType},
+			SPLIT_VALUE = #{splitValue},
+			CONTACT_NAME = #{contactName},
+			CONTACT_TEL = #{contactTel},
+			CONTACT_ADD = #{contactAdd},
+			ZIP_CODE = #{zipCode},
+			LAST_UPD_TLR = #{lastUpdTlr},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 
+			SERVICE_CODE = #{serviceCode}	
+	</update>
+	
+	
+</mapper> 

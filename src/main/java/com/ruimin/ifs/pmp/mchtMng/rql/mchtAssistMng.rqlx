@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询商户辅表信息 -->
+	<select id="queryList" paramType="map" resultType="map">
+	SELECT a.*,b.MCHT_SIMPLE_NAME,b.MCHT_TYPE FROM pbs_mcht_assist_info_tmp a LEFT JOIN pbs_mcht_base_info_tmp b ON a.MCHT_ID=b.MCHT_ID where 1=1
+		 <if test = "qmchtId != ''"><![CDATA[and a.MCHT_ID like #{qmchtId} ]]></if>
+		order by a.mcht_id desc
+	</select>
+	
+	<select id="queryByKey" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtAssistInfo">
+	SELECT a.* FROM pbs_mcht_assist_info a where a.MCHT_ID = #{mchtId}
+		order by a.mcht_id desc
+	</select>
+	
+		<select id="queryByKeyTmp" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtAssistInfo">
+	SELECT a.* FROM pbs_mcht_assist_info_tmp a where a.MCHT_ID = #{mchtId}
+		order by a.mcht_id desc
+	</select>
+</mapper>
+	

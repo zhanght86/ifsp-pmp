@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="支付与通道交易关系表" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.oprMng.comp.PagyPayTxnBaseInfoAction:queryPagyPayTxnRel" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>	
+		<!--数据内容 -->
+		<Field id="pagyNo" desc="通道编号" edittype="textbox"  datatype="string"  status="F"  xpath="/pagyNo" />
+		<!-- <Field id="pagyNo" desc="通道编号" edittype="combogrid"  datatype="string" status="F" required="true" init="true" 
+		datasource="pagyInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo"  readonly="false" multiple="false" 
+		fieldmap="pagyNo=pagyNo;pagyNoName=pagyName" viewfield="pagyNo,pagyName"  xpath="/pagyNo" />
+		
+		<Field id="pagyNoName" desc="通道名称" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyInfoAction.getPagyNames"  align="center"  
+            edittype="textbox" xpath="/pagyNo" ></Field> -->
+        
+        <Field id="pagyTxnCode" desc="通道交易编号" datasource="pagyTxnBaseInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyTxnBaseInfo" 
+        fieldmap="pagyTxnCode=pagyTxnCode;pagyTxnCodeName=pagyTxnName" viewfield="pagyTxnCode,pagyTxnName" 
+        init="true" align="center" required="true" edittype="combogrid" datatype="string" xpath="/pagyTxnCode"/>
+        
+        <Field id="pagyTxnCodeName" desc="通道交易名称" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnBaseInfoAction.getPagyTxnNames"  align="center"  
+            edittype="textbox" xpath="/pagyTxnCode" ></Field> 
+                 
+		<Field id="payTxnCode" desc="支付交易编号" edittype="textbox"  datatype="string"  status="F"  xpath="/payTxnCode" />
+	</Fields>
+	
+	<Commands>
+           <Command id="btnAddSection01" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		  <Command id="btnDeleteSection01"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+    </Commands>
+</Data>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 根据商户ID删除临时表交易限额-->
+	<update id="delMchtTxnLitTmpByMchtId" paramType="String" >
+		delete from
+			PBS_MCHT_TXN_LIMIT_INFO_TMP	
+		where 1=1
+			and MCHT_ID=#{mchtId}
+	</update>
+	<!-- 根据商户ID删除正式表中交易限额-->
+	<update id="delMchtTxnLitByMchtId" paramType="String" >
+		delete from
+			PBS_MCHT_TXN_LIMIT_INFO	
+		where 1=1
+			and MCHT_ID=#{mchtId}
+	</update>
+	
+	<!-- 根据商户ID去查询正式表中一条交易限额的记录 -->
+  <select id="queryMchtTxnLitByMchtId" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtTxnLimitInfo" >
+		
+		  select * from PBS_MCHT_TXN_LIMIT_INFO	 where  mcht_Id = #{mchtId} 
+     
+	</select>
+	<!-- 根据商户ID去查询临时表中一条交易限额的记录 -->
+  <select id="queryMchtTxnLitTmpByMchtId" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtTxnLimitInfoTmp" >
+		
+		  select * from PBS_MCHT_TXN_LIMIT_INFO_TMP	 where  mcht_Id = #{mchtId} 
+     
+	</select>
+</mapper>

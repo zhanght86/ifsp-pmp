@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 地区管理 -->
+	<select id="queryCityChild" paramType="map" resultType="com.ruimin.ifs.po.IfsCtCd">
+		select * from IFS_CT_CD where 1=1
+		<if test = "upCtCode != '' "> and UP_CT_CODE=#{upCtCode}</if>	
+		<if test = "ctCode != '' "> and CT_CODE=#{ctCode}</if>
+		<if test = "ctName != '' "> and CT_NAME like #{ctName}</if>
+		<if test = "ctFlg != '' "> and CT_FLG like #{ctFlg}</if>
+		order by CT_CODE asc
+	</select>
+	<select id="queryCityChild1" paramType="map" resultType="com.ruimin.ifs.po.IfsCtCd">
+		select * from IFS_CT_CD where 1=1 AND CT_CODE NOT IN ('1','110000','120000','310000','500000')
+		<if test = "upCtCode != '' "> and UP_CT_CODE=#{upCtCode}</if>	
+		<if test = "ctCode != '' "> and CT_CODE=#{ctCode}</if>
+		<if test = "ctName != '' "> and CT_NAME like #{ctName}</if>
+		<if test = "ctFlg != '' "> and CT_FLG like #{ctFlg}</if>
+		order by CT_CODE asc
+	</select>
+	<select id="queryCityByCtCode" paramType="map" resultType="int">
+		select count(*) from IFS_CT_CD where CT_CODE=#{ctCode}
+	</select>
+	
+	<select id="queryCityByUpCtCode" paramType="map" resultType="int">
+		select count(*) from IFS_CT_CD where UP_CT_CODE=#{upCtCode}
+	</select>
+	
+	<select id="queryMchtByCtCode" paramType="map" resultType="int">
+		select count(*) from PBS_MCHT_BASE_INFO where MCHT_AREA_NO=#{areaCd}
+	</select>
+	
+	<select id="queryOrgByOrgName" paramType="map" resultType="int">
+		select count(*) from IFS_ORG where BLN_UP_BRCODE=#{blnUpBrcode}
+	</select>
+	
+	<select id="queryOrgMchtOrgCode" paramType="map" resultType="int">
+		select count(*) from PBS_MCHT_BASE_INFO_TMP where MCHT_ORG_ID=#{blnUpBrcode}
+	</select>
+	
+	<select id="queryOrgByAreaCd" paramType="map" resultType="int">
+		select count(*) from IFS_ORG where AREA_CD=#{areaCd}
+	</select>
+	
+	<!-- 查询所有有效机构 -->
+	<select id="getAllOrg" paramType="map" resultType="com.ruimin.ifs.po.TblBctl">
+		select * from IFS_ORG where STATUS='1'		
+	</select>
+	<!-- 查询所有地区 -->
+	<select id="getAllCity" paramType="map" resultType="com.ruimin.ifs.po.IfsCtCd">
+		select * from IFS_CT_CD where 1=1 		
+	</select>
+	
+	<select id="queryHoliday" paramType="map" resultType="int">
+		select count(*) from IFS_CAL_INF where  YEAR=#{year}
+	</select>
+	
+	<select id="queryPaypTermKey" paramType="" resultType="int">
+		select count(*) from PAYP_P_TERM_KEY where  KEY_ST IN ('0','1','2','3','4')
+		order by KEY_INDEX desc
+	</select>
+	
+		<!--根据操作员机构号查询下级机构号  added by ttt 2015-11-27-->
+	<select id="queryListByBrUpCode" paramType="map" resultType="String">
+		select brcode from IFS_ORG where BLN_UP_BRCODE = #{brUpCode}
+	</select>
+	
+	<select id="queryOrgByParam" paramType="map" resultType="com.ruimin.ifs.po.TblBctl">
+		select * from ifs_org where 1=1 
+		<if test = "brno != '' "> and BRNO=#{brno}</if>
+		<if test = "brname != '' "> and BRNAME like #{brname}</if>
+		<if test = "blnUpBrcode != '' "> and BLN_UP_BRCODE=#{blnUpBrcode}</if>	
+		<if test = "brcode != '' "> and BRCODE in (#{brcode})</if>
+		<if test = "brclass != '' "> and BRCLASS=#{brclass}</if>
+		order by BRNO
+	</select>
+    
+    <update id="deleteAll" paramType="" >
+		delete from ifs_org 
+	</update>
+	
+	<!-- 地区信息全部清空 -->
+	<update id="deleteAllCity" paramType="">
+		delete from ifs_ct_cd 
+	</update>
+	
+	<select id="queryBrcode" paramType="" resultType="String">
+		select brcode from ifs_org where 1=1 
+		
+	</select>
+	<!-- 选择操作员所属机构及下属机构 -->
+	<select id="selOrg" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtMngVO">
+	select brcode, brname,BRNO
+  	from ifs_org
+
+ 	where 1 = 1
+   		and brcode = (select a.brcode
+    	                from ifs_org a
+        	            left join ifs_staff b on a.brcode = b.brcode
+                   where 1 = 1
+                   <if test = "brname != ''"><![CDATA[and brname like #{brname} ]]></if>
+                	     and b.tlrno = #{tlrno})
+    	or (brclass > (select a.brclass
+        	            from ifs_org a
+          				left join ifs_staff b on a.brcode = b.brcode
+            	        where 1 = 1
+                      	and b.tlrno = #{tlrno}) and
+       	(bln_up_brcode = (select a.brcode
+                            from ifs_org a
+                            left join ifs_staff b on a.brcode = b.brcode
+                          	 where 1 = 1
+                            	 and b.tlrno = #{tlrno}) or
+		(bln_up_brcode in
+		(select brcode
+             	from ifs_org
+            	where bln_up_brcode =
+                  	(select a.brcode
+                     	from ifs_org a
+                     	left join ifs_staff b on a.brcode = b.brcode
+                    	where 1 = 1
+                      	and b.tlrno = #{tlrno})))      
+       	))
+       	
+       	<if test = "brname != ''"><![CDATA[and brname like #{brname} ]]></if>
+       	
+ 	order by brcode
+	</select>
+</mapper> 

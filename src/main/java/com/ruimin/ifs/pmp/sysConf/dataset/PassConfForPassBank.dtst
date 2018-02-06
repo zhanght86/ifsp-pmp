@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="通道银行查询, 用于产品银行配置通道银行" expmaxrcd="100" flowctxid=""
+		flowid="com.ruimin.ifs.pmp.sysConf.comp.PmpBankInfoAction:queryAllPassBank"
+		flowretid="" log="false" pagesize="10" type="call" />
+
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qBankNo" desc="通道银行编号" edittype="textbox" datatype="string"
+			xpath="/passNo" default="" />
+		<Field id="qBankName" desc="通道银行名称" edittype="textbox" datatype="string"
+			xpath="/passName" default="" />
+		<Field id="qPassNo" desc="通道编号" edittype="textbox" datatype="string"
+			 default="" />
+
+		<!-- 数据显示 -->
+		<Field id="bankNo" desc="通道银行编号" edittype="textbox" datatype="string"
+			xpath="/bankNo" default="" />
+		<Field id="bankName" desc="通道银行名称" edittype="textbox" datatype="string"
+			xpath="/bankName" default="" />
+	</Fields>
+
+</Data>

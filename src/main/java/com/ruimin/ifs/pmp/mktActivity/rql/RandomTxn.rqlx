@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="queryRedInfo" paramType="map" resultType="map">
+			SELECT
+				ai.ACTIVE_NM,
+				ai.ACTIVE_NO,
+				ai.S_DATE,
+				ai.E_DATE,
+				amt.S_REDBAG_CONSUME as S_REDBAG_CONSUME,
+				co.S_REDBAG_count as S_REDBAG_count,
+				IFNULL(txn.S_USE_AMT,'') as S_USE_AMT,
+				IFNULL(txn.S_USE_BAG,'') as S_USE_BAG
+			FROM
+				tbl_active_inf ai 
+			LEFT JOIN
+				(SELECT ACTIVE_NO,SUM(REDBAG_CONSUME) as S_REDBAG_CONSUME FROM tbl_active_redbag_conf GROUP BY ACTIVE_NO) amt ON amt.ACTIVE_NO=ai.ACTIVE_NO
+			LEFT JOIN 
+				(SELECT ACTIVE_NO,SUM(REDBAG_count) as S_REDBAG_count FROM tbl_active_redbag_conf GROUP BY ACTIVE_NO) co on co.ACTIVE_NO = ai.ACTIVE_NO
+			LEFT JOIN 
+				(SELECT ACTIVE_NO,SUM(active_amt) as S_USE_AMT,COUNT(1) AS S_USE_BAG FROM tbl_active_txn_info WHERE ACTIVE_TYPE='21' AND  ACTIVE_STATE = '00' GROUP BY ACTIVE_NO) txn
+			ON ai.ACTIVE_NO =txn.ACTIVE_NO
+			WHERE ai.ACTIVE_TYPE='21'  
+		 <if test = "qActiveNm != '' ">AND ai.ACTIVE_NM like #{qActiveNm}</if>
+	 	 <if test = "qActiveNo != '' ">AND ai.ACTIVE_NO like #{qActiveNo}</if>
+		 <if test = "qMchtId != '' ">AND ai.ACTIVE_NO in (SELECT ACTIVE_NO FROM tbl_active_mcht_in_inf WHERE IN_FLG='01' AND MCHT_ID LIKE #{qMchtId})</if>
+		 <if test = "qSDate != '' ">AND ai.S_DATE &gt;= #{qSDate}</if>
+		 <if test = "qEDate != '' ">AND ai.E_DATE &lt;= #{qEDate}</if>
+			  
+	</select>
+
+</mapper>

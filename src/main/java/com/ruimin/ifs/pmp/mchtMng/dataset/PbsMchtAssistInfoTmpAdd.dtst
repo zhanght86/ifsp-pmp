@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+   <Define desc="商户信息辅助临时表" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtAssistMngAction:queryMainAdd" expmaxrcd="100" flowctxid="" flowretid="" />
+    <Fields>
+     <Field id="mchtId" desc="商户号" edittype="textbox" required="false" datatype="string" size="32" xpath="/mchtId" />
+     <Field id="chlSysNo" desc="渠道商户号" required="true" status="F" datatype="string"
+			datasource="PbsChlMchtInfo:com.ruimin.ifs.pmp.mchtMng.dataset.PbsChlMchtInfo"  
+			edittype="combogrid" searchfield="chlMchtNo"  viewfield="chlMchtNo,chlMchtName" init="true" 
+			fieldmap="chlSysNo=chlMchtNo;" multiple="false"
+			align="center" xpath="/chlSysNo"/> 
+     
+      <Field id="mchtProVerNo" desc="商户协议版本号" edittype="textbox"  datatype="string" required="true" size="32" xpath="/mchtProVerNo" />
+      <Field id="mchtArtifSex" desc="法定代表人性别" edittype="combobox" datasource="LIST:1,男;2,女;" required="true" datatype="string" size="1" xpath="/mchtArtifSex" />
+      <Field id="mchtArtifJob" desc="法定代表人职业" edittype="textbox"  datatype="string" size="50" xpath="/mchtArtifJob" />
+      <Field id="mchtArtifAddress" desc="法定代表人住址" edittype="textbox"  datatype="string" size="50" xpath="/mchtArtifAddress" />
+      <Field id="accountIdType" desc="法定代表人亲属证件类型" datasource="LIST:01,身份证;" edittype="combobox" size="2" xpath="/accountIdType" />
+      <!-- modify by lengjingyu 20180127 修改accountIdNo中文显示   没有jira -->
+      <Field id="accountIdNo" desc="法定代表人亲属证件号码" edittype="textbox"  datatype="string" size="32" xpath="/accountIdNo" />
+      <!-- modify end -->
+      <Field id="mchtArtifCountryId" desc="法定代表人证件国别/地区" edittype="combobox" datasource="LIST:CHN,中国;HKG,香港;MAC,澳门;CTN,台湾;"  datatype="string" size="10" xpath="/mchtArtifCountryId" />
+      <Field id="occNo" desc="组织机构代码证件号" edittype="textbox"  datatype="string" size="30" xpath="/occNo" />
+      <Field id="occSdate" desc="组织机构代码证生效日期 " edittype="datebox"  datatype="date" size="8" xpath="/occSdate" />
+      <Field id="occEdate" desc="组织机构代码证失效日期"  edittype="datebox"  datatype="date" size="8" xpath="/occEdate" />
+      <Field id="trcNo" desc="税务登记证号" edittype="textbox"  datatype="string" size="30" xpath="/trcNo" />
+      <Field id="trcSdate" desc="税务登记证生效日期 "  edittype="datebox"  datatype="date" size="8" xpath="/trcSdate" />
+      <Field id="trcEdate" desc="税务登记证失效日期 "  edittype="datebox"  datatype="date" size="8" xpath="/trcEdate" />
+      <Field id="financialContact" desc="财务联系人" edittype="textbox"  datatype="string" size="64" xpath="/financialContact" />
+      <Field id="financialTel" desc="财务联系人电话" edittype="textbox"  datatype="string" size="25" xpath="/financialTel" />
+      <Field id="userDefined" desc="商户自定义" edittype="textarea" rows="10"   datatype="string" size="128" xpath="/userDefined" />
+      <Field id="intro" desc="商户简介" edittype="textarea" rows="10"  datatype="string" size="256" xpath="/intro" />
+      <Field id="mchtAuditRsltUrl" desc="商户审核结果通知地址" edittype="textarea"  rows="10"  datatype="string" size="128" xpath="/mchtAuditRsltUrl" />
+
+      <Field id="wxJsapiPath" desc="微信授权目录" edittype="textarea" required="true" rows="10" datatype="string" size="128" xpath="/wxJsapiPath" />
+      <Field id="wxAppid" desc="关联微信公众号" edittype="textbox" required="true" datatype="string" size="32" xpath="/wxAppid" />
+      <Field id="subscribeWxAppid" desc="推荐微信关注公众号" edittype="textbox"  datatype="string" size="32" xpath="/subscribeWxAppid" />
+      <Field id="backup1" desc="保留域1" edittype="textbox"  datatype="string" size="128" xpath="/backup1" />
+      <Field id="backup2" desc="保留域2" edittype="textbox"  datatype="string" size="128" xpath="/backup2" />
+      <Field id="backup3" desc="保留域3" edittype="textbox"  datatype="string" size="128" xpath="/backup3" />
+      <Field id="backup4" desc="保留域4" edittype="textbox"  datatype="string" size="128" xpath="/backup4" />
+      <Field id="backup5" desc="保留域5" edittype="textbox"  datatype="string" size="128" xpath="/backup5" />
+      <Field id="backup6" desc="保留域6" edittype="textbox"  datatype="string" size="128" xpath="/backup6" />
+   	  <Field id="mchtSimpleName" desc="商户简称" datatype="string" align="center" required="true" readonly="true" xpath="/mchtSimpleName" />  
+      <Field id="mchtType" desc="商户类型" datatype="string"  align="center"  xpath="/mchtType" /> 
+   	
+   	 <!-- 特殊字段 -->
+        <Field id="mchtId1" desc="商户号"  required="false"
+         multiple="false" align="center" init="true"    
+         datasource="mchtMngForContract:com.ruimin.ifs.pmp.mchtMng.dataset.mchtMngForContract"  
+			edittype="combogrid" fieldmap="mchtId1=mchtId;mchtSimpleName=mchtSimpleName" 
+			searchfield="qmchtId,qmchtSimpleName" viewfield="mchtId,mchtSimpleName" 
+			  xpath="/mchtId" />	
+   	 	
+      	<Field desc="一级行业编号" edittype="combogrid"
+			datasource="cana:com.ruimin.ifs.pmp.chnlMng.dataset.pagyCategoryName" viewfield="categoryCode,categoryDesc" 
+			init="true"  fieldmap="firCateCode=categoryCode" id="firCateCode" required="true" align="center" datatype="string" status="F" xpath="/firCateCode"/>
+		<Field desc="二级行业编号" edittype="combogrid"
+			datasource="cana:com.ruimin.ifs.pmp.chnlMng.dataset.pagyCategoryName" viewfield="categoryCode,categoryDesc" 
+			init="true"  fieldmap="secCateCode=categoryCode" id="secCateCode" required="true" align="center" datatype="string" status="F" xpath="/secCateCode"/>
+		
+		<Field desc="三级行业编号" edittype="combogrid"
+			datasource="cana:com.ruimin.ifs.pmp.chnlMng.dataset.pagyCategoryName" viewfield="categoryCode,categoryDesc" 
+			init="true"  fieldmap="thdCateCode=categoryCode" id="thdCateCode" required="true" align="center" datatype="string" status="F" xpath="/thdCateCode"/>
+		
+      
+      <Field id="accountType" desc="结算账户类型" edittype="combobox" datasource="LIST:1,对公;2,对私;" required="true" datatype="string" size="1" xpath="/accountType" />
+	<Field id="setlAcctName" desc="结算账户户名" datatype="string" align="center" required="true" xpath="/setlAcctName" />      
+  	
+   	
+   	  <Field id="opr" desc="操作" edittype="textbox" align="center" datatype="string" xpath="" />
+   		<Field id="qmchtId" desc="商户号" edittype="textbox"  datatype="string" size="32" xpath="" />
+   </Fields>
+   <Commands>
+      <Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+      <!-- 新增窗口 -->		
+	  <Command id="btnAddSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.assistMng.comp.MchtAssistMngAction:addMchtAssist"/>
+      
+      <Command id="btAddOk" desc="确定" type="asyncsubmit" flowid="ACTION" url="#" txn="" icon="fa fa-plus"/>
+      <Command id="btnReturn" desc="返回" type="none"  icon="fa fa-list" url="#"  ></Command>
+      
+      <Command id="btnUpd" desc="修改" type="none" icon="fa fa-wrench"/>
+      	<!-- 修改窗口 -->		
+	 <Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.assistMng.comp.MchtAssistMngAction:updMchtAssist"/>
+	 <Command id="btnRtn" desc="返回" type="none" url="#" txn="" />
+	
+   </Commands>
+</Data>

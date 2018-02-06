@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="商户证书配置和接入参数配置" type="call" pagesize="10" log="false" 
+	  flowid="com.ruimin.ifs.pmp.oprMng.comp.PagyCoreMngAction:queryAll" 
+	  expmaxrcd="100" flowctxid="" flowretid="" />
+
+	<Fields>
+	<!-- 查询字段 -->
+		<!-- 页面展示通道名称，传入后台通道编号 -->
+			<Field id="qpagyNo" desc="通道名称" edittype="combogrid" datatype="string" datasource="pagyInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo"
+				viewfield="pagyNo,pagyName" searchfield="qpagyName" init="true" multiple="false" default=""
+				fieldmap="qpagyNo=pagyNo;qpagyNoName=pagyName"/>				
+			<Field desc="通道交易" id="qpagyTxnCode" edittype="combogrid" datatype="string" datasource="pagyTxnBaseInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyTxnBaseInfo"
+				viewfield="pagyTxnCode,pagyTxnName" searchfield="qpagyTxnName" init="true" multiple="false" default=""
+				fieldmap="qpagyTxnCode=pagyTxnCode;qpagyTxnCodeName=pagyTxnName"/>
+			<Field id="qacctTypeNo" desc="账户类型" edittype="combogrid" datatype="string" 
+		   		datasource="payAcctTypeBaseInfo:com.ruimin.ifs.pmp.chnlMng.dataset.payAcctTypeBaseInfo" 
+		   		viewfield="acctTypeNo,acctTypeName"  init="true" multiple="false" default="" 
+		   		 fieldmap="qacctTypeNo=acctTypeNo;qacctTypeNoName=acctTypeName"/>
+			<Field desc="主商户" id="qmainMchtNo" edittype="combogrid" datatype="string" datasource="chnlAcsInfo:com.ruimin.ifs.pmp.chnlMng.dataset.chnlAcsInfo"
+				viewfield="mainMchtNo,mainMchtName" searchfield="qmainMchtName" init="true" multiple="false" default=""
+				fieldmap="qmainMchtNo=mainMchtNo;qmainMchtNoName=mainMchtNo"/>
+			<Field desc="接入交易" id="qpayTxnCode" edittype="combogrid" datatype="string" datasource="pagyPayTxnBaseInfo:com.ruimin.ifs.pmp.oprMng.dataset.pagyPayTxnBaseInfo"
+				viewfield="payTxnCode,payTxnResp" searchfield="qpayTxnResp" init="true" multiple="false" default=""
+				fieldmap="qpayTxnCode=payTxnCode;qpayTxnCodeName=payTxnResp"/>
+		
+	<!-- 查询页面展示 -->
+		<Field desc="通道编号" id="pagyNo" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/pagyNo" />
+		<Field desc="通道名称" id="pagyName" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/pagyName" />
+		<Field desc="通道交易编号" id="pagyTxnCode" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/pagyTxnCode" />
+		<Field desc="通道交易" id="pagyTxnName" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/pagyTxnName" />
+		<Field desc="账户类型编号" id="acctTypeNo" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/acctTypeNo" />
+		<Field desc="绑定账户类型" id="acctTypeName" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/acctTypeName" />
+		<Field desc="主商户编号" id="mainMchtNo" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/mainMchtNo" />
+		<Field desc="绑定主商户" id="mainMchtName" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/mainMchtName" />
+		<Field desc="接入交易编号" id="payTxnCode" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/payTxnCode" />
+		<Field desc="接入交易" id="payTxnResp" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/payTxnResp" />		
+		<Field desc="操作栏" id="opr" align="center" edittype="textbox" datatype="string" />	
+		
+	<!-- 特殊字段 -->
+		<Field desc="需配置的字段名" id="needSet" edittype="textbox" datatype="string" xpath="/needSetCol" />
+	</Fields>	  
+	
+	<Commands>
+		<!-- 修改 -->	
+		<Command id="btnUpd" desc="修改" type="none" url="#" txn="" icon="fa fa-pencil"/>
+		<!-- 开放渠道交易接入权限 -->
+		<Command id="btnOpen" desc="开放渠道交易接入权限" type="none" url="#" txn="" icon="fa fa-gears"/>
+		<!-- 新增通道交易 -->
+		<Command id="btnAdd" desc="新增通道交易" type="none" url="#" txn="" icon="fa fa-plus"/>
+	</Commands>
+</Data>

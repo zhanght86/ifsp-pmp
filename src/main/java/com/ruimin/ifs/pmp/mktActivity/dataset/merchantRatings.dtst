@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	 <Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.MerchantRatingsAction:getSnapList" 
+			desc="商户评级" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+	    <!-- 评级信息临时表数据 -->
+		<Field id="mchtId" desc="商户号" status="F" align="center" edittype="textbox" datatype="string" size="100" xpath="/mchtId"/>
+		<Field id="mchtNm" desc="商户名" status="F" align="center" edittype="textbox" datatype="string" size="100" xpath="/mchtNm"/>
+		<Field id="mchtLvL" desc="上月等级" edittype="combobox" required="false"
+			datasource="DDIC:1703" datatype="string" method="None" align="center"
+			 size="100"  default="" xpath="/mchtLvL"/>  
+	    <Field id="mchtLvC" desc="当月等级" edittype="combobox" required="false"
+			datasource="DDIC:1703" datatype="string" method="None" align="center"
+			 size="100"  default="" xpath="/mchtLvC"/>
+		<Field id="dayDepositL" desc="上月日均存款" status="F" align="center" edittype="textbox" method="com.ruimin.ifs.bbs.common.util.CommonUtil.transFenToYuan" datatype="currency" size="100" xpath="/dayDepositL"/>
+		<Field id="busiCntL" desc="上月消费笔数" status="F" align="center" edittype="textbox" datatype="string" size="100" xpath="/busiCntL"/>
+		<Field id="busiAmtL" desc="上月消费金额" status="F" align="center" edittype="textbox" method="com.ruimin.ifs.bbs.common.util.CommonUtil.transFenToYuan" datatype="currency" size="100" xpath="/busiAmtL"/>
+		<Field id="MFlg" desc="手工变更标志" align="center" edittype="combobox" datasource="DDIC:1706"  datatype="string" multiple="false" placeholder="占位符"  xpath="/MFlg" />
+		<Field id="updateTime" desc="更新时间" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/updateTime"/>
+		<Field id="updateOpr" desc="更新操作员" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/updateOpr"/>
+		<Field id="auditOpr" desc="最近审核操作员" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/auditOpr"/>
+		<Field id="auditTime" desc="最近审核时间" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/auditTime"/>
+		<Field id="auditFlag" desc="审核节点" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/auditFlag"/>
+		<Field id="remark" desc="备注" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/remark"/>
+		<Field id="lvStat" desc="评级状态" align="center" status="F" edittype="textbox" datatype="string" size="100" xpath="/lvStat"/>
+		<Field id="syncFlag" desc="数据同步状态" status="F" edittype="textbox" datatype="string" size="100" xpath="/syncFlag"/>
+		<!-- 操作字段 -->
+		<Field id="oper" desc="操作" status="F" edittype="textbox" datatype="string" size="100" xpath=""/>
+		<!-- 更改等級字段 -->
+		<Field id="changeLv" desc="变更" edittype="combobox" required="true"
+			datasource="DDIC:1703" datatype="string" method="None"
+			 size="100"  default="" xpath="" />  
+	    <!-- 查询条件 -->
+	    <Field id="qmchtId" desc="商户号" status="F" edittype="textbox" datatype="string" size="100" xpath=""/>
+	    <Field id="qmchtNm" desc="商户名" status="F" edittype="textbox" datatype="string" size="100" xpath=""/>
+	    <Field id="qmchtLvC" desc="当前等级" edittype="combobox" required="false"
+			datasource="DDIC:1703" datatype="string" method="None"
+			 size="100"  default="" xpath="" /> 
+	</Fields>
+	<Commands>
+	    <Command id="btnSub" desc="提交" type="none"  url="#" txn="" icon=""/>
+		<Command id="btnUpdate" desc="确认" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.MerchantRatingsAction:update" url="#" txn="" icon="fa fa-save"/>
+	</Commands>
+</Data>

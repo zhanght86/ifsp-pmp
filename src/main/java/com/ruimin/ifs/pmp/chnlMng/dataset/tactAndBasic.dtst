@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction:queryAll" flowretid="" log="false" pagesize="5" type="call"/>
+     <Fields>
+           <Field id="pagyNo" desc="通道编号" align="center" size="3" required="false" edittype="textbox" xpath="/pagyNo" ></Field>
+          <Field id="ttsCode" desc="策略编号" size="8" align="center" required="true" edittype="textbox" xpath="/ttsCode" ></Field>
+          <Field id="priorityVul" desc="优先级" size="2" align="center" required="true" edittype="combobox" xpath="/priorityVul" ></Field>
+     </Fields>
+</Data>

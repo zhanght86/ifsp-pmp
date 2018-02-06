@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动信息查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActiveQueryMchtAction:query" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件信息 -->
+		<Field id="qmchtId" 		desc="商户编号" 	edittype="textbox"        datatype="string" xpath=""/>
+		<Field id="qmchtName" 		desc="商户名称" 	edittype="textbox"        datatype="string" xpath=""/>
+		<Field id="qmchtAreaNoName" 	desc="所在地区名称" method="com.ruimin.ifs.mng.comp.CityAllSelectAction.getCityName" status="N" datatype="string" default=""  edittype="textbox"  xpath="" />
+		<Field id="qmchtAreaNo" 		desc="所在地区" datasource="AreaCode:com.ruimin.ifs.mng.dataset.AreaCode" edittype="combogrid" multiple="false" searchfield="qCtCode,qCtName"  viewfield="ctCode,ctName" fieldmap="qmchtAreaNo=ctCode;qmchtAreaNoName=ctName" init="true" status="F"  required="false"/>
+        
+		<Field id="qinFlg" 	desc="参与标志" 	edittype="combobox" datasource="LIST:01,参与;02,退出;03,未参与" multiple="false" status="F" required="false" datatype="string" xpath=""/>
+		<Field id="qmchtLevl" 		desc="商户等级" edittype="combobox" datasource="DDIC:1703"  datatype="string" multiple="false" placeholder="占位符" status="F" xpath="" />
+		<!-- 列表信息 -->
+		<Field id="mchtId" 		desc="商户号" 	edittype="textbox"        datatype="string" xpath="/mchtId"/>
+		<Field id="mchtName" 		desc="商户名称" 	edittype="textbox"    width="300" colspan="3" required="false"  datatype="string" xpath="/mchtName"/>
+		<Field id="mchtAreaNoName" 	desc="所在地区名称" method="com.ruimin.ifs.mng.comp.CityAllSelectAction.getCityName" status="N" datatype="string" default=""  edittype="textbox"  xpath="mchtAreaNo" />
+		<Field id="mchtAreaNo" 		desc="所在地区" datasource="CityTree:com.ruimin.ifs.mng.dataset.CityTree" edittype="combotree" fieldmap="mchtAreaNo=_id;mchtAreaNoName=_text"  status="F" viewfield="_text" required="false" xpath="mchtAreaNo"/>
+		<Field id="inFlg" 	desc="参与标志" 	edittype="combobox" datasource="LIST:01,参与;02,退出;03,未参与" multiple="false" status="F" required="false" datatype="string" xpath="/inFlg"/>
+		<Field id="mchtLevl" 		desc="商户等级" edittype="combobox" datasource="DDIC:1703"  datatype="string" multiple="false" placeholder="占位符" status="F" xpath="/mchtLevl" />
+		<!-- select当做字段处理，选中返回值为true,不选返回值为false -->
+		<Field id="select" 		desc="" 	edittype="checkbox"    readonly="false"    datatype="boolean" xpath="/select"/>
+	<Field id="activeNo" 		desc="活动编号" 	edittype="textbox"        datatype="string" xpath="/activeNo"/>
+	</Fields>
+	<Commands>
+		<Command id="btnSub" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActiveQueryMchtAction:update" url="#" txn="" icon="fa fa-save"/>
+	</Commands>
+</Data>

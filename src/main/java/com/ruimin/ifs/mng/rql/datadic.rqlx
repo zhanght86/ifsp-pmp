@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="getall" paramType="map" resultType="com.ruimin.ifs.po.TblDataDic">
+		select * from IFS_DATA_DIC  order by DATA_NO
+	</select>
+	
+	<select id="getDataDicByTypeNo" paramType="map" resultType="com.ruimin.ifs.po.TblDataDic">
+		select * from IFS_DATA_DIC  where DATA_TYPE_NO=#{typeNo} order by DATA_NO
+	</select>
+</mapper> 

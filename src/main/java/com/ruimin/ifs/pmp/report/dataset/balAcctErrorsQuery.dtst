@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="对账差错交易查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.report.comp.BalAcctErrorsAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qStlmDateStart" desc="清算日期(起始)" edittype="datebox"    datatype="date" />
+		<Field id="qStlmDateEnd" desc="清算日期(截止)" edittype="datebox"  datatype="date" />
+		<Field id="qMchtInfo" desc="商户号/简称" datatype="string" />
+		<Field id="qMchtOrg" desc="所属机构" datatype="string" align="center"  edittype="combogrid"  
+	 		datasource="mchtSelOrg:com.ruimin.ifs.pmp.mchtMng.dataset.mchtSelOrg"  
+			viewfield="brno,brname"  searchfield="qbrname"
+			init="true" multiple="false" default=""
+			fieldmap="qMchtOrgName=brname;qMchtOrg=brcode"/>   
+		<Field id="qTxnType" desc="交易类型" datasource="DDIC:1842"  edittype="combobox" datatype="string"  />
+		<Field id="qRefundStat" desc="退款状态" datasource="DDIC:2010"  edittype="combobox" datatype="string"  />		
+		 <Field id="qErrStat" desc="差错状态"  datasource="DDIC:2004"  edittype="combobox" datatype="string" status="F" />
+		<Field id="qPagyNo" desc="通道名称" edittype="combobox" datasource="DDIC:2008"/>
+		<Field id="qThirdSsn" desc="通道流水号" datatype="string" />
+		<Field id="qChlTxnSsn" desc="平台交易流水号" datatype="string" />
+		<Field id="qCorrStat" desc="调账状态"  datasource="DDIC:1841"  edittype="combobox" datatype="string" status="F"/>
+		<Field id="qtpamOutTransactionId" desc="退款支付凭证"  datatype="string" status="F"/>
+		<!-- 基础信息 -->
+       <Field id="stlmDate" desc="清算日期" align="center" readonly="true" edittype="textbox" datatype="string"   xpath="/stlmDate" />
+       <Field id="pagyNo" desc="通道编号" align="center" readonly="true" edittype="textbox" datatype="string"  xpath="/pagyNo" />
+	   <Field id="pagyName"  desc="通道名称"   align="center"  readonly="true" edittype="textbox"  status="F" xpath="/pagyName"/>
+	   <Field id="txnDate" desc="交易日期时间" edittype="textbox" readonly="true" align="center" datatype="string"   xpath="/txnDate" />
+	   <Field id="txnType" datasource="DDIC:1842" desc="交易类型" readonly="true" align="center" edittype="combobox"   status="F" xpath="/txnType"/>		
+	   <Field id="thirdSsn" desc="通道流水号" edittype="textbox" readonly="true" datatype="string" xpath="/thirdSsn" />
+	   <Field id="chlTxnSsn" desc="平台交易流水号" edittype="textbox" readonly="true" datatype="string" xpath="/chlTxnSsn" />
+	   <Field id="chlMerId" desc="商户号" edittype="textbox" readonly="true" datatype="string" xpath="/chlMerId" />
+	   <Field id="chlMerName" desc="商户简称" edittype="textbox" readonly="true"  datatype="string" xpath="/chlMerName" />	
+	   <Field id="txnAmt" desc="交易金额" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/txnAmt"/>
+		<Field id="fee" desc="手续费" edittype="textbox" align="center" datatype="string" xpath="/fee"/>
+		<Field id="amtFlg" desc="金额方向" align="center" required="false" datasource="DDIC:1844"  edittype="combobox" datatype="string" status="F" xpath="/amtFlg"/>
+		 <Field id="errStat" desc="差错状态" align="center" readonly="true" required="false" datasource="DDIC:2004"  edittype="combobox" datatype="string" status="F" xpath="/errStat"/>
+	   <Field id="corrStat" desc="调账状态" align="center" readonly="false" datasource="DDIC:1841"  edittype="combobox" datatype="string" status="F" xpath="/corrStat"/>
+       <Field id="lastUpdTlr" desc="操作员号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/lastUpdTlr"/>
+        <Field id="lastUpdDateTime" desc="操作日期时间" readonly="true" edittype="textbox" align="center" datatype="string" xpath="/lastUpdDateTime"/>
+    	<Field id="errRemark" desc="差错描述" edittype="textarea" readonly="true" align="center" datatype="string" xpath="/errRemark"/>
+    	<Field id="txnSsn" desc="支付通道流水号" edittype="textarea" readonly="true" align="center" datatype="string" xpath="/txnSsn"/>
+    	<Field id="refundStat" desc="退款状态" edittype="combobox" datasource="DDIC:2010" readonly="true"  status="F" align="center" datatype="string" xpath="/refundStat"/>
+    	<Field id="pagySeqId" desc="退款流水" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/pagySeqId"/>
+    	<Field id="tpamTransactionId" desc="退款通道流水" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/tpamTransactionId"/>
+    	<Field id="tpamOutTransactionId" desc="退款支付凭证" edittype="textbox"  readonly="true"  status="F" align="center" datatype="string" xpath="/tpamOutTransactionId"/>
+	    <Field id="auditView" desc="审核意见" datatype="string" edittype="textarea" colspan="4" rows="6" width="635"  size="128" readonly="false" align="center"  xpath="/auditView" />
+   		<Field id="auditId" desc="审核编号" datatype="string" edittype="textarea" colspan="4" rows="6" width="635"  size="128" readonly="false" align="center"  xpath="/auditId" />
+   		
+    </Fields>
+
+	<Commands>
+		<Command id="btnDownload" desc="下载报表" type="none" url="#" txn="" icon="fa fa-download"/>
+		<Command id="btnAdjust" desc="手工调账" type="none" url="#" txn="" icon="fa fa-gears"/>
+		<Command id="btnAdjustSubmit" desc="提交"  type="asyncsubmit" flowid="com.ruimin.ifs.pmp.report.comp.BalAcctErrorsAction:manualAdjustmentAudit"  url="#" txn="" icon="fa fa-gears"/>
+		
+		<Command id="btnReturns" desc="退款" type="none" url="#" txn="" icon="fa fa-gears"/>
+		<Command id="btnReturnsSubmit" desc="提交"  type="asyncsubmit" flowid="com.ruimin.ifs.pmp.report.comp.BalAcctErrorsAction:manualReturnsAudit"  url="#" txn="" icon="fa fa-gears"/>
+		
+		<Command id="btnQuery" desc="查询" type="none" url="#" txn="" icon="fa fa-gears"/>
+		<Command id="btnQuerySubmit" desc="提交"  type="asyncsubmit" flowid="com.ruimin.ifs.pmp.report.comp.BalAcctErrorsAction:manualQueryAudit"  url="#" txn="" icon="fa fa-gears"/>
+		<Command id="btnAuditAgree" desc="通过" type="asyncsubmit"   icon="fa fa-check" flowid="com.ruimin.ifs.pmp.report.comp.BalAcctErrorsAuditAction:pass"/>
+	    <Command id="btnAuditDisagree" desc="拒绝" type="asyncsubmit"   icon="fa fa-remove" flowid="com.ruimin.ifs.pmp.report.comp.BalAcctErrorsAuditAction:refuse"/>
+	    <Command id="btnReturn" desc="返回" type="none"  icon="fa fa-list" url="#" ></Command>
+	</Commands>
+</Data>

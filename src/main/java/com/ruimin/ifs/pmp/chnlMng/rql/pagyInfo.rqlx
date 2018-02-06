@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 通道信息查询 -->
+<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyInfo">
+ <![CDATA[select PAGY_NO, PAGY_NAME, PAGY_OPEN_DATE, PAGY_STAT, REMARK, crt_tlr, crt_date_time, last_upd_tlr, last_upd_date_time from PAGY_BASE_INFO
+        where 1=1 ]]>
+       <if test = "pagyNo != ''"><![CDATA[and PAGY_NO like #{pagyNo} ]]></if>
+	   <if test = "pagyName != ''"><![CDATA[and PAGY_NAME like #{pagyName} ]]></if>
+	   <if test = "queryType != ''"><![CDATA[and PAGY_STAT = '00' ]]></if>
+	    order by pagy_No desc
+</select>
+
+<select id="queryPagyNames" paramType="map" resultType="string">
+	select PAGY_NAME  from PAGY_BASE_INFO where PAGY_NO in (#{pagyNoArray})
+</select>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+    <Define desc="产品信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.term.comp.PaypTermInfoAction:queryMchtProdInfoByMchtId" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="txnTypeCode" desc="交易类型编号 " xpath="/txnTypeCode" />
+		<Field id="txnTypeName" desc="交易类型名称" xpath="/txnTypeName" />
+		<Field id="txnTypeDesc" desc="交易类型描述" xpath="/txnTypeDesc" />
+		<Field id="prodId" desc="产品ID" xpath="/prodId" />
+		<Field id="prodName" desc="产品名称" xpath="/prodName" />
+		<Field id="prodDesc" desc="产品描述" xpath="/prodDesc" />
+		<Field id="accessTypeCode" desc="接入方式编号" xpath="/accessTypeCode" />
+		<Field id="accessTypeName" desc="接入方式名称" xpath="/accessTypeName" />
+		<Field id="accesstypeDesc" desc="接入方式描述" xpath="/accesstypeDesc" />
+	</Fields>
+    <Commands>
+        <Command id="btnQueryMchtProdInfoByMchtIdCount"  desc="根据商户ID查询对应的产品信息总数" type="asyncsubmit" flowid="com.ruimin.ifs.term.comp.PaypTermInfoAction:queryMchtProdInfoByMchtIdCount" url="#"  tip=""/>
+    </Commands>
+</Data>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.txnQuery.comp.TxnQueryAction:queryDetil" 
+			desc="支付业务系统交易详情" expmaxrcd="50" flowctxid="" flowretid="" />
+	<!-- modify by lengjingyu 20180205 交易查询界面变更需求 jira-1865 -->
+	<Fields>
+	   <!-- 商户订单信息 -->
+	   <Field id="mchtId" desc="商户编号" align="center" edittype="textbox"   readonly="true" datatype="string"  status="F" default="" xpath="/mchtId"/>
+	   <Field id="mchtName" desc="商户简称" align="center" edittype="textbox" readonly="true"   datatype="string"  status="F" default="" xpath="/mchtName"/>
+	   <Field id="txnOrderId" desc="商户订单号" align="center" edittype="textbox" readonly="true"  datatype="string"  status="F" default="" xpath="/txnOrderId"/>
+	   <Field id="txnOrderAmt" desc="订单金额" align="center" edittype="textbox" readonly="true" method="com.ruimin.ifs.pmp.pubTool.util.SysCQMethod.fenToYuan" datatype="string"  status="F" default="" xpath="/txnOrderAmt"/>
+	   <!-- 平台交易信息 -->
+	   <Field id="txnSeqId" desc="平台交易流水号"  align="center" edittype="textbox" readonly="true" width="270" datatype="string" status="F" default=""   xpath="/txnSeqId"/>
+	   <Field id="accessType" desc="接入方式" align="center" datasource="LIST:01,PC收银台;02,网关接口;03,移动收银台" edittype="combobox" readonly="true" datatype="string"  status="F" default="" xpath="/txnTemlType"/>
+	   <Field id="txnDate" desc="交易日期" align="center" edittype="datebox"  readonly="true" datatype="date" status="F" default="" xpath="/txnDate"/>
+	   <Field id="txnTime" desc="交易时间" align="center" edittype="textbox" method="com.ruimin.ifs.pmp.pubTool.util.SysCQMethod.toTimeStr"  readonly="true" datatype="string"  status="F" default="" xpath="/txnTime"/>
+	   <Field id="txnType" desc="交易类型" align="center" edittype="combobox" datasource="LIST:1008,退款;1009,查询;1010,撤销;1088,商户一码付;1089,订单一码付;1090,统一被扫"  readonly="true" datatype="string"  status="F" default="1008" xpath="/txnType"/>
+	   <Field id="txnAmt" desc="交易金额" align="center" edittype="textbox" readonly="true"  method="com.ruimin.ifs.pmp.pubTool.util.SysCQMethod.fenToYuan" datatype="string"  status="F" default="" xpath="/txnAmt"/>
+	   <Field id="txnState" desc="交易状态" align="center" edittype="combobox" datasource="DDIC:1836" readonly="true"  datatype="string"  status="F" default="" xpath="/txnState"/>
+	   <Field id="txnAccType" desc="账户类型" align="center" edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/txnAccType"/>
+	   <Field id="txnAccTypeName" desc="账户类型" align="center" datasource="LIST:A000,全部卡种;A001,本行借记卡;A002,本行贷记卡;A003,他行借记卡;A004,他行贷记卡;A005,支付宝;A006,微信;A007,证通财富" edittype="combobox"  readonly="true" datatype="string"  status="F" default="" xpath="/txnAccType"/>
+	   <Field id="payProduct" desc="支付产品" datatype="string" readonly="true" method="com.ruimin.ifs.pmp.chnlMng.comp.QueryProAction.getProdName" align="center" xpath="/payProduct" />
+	   
+	   <Field id="txnRespCode" desc="交易返回码" align="center" edittype="textbox" readonly="true"  datatype="string"  status="F" default="" xpath="/txnRespCode"/>
+	   <Field id="txnRespMsg" desc="交易返回信息" align="center" edittype="textbox" readonly="true"  datatype="string"  status="F" default="" xpath="/txnRespMsg"/>
+	   <Field id="pointId" desc="投注机编号" align="center" readonly="true" edittype="textbox" datatype="string"  status="F" default="" xpath="/pointId"/>
+	   <!-- 交易退款信息  -->
+	   <Field id="origTxnSeqId" desc="原交易平台流水号" align="center" edittype="textbox" readonly="true" width="270" datatype="string"  status="F" default="" xpath="/origTxnSeqId"/>
+	   <Field id="srAmtSum" desc="累计退款金额" align="right" edittype="textbox" readonly="true" method="com.ruimin.ifs.pmp.pubTool.util.SysCQMethod.fenToYuan" datatype="string"  status="F" default="" xpath="/srAmtSum"/>
+	   <!-- 通道交易信息  -->
+	   <Field id="pagySeqId" desc="通道流水号" align="center" edittype="textbox" readonly="true" width="270" datatype="string"  status="F" default="" xpath="/pagySeqId"/>
+	   <Field id="tpamOutId" desc="支付凭证号" align="center" edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/tpamOutId"/>
+	   <Field id="pagyRespCode" desc="二维码响应码" align="center" edittype="textbox" readonly="true"  datatype="string"  status="F" default="" xpath="/pagyRespCode"/>
+	   <Field id="pagyRespMsg" desc="二维码响应信息" align="center" edittype="textbox" readonly="true"  datatype="string"  status="F" default="" xpath="/pagyRespMsg"/>
+	   <Field id="pagyTxnTm" desc="通道核心交易受理时间" align="center" edittype="datetimebox" readonly="true"  datatype="timestamp"  status="F" default="" xpath="/pagyTxnTm"/>
+	   <Field id="tpamErrCode" desc="通道响应码" align="center" edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/tpamErrCode"/>
+	   <Field id="tpamErrMsg" desc="通道响应信息" align="center" edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/tpamErrMsg"/>
+	   
+	   <!-- 营销活动信息  -->
+	   <Field id="activeNo" desc="营销活动编号" align="center" edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/activeNo"/>
+	   <Field id="activeNm" desc="营销活动名称" align="center" edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/activeNm"/>
+	   <Field id="favourableAmt" desc="营销金额" align="center" edittype="textbox"  readonly="true" method="com.ruimin.ifs.pmp.pubTool.util.SysCQMethod.fenToYuan" datatype="string"  status="F" default="" xpath="/favourableAmt"/>
+	</Fields>   
+	    
+</Data>

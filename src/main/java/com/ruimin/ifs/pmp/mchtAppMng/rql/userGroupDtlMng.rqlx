@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息详细查询 -->		
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MchtUserGroupVo">
+		select a.*,g.mcht_id,g.DEVICE_TYPE,u.USER_NAME,u.CHANNEL_ID 
+		from USER_GROUP_DTL_INFO a,MCHT_USER_GROUP_INFO g,MSS_USER_BASE_INFO u
+		 where a.group_id=g.group_id and a.user_id=u.user_id
+		<if test = "qgroupId != ''"><![CDATA[and a.GROUP_ID like #{qgroupId} ]]></if>
+		<if test = "qmchtId != ''"><![CDATA[and g.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qdeviceType != ''"><![CDATA[and g.DEVICE_TYPE = #{qdeviceType} ]]></if>
+		<if test = "quserId != ''"><![CDATA[and a.USER_ID like #{quserId} ]]></if>
+		<if test = "quserName != ''"><![CDATA[and u.USER_NAME like #{quserName} ]]></if>
+		order by a.GROUP_ID
+	</select>
+
+	<select id="queryIfExit" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.UserGroupDtlBaseInfo">
+		select * from USER_GROUP_DTL_INFO where GROUP_ID = #{groupId} and USER_ID=#{userId}
+	</select>
+	
+	<select id="queryUserIdMngByAss" paramType="String" resultType="String">
+		select USER_ID_MNG from MSS_MNG_ASS_LINK where USER_ID_ASS=#{userIdAss}
+	</select>
+	
+	<select id="queryMchtIdByUserId" paramType="String" resultType="String">
+		select MCHT_ID from MSS_USER_MCHT_LINK where USER_ID=#{userId}
+	</select>
+	
+</mapper>

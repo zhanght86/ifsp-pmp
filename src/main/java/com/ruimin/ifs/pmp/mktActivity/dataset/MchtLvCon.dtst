@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.MchtLvConAction:queryMchtLvCon" 
+			desc="评级配置表单项" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+        
+        <Field id="mchtLv" desc="商户等级" edittype="combobox" datasource="DDIC:1704" size="200" datatype="string" required="true" align="center" xpath="/mchtLv" />
+        <Field id="mchtLvSeq" desc="序号" datatype="string" size="200" align="center" xpath="/mchtLvSeq" />
+        <Field id="lvDesc" desc="评级说明" datatype="string" size="200" required="true" align="center" xpath="/lvDesc" />
+        <Field id="dayDepositMix" desc="最低日均存款"  edittype="textbox" datatype="string" method="com.ruimin.ifs.util.CommonUtil.transFenToYuan" size="200" align="center" xpath="/dayDepositMix" />
+        <Field id="busiCntMix" desc="最低消费笔数"    datatype="number" size="200" align="center" xpath="/busiCntMix" />
+        <Field id="busiAmtMix" desc="最低消费金额"   edittype="textbox" datatype="string" method="com.ruimin.ifs.util.CommonUtil.transFenToYuan" size="200" align="center" xpath="/busiAmtMix" />
+        <Field id="resv1" desc="预留字段1" datatype="string" size="200" align="center" xpath="/resv1" />
+        <Field id="resv2" desc="预留字段2" datatype="string" size="200" align="center" xpath="/resv2" />
+        <Field id="rdStat" desc="记录状态" edittype="combobox" datasource="DDIC:1708" datatype="string" size="200" align="center" xpath="/rdStat" />
+        <Field id="updateTime" desc="更新时间" datatype="string" size="200" align="center" xpath="/updateTime" />
+        <Field id="updateOpr" desc="更新操作员" datatype="string" size="200" align="center" xpath="/updateOpr" />
+        
+       
+       
+        
+    
+        
+ 
+        <Field id="opr" desc="操作" edittype="textbox"  datatype="string" xpath=""/>
+        
+        
+        
+        
+        
+        
+        
+        
+       
+		
+		
+		
+       
+	</Fields> 
+	
+	
+	<Commands>	 
+	<Command id="btnAdd" desc="添加信息" type="addrecord" url="" txn="" icon="fa fa-plus"/>
+	<Command id="btnAddSub" desc="提交验证" type="none" url="" txn="" icon="fa fa-save"/>
+	<Command id="btnAddSave"  desc="新增保存" type="asyncsubmit" url="#" flowid="com.ruimin.ifs.pmp.mktActivity.comp.MchtLvConAction:saveOrAdd" icon="fa fa-save"/>	
+	
+	<Command id="btnUpdate" desc="修改保存" type="asyncsubmit" url="" txn="" icon="fa fa-plus"/>   
+	<Command id="btnUpSub" desc="提交验证" type="none" url="" txn="" icon="fa fa-save"/>
+	<Command id="btnUpSave"  desc="修改保存" type="asyncsubmit" url="#" flowid="com.ruimin.ifs.pmp.mktActivity.comp.MchtLvConAction:saveOrUpdate" icon="fa fa-save"/>	
+	
+	<Command id="btnDelete" desc="删除" type="asyncsubmit" url="" txn="" icon="fa fa-plus"/>
+	<Command id="btnDelSub" desc="提交验证" type="none" url="" txn="" icon="fa fa-save"/>
+	<Command id="btnDelSave"  desc="删除保存" type="asyncsubmit" url="#" flowid="com.ruimin.ifs.pmp.mktActivity.comp.MchtLvConAction:delete" icon="fa fa-save"/>	
+	
+	
+	</Commands>
+	
+</Data>

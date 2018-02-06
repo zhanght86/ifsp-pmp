@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="50" log="false"  flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:queryAcctType" desc="合同服务" expmaxrcd="50"  /> 
+	<Fields>
+		<Field id="acctTypeCode" desc="账户类型" required="true" init="true" datatype="string" readonly="true"
+			datasource="queryAccountType:com.ruimin.ifs.pmp.payProdMng.dataset.queryAccountType" width="300"
+			edittype="combogrid" multiple="true" fieldmap="acctTypeCodeName=acctTypeName;acctTypeCode=acctTypeCode"
+			searchfield="" viewfield="acctTypeCode,acctTypeName" xpath="/acctTypeCode" />  
+		
+		<Field id="acctTypeCodeName" desc="账户类型" method="com.ruimin.ifs.pmp.payProdMng.comp.TxnTypeQueryAction.getAcctTypeName" 
+		align="center" edittype="textbox" datatype="string" xpath="/acctTypeCode" /> 	
+   
+     <Field id="rateId" desc="费率类型" edittype="combogrid" datatype="string" required="true"
+		   datasource="rateBaseInfo:com.ruimin.ifs.pmp.chnlMng.dataset.rateBaseInfo" 
+		   viewfield="chlRateCodeName"  init="true" multiple="false" default="" 
+		   readonly="false" width="300" fieldmap="rateId=chlRateCode;rateIdName=chlRateCodeName" xpath="/rateId"/>
+     
+     <Field id="rateIdName" desc="费率信息" edittype="textbox" datatype="string" 
+		  method="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction.getchlRateName"  xpath="/rateId"/>
+  
+	</Fields> 
+	<Commands>	 	
+		<Command id="btnAddSer" desc="保存" type="asyncsubmit" icon="" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:addMchtService" />
+	</Commands>
+</Data>

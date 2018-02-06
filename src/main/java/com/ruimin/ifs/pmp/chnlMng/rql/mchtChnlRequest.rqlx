@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询【申请用类目编号】-->  
+<select id="queryAplCategoryCode" paramType="map" resultType="String">
+	select APL_CATEGORY_CODE from PAGY_CATEGORY_CFG
+	where 1=1
+    and USER_CODE = #{userCode}
+    and LEVEL_ONE_CODE = #{levelOneCode}
+    and LEVEL_TWO_CODE = #{levelTwoCode}
+    and LEVEL_THREE_CODE = #{levelThreeCode}
+</select>
+
+
+<!-- 查询【地区码】-->  
+<select id="queryAreaNo" paramType="String" resultType="String">
+	select mcht_area_no
+  	from PBS_MCHT_BASE_INFO
+ 	where mcht_id = #{mchtId}
+</select>
+</mapper>

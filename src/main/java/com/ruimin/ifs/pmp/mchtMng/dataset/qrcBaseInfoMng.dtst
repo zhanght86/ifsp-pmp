@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="用户黑名单" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtMng.comp.QrcMngAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qMchtId" desc="商户号" align="center" edittype="textbox"  required="false" datatype="string" xpath="" />
+		<Field id="qMchtSimpleName" desc="商户简称" align="center" edittype="textbox"  required="false" datatype="string" xpath="" />
+		<Field id="qMchtAmrName" desc="业务员姓名" align="center" edittype="textbox"  required="false" datatype="string" xpath="" />
+		<Field id="qQrcCodeId" desc="二维码编号" align="center" edittype="textbox"  required="false" datatype="string" xpath="" />
+		<Field id="qQrcStat" desc="二维码状态"  datatype="string" datasource="DDIC:1931" edittype="combobox" align="center" xpath="" />
+		<Field id="qMchtUseStat" desc="使用状态"  datatype="string" datasource="DDIC:1932" edittype="combobox" align="center" xpath="" />
+		<Field id="qQrcType" desc="二维码类型" align="center" datasource="List:01,一码付;02,银联二维码" edittype="combobox" datatype="string"   xpath=""/>	
+		<Field id="qmchtAmrNo" desc="业务员号" align="center" edittype="textbox" datatype="string"/>		
+		<!-- 主表单字段 -->
+		<Field id="qrcCodeId" desc="二维码编号" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/qrcCodeId"/>
+		<Field id="mchtId" desc="商户号" align="center" edittype="textbox" datatype="string" readonly="true"  xpath="/mchtId"/>
+		<Field id="mchtSimpleName" desc="商户简称" align="center" edittype="textbox" datatype="string" readonly="true"  xpath="/mchtSimpleName"/>
+		<Field id="qrcStat" desc="二维码状态"  datatype="string" datasource="DDIC:1931" edittype="combobox" align="center"
+			xpath="/qrcStat" />
+		<Field id="mchtAmrNo" desc="业务员号" align="center" edittype="textbox" datatype="string" readonly="true"  xpath="/mchtAmrNo"/>
+		<Field id="mchtAmrName" desc="业务员姓名" align="center" edittype="textbox" datatype="string" readonly="true"  xpath="/mchtAmrName"/>
+		<Field id="mchtUseStat" desc="使用状态"  datatype="string" datasource="DDIC:1932" edittype="combobox" align="center"
+			xpath="/mchtUseStat" />
+		<Field id="qrcPicId" desc="二维码图片编号" align="center" edittype="textbox" datatype="string" readonly="true" xpath="/qrcPicId"/>
+		<Field id="crtDate" desc="申请日期时间" align="center" edittype="datetimebox" datatype="timestamp"   xpath="/crtDate"/>	
+		<Field id="expiryDateTime" desc="失效日期时间" align="center" edittype="datetimebox" datatype="timestamp"   xpath="/expiryDateTime"/>	
+		<Field id="qrcType" desc="二维码类型" align="center" datasource="List:01,一码付;02,银联二维码" edittype="combobox" datatype="string"   xpath="/qrcType"/>	
+		<Field id="opr" desc="操作栏" datatype="string" align="center" />
+		
+    </Fields>
+    
+	<Commands>
+	
+		<Command id="btnDownload" desc="下载" type="none"   icon="fa fa-download"/>
+		<Command id="btnDownloadSave" desc="下载" type="asyncsubmit"  flowid="com.ruimin.ifs.pmp.mchtMng.comp.QrcMngAction:downloadImageActive" url="#" txn="" icon="fa fa-download"/>
+		
+		<Command id="btnAgainApply" desc="重新申请" type="none" url="#" txn="" icon="fa fa-certificate" />
+		<Command id="btnAgainApplySave" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.QrcMngAction:againApplyActive" url="#" txn="" icon="fa fa-certificate" />
+		
+		<Command id="btnStatus" desc="停用/启用" type="none" url="#" txn="" icon="fa fa-ban" />
+		<Command id="btnStatusSave" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.QrcMngAction:stautsActive" url="#" txn="" icon="fa fa-gears" />
+		
+		
+		<Command id="onlyBtnDownload" desc="下载" type="none" flowid="" url="#" txn="" />
+		
+	</Commands>
+</Data>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询区划码信息-->
+  <select id="queryList" paramType="map" resultType="map">
+	select a.QH_CODE qh_code,a.QH_NAME  as qh_name
+	from im_param_quhua a ,
+	(select QH_CODE,QH_NAME from `im_param_quhua` where 1=1 
+	and QH_CODE like '%0000' 
+	 <if test = "qProviceNm !='' "> and QH_NAME like #{qProviceNm}</if>
+	) b 
+	where LEFT(a.QH_CODE,2) = LEFT(b.QH_CODE,2)
+	 <if test = "qCityNm !='' "> and a.QH_NAME like #{qCityNm}</if>
+	order by qh_code
+	</select>
+</mapper>
+	

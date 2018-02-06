@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="通道交易统计" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnCountAction:queryAll" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+     	   <!--查询条件 -->
+     	  <Field id="qTxnDateStart" desc="交易日期(起始)" edittype="datebox"  datatype="date" xpath="" status="F" default="" />
+	   	  <Field id="qTxnDateEnd" desc="交易日期(截止)" edittype="datebox"   datatype="date" xpath="" status="F" default="" />
+	   
+	   	  <Field id="qPagyNo" desc="支付通道" edittype="combogrid" datatype="string" 
+	       	datasource="pagyInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo" 
+	       	viewfield="pagyNo,pagyName" init="true" multiple="false" default=""
+	       	fieldmap="qPagyNo=pagyNo;qPagyNoName=pagyName" xpath="" status="F"/>
+	      <Field id="qPagyNoName" desc="支付通道" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyInfoAction.getPagyNames" />
+	      
+	      <Field id="pagyName" desc="支付通道" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyInfoAction.getPagyNames" 
+		   align="center" edittype="textbox" datatype="string" xpath="/pagyNo" /> 
+	      <Field id="coreTxnTime" desc="通道核心交易日期" edittype="datetimebox" readonly="true" align="center" datatype="date"  status="F" default="" xpath="/coreTxnTime"/>
+          <Field id="totalItems" desc="总笔数"  align="center" edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/totalItems"/>  
+          <Field id="failItems" desc="失败笔数" align="center"   edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/failItems"/>  
+          <Field id="successRate" desc="成功率" align="center"  edittype="textbox"  readonly="true" datatype="string"  status="F" default="" xpath="/successRate"/>  
+          <Field id="failRate" desc="失败率"  align="center"   edittype="textbox" readonly="true" datatype="string"  status="F" default="" xpath="/failRate"/>  
+     	  <Field id="successItems" desc="成功笔数"  align="center" required="false" edittype="textbox" datatype="string" xpath="/successItems" /> 
+     </Fields>
+     <Commands>
+	</Commands>
+</Data>     

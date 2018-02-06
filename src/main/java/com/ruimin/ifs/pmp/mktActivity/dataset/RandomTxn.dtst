@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.RandomTxnAction:queryAll" 
+	desc="随机立减查询信息" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+	
+        <Field id="activeNo" desc="活动编号" datatype="string"  align="center" xpath="/activeNo" />
+        <Field id="activeNm" desc="活动名称" datatype="string" align="center" xpath="/activeNm" />
+        <Field id="sDate" desc="开始时间" datatype="string" edittype="datebox" align="center" xpath="/sDate" />
+        <Field id="eDate" desc="结束时间" datatype="string" edittype="datebox" align="center" xpath="/eDate" />
+        <Field id="sRedbagConsume" desc="红包总额(元)" datatype="string"  align="center"  xpath="/sRedbagConsume" />
+        <Field id="sRedbagCount" desc="红包总数" datatype="int"  align="center" xpath="/sRedbagCount" />
+        <Field id="sUseAmt" desc="已用红包总额(元)" datatype="string"  align="center" xpath="/sUseAmt" />
+        <Field id="sUseBag" desc="已用红包数" datatype="int" align="center" xpath="/sUseBag" />
+		
+		<!-- 查询条件   -->
+		<Field id="qActiveNm" desc="活动名称" edittype="textbox" datatype="string"  />
+		<Field id="qActiveNo" desc="活动编号" edittype="textbox" datatype="string"  />
+		<Field id="qMchtId" desc="商户编号" edittype="textbox" datatype="string"  />
+		<Field id="qSDate" desc="活动开始时间" edittype="datebox" datatype="date"  />
+		<Field id="qEDate" desc="活动结束时间" edittype="datebox" datatype="date"  />
+		
+		
+        
+	</Fields> 
+</Data>

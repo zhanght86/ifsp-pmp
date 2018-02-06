@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.platMng.comp.AuditNewInfoAction:queryByAuditId" 
+			desc="审核消息记录" expmaxrcd="50"  /> 
+	 <Fields>
+	     <!-- 表格页面的字段 -->
+        <Field id="seqId" 	desc="记录序号" align="center" edittype="textbox" datatype="string" required="false" xpath="/seqId" />
+        <Field id="auditId" desc="审核信息编号"  width="700" colspan="4"  align="center"   status="F"    xpath="/auditId" />
+        <Field id="stepNo" desc="步骤编号" required="false" datatype="string" align="center" xpath="/stepNo" />
+        <Field id="auditState" desc="审核状态" datatype="string"  edittype="combobox" datasource="DDIC:1834" align="center" xpath="/auditState" />  
+        <Field id="roleId" desc="审核角色" datatype="string"  align="center" xpath="/roleId" />
+        <Field id="auditOprNo" desc="审核人编号" datatype="string"  align="center" xpath="/auditOprNo" />
+        <Field id="auditDatetIme" desc="审核日期时间" datatype="timestamp" edittype="datetimebox" align="center" xpath="/auditDatetIme" />
+        <Field id="auditView" desc="审核意见" datatype="string"  align="center" xpath="/auditView" />
+        <!-- 审核角色名字，页面显示使用 -->
+        
+        <Field id="roleName" desc="审核角色" method="com.ruimin.ifs.pmp.platMng.comp.AuditNewInfoAction.getName" 
+		align="center" edittype="textbox" datatype="string" xpath="/roleId" />   
+	</Fields> 
+	
+	<!-- <Commands>
+	      <Command id="btnCheck" desc="审核" type="none"  icon="fa fa_check" url="#" ></Command>
+	      <Command id="btnShowDetail" desc="明细" type="none"  icon="fa fa-list" url="#" ></Command>
+	</Commands> -->
+</Data>

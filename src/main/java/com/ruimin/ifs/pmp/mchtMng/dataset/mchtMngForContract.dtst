@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:queryMainMcht" 
+	desc="商户基本信息管理" expmaxrcd="50" flowctxid="" flowretid=""/> 
+	<Fields>
+	<!-- 查询字段 -->
+		<Field id="qmchtId" desc="商户编号" edittype="textbox" datatype="string"/>
+		<Field id="qmchtSimpleName" desc="商户简称" edittype="textbox" datatype="string"/>
+		<Field id="qmchtType" desc="商户类型" datatype="string" datasource="DDIC:1804" edittype="combobox" align="center"/>
+	<!-- 主表单字段 -->      
+		<Field id="mchtId" desc="商户编号" datatype="string" align="center" xpath="/mchtId" />    
+		<Field id="mchtSimpleName" desc="商户简称" datatype="string" align="center" required="true" xpath="/mchtSimpleName"/>    
+		<Field id="mchtType" desc="商户类型" datatype="string" datasource="DDIC:1804" edittype="combobox" align="center" required="true" xpath="/mchtType"/>
+		<Field id="accountType" desc="结算账户类型" edittype="combobox" datasource="LIST:1,对公;2,对私;" required="true" datatype="string" size="1" xpath="/accountType" />
+      <Field id="setlAcctName" desc="结算账户户名" edittype="textbox" datatype="string" xpath="/setlAcctName" />    
+	<!-- 补充字段 -->
+	</Fields> 
+	
+</Data>

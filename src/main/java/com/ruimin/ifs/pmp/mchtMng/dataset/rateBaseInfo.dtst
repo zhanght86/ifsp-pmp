@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="费率基本信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction:queryRateBaseInfo" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="rateId" desc="费率编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/rateId"/>
+		<Field id="rateName" desc="费率名称" align="center" required="true" edittype="textbox" datatype="string" status="F"  xpath="/rateName" />
+		<Field id="sectionType" desc="分段标志" align="center" required="true" datasource="LIST:00,默认;01,按金额" edittype="combobox" datatype="string" status="F"  xpath="/sectionType" />
+		<Field id="sectionType1" desc="分段标志" align="center" required="true" datasource="LIST:00,默认;01,按金额" edittype="combobox" datatype="string" status="F"  xpath="/sectionType" />
+		<Field id="rateState" desc="费率状态" align="center" required="false" datasource="LIST:00,启用;99,停用" edittype="combobox" datatype="string" status="F"  xpath="/rateState" />
+		<Field id="crtTlr" desc="创建柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDate" desc="最近更新日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdDate" />
+		
+		<Field id="opr" desc="详情" />
+		
+	    <!-- 查询条件 -->
+	    <Field id="qrateId" desc="费率编号" edittype="textbox" datatype="string" />
+	    <Field id="qrateName" desc="费率名称" edittype="textbox" datatype="string" />
+	    <Field id="qsectionType" desc="分段标志" datasource="LIST:00,默认;01,按金额" edittype="combobox" datatype="string" />
+	   
+	    
+	</Fields>
+	<Commands>
+	    <Command id="btnAdd" desc="新增" type="addrecord" url="#" icon="fa fa-plus"></Command>
+	    <Command id="btnSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction:add" url="#" icon="fa fa-save"></Command>
+	    
+	    <Command id="btnMod" desc="修改" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction:allowModify" url="#" txn="" tip="删除"  icon="fa fa-pencil"></Command>
+	    <Command id="btnSave1" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction:update" url="#" icon="fa fa-save"></Command>
+	    
+	    <!-- <Command id="btnUpdate" desc="启用/停用" type="none" flowid="" url="#" icon="fa fa-cogs"></Command>
+	    <Command id="btnUpdateSub" desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction:deleteAccessTypeInfo" url="#" icon=""></Command>
+	     -->
+	    <Command id="btnDelete" desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		<Command id="btnDeleteSub"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction:delete" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+	    <Command id="btnShowDetail" desc="" type="none" icon="fa fa-list" flowid="" url="#" txn="详情" />
+	
+	</Commands>
+</Data>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutMngAction:queryAll" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+          <!-- 页面表格中的字段 -->
+          <Field id="routeId" desc="路由编号" align="center" size="8" required="false" edittype="textbox" xpath="/routeId" ></Field>
+         
+          <!-- 交易类型 -->
+          <Field id="payTxnTypeId" desc="交易类型" datasource="queryPayTxnTypeName:com.ruimin.ifs.pmp.chnlMng.dataset.queryPayTxnTypeName"
+          edittype="combogrid" fieldmap="payTxnTypeId=payTxnTypeId;payTxnTypeIdName=payTxnTypeName" datatype="string" 
+          readonly="false" multiple="false" viewfield="payTxnTypeId,payTxnTypeName"  required="true" init="true" xpath="/payTxnTypeId" ></Field>
+          
+          <Field id="payTxnTypeIdName" desc="交易类型名称" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnTypeInfoAction.getPagyTxnTypeNames"  align="center"  
+            edittype="textbox" xpath="/payTxnTypeId" ></Field>
+          
+          <!-- 账户类型 -->
+          <Field id="acctTypeNo" desc="账户类型" datasource="queryAcctTypeName:com.ruimin.ifs.pmp.chnlMng.dataset.queryAcctTypeName" 
+          edittype="combogrid" fieldmap="acctTypeNo=acctTypeNo;acctTypeNoName=acctTypeName"
+          viewfield="acctTypeNo,acctTypeName"  required="true" init="true" xpath="/acctTypeNo" ></Field>
+          
+          <Field id="acctTypeNoName" desc="账户类型名称"   edittype="textbox" xpath="/acctTypeNo" 
+          method="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction.queryByAcctTypeNo"></Field>
+          
+          <!-- 策略名称 -->
+          <Field id="ttsCode" desc="策略名称" datasource="queryTtsResp:com.ruimin.ifs.pmp.chnlMng.dataset.queryTtsResp" 
+          edittype="combogrid" fieldmap="ttsCode=ttsCode;ttsCodeName=ttsResp"
+          viewfield="ttsCode,ttsResp" init="true" required="true" xpath="/ttsCode" ></Field>
+          
+          <Field id="ttsCodeName" desc="策略名称"  align="center"  edittype="textbox" xpath="/ttsCode" 
+          method="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction.queryByTtsCode"></Field>
+          
+          <!-- 接入渠道 -->
+          <Field id="chnlId" desc="接入渠道" datasource="queryChnlName:com.ruimin.ifs.pmp.chnlMng.dataset.queryChnlName" 
+          edittype="combogrid" fieldmap="chnlId=chlId;chnlIdName=chlName"
+          viewfield="chlId,chlName" init="true" required="true" xpath="/chnlId" ></Field>
+          
+          <Field id="chnlIdName" desc="策略名称"  align="center"   edittype="textbox" xpath="/chnlId" 
+          method="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction.queryByChnlName"></Field>
+          
+          <Field id="routeStat" desc="路由状态"  align="center"  datasource="DDIC:1825" required="true" edittype="combobox" xpath="/routeStat" ></Field>
+          <Field id="openDate" desc="开通时间" align="center" datatype="date" required="false" status="F" xpath="/openDate"></Field>
+          
+           
+          <!-- 查询字段-->
+          <Field id="qrouteId" desc="路由编号" align="center"  required="false" edittype="textbox" ></Field>
+          
+          <!-- 交易类型 -->
+          <Field id="qpayTxnTypeId" desc="交易类型" datasource="queryPayTxnTypeName:com.ruimin.ifs.pmp.chnlMng.dataset.queryPayTxnTypeName"
+          edittype="combogrid" fieldmap="qpayTxnTypeId=payTxnTypeId;qpayTxnTypeIdName=payTxnTypeName" datatype="string" 
+          readonly="false" multiple="false" viewfield="payTxnTypeId,payTxnTypeName"   init="true" xpath="/payTxnTypeId" ></Field>
+          
+          <Field id="qpayTxnTypeIdName" desc="交易类型名称" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnTypeInfoAction.getPagyTxnTypeNames"  align="center"  
+            edittype="textbox" xpath="/payTxnTypeId" ></Field>
+          
+          
+           <!-- 账户类型 -->
+           <Field id="qacctTypeNo" desc="账户类型" datasource="queryAcctTypeName:com.ruimin.ifs.pmp.chnlMng.dataset.queryAcctTypeName" 
+          edittype="combogrid" fieldmap="qacctTypeNo=acctTypeNo;qacctTypeNoName=acctTypeName"
+          viewfield="acctTypeNo,acctTypeName"   init="true" xpath="/acctTypeNo" ></Field>
+          
+          <Field id="qacctTypeNoName" desc="账户类型名称"   edittype="textbox" xpath="/acctTypeNo" 
+          method="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction.queryByAcctTypeNo"></Field>
+          
+          <!-- 接入渠道 -->
+          <Field id="qchnlId" desc="接入渠道" datasource="queryChnlName:com.ruimin.ifs.pmp.chnlMng.dataset.queryChnlName" 
+          edittype="combogrid" fieldmap="qchnlId=chlId;qchnlIdName=chlName"
+          viewfield="chlId,chlName" init="true"  xpath="/chnlId" ></Field>
+          
+          <Field id="qchnlIdName" desc="策略名称"  align="center"   edittype="textbox" xpath="/chnlId" 
+          method="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction.queryByChnlName"></Field>
+          
+          <Field id="qrouteStat" desc="路由状态"  datasource="DDIC:1825" edittype="combobox"></Field>
+          
+          <Field desc="交易描述" id="opr" status="N"></Field>
+     </Fields>
+     <Commands>
+          <Command id="btAdd" desc="新增" type="addrecord" flowid="" icon="fa fa-plus" url="#"  tip="新增"></Command>
+          <Command id="btSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutMngAction:addRoutMng" icon="fa fa-save" url="#" txn="addRoutMng"></Command>
+          
+          <Command id="btUpt" desc="修改" type="none" flowid="" icon="fa fa-wrench" url="#" txn="" ></Command>
+          <Command id="btUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutMngAction:updateRoutMng" icon="fa fa-save" url="#" txn="updateRoutMng"></Command>
+          
+          <Command id="btStatus" desc="启用/停用" type="none" flowid="" icon="fa fa-certificate" url="#" ></Command>
+          <Command id="btnStatusSub" desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutMngAction:updateRoutMngStatus"  url="#" ></Command>
+          <Command id="btnDetail" desc="明细" type="none" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutMngAction:queryName" icon="fa fa-list" url="#" ></Command>
+          
+          
+
+     </Commands>
+</Data>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="接入方式与交易类型关联信息" type="call" pagesize="100" log="false" flowid="com.ruimin.ifs.pmp.sysConf.comp.RelAccessTypeTxnTypeAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+	    <Field id="relNo" desc="关联编号" align="center" edittype="textbox" required="false" status ="F" datatype="string" xpath="/relNo"/> 
+		<Field id="accessTypeCode" desc="接入方式编号" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/accessTypeCode" />
+		
+		<Field id="txnTypeCode" desc="交易名称" align="center" required="false" edittype="combogrid" datatype="string" 
+		   datasource="txnTypeInfo:com.ruimin.ifs.pmp.sysConf.dataset.txnTypeInfo" 
+		   viewfield="txnTypeCode,txnTypeName"  init="true" multiple="false" default="" 
+		   readonly="false" fieldmap="txnTypeCode=txnTypeCode;txnTypeCodeName=txnTypeName" status="F" xpath="/txnTypeCode"/>
+	    <Field id="txnTypeCodeName" desc="交易类型" method="com.ruimin.ifs.pmp.sysConf.comp.TxnTypeMngAction.getTxnTypeName" 
+		align="center" edittype="textbox" datatype="string" xpath="/txnTypeCode" />
+		
+		
+		<Field id="dataState" desc="数据有效状态" align="center" required="false" edittype="combobox" datasource="List:00,启用;99,停用" datatype="string" status="F"  xpath="/dataState" />
+		<Field id="crtTlr" desc="创建柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDate" desc="最近更新日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdDate" />
+		
+		
+	    <!-- 查询条件 -->
+	    <Field id="qrelNo" desc="关联编号" />
+	    <Field id="qdataState" desc="数据有效状态" edittype="combobox" datasource="List:00,启用;99,停用" datatype="string"/>
+	    
+	</Fields>
+	<Commands>
+	    <Command id="btnAdd" desc="新增" type="addrecord" url="#" icon="fa fa-plus"></Command>
+	    
+	    <Command id="btnMod" desc="修改" type="none" url="#" icon="fa fa-pencil"></Command>
+	    
+	    <Command id="btnAddSection01" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnDeleteSection01"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+		
+	</Commands>
+</Data>

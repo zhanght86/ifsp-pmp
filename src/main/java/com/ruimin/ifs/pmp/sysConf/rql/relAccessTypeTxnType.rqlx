@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="query" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.RelAccessTypeTxnType">
+	       select * from pbs_rel_access_type_txn_type  where 1=1
+	       <if test = "accessTypeCode != ''"> and access_type_code=#{accessTypeCode}</if>
+	       order by txn_type_code
+	</select>
+	<select id="queryByTxnTypeCode" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.RelAccessTypeTxnType">
+	       select * from pbs_rel_access_type_txn_type  where 1=1
+	       and access_type_code=#{accessTypeCode} and txn_type_code = #{txnTypeCode}
+	</select>
+</mapper>

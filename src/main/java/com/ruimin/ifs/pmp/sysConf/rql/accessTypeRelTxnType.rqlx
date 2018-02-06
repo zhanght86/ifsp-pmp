@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 接入方式关联交易类型信息查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AccessTypeRelTxnType">
+      select rel.rel_no,
+       	rel.access_type_code,
+      	rel.txn_type_code,
+       	txnType.Txn_Type_Name,
+       	rel.data_state,
+       	rel.crt_tlr,
+       	rel.crt_date_time,
+       	rel.last_upd_tlr,
+       	rel.last_upd_date_time
+  	  from pbs_rel_access_type_txn_type rel
+  		left join pbs_txn_type_info txnType
+    	on rel.txn_type_code = txnType.Txn_Type_Code
+      where 1=1
+       <if test = "qAccessTypeCode != ''"><![CDATA[and rel.access_type_code = #{qAccessTypeCode} ]]></if>
+	   <if test = "qDataState != ''"><![CDATA[and rel.data_state = #{qDataState} ]]></if>
+	    order by rel.rel_no desc
+	</select> 
+	
+	
+	
+</mapper>

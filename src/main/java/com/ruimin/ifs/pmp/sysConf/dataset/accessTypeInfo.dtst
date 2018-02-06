@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="接入方式" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccessTypeMngAction:queryAccessTypeInfo" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="accessTypeCode" desc="接入方式编号" align="center"  required="false" edittype="textbox" datatype="string" status="F" xpath="/accessTypeCode"/>
+		<Field id="accessTypeName" desc="接入方式名称" align="center"  required="true" edittype="textbox" datatype="string" status="F"  xpath="/accessTypeName" />
+		<Field id="accessTypeDesc" desc="接入方式描述" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/accessTypeDesc" />
+		<Field id="dataState" desc="数据状态" align="center" required="false" datasource="LIST:00,启用;99,停用" edittype="combobox" datatype="string" status="F"  xpath="/dataState" />
+		<Field id="crtTlr" desc="创建柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDate" desc="最近更新日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdDate" />
+		
+		<Field id="opr" desc="关联交易" />
+		
+	    <!-- 查询条件 -->
+	    <Field id="qaccessTypeCode" desc="接入方式编号" edittype="textbox" datatype="string" />
+	    <Field id="qaccessTypeName" desc="接入方式名称" edittype="textbox" datatype="string" />
+	    <Field id="qdataState" desc="数据状态" datasource="LIST:00,启用;99,停用" edittype="combobox" datatype="string" />
+	    
+	</Fields>
+	<Commands>
+	    <Command id="btnAdd" desc="新增" type="addrecord" url="#" icon="fa fa-plus"></Command>
+	    <Command id="btnSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccessTypeMngAction:addAccessTypeInfo" url="#" icon=""></Command>
+	    
+	    <Command id="btnMod" desc="修改" type="none" url="#" icon="fa fa-pencil"></Command>
+	    <Command id="btnSave1" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccessTypeMngAction:updateAccessTypeInfo" url="#" icon=""></Command>
+	    
+	    <Command id="btnUpdate" desc="启用/停用" type="none" flowid="" url="#" icon="fa fa-cogs"></Command>
+	    <Command id="btnUpdateSub" desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccessTypeMngAction:deleteAccessTypeInfo" url="#" icon=""></Command>
+	    
+	    <Command id="btnShowDetail" desc="" type="none" icon="fa fa-list" flowid="" url="#" txn="详情" />
+	
+	</Commands>
+</Data>

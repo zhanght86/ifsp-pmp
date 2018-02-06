@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="50" log="false"  flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtContractAction:queryAcctType" desc="合同服务" expmaxrcd="50"  /> 
+	<Fields>
+	
+    <Field id="acctTypeCode" desc="账户类型" edittype="textbox" datatype="string" required="true"
+		   init="true" multiple="false" default=""   readonly="false"  xpath="/acctTypeCode"/>
+    
+     <Field id="rateId" desc="费率信息" edittype="textbox" datatype="string" required="true"
+		 xpath="/rateId"/>
+  
+	</Fields> 
+	
+	
+</Data>

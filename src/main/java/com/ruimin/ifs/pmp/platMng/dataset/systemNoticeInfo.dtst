@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.platMng.comp.NoticeTitleAction:queryNoticeInfo" 
+			desc="系统公告" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+        <Field id="crtDateTime" 	desc="创建日期时间" align="center" edittype="datetimebox" datatype="timestamp" 	required="false" xpath="/crtDateTime" />
+        <Field id="lastUpdDateTime" desc="最近更新时间" align="center" edittype="textbox" datatype="timestamp" status="F" method="None" width="180" size="6" xpath="/lastUpdDateTime" default=""/>
+        <Field id="noticeTitle" desc="公告标题" required="true" datatype="string" size="200" align="center" xpath="/noticeTitle" />
+        <Field id="noticeNo" desc="公告编号" datatype="string" size="200" align="center" xpath="/noticeNo" />  
+        
+        
+        <Field id="noticeContent" desc="公告内容"  required="true"  colspan="4" edittype="textarea"  
+        	datatype="string" size="400"  width="610" rows = "8" status ="F"    align="center" xpath="/noticeContent" />
+        
+        
+        <Field id="noticePicId" desc="图片ID" datatype="string" size="200" align="center" xpath="/noticePicId" />
+        <Field id="noticePicPath" desc="图片路径" datatype="string" size="200" align="center" xpath="/noticePicPath" />
+        <Field id="crtTlr" desc="创建柜员" datatype="string" size="200" align="center" xpath="/crtTlr" />
+        <Field id="lastUpdTlr" desc="最近更新柜员" datatype="string" size="200" align="center" xpath="/lastUpdTlr" />
+        <Field id="oper" desc="操作" status="F" edittype="textbox" datatype="string" size="100" xpath=""/>
+        <Field id="noticeState" desc="公告状态" edittype="combobox" required="false"
+			datasource="DDIC:1830" datatype="string" method="None" align="center"
+			 size="100"  default="" xpath="/noticeState"/>
+        
+        
+        <!-- 查询条件 -->
+        <Field id="qcrtDateTime" desc="发布日期" edittype="datebox" datatype="date" xpath="" status="F" default="" />
+        <Field id="qnoticeTitle" desc="公告标题" datatype="string" size="200" align="center" xpath="" />
+        <Field id="qnoticeState" desc="公告状态" edittype="combobox" required="false"
+			datasource="DDIC:1830" datatype="string" method="None" align="center"
+			 size="100"  default="" xpath=""/>
+	</Fields> 
+	
+	
+	<Commands>	
+	<Command id="btnUpt" desc="修改" type="none" url="" txn="" icon="fa fa-wrench"/>
+	<Command id="btnUpdate" desc="确认修改" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.platMng.comp.NoticeTitleAction:updateNoticeInfo" url="#" txn="" icon=""/>
+	
+	<Command id="btnAdd" desc="新增" type="addrecord" url="" txn="" icon="fa fa-plus"/> 
+    <Command id="btnSave" desc="确认保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.platMng.comp.NoticeTitleAction:save" url="#" txn="" /> 
+	
+	<Command id="disableEnable" 	desc="停用/启用" type="none" url="#" txn="" icon="fa fa-cog"/>
+	<Command id="btnDisableEnable" desc="停用/启用"  type="asyncsubmit" flowid="com.ruimin.ifs.pmp.platMng.comp.NoticeTitleAction:updateNoticeInfoState" url="#" txn="" icon="fa fa-remove"/> 
+	</Commands>
+	
+</Data>

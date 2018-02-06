@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息详细查询 -->		
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MsgBaseInfo">
+		select * from MSS_MSG_BASE_INFO a where 1=1
+		<if test = "qmsgDate != ''"><![CDATA[and a.MSG_DATE like #{qmsgDate} ]]></if>
+		<if test = "qmsgTitle != ''"><![CDATA[and a.MSG_TITLE like #{qmsgTitle} ]]></if>
+		<if test = "qmsgChn != ''"><![CDATA[and a.MSG_CHN = #{qmsgChn} ]]></if>
+		<if test = "qsendWay != ''"><![CDATA[and a.SEND_WAY = #{qsendWay} ]]></if>
+		order by a.MSG_DATE desc,a.MSG_TIME desc
+	</select>
+	
+	<select id="queryMaxId" paramType="" resultType="String">
+		select max(msg_id) from MSS_MSG_BASE_INFO 
+	</select>
+	
+	<select id="queryUserMsgRltByKey" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MssUserMsgRlt">
+		select * from MSS_USER_MSG_RLT where msg_id=#{msgId} and user_id=#{userId}
+	</select>
+	
+	
+</mapper>

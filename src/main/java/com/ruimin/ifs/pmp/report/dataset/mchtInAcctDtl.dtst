@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="商户入账明细信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.report.comp.MchtInAcctDtlAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qSettleDate" desc="清算日期" edittype="datebox"    datatype="date" />
+		<Field id="qMchtId" desc="商户号" datatype="string" />
+		<Field id="qAmtFlg" desc="金额方向" datatype="string" />
+		<!-- 基础信息 -->
+       <Field id="stlmDate" desc="清算日期" align="center" readonly="true" edittype="textbox" datatype="string"   xpath="/stlmDate" />
+       <Field id="inAcctDate" desc="入账日期" align="center" readonly="true" edittype="textbox" datatype="string"   xpath="/inAcctDate" />
+	   <Field id="txnAmt" desc="交易金额" edittype="textbox" align="center" readonly="true" datatype="string" xpath="/txnAmt" />
+	   <Field id="tnxTime" desc="交易时间" edittype="textbox" align="center" readonly="true"  datatype="string" xpath="/tnxTime" />	
+	   <Field id="setlFeeAmt" desc="商户手续费" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/setlFeeAmt"/>
+		<Field id="txnSeqId" desc="平台流水号" edittype="textbox" align="center" datatype="string" xpath="/txnSeqId"/>
+		<Field id="txnType" desc="交易类型" datasource="DDIC:1842"  edittype="combobox" align="center" datatype="string" xpath="/txnType"/>
+    </Fields>
+
+	<Commands>
+		<Command id="btnDownloadDtl" desc="下载报表" type="none" url="#" txn="" icon="fa fa-download"/>
+		<Command id="btnClose" desc="关闭" type="none" url="#" txn="" icon="fa fa-close"/>
+	</Commands>
+</Data>

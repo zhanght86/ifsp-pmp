@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.paPay.comp.PAPayMethodInfoAction:queryMain" 
+			desc="平安支付方式" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>	
+		<Field id="pmtId" desc="支付方式编号" datatype="string" size="10" align="center" xpath="/pmtId"/>
+		<Field id="pmtTag" desc="支付标签" datatype="string"  align="center" size="10" xpath="/pmtTag"/>
+		<Field id="pmtType" desc="支付类型编号" datatype="string" size="20" align="center" xpath="/pmtType"/>
+		<Field id="pmtName" desc="付款方式名称"  datatype="string"  align="center"  size="50" xpath="/pmtName"/>
+        <Field id="pmtInternalName" desc="付款方式名称(内部名称)" datatype="string" align="center" size="50"
+        xpath="/pmtInternalName" />
+        <Field id="pmtIcon" desc="支付方式图片路径" datatype="string" align="center" xpath="/pmtIcon" size="100" />  
+        <Field id="usedTag" desc="使用状态" edittype="combobox" datatype="string" 
+			datasource="LIST:1,启用;2,停用" align="center" xpath="/usedTag" />
+		<Field id="opr" desc="操作" align="center" edittype="textbox" datatype="string" xpath="" />
+		
+			<!-- 查询条件 -->
+		<Field id="qPmtId" desc="支付编号" datatype="string"  size="10" />
+		<Field id="qPmtName" desc="支付名称" datatype="string"  size="10" />
+		<Field id="qPmtTag" desc="支付标签" datatype="string"  size="10" />
+	
+	</Fields> 
+	
+	<Commands>	
+	 <Command id="btnQuy" desc="支付方式查询" type="none" url="" txn="" icon="fa fa-wrench" tip="支付方式查询"/>
+	<Command id="btnQuySub" desc="支付方式查询" type="asyncsubmit" url="" txn="" icon="fa fa-wrench" flowid="com.ruimin.ifs.pmp.paPay.comp.PAPayMethodInfoAction:quyPayMethod"/>
+	<Command id="btnUpdState"   desc="启用/停用" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.paPay.comp.PAPayMethodInfoAction:updState" url="#" txn="" />
+	</Commands>
+	
+</Data>

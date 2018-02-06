@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="币种信息维护" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.CurrencyManEntryAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="curcd" desc="币种货币代码" edittype="textbox" required="true"
+			size="6" datatype="string" status="F" xpath="/curcd" />
+		<Field id="curno" desc="外部币种代码" edittype="textbox" required="true"
+			size="6" datatype="string" status="F" xpath="/curno" />
+		<Field id="curEdicd" desc="EDI币种代码" edittype="textbox" required="false"
+			size="3" errmsg="" datatype="string" status="F" xpath="/curEdicd" />
+		<Field id="curEdiname" desc="EDI币种名称" edittype="textbox" required="false"
+			size="25" errmsg="" datatype="string" status="F" xpath="/curEdiname" />
+		<Field id="cnname" desc="币种中文名称" edittype="textbox" size="52"
+			required="true" datatype="string" status="F" 
+			xpath="/cnname" />
+		<Field id="enname" desc="币种英文名称" edittype="textbox" size="20"
+			required="true" datatype="string" status="F"
+			xpath="/enname" />
+		<Field id="baseUnit" desc="基本单位" edittype="textbox" size="4"
+			required="false" datatype="string" status="F"
+			xpath="/baseUnit" />
+		<Field id="minUnit" desc="最小单位" edittype="textbox" size="4"
+			required="false" datatype="string" status="F"
+			xpath="/minUnit" />
+		<Field id="cursymbol" desc="币种符号" status="F" required="true"
+			method="None"  readonly="false" 
+			 edittype="textbox" size="3" default=""
+			xpath="/cursymbol" />
+		<Field id="showseq" desc="显示顺序" status="F" required="true" datatype="int"
+			method="None" readonly="false" edittype="numberbox" size="3"
+			default="" xpath="/showseq" />
+		<Field id="dratedays" desc="日利息计算天数"  xpath="/dratedays"
+			edittype="combobox" datasource="DDIC:360" datatype="string" size="10" readonly="false" />
+		<Field id="lastUpdDate" desc="最后更新时间" edittype="textbox"
+			datatype="string" status="F" size="14" xpath="/lastUpdDate" />
+		<Field id="lastUpdTlr" desc="最后操作人" edittype="textbox"
+			datatype="string" status="N" size="20" xpath="/lastUpdTlr" />
+		<Field id="opr" desc="操作" edittype="textbox" datatype="string"
+			xpath="" />
+
+		<!-- 查询条件 -->
+		<Field id="qcurcd" desc="币种货币代码" datatype="string"/>
+		<Field id="qcnname" desc="币种中文名称" datatype="string"/>
+	</Fields>
+
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnSave"  desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.CurrencyManEntryAction:saveOrUpdate" url="#" txn="" />
+		<Command id="btnSave1" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.CurrencyManEntryAction:saveOrUpdate1" url="#" txn="" />
+		<Command id="btnDelete" desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.CurrencyManEntryAction:delete" url="#" txn="" />
+	</Commands>
+</Data>

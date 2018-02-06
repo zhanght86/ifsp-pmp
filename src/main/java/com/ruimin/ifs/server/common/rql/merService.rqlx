@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 查询 -->
+	<select id="queryRefsInfo" paramType="string" resultType="com.ruimin.ifs.pmp.mcht.process.bean.ImpMchtRefs">
+		select * from IMP_MCHT_REFS where TXN_SEQ_ID = #{id}
+	</select>
+	
+	
+		
+</mapper> 

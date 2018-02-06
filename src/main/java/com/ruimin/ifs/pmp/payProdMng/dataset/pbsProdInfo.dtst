@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.payProdMng.comp.PbsProdInfoAction:queryPbsProdInfo" 
+			desc="产品基本信息" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+	    <Field id="openDate" desc="开通日期" required="false" datatype="date" size="200" align="center" xpath="/openDate" />
+        <Field id="prodId" desc="产品编号" required="false" datatype="string" size="200" align="center" xpath="/prodId" />
+        <Field id="prodName" desc="产品名称" required="true" datatype="string" size="200" align="center" xpath="/prodName" />
+        <Field id="prodState" desc="产品状态" edittype="combobox" required="true"
+			datasource="DDIC:1800" datatype="string" method="None" align="center"
+			 size="100"  default="" xpath="/prodState"/>
+        <Field id="prodDesc" desc="产品描述" colspan="4" width="635" datatype="string" required="true" size="200"  align="center" xpath="/prodDesc" />  
+        <Field id="crtTlr" desc="创建柜员" datatype="string" size="200" align="center" xpath="/crtTlr" />
+        <Field id="crtDateTime" 	desc="创建日期" align="center" edittype="datetimebox" datatype="timestamp" 	required="false" xpath="/crtDateTime" />
+        <Field id="lastUpdDateTime" desc="最近更新时间"  align="center" edittype="datetimebox" datatype="timestamp"  status="F" method="None" width="180" size="6" xpath="/lastUpdDateTime" default=""/>
+        <Field id="lastUptTlr" desc="最近更新柜员" datatype="string" size="200" align="center" xpath="/lastUptTlr" /> 
+        <Field id="oper" desc="操作" status="F" edittype="textbox" datatype="string" size="100" xpath=""/>  
+     <!-- 接入方式下拉选 -->
+        <Field id="accessTypeCode" desc="接入方式" edittype="combogrid" datatype="string" required="true"
+		   datasource="pbsProdAccess:com.ruimin.ifs.pmp.payProdMng.dataset.pbsProdAccess" 
+		   viewfield="TypeCode,TypeName"  init="true" multiple="false" default="" 
+		   readonly="false" fieldmap="accessTypeCode=TypeCode;accessTypeCodeName=TypeName" xpath="/accessTypeCode"/>
+	    <!-- 根据id组装name -->
+	    <Field id="accessTypeCodeName" desc="接入方式" method="com.ruimin.ifs.pmp.payProdMng.comp.PbsProdInfoAction.getAccessTypeCodeName" 
+		align="center" edittype="textbox" datatype="string" xpath="/accessTypeCode" />
+	   
+        
+     <!-- 查询条件 -->
+        <Field id="qprodId" desc="产品编号"  datatype="string" xpath="" status="F" default="" />
+        <Field id="qprodName" desc="产品名称" datatype="string" size="200" align="center" xpath="" />
+        <Field id="qprodState" desc="产品状态" edittype="combobox" datasource="DDIC:1800" required="false"
+			 datatype="string" method="None" align="center"
+			 size="100"  default="" xpath=""/>
+	 <!-- 签约商户数量 -->		 
+		<Field id="signedNum" desc="签约商户数" datatype="string" size="200" align="center" edittype="datalabel" xpath="/signedNum"/>
+			 
+	</Fields> 
+	
+	
+	<Commands>
+	<Command id="btnUpd" desc="修改" type="none" url="" txn="" icon="fa fa-wrench"/> 
+	<Command id="btnUpdate" desc="确认修改" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.payProdMng.comp.PbsProdInfoAction:updatePbsProdInfo" url="#" txn="" icon=""/>
+	
+	<Command id="btnAdd" desc="新增" type="addrecord" url="" txn="" icon="fa fa-plus"/> 
+    <Command id="btnSave" desc="确认保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.payProdMng.comp.PbsProdInfoAction:savePbsProdInfo" url="#" txn="" /> 
+	
+	<Command id="disableEnable" desc="停用/启用" type="none" url="#" txn="" icon="fa fa-cog"/>
+	<Command id="btnDisableEnable" desc="停用/启用"  type="asyncsubmit" flowid="com.ruimin.ifs.pmp.payProdMng.comp.PbsProdInfoAction:updatePbsProdInfoState" url="#" txn="" icon="fa fa-remove"/> 
+	</Commands>
+	
+</Data>

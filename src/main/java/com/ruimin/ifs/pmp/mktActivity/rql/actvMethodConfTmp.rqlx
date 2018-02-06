@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 分页查询活动方法配置列表-->
+	<select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActvMethodConfMapping">
+		select active_no,
+	       mcht_level,
+	       conf_seq,
+	       max(case gp_seq when '01' then method_no end) as "method_Param1",
+	       max(case gp_seq when '02' then method_no end) as "method_Param2",
+	       max(case gp_seq when '03' then method_no end) as "method_Param3",
+	       max(case gp_seq when '04' then method_no end) as "method_Param4",
+	       max(case gp_seq when '05' then method_no end) as "method_Param5",
+	       max(case gp_seq when '06' then method_no end) as "method_Param6"
+		from 
+			TBL_ACTIVE_METHOD_CONF_TMP
+		where 
+			active_no = #{activeNo}  
+			and data_state='1'
+			group by active_no, mcht_level,conf_seq
+			order by conf_seq asc
+	</select>
+	
+	<!-- 查询活动下最大的方法配置序号-->
+	<select id="getMaxConfigSeq" paramType="string" resultType="string">
+		select trim(max(CONF_SEQ)) from TBL_ACTIVE_METHOD_CONF_TMP where trim(ACTIVE_NO)=#{activeNo}
+	</select>
+	
+	<!-- 删除活动方法配置-->
+	<delete id="deleteConfig" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodConfTmpVO" >
+		update 
+			TBL_ACTIVE_METHOD_CONF_TMP
+		set
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			SYNC_FLAG=#{syncFlag},
+			DATA_STATE=#{dataState}
+		where
+			ACTIVE_NO=#{activeNo}
+			and CONF_SEQ=#{confSeq}
+	</delete>
+	
+	<!-- 修改活动方法配置-->
+	<update id="updateConfig" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodConfTmpVO" >
+		update
+			TBL_ACTIVE_METHOD_CONF_TMP
+		set
+			MCHT_LEVEL=#{mchtLevel},
+			METHOD_NO=#{methodNo},
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			SYNC_FLAG=#{syncFlag}
+		where
+			ACTIVE_NO=#{activeNo}
+			and CONF_SEQ=#{confSeq}
+			and GP_SEQ=#{gpSeq}
+	</update>
+</mapper> 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 活动方法分段信息临时表数据查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.MethodSectionInfTmpVO">
+		select 
+			trim(METHOD_NO) as METHOD_NO,
+		  trim(SECTION_SEQ) as SECTION_SEQ,
+		  trim(round(ifnull(trim(SECTION_LEFT),0)/100, 2)) SECTION_LEFT,
+		  if(IFNULL(trim(SECTION_RIGHT),'')='','',trim(round(ifnull(trim(SECTION_RIGHT),0)/100, 2))) SECTION_RIGHT,
+		   case #{methodTp}	 
+           		when '11'  then trim(round(ifnull(trim(SECTION_PARAM1),0)/100, 2))
+           
+           		else trim(SECTION_PARAM1)
+      	   end  as SECTION_PARAM1,
+     	   case #{methodTp}	
+           		when '32'  then trim(round(ifnull(trim(SECTION_PARAM2),0)/100, 2))
+           		else trim(SECTION_PARAM2)
+      	   end as SECTION_PARAM2
+		from 
+			TBL_METHOD_SECTION_INF_TMP
+		where
+			trim(METHOD_NO)=#{methodNo}
+			and data_state='1'
+			order by SECTION_SEQ asc
+	</select>
+	<!-- 根据活动方法号删除分段信息 -->
+	<update id="deleteSectionByMethodNo" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.MethodSectionInfTmpVO" >
+		update 
+			TBL_METHOD_SECTION_INF_TMP
+		set
+			UPDATE_OPR=#{updateOpr},
+			DATA_STATE=#{dataState},
+			SYNC_FLAG=#{syncFlag},
+			UPDATE_TIME=#{updateTime}
+		where
+			trim(METHOD_NO)=#{methodNo}
+	</update>
+	<!-- 根据活动方法编号获取分段信息最大序号-->
+	<select id="getMaxSeq" paramType="string" resultType="string">
+		select trim(max(SECTION_SEQ)) from TBL_METHOD_SECTION_INF_TMP where trim(METHOD_NO)=#{methodNo}
+	</select>
+	<!-- 删除单条分组信息-->
+	<update id="deleteSection" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.MethodSectionInfTmpVO" >
+		update 
+			TBL_METHOD_SECTION_INF_TMP
+		set
+			UPDATE_OPR=#{updateOpr},
+			DATA_STATE=#{dataState},
+			SYNC_FLAG=#{syncFlag},
+			UPDATE_TIME=#{updateTime}
+		where
+			trim(METHOD_NO)=#{methodNo}
+			and trim(SECTION_SEQ) =#{sectionSeq}
+	</update>
+	<!-- 更新单条分组信息-->
+	<update id="updateSection" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.MethodSectionInfTmpVO" >
+		update 
+			TBL_METHOD_SECTION_INF_TMP
+		set
+			SECTION_LEFT=#{sectionLeft},
+			SECTION_RIGHT=#{sectionRight},
+			SECTION_PARAM1=#{sectionParam1},
+			SECTION_PARAM2=#{sectionParam2},
+			UPDATE_OPR=#{updateOpr},
+			SYNC_FLAG=#{syncFlag},
+			UPDATE_TIME=#{updateTime}
+		where
+			trim(METHOD_NO)=#{methodNo}
+			and trim(SECTION_SEQ) =#{sectionSeq}
+	</update>
+</mapper> 

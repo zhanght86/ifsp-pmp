@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 类目信息查询 -->
+<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyCategoryName">
+ <![CDATA[select CATEGORY_CODE,USER_CODE, CATEGORY_LEVEL, P_CATEGORY_CODE, CATEGORY_DESC from PAGY_CATEGORY_NAME
+        where 1=1 ]]>
+       <if test = "pCategoryCode != ''"><![CDATA[and P_CATEGORY_CODE like #{pCategoryCode} ]]></if>
+	   <if test = "userCode != ''"><![CDATA[and USER_CODE like #{userCode} ]]></if>
+	   <if test = "categoryLevel != ''"><![CDATA[and CATEGORY_LEVEL like #{categoryLevel} ]]></if>
+	   order by CATEGORY_CODE asc
+</select>
+</mapper>

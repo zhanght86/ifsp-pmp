@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 通道信息查询 -->
+<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagySubMchtInfo">
+ <![CDATA[select a.CHL_ID,
+       a.APL_TYPE,
+       a.MCHT_NO,
+       a.MAIN_MCHT_NO,
+       a.PAY_MCHT_NO,
+       a.PAY_MCHT_NAME,
+       a.PAGY_NO,
+       a.MCHT_PUBLIC_NO,
+       IFNULL(a.MCHT_NAME,pbs.MCHT_NAME) as MCHT_NAME,
+       IFNULL(a.MCHT_NAME_ABBR,pbs.MCHT_SIMPLE_NAME) as MCHT_NAME_ABBR,
+       IFNULL(a.MCHT_SER_PHONE,'4008201515') as MCHT_SER_PHONE,
+       IFNULL(a.MCHT_CONTACT,pbs.MCHT_PERSON_NAME) as MCHT_CONTACT,
+       IFNULL(a.MCHT_CONTACT_PHONE,pbs.MCHT_PHONE) as MCHT_CONTACT_PHONE,
+       IFNULL(a.MCHT_CONTACT_EMAIL,pbs.MCHT_EMAIL) as MCHT_CONTACT_EMAIL,
+       a.MCHT_MCC_CODE,
+       a.MCHT_MCC_NAME,
+       a.MCHT_MCC_SUB_CODE,
+       a.MCHT_MCC_SUB_NAME,
+       a.APL_CATEGORY_CODE,
+       a.APL_DATE,
+       	CASE
+		WHEN a.APL_STAT = '00' THEN
+			'00'
+		WHEN a.APL_STAT = '01' THEN
+			'01'
+		WHEN a.APL_STAT = '02' THEN
+			'02'
+		WHEN a.APL_STAT = '03' THEN
+			'03'
+		WHEN a.APL_STAT = '04' THEN
+			'04'
+		WHEN a.APL_STAT = '05' THEN
+			'05'
+		WHEN a.APL_STAT = '06' THEN
+			'06'
+		ELSE
+		
+		IF (
+			a.APL_STAT LIKE "%9%",
+			'07',
+		
+		IF (
+			a.APL_STAT LIKE "00000011",
+			'08',
+		
+		IF (
+			a.APL_STAT LIKE "00000000",
+			'09',
+			'10'
+		)
+		)
+		)
+		END AS APL_STAT,
+       a.APL_FAILED_RES,
+       a.CRT_TLR,
+       a.CRT_DATE_TIME,
+       a.LAST_UPD_TLR,
+       a.LAST_UPD_DATE_TIME,
+       b.ct_name as MCHT_AREA,
+       pagy.MAIN_MCHT_ACS_TYPE,
+       cfg.CERTIFI_PASSWD as md5_Passwd,
+       cfg.ENCRYPT_TYPE as encrypt_Type,
+       IFNULL(a.ADDRESS,pbs.MCHT_CONT_ADDR) as address,       
+       a.SETTLEMENT_MARK,
+       a.ADDRESS_CODE,       
+       a.WEIXIN_CATEGORY,
+       a.WEIXIN_FEE,
+       a.ALI_CATEGORY,
+       a.SUB_APPID,
+       a.ALI_FEE,
+       a.OPEN_ID,
+       a.OPEN_KEY,
+       a.WX_JSAPI_PATH,
+       a.PAGY_RESP_MSG,
+       substring(a.TPAM_CTTS_STATUS,'1','1')as TPAM_CTTS_STATUS_WX,
+		substring(a.TPAM_CTTS_STATUS,'2','1')as TPAM_CTTS_STATUS_API,
+		 a.TPAM_MCHT_STATUS,
+		 a.TPAM_STORE_STATUS
+  from PAGY_SUB_MCHT_INFO a left join ifs_ct_cd b on a.address_code = b.ct_code 
+  left join pagy_main_mcht_info pagy on a.PAGY_NO=pagy.PAGY_NO and a.MAIN_MCHT_NO=pagy.MAIN_MCHT_NO
+  left join pagy_indirect_pay_cert_cfg cfg on a.MCHT_NO=cfg.CERTIFI_ID
+  left join pbs_mcht_base_info pbs on a.PAY_MCHT_NO=pbs.MCHT_ID
+        where 
+        a.PAY_MCHT_NO in(
+        	select mcht.mcht_id   
+					from 
+					PBS_MCHT_BASE_INFO mcht			 
+					left join ifs_staff staff on staff.tlrno = mcht.crt_tlr
+					where     
+					staff.brcode in(
+						select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+					)
+        )  
+        ]]>
+       <if test = "chlId != ''"><![CDATA[and CHL_ID like #{chlId} ]]></if>
+	   <if test = "aplStat != ''"><![CDATA[and APL_STAT like #{aplStat} ]]></if>
+	   <if test = "payMchtNo != ''"><![CDATA[and PAY_MCHT_NO like #{payMchtNo} ]]></if>
+	   <if test = "mchtName != ''"><![CDATA[and PAY_MCHT_NAME like #{mchtName} ]]></if>
+       <if test = "pagyNo != ''"><![CDATA[and a.PAGY_NO like #{pagyNo} ]]></if>
+	   <if test = "mchtNo != ''"><![CDATA[and a.MCHT_NO like #{mchtNo} ]]></if>
+	   <if test = "flag != ''"><![CDATA[and a.APL_STAT not like '%9%' 
+		and a.APL_STAT not in ('00','01','02','03','04','05','06','00000011','00000000') 
+		and a.APL_STAT <>'' ]]></if>
+	   order by case when APL_STAT='00' then 0 else 1 end,a.APL_DATE, a.crt_date_time, a.pagy_no desc
+</select>
+
+<!-- 查询【地区码】 -->
+<select id="selOrg" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.IfsCtCdPagy">
+	select *from ifs_ct_cd_pagy ifs
+	where 1=1 
+	<if test = "qCtName != ''"><![CDATA[and ifs.CT_NAME= #{qCtName} ]]></if>
+	<if test = "pagyNo != ''"><![CDATA[and ifs.PAGY_NO = #{pagyNo} ]]></if>
+	<if test = "qCtCode != ''"><![CDATA[and ifs.CT_CODE = #{qCtCode} ]]></if>	
+</select>
+
+<!-- 查询【微信支付方式】 -->
+<select id="weixinBERL" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.WeixinBERL">
+	select *from weixinBERL wx
+	where 1=1 
+	<if test = "qwxberlId != ''"><![CDATA[and wx.WXBERL_ID= #{qwxberlId} ]]></if>
+</select>
+
+
+<!-- 查询【主商户编号】 -->
+<select id="queryMainMchtNo" paramType="map" resultType="String">
+	select MAIN_MCHT_NO 
+	from PAGY_SUB_MCHT_INFO 
+	where 1=1 
+	<if test = "chlId != ''"><![CDATA[and CHL_ID = #{chlId} ]]></if>
+	<if test = "payMchtNo != ''"><![CDATA[and PAY_MCHT_NO = #{payMchtNo} ]]></if>
+	<if test = "pagyNo != ''"><![CDATA[and PAGY_NO = #{pagyNo} ]]></if>	
+</select>
+<select id="queryMchtNo" paramType="map" resultType="String">
+	select MCHT_NO 
+	from PAGY_SUB_MCHT_INFO 
+	where 1=1 
+	<if test = "payMchtNo != ''"><![CDATA[and MCHT_NO = #{mchtNo} ]]></if>
+	<if test = "pagyNo != ''"><![CDATA[and PAGY_NO = #{pagyNo} ]]></if>	
+</select>
+<update id="updPagySub" paramType="map">
+	    UPDATE PAGY_SUB_MCHT_INFO set MCHT_NO= #{mchtNo} ,APL_STAT='02',APL_DATE=#{aplDate},SETTLEMENT_MARK=#{settlementMark} where CHL_ID = #{chlId}  and  PAY_MCHT_NO=#{payMchtNo}  and MAIN_MCHT_NO=#{mainMchtNo} and PAGY_NO=#{pagyNo}
+	</update>
+	<update id="pagyIndirectPayCertCfgupd" paramType="map">
+	    UPDATE pagy_indirect_pay_cert_cfg set CERTIFI_PASSWD= #{certifiPasswd} where CERTIFI_ID = #{certifiId} 
+	</update>
+	<update id="updPagySubSettlementMark" paramType="map">
+	    UPDATE PAGY_SUB_MCHT_INFO set SETTLEMENT_MARK=#{settlementMark} where CHL_ID = #{chlId}  and  PAY_MCHT_NO=#{payMchtNo}  and MAIN_MCHT_NO=#{mainMchtNo} and PAGY_NO=#{pagyNo}
+	</update>
+	<update id="updPagySubpagyName" paramType="map">
+	    UPDATE PAGY_SUB_MCHT_INFO set PAY_MCHT_NAME=#{payMchtName} where PAY_MCHT_NO=#{payMchtNo} 
+	</update>
+</mapper>

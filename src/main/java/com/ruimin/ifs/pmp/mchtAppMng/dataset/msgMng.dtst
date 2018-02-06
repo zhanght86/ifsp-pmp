@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.MsgMngAction:queryMain" 
+	desc="商户基本信息管理" expmaxrcd="50" flowctxid="" flowretid=""/>
+	<Fields>
+		<Field id="msgId" desc="消息编号" edittype="textbox" datatype="string" xpath="/msgId"/>
+	<!-- 查询字段 -->
+		<Field id="qmsgChn" desc="消息渠道" edittype="combobox" datatype="string" datasource="LIST:01,商户App" />
+		<Field id="qsendWay" desc="发送方式" edittype="combobox" datatype="string" datasource="LIST:1,查询"/>
+		<Field id="qmsgTitle" desc="消息标题" datatype="string" edittype="textbox" align="center"/>
+		<Field id="qmsgDate" desc="推送日期" datatype="date" edittype="datebox" align="center"/>
+	<!-- 主表单字段 -->
+		<Field id="msgChn" desc="消息渠道" edittype="combobox" datatype="string" datasource="LIST:01,商户App" default="01" align="center" xpath="/msgChn" />    
+		<Field id="sendWay" desc="发送方式" edittype="combobox" datatype="string" datasource="LIST:1,查询" align="center" xpath="/sendWay"/>
+		<Field id="msgTitle" desc="消息标题" datatype="string" edittype="textarea" rows="3" colspan="4" width="635" align="center" xpath="/msgTitle"/>
+		<Field id="msgDate" desc="日期" datatype="date" edittype="datebox" align="center" xpath="/msgDate"/>
+		<Field id="msgTime" desc="推送时间" datatype="string" edittype="textbox" method="com.ruimin.ifs.pmp.pubTool.util.SysCQMethod.toTimeStr" align="center" xpath="/msgTime"/>
+		<Field id="msgExpiry" desc="有效期"  edittype="datetimebox" datatype="timestamp" align="center" xpath="/msgExpiry"/>  
+		<Field id="msgType" desc="消息类型" edittype="combobox" datatype="string" datasource="LIST:01,系统消息;02,商户消息" align="center" xpath="/msgType"/>
+		<Field id="msgIntro" desc="消息简介" edittype="textarea" datatype="string" rows="3" colspan="4" width="635" align="center" xpath="/msgIntro"/>
+		<Field id="msgSign" desc="消息落款" edittype="textarea" datatype="string" rows="3" colspan="4" width="635" align="center" xpath="/msgSign"/>
+		<Field id="msgDesc" desc="消息内容" edittype="textarea" datatype="string" rows="25" colspan="4" width="635" align="center" xpath="/msgDesc"/>
+		<Field id="opr" desc="操作栏" datatype="string" align="center"/>
+		
+		<Field id="messageType" desc="消息类型" edittype="combobox" datatype="string" datasource="LIST:0,透传;1,通知" align="center" xpath="/messageType"/>
+		<Field id="deviceType" desc="设备类型" edittype="combobox" datatype="string" datasource="LIST:1,IOS;2,Android" align="center" xpath="/deviceType"/>
+		<Field id="msgModelType" desc="消息模式类型" edittype="combobox" datatype="string" datasource="LIST:01,给指定类型的所有设备;02,给单个设备" align="center" xpath="/msgModelType"/>
+		<Field id="userId" desc="用户号" edittype="textbox" datatype="string" align="center" xpath="/userId"/>
+		<Field id="msgExpires" desc="消息过期时间(秒)" edittype="textbox" datatype="string" rule="isNum" errmsg="必须为20位以内数字" align="center" xpath="/msgExpires"/>
+		<Field id="sendTm" desc="定时推送时间(秒)" edittype="textbox" datatype="string" rule="isNum" errmsg="必须为20位以内数字" align="center" xpath="/sendTm"/>
+	
+		<Field id="msgStatus" desc="消息状态" edittype="combobox" datatype="string" datasource="LIST:0,已发送;1,待发送;2,正在发送;3,失败" align="center" xpath="/msgStatus"/>
+		<Field id="sendTime" desc="发送时间" edittype="textbox" datatype="string" align="center" xpath="/sendTime"/>
+		<Field id="successCount" desc="成功到达数" edittype="textbox" datatype="string" align="center" xpath="/successCount"/>
+	</Fields>
+	
+	<Commands>	 
+		<Command id="btnAdd" desc="新增" type="addrecord" url="" txn="" icon="fa fa-plus"/> 
+	    <Command id="btnAddSub" desc="确认保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.MsgMngAction:add" url="#" txn="" /> 
+	    
+	    <Command id="btnDel" desc="删除" type="delrecord" icon="fa fa-remove"/>
+	    <Command id="btnDelSub" desc="提交" type="asyncsubmit" url="#" txn="" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.MsgMngAction:delete"/>
+	    
+	    <Command id="btnSend" desc="推送" type="none" url="" txn="" icon="fa fa-send"/> 
+	    <Command id="btnSendSub" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.MsgMngAction:send" url="#" txn="" />
+		
+		<Command id="btnQuery" desc="发送状态查询" type="none" url="" txn="" icon="fa fa-send"/>
+	    <Command id="btnQuerySub" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.MsgMngAction:sendQuery" url="#" txn="" />
+		
+		<Command id="btnRtn" desc="返回" type="none" url="#" txn="" />
+	</Commands>	
+</Data>

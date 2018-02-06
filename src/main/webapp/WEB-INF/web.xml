@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>ifsp-pmp</display-name>
+	<description>ifsp-pmp</description>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:genconf/spring/*.xml</param-value>
+	</context-param>
+	
+	<!-- 单点登陆的新增配置   -->
+<filter>
+<filter-name>CasLogonOutServlet</filter-name>
+<filter-class>com.ytec.yuap.uacs.util.CasLogonOut</filter-class>
+</filter>
+<filter-mapping>
+<filter-name>CasLogonOutServlet</filter-name>
+<url-pattern>/CasLogonOut</url-pattern>
+</filter-mapping>
+<filter>
+     <filter-name>StartUpFilter</filter-name>
+     <filter-class>com.ytec.yuap.uacs.util.StartUpFilter</filter-class>
+</filter>
+<filter-mapping>
+     <filter-name>StartUpFilter</filter-name>
+     <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+
+<listener>
+<listener-class>
+com.ytec.yuap.uacs.session.SingleSignOutHttpSessionListener
+</listener-class>
+</listener>
+<filter>
+<filter-name>CAS Single Sign Out Filter</filter-name>	 
+<filter-class>
+com.ytec.yuap.uacs.session.SingleSignOutFilter
+</filter-class>
+</filter>
+<filter>
+<filter-name>CAS Authentication Filter</filter-name>   
+<filter-class>   
+com.ytec.yuap.uacs.authentication.AuthenticationFilter    
+</filter-class>   
+<init-param>   
+<param-name>casServerLoginUrl</param-name>   
+<param-value>SSO.properties</param-value>
+</init-param>
+<init-param>
+    <param-name>service</param-name>
+<param-value>SSO.properties</param-value>
+</init-param>
+</filter>   
+<filter>
+<filter-name>CAS Validation Filter</filter-name>  
+<filter-class>
+com.ytec.yuap.uacs.validation.Cas20ProxyReceivingTicketValidationFilter
+</filter-class> 
+<init-param> 
+<param-name>casServerUrlPrefix</param-name>   
+<param-value>SSO.properties</param-value>
+</init-param> 
+<init-param>
+     <param-name>service</param-name>
+     <param-value>SSO.properties</param-value>
+</init-param>
+</filter>     
+<filter>   
+<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>   
+<filter-class>   
+        com.ytec.yuap.uacs.util.HttpServletRequestWrapperFilter    
+</filter-class>
+</filter>   
+<filter>   
+    <filter-name>CAS Assertion Thread Local Filter</filter-name>   
+    <filter-class>   
+        com.ytec.yuap.uacs.util.AssertionThreadLocalFilter    
+</filter-class>
+</filter>   
+<filter-mapping>
+<filter-name>CAS Single Sign Out Filter</filter-name>   
+    <url-pattern>/*</url-pattern>   
+</filter-mapping>  
+<filter-mapping>   
+    <filter-name>CAS Authentication Filter</filter-name>   
+    <url-pattern>/*</url-pattern>   
+</filter-mapping>   
+<filter-mapping>   
+    <filter-name>CAS Validation Filter</filter-name>   
+<url-pattern>/*</url-pattern>
+</filter-mapping>   
+<filter-mapping>   
+    <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>   
+    <url-pattern>/*</url-pattern>   
+</filter-mapping>   
+<filter-mapping>   
+    <filter-name>CAS Assertion Thread Local Filter</filter-name>   
+    <url-pattern>/*</url-pattern>   
+</filter-mapping>
+
+	
+	<!-- 内管部分 -->
+	<!--xss 特殊字符过滤-->
+	<filter>
+		<filter-name>XSSFilter</filter-name>
+		<filter-class>com.ruimin.ifs.framework.filter.XssFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>EXPIRED_PAGE</param-name>
+			<param-value>/public/jsp/505.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>notFilterUrl</param-name>
+			<param-value>httpchannelservlet</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>XSSFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- Cookie设置HttpOnly，Secure，Expire属性 
+	<filter>  
+	    <filter-name>cookieFilter</filter-name>  
+	    <filter-class>com.ruimin.ifs.filter.CookieHttpOnlyFilter</filter-class>  
+	</filter>	  
+	<filter-mapping>  
+	    <filter-name>cookieFilter</filter-name>  
+	    <url-pattern>/*</url-pattern>  
+	</filter-mapping>  
+	 -->	
+	<!-- shiroFilter -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- encodingFilter -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<!-- url访问权限 -->
+	<filter>
+		<filter-name>urlFilter</filter-name>
+		<filter-class>com.ruimin.ifs.filter.UrlAuthorizationFilter</filter-class>
+		<init-param>
+			<param-name>noCheckSuffix</param-name>
+			<param-value>xlsx,xls</param-value>
+		</init-param>
+		<init-param>
+			<param-name>erorrPage</param-name>
+			<param-value>/public/jsp/noAuthorization.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginPage</param-name>
+			<param-value>/pages/login/login.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>urlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 为gzip 添加的过滤器 -->
+	<filter>
+		<filter-name>GZIPFilter</filter-name>
+		<filter-class>com.ruimin.ifs.framework.filter.gzip.GZIPFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>GZIPFilter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZIPFilter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<!--禁用http webdav,参考http://xm-koma.iteye.com/blog/1602353 -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>snowweb</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>TRACE</http-method>
+		</web-resource-collection>
+		<auth-constraint></auth-constraint>
+	</security-constraint>
+	
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+	<listener>
+    <listener-class>com.ruimin.ifs.framework.listerner.ApplicationListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>com.ruimin.ifs.framework.listerner.SnowwebContextListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>com.ruimin.ifs.listener.CustomListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>com.ruimin.ifs.framework.session.SessionListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>com.ruimin.ifs.oscf.web.iFinSnowListener</listener-class>
+  </listener>
+	<!-- HttpChannelServlet -->
+	<servlet>
+		<description></description>
+		<display-name>HttpChannelServlet</display-name>
+		<servlet-name>HttpChannelServlet</servlet-name>
+		<servlet-class>com.ruimin.ifs.oscf.web.HttpChannelServlet</servlet-class>
+		<init-param>
+			<param-name>channelId</param-name>
+			<param-value>httpChannel</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HttpChannelServlet</servlet-name>
+		<url-pattern>/HttpChannelServlet/*</url-pattern>
+	</servlet-mapping>  
+ 
+ 	<!-- dwr-invoker -->
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		<init-param>
+			<param-name>config-0</param-name>
+			<param-value>/WEB-INF/dwr.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.directwebremoting.extend.Remoter</param-name>
+			<param-value>com.ruimin.ifs.dwr.DwrRequestIntercept</param-value>
+		</init-param>
+		<init-param>
+			<param-name>crossDomainSessionSecurity</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>allowScriptTagRemoting</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>activeReverseAjaxEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<!-- dwr push beign -->
+		<init-param>
+			<param-name>pollAndCometEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<!-- dwr push end -->
+		<init-param>
+			<param-name>initApplicationScopeCreatorsAtStartup</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>maxWaitAfterWrite</param-name>
+			<param-value>500</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+ 
+	<!-- snowServlet -->
+	<servlet>
+		<servlet-name>snowServlet</servlet-name>
+		<servlet-class>com.ruimin.ifs.framework.servlet.SnowServlet</servlet-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>snowServlet</servlet-name>
+		<url-pattern>*.ifs</url-pattern>
+	</servlet-mapping>
+	
+ <!-- 上传 -->	
+  <servlet>
+    <servlet-name>uploadServlet</servlet-name>
+    <servlet-class>com.ruimin.ifs.pmp.pubTool.common.servlet.BaseUploadServlet</servlet-class>
+    <init-param>
+      <param-name>singleFileMaxSize</param-name>
+       <!-- <description>单个文件最大大小</description> -->
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>onceFileMaxSize</param-name>
+       <!--  <description>单次上传文件最大大小</description> -->
+      <param-value>50</param-value>
+    </init-param>
+    <init-param>
+      <param-name>onceFileMaxAmount</param-name>
+       <!--  <description>单次上传文件最大数</description> -->
+      <param-value>30</param-value>
+    </init-param>
+    <init-param>
+      <param-name>legalFileSuffixes</param-name>
+       <!--  <description>允许上传的文件格式</description> -->
+      <param-value>jpg|jpeg|gif|png</param-value>
+    </init-param>
+    <init-param>
+      <param-name>tmpDir</param-name>
+      <!-- <description>文件临时存放目录</description> -->
+      <param-value>G:/tmpDir</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>uploadServlet</servlet-name>
+    <url-pattern>/uploadServlet</url-pattern>
+  </servlet-mapping>
+  <!-- 回话超时时间 -->
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/public/jsp/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/public/jsp/505.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/public/jsp/exception.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.servlet.ServletException</exception-type>
+		<location>/public/jsp/exception.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.servlet.jsp.JspException</exception-type>
+		<location>/public/jsp/exception.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.NullPointerException</exception-type>
+		<location>/public/jsp/exception.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.RuntimeException</exception-type>
+		<location>/public/jsp/exception.jsp</location>
+	</error-page>
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/tags/snowweb</taglib-uri>
+			<taglib-location>/WEB-INF/snowweb.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	<welcome-file-list>
+		<welcome-file>/pages/login/login.jsp</welcome-file>
+	</welcome-file-list>
+	
+  <!-- 上传excel -->
+  <servlet>
+    <servlet-name>UploadXlsServlet</servlet-name>
+    <servlet-class>com.ruimin.ifs.pmp.pubTool.servlet.UploadXlsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadXlsServlet</servlet-name>
+    <url-pattern>/UploadXlsServlet</url-pattern>
+  </servlet-mapping>
+  <!-- 上传证书 -->
+   <servlet>
+    <servlet-name>UploadCertServlet</servlet-name>   
+    <servlet-class>com.ruimin.ifs.pmp.pubTool.servlet.UploadCertServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadCertServlet</servlet-name>
+    <url-pattern>/UploadCertServlet</url-pattern>
+  </servlet-mapping> 
+  <!-- MD5生成 -->
+   <servlet>
+    <servlet-name>GetMd5ValueServlet</servlet-name>   
+    <servlet-class>com.ruimin.ifs.pmp.pubTool.servlet.GetMd5ValueServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetMd5ValueServlet</servlet-name>
+    <url-pattern>/GetMd5ValueServlet</url-pattern>
+  </servlet-mapping>
+  <!-- 上传图片 -->
+  <servlet>
+    <description>UploadImageServlet</description>
+    <display-name>UploadImageServlet</display-name>
+    <servlet-name>UploadImageServlet</servlet-name>
+    <servlet-class>com.ruimin.ifs.pmp.pubTool.servlet.UploadImageServlet</servlet-class>
+      <init-param>
+      <param-name>singleFileMaxSize</param-name>
+       <!--  <description>单个上传文件最大大小(MB)</description> -->
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>oneBatchMaxSize</param-name>
+       <!--  <description>单次上传文件最大大小(MB)</description> -->
+      <param-value>10</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UploadImageServlet</servlet-name>
+    <url-pattern>/UploadImageServlet</url-pattern>
+  </servlet-mapping>
+</web-app>

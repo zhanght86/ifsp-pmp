@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+<!-- 根据审核流程编号和步骤，查询临时表图片信息 -->	
+	<select id="selectPbsMchtPicInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtPicInfo">
+	select * from PBS_MCHT_PIC_INFO_TMP where MCHT_ID=#{mchtId}
+	</select>
+<!-- 根据商户号，查询正式表中是否有图片信息 -->	
+	<select id="selectMchtPicInfoByMchtId" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtPicInfoReal">
+	select * from PBS_MCHT_PIC_INFO where MCHT_ID=#{mchtId}
+	</select>	
+<!-- 根据商户号，查询正式表中是否有图片信息 -->	
+	<select id="selectMchtInfoTmpReal" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtBaseInfoReal">
+	select * from PBS_MCHT_BASE_INFO where MCHT_ID=#{mchtId}
+	</select>
+	<!-- 根据商户号，查询临时表中的数据 -->	
+	<select id="selectMchtBaseInfoByMchtIdAudit" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtBaseInfo">
+		select * from PBS_MCHT_BASE_INFO_TMP where MCHT_ID=#{mchtId}
+	</select>
+	
+	<!-- 同步合同信息临时表字段 -->
+	<update id="updContrTmp" paramType="map" >
+		UPDATE pbs_mcht_contr_info_tmp SET ACCOUNT_TYPE=#{accountType},SETL_ACCT_NAME=#{setlAcctName} WHERE MCHT_ID=#{mchtId}
+	</update>
+	<!-- 同步合同信息表字段 -->
+	<update id="updContr" paramType="map" >
+		UPDATE pbs_mcht_contract_info SET ACCOUNT_TYPE=#{accountType},SETL_ACCT_NAME=#{setlAcctName} WHERE MCHT_ID=#{mchtId}
+	</update>
+	
+		
+</mapper>

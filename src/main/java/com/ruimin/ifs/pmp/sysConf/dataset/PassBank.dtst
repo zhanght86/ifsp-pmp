@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="通道银行列表配置" expmaxrcd="100" flowctxid=""
+		flowid="com.ruimin.ifs.pmp.sysConf.comp.PassBankAction:queryPassBankByCode"
+		flowretid="" log="false" pagesize="10" type="call" />
+	<Fields>
+		<Field 	desc="银行编号" 	id="bankNo" 	align="center" 	edittype="textbox" 	datatype="string"
+			   	required="true" size="4"  		status="F"		errmsg="必须为4位数字"	xpath="/bankNo" />
+			
+		<Field 	desc="银行名称" 	id="bankName" 	align="center" 	edittype="textbox"	datatype="string" 
+				required="true" size="64" 		status="F" 		xpath="/bankName" />
+				
+		<Field 	desc="通道名称" 	id="passName" 	align="center" 	edittype="textbox"  datatype="string"	
+				required="false" size="64" 		status="F" 		xpath="passName"/>
+		
+		<Field 	desc="通道编号" 	id="passNo" 	align="center" 	edittype="textbox" 	datatype="string" 
+				size="4"  		xpath="/passNo" />
+		
+		<Field 	desc="数据状态" 	id="dataState" 	align="center" 	edittype="combobox" datatype="string"
+			   	datasource="LIST:00,启用;99,停用"
+			 	required="false" size="10" 		status="F" 		xpath="/dataState" />
+
+		<!-- 新增修改通道 -->
+		<Field 	desc="通道编号" 	id="passNoList" align="center"  edittype="combogrid" datatype="string"
+			 	required="true"	readonly="false" init="true" 	multiple="false"
+				datasource="PassInfo:com.ruimin.ifs.pmp.sysConf.dataset.PassInfo"
+				viewfield="passNo,passName" fieldmap="passNoList=passNo;passNo=passNo;passName=passName" />
+
+		<!-- 查询条件 -->
+		<Field 	desc="通道名称" 	id="qPassInfo"	align="center"	datatype="string" 	edittype="combogrid"
+			 	init="true" 	multiple="false" default=""
+			 	datasource="PassInfo:com.ruimin.ifs.pmp.sysConf.dataset.PassInfo" 
+			 	viewfield="passNo,passName" 	fieldmap="qPassInfo=passName" />
+		<Field 	desc="银行编号" 	id="qBankCode" 	size="4" />
+		<Field 	desc="银行名称" 	id="qBankName" 	size="64" />
+
+	</Fields>
+	<Commands>
+		<Command id="btAddSave" desc="保存" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.sysConf.comp.PassBankAction:addPassBankInfo"
+			icon="fa fa-save" url="#" txn="addPassBankInfo" />
+		<Command id="btUpdSave" desc="保存" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.sysConf.comp.PassBankAction:updPassBankInfo"
+			icon="fa fa-save" url="#" txn="updPassBankInfo" />
+		<Command id="btAdd" desc="新增" type="addrecord" flowid=""
+			icon="fa fa-plus" url="#" txn="" />
+		<Command id="btUpt" desc="修改" type="none" icon="fa fa-pencil"
+			flowid="" url="#" txn="" />
+		<Command id="btnStatus" desc="有效/无效" type="none" url="#" txn=""
+			icon="fa fa-gears" tip="有效/无效" />
+		<Command id="btnStatusSub" desc="" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.sysConf.comp.PassBankAction:setPassBankStatus"
+			url="#" txn="" icon="" tip="" />
+	</Commands>
+</Data>

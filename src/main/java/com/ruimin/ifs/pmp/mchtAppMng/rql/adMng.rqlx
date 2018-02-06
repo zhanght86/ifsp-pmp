@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息详细查询 -->		
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.AdBaseInfo">
+		select a.* from MSS_AD_BASE_INFO a where a.ad_pst='1'
+		<if test = "qadPst != ''"><![CDATA[and a.AD_PST like #{qadPst} ]]></if>
+		<if test = "qadInfo != ''"><![CDATA[and a.AD_INFO like #{qadInfo} ]]></if>
+		<if test = "qadStat != ''"><![CDATA[and a.AD_STAT = #{qadStat} ]]></if>
+		order by a.ad_pst,a.pic_pst
+	</select>
+	
+	<select id="queryMaxId" paramType="map" resultType="String">
+		select max(ad_id+0) from MSS_AD_BASE_INFO where 1=1
+	</select>
+	
+	<select id="queryExit" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.AdBaseInfo">
+		select * from MSS_AD_BASE_INFO where ad_pst=#{adPst} and pic_pst=#{picPst}
+	</select>
+	
+</mapper>

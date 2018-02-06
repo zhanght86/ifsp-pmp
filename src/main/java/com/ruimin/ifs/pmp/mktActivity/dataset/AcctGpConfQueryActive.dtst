@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.AcctGpConfAction:queryActiveInfTmp" 
+	desc="账户分组活动使用表单项" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+
+        <Field id="activeNo" desc="活动编号" datatype="string" size="200" align="center"  xpath="/activeNo" />
+        <Field id="activeNm" desc="活动名称" datatype="string" size="200" align="center"  xpath="/activeNm" />
+        <Field id="activeType" desc="活动类型" edittype="combobox" datasource="DDIC:1702" datatype="string" size="200"  align="center" xpath="/activeType" />
+        <Field id="SDate" desc="活动开始时间" datatype="date" size="200"  align="center" xpath="/SDate" />
+        <Field id="EDate" desc="活动结束时间" datatype="date" size="200"  align="center" xpath="/EDate" />
+        
+        
+        
+        
+		<!-- 查询条件 -->
+		<Field id="qgpTpNo" desc="分组编号" edittype="textbox" datatype="string"  />
+		
+        
+		
+        
+        
+       
+		
+		
+		
+       
+	</Fields> 
+	
+	
+	<Commands>	 
+	
+	</Commands>
+	
+</Data>

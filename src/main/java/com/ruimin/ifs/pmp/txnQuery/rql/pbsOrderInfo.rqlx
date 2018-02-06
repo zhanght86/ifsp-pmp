@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- modify by lengjingyu 20180205 交易查询界面变更需求 jira-1865 -->
+	<!--支付业务系统  订单信息表sql配置 -->
+	<select id="queryListPbs" paramType="map" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+		select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.txn_acc_type,
+       		ord.txn_amt,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.pay_product,
+       		ord.POINT_ID
+  		from pbs_order_info ord  			
+       	where       
+ord.mer_id IN ( SELECT mcht_try.mcht_id AS mer_id FROM mcht_id_try mcht_try WHERE mcht_try.brcode IN ( SELECT brcode FROM ifs_org WHERE FIND_IN_SET( brcode, getChildOrgList (#{currentBrCode})) 
+))
+       		<![CDATA[and ord.TXN_DT >= #{qTxnDateStart} ]]>
+       		<![CDATA[and ord.TXN_DT <= #{qTxnDateEnd} ]]>
+       		<if test = "qMchtId != ''"><![CDATA[and ord.MER_ID like #{qMchtId} ]]></if>
+       		<if test = "qMchtOrderId != ''"><![CDATA[and ord.TXN_ORDER_ID like #{qMchtOrderId} ]]></if>
+       		<if test = "qTxnSeqId != ''"><![CDATA[and ord.TXN_SEQ_ID like #{qTxnSeqId} ]]></if> 		
+       		<if test = "qPayProduct != ''">and ord.PAY_PRODUCT = #{qPayProduct}</if>
+       		<if test = "qTxnState != '' and qTxnState == '98' ">and ord.TXN_STATE in('11','12','13','14')</if>
+       		<if test = "qTxnState != '' and qTxnState != '98' ">and ord.TXN_STATE = #{qTxnState}</if>
+       		order by ord.txn_dt desc,ord.txn_tm desc
+	</select>
+	
+	<!-- 根据支付凭证号查询一条记录 -->
+	<select id="queryByTpamOutId" paramType="map" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+		select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.txn_acc_type,
+       		ord.txn_amt,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.pay_product,
+       		ord.POINT_ID
+  		from pbs_order_info ord  			
+       	where ord.TXN_SEQ_ID = #{txnSeqId}  
+       		<![CDATA[and ord.TXN_DT >= #{qTxnDateStart}]]>
+      		<![CDATA[and ord.TXN_DT <= #{qTxnDateEnd}]]>
+      		<if test = "qMchtId != ''"><![CDATA[and ord.MER_ID like #{qMchtId} ]]></if>
+     		<if test = "qMchtOrderId != ''"><![CDATA[and ord.TXN_ORDER_ID like #{qMchtOrderId} ]]></if>
+    		<if test = "qPayProduct != ''">and ord.PAY_PRODUCT = #{qPayProduct}</if>
+   		    <if test = "qTxnState != '' and qTxnState == '98' ">and ord.TXN_STATE in('11','12','13','14')</if>
+   		    <if test = "qTxnState != '' and qTxnState != '98' ">and ord.TXN_STATE = #{qTxnState}</if>
+  and ord.mer_id IN ( SELECT mcht_try.mcht_id AS mer_id FROM mcht_id_try mcht_try WHERE mcht_try.brcode IN ( SELECT brcode FROM ifs_org WHERE FIND_IN_SET( brcode, getChildOrgList (#{currentBrCode})) 
+))
+       		 		
+       		order by ord.txn_dt desc,ord.txn_tm desc
+	</select>
+	
+	<!-- 根据通道流水号查询一条记录 -->
+	<select id="selectByPagySeqId" paramType="map" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+	select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.txn_acc_type,
+       		ord.txn_amt,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.pay_product,
+       		ord.POINT_ID
+  		from pbs_order_info ord
+       		left join pagy_core_txn_record pc	 
+			on ord.TXN_SEQ_ID=pc.CHL_TXN_SSN   		
+      where pc.PAGY_TXN_SSN like #{qPagySeqId}  
+      <![CDATA[AND ord.TXN_DT >= #{qTxnDateStart}]]>
+      <![CDATA[AND ord.TXN_DT <= #{qTxnDateEnd}]]>
+      <if test = "qMchtId != ''"><![CDATA[and ord.MER_ID like #{qMchtId} ]]></if>
+      <if test = "qMchtOrderId != ''"><![CDATA[and ord.TXN_ORDER_ID like #{qMchtOrderId} ]]></if>
+      <if test = "qTxnSeqId != ''"><![CDATA[and ord.TXN_SEQ_ID like #{qTxnSeqId} ]]></if> 		
+      <if test = "qPayProduct != ''">and ord.PAY_PRODUCT = #{qPayProduct}</if>
+      <if test = "qTxnState != '' and qTxnState == '98' ">and ord.TXN_STATE in('11','12','13','14')</if>
+      <if test = "qTxnState != '' and qTxnState != '98' ">and ord.TXN_STATE = #{qTxnState}</if>
+				and	ord.mer_id IN ( SELECT mcht_try.mcht_id AS mer_id FROM mcht_id_try mcht_try 
+			WHERE mcht_try.brcode IN ( SELECT brcode FROM ifs_org WHERE FIND_IN_SET( brcode, getChildOrgList (#{currentBrCode})) 
+))
+order by ord.txn_dt desc,ord.txn_tm desc
+	</select>
+	
+	<!-- 根据支付凭证号查询平台流水号  -->
+	<select id="selectTpamOutId" paramType="String" resultType="String">
+      SELECT chl_txn_ssn FROM third_tab_vim WHERE tpam_out_id like #{qtpamOutId}
+	</select> 
+	
+		
+	<!-- 详情页面查询 -->
+	<!-- 支付宝直连 -->
+	<select id="queryAliDetil" paramType="string" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+	select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.txn_type,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.orig_txn_seq_id,
+       		ord.txn_acc_type,
+      		ord.txn_acc_no,
+       		ord.txn_amt,
+      	 	ord.txn_order_amt,
+       		ord.sr_amt_sum,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.txn_resp_code,
+       		ord.txn_resp_msg,
+       		ord.pagy_txn_ssn,
+       		ord.pagy_txn_tm,
+       		ord.txn_teml_type,
+       		ord.pay_product,
+       		ord.ACTIVE_NO,
+       		ord.ACTIVE_NM,
+       		ord.ACTIVE_AMT as FAVOURABLE_AMT,
+       		ord.POINT_ID,
+					ali.PAGY_SEQ_ID AS PAGY_SEQ_ID,
+					ali.TPAM_TXN_SSN AS tpam_out_id,
+					ali.PAGY_RESP_CODE AS TPAM_ERR_CODE,
+					ali.PAGY_RESP_MSG AS TPAM_ERR_MSG,
+					ali.TPAM_SUB_CODE AS PAGY_RESP_CODE,
+					ali.TPAM_SUB_MSG AS PAGY_RESP_MSG
+  		from pbs_order_info ord
+       		left join pagy_alipay_txn_info ali	 
+			on ord.TXN_SEQ_ID=ali.CHL_TXN_SSN   		
+       	where ord.txn_seq_id=#{txnSeqId}
+	</select>
+	
+	<!-- 联网通汇 -->
+	<select id="queryNetDetil" paramType="string" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+	select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.txn_type,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.orig_txn_seq_id,
+       		ord.txn_acc_type,
+      		ord.txn_acc_no,
+       		ord.txn_amt,
+      	 	ord.txn_order_amt,
+       		ord.sr_amt_sum,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.txn_resp_code,
+       		ord.txn_resp_msg,
+       		ord.pagy_txn_ssn,
+       		ord.pagy_txn_tm,
+       		ord.txn_teml_type,
+       		ord.pay_product,
+       		ord.ACTIVE_NO,
+       		ord.ACTIVE_NM,
+       		ord.ACTIVE_AMT as FAVOURABLE_AMT,
+       		ord.POINT_ID,
+					bbs.RESP_TXN_SSN AS PAGY_SEQ_ID,
+					bbs.CHL_TXN_SSN AS chl_txn_ssn,
+					bbs.TXN_SEQ_ID AS tpam_out_id
+  		from pbs_order_info ord
+       		left join bbs_txn_log bbs	 
+			on ord.TXN_SEQ_ID=bbs.CHL_TXN_SSN   		
+       	where ord.txn_seq_id=#{txnSeqId} 
+	</select>
+	
+	<!-- 威富通 -->
+	<select id="querySwiftDetil" paramType="string" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+	select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.txn_type,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.orig_txn_seq_id,
+       		ord.txn_acc_type,
+      		ord.txn_acc_no,
+       		ord.txn_amt,
+      	 	ord.txn_order_amt,
+       		ord.sr_amt_sum,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.txn_resp_code,
+       		ord.txn_resp_msg,
+       		ord.pagy_txn_ssn,
+       		ord.pagy_txn_tm,
+       		ord.txn_teml_type,
+       		ord.pay_product,
+       		ord.ACTIVE_NO,
+       		ord.ACTIVE_NM,
+       		ord.ACTIVE_AMT as FAVOURABLE_AMT,
+       		ord.POINT_ID,
+					swf.PAGY_SEQ_ID AS PAGY_SEQ_ID,
+					swf.TPAM_OUT_TRANSACTION_ID AS tpam_out_id,
+					swf.TPAM_ERR_CODE AS TPAM_ERR_CODE,
+					swf.TPAM_ERR_MSG AS TPAM_ERR_MSG,
+					swf.PAGY_RESP_CODE AS PAGY_RESP_CODE,
+					swf.PAGY_RESP_MSG AS PAGY_RESP_MSG
+  		from pbs_order_info ord
+       		left join pagy_swiftpass_txn_info swf	 
+			on ord.TXN_SEQ_ID=swf.CHL_TXN_SSN   		
+       	where ord.txn_seq_id=#{txnSeqId} 
+	</select>
+	
+	<!-- 平安 -->
+	<select id="queryMixpayDetil" paramType="string" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+	select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.txn_type,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.orig_txn_seq_id,
+       		ord.txn_acc_type,
+      		ord.txn_acc_no,
+       		ord.txn_amt,
+      	 	ord.txn_order_amt,
+       		ord.sr_amt_sum,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.txn_resp_code,
+       		ord.txn_resp_msg,
+       		ord.pagy_txn_ssn,
+       		ord.pagy_txn_tm,
+       		ord.txn_teml_type,
+       		ord.pay_product,
+       		ord.ACTIVE_NO,
+       		ord.ACTIVE_NM,
+       		ord.ACTIVE_AMT as FAVOURABLE_AMT,
+       		ord.POINT_ID,
+					mix.PAGY_SEQ_ID AS PAGY_SEQ_ID,
+					mix.TPAM_ORD_NO AS tpam_out_id,
+					mix.TPAM_ERRCODE AS TPAM_ERR_CODE,
+					mix.TPAM_MSG AS TPAM_ERR_MSG,
+					mix.PAGY_RESP_CODE AS PAGY_RESP_CODE,
+					mix.PAGY_RESP_MSG AS PAGY_RESP_MSG
+  		from pbs_order_info ord
+       		left join pagy_mixpay_txn_info mix	 
+			on ord.TXN_SEQ_ID=mix.CHL_TXN_SSN   		
+       	where ord.txn_seq_id=#{txnSeqId} 
+	</select>
+	
+	<!-- 中信 -->
+	<select id="queryEciDetil" paramType="string" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+		select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.txn_type,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.orig_txn_seq_id,
+       		ord.txn_acc_type,
+      		ord.txn_acc_no,
+       		ord.txn_amt,
+      	 	ord.txn_order_amt,
+       		ord.sr_amt_sum,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.txn_resp_code,
+       		ord.txn_resp_msg,
+       		ord.pagy_txn_ssn,
+       		ord.pagy_txn_tm,
+       		ord.txn_teml_type,
+       		ord.pay_product,
+       		ord.ACTIVE_NO,
+       		ord.ACTIVE_NM,
+       		ord.ACTIVE_AMT as FAVOURABLE_AMT,
+       		ord.POINT_ID,
+					eci.PAGY_SEQ_ID AS PAGY_SEQ_ID,
+					eci.TPAM_OUT_TRANSACTION_ID AS tpam_out_id,
+					eci.TPAM_ERR_CODE AS TPAM_ERR_CODE,
+					eci.TPAM_ERR_MSG AS TPAM_ERR_MSG,
+					eci.PAGY_RESP_CODE AS PAGY_RESP_CODE,
+					eci.PAGY_RESP_MSG AS PAGY_RESP_MSG
+  		from pbs_order_info ord
+       		left join pagy_ecitic_txn_info eci	 
+			on ord.TXN_SEQ_ID=eci.CHL_TXN_SSN   		
+       	where ord.txn_seq_id=#{txnSeqId}
+	</select>
+	
+	<!-- 没有走通道的交易  -->
+	<select id="queryDetil" paramType="string" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+	select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.txn_type,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name, 
+       		ord.txn_order_id,
+       		ord.orig_txn_seq_id,
+       		ord.txn_acc_type,
+      		ord.txn_acc_no,
+       		ord.txn_amt,
+      	 	ord.txn_order_amt,
+       		ord.sr_amt_sum,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+       		ord.txn_resp_code,
+       		ord.txn_resp_msg,
+       		ord.pagy_txn_ssn,
+       		ord.pagy_txn_tm,
+       		ord.txn_teml_type,
+       		ord.pay_product,
+       		ord.ACTIVE_NO,
+       		ord.ACTIVE_NM,
+       		ord.ACTIVE_AMT as FAVOURABLE_AMT,
+       		ord.POINT_ID
+  		from pbs_order_info ord
+       	where ord.txn_seq_id=#{txnSeqId}	
+	</select>	
+	
+		<!-- 交易列表查询 -->
+	<select id="downLoad3" paramType="map" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+       select 
+       		ord.txn_seq_id,
+       		CONCAT(substring(ord.txn_dt,1,4),'-',substring(ord.txn_dt,5,2),'-',substring(ord.txn_dt,7,2)) as txn_date,
+       		CONCAT(substring(ord.txn_tm,1,2),':',substring(ord.txn_tm,3,2),':',substring(ord.txn_tm,5,2)) as txn_time,
+       		ord.mer_id as mcht_id,
+       		ord.mer_name as mcht_name,
+       		ord.txn_order_id,
+       		FORMAT(ord.txn_amt/100,2) as txn_amt,
+			ifsdata.data_name as txn_state,
+       		acctType.Acct_Type_Name as txn_Acc_Type,
+       		prod.prod_name as pay_product,
+       		ord.POINT_ID
+  		from pbs_order_info ord
+       		left join pay_acct_type_base_info acctType
+       		on ord.txn_acc_type = acctType.Acct_Type_No
+       		left join pbs_prod_info prod
+       		on ord.pay_product = prod.prod_id
+       		left join ifs_data_dic ifsdata
+       		on ord.txn_state=ifsdata.data_no
+			left join third_tab_vim thirdTab	 
+			on ord.TXN_SEQ_ID=thirdTab.CHL_TXN_SSN 
+       	where ord.mer_id in (
+       	     select mcht.mcht_id   
+ 			    from 
+			    PBS_MCHT_BASE_INFO mcht
+			    left join ifs_org org on mcht.mcht_org_id = org.brcode			     
+			    left join ifs_staff staff on staff.tlrno = mcht.crt_tlr
+			    where     
+			    staff.brcode in(
+			    	select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+			    )
+       	) and ifsdata.data_type_no='1836'
+       		<![CDATA[and ord.TXN_DT >= #{qTxnDateStart} ]]>
+       		<![CDATA[and ord.TXN_DT <= #{qTxnDateEnd} ]]>
+       		<if test = "qMchtId != ''"><![CDATA[and ord.MER_ID like #{qMchtId} ]]></if>
+       		<if test = "qTxnState != '' and qTxnState == '98' ">and ord.TXN_STATE in('11','12','13','14')</if>
+       		<if test = "qTxnState != '' and qTxnState != '98' ">and ord.TXN_STATE = #{qTxnState}</if>
+       		<if test = "qMchtOrderId != ''"><![CDATA[and ord.TXN_ORDER_ID like #{qMchtOrderId} ]]></if>
+       		<if test = "qTxnSeqId != ''"><![CDATA[and ord.TXN_SEQ_ID like #{qTxnSeqId} ]]></if>
+       		<if test = "qPagySeqId != ''"><![CDATA[and thirdTab.PAGY_SEQ_ID like #{qPagySeqId} ]]></if>
+       		<if test = "qTpamOutId != ''"><![CDATA[and thirdTab.tpam_out_id = #{qTpamOutId} ]]></if>
+       		<if test = "qPayProduct != ''">and ord.PAY_PRODUCT = #{qPayProduct}</if>
+       		order by ord.txn_dt desc,ord.txn_tm desc
+	</select>
+	
+	<!-- 支付凭证号模糊查询 -->
+	<select id="tpamView" paramType="map" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.PbsOrderInfoVO">
+	 select 
+       		ord.txn_seq_id,
+       		ord.txn_dt as txn_date,
+       		ord.txn_tm as txn_time,
+       		ord.mer_id as mcht_id,
+			ord.mer_name as mcht_name,
+       		ord.txn_order_id,
+       		ord.txn_acc_type,
+       		ord.txn_amt,
+       		case ord.txn_state
+       			when '11' then '98'
+      			when '12' then '98'
+       			when '13' then '98'
+       			when '14' then '98'
+       			else ord.txn_state
+     			end as txn_state,
+			ord.pay_product,
+       		ord.POINT_ID
+  		from pbs_order_info ord
+       		left join third_tab_vim thirdTab	 
+			on ord.TXN_SEQ_ID=thirdTab.CHL_TXN_SSN   			
+       	where       
+		ord.mer_id IN ( SELECT mcht_try.mcht_id AS mer_id FROM mcht_id_try mcht_try WHERE mcht_try.brcode IN ( SELECT brcode FROM ifs_org WHERE FIND_IN_SET( brcode, getChildOrgList (#{currentBrCode})) 
+	))
+		<![CDATA[and ord.TXN_DT >= #{qTxnDateStart} ]]>
+   		<![CDATA[and ord.TXN_DT <= #{qTxnDateEnd} ]]>
+   		<if test = "qMchtId != ''"><![CDATA[and ord.MER_ID like #{qMchtId} ]]></if>
+  		<if test = "qTxnState != '' and qTxnState == '98' ">and ord.TXN_STATE in('11','12','13','14')</if>
+   		<if test = "qTxnState != '' and qTxnState != '98' ">and ord.TXN_STATE = #{qTxnState}</if>
+   		<if test = "qMchtOrderId != ''"><![CDATA[and ord.TXN_ORDER_ID like #{qMchtOrderId} ]]></if>
+   		<if test = "qTxnSeqId != ''"><![CDATA[and ord.TXN_SEQ_ID like #{qTxnSeqId} ]]></if>
+   		<if test = "qTpamOutId != ''"><![CDATA[and thirdTab.tpam_out_id like #{qTpamOutId} ]]></if>
+   		<if test = "qPayProduct != ''">and ord.PAY_PRODUCT = #{qPayProduct}</if>
+   		order by ord.txn_dt desc,ord.txn_tm desc
+	</select>
+	
+	
+	
+		<!-- 接入方式信息查询 -->
+	<select id="selectAccessType" paramType="String" resultType="String">
+      select ACCESS_TYPE_NAME  from pbs_access_type_info where ACCESS_TYPE_CODE =#{qAccessType} 
+	</select> 
+	<select id="selectTxnState" paramType="map" resultType="String">
+      select DATA_NAME  from IFS_DATA_DIC where DATA_TYPE_NO =#{typeNo}  and DATA_NO=#{qTxnState}
+	</select> 
+	<select id="selectTxnType" paramType="String" resultType="String">
+      select TXN_TYPE_NAME  from pbs_txn_type_info where TXN_TYPE_CODE =#{TxnType} 
+	</select> 
+	<!-- 根据平台流水号查询通道号  -->
+	<select id="selectPagyNo" paramType="String" resultType="String">
+      SELECT pc.PAGY_NO FROM pbs_order_info pb LEFT JOIN pagy_core_txn_record pc ON pb.TXN_SEQ_ID = pc.CHL_TXN_SSN WHERE pb.TXN_SEQ_ID=#{txnSeqId}
+	</select> 
+	<!-- 根据通道流水号查询通道号  -->
+	<select id="selectPagyNo2" paramType="String" resultType="String">
+      SELECT PAGY_NO FROM pagy_core_txn_record WHERE  PAGY_TXN_SSN = #{txnSeqId}
+	</select> 
+	
+	<!-- 中信支付凭证号  -->
+	<select id="selectTpamOutIdEci" paramType="String" resultType="String">
+		SELECT TPAM_OUT_TRANSACTION_ID AS TPAM_OUT_ID FROM pagy_ecitic_txn_info WHERE PAGY_SEQ_ID=#{qPagySeqId}
+	</select> 
+	<!-- 平安支付凭证号  -->
+	<select id="selectTpamOutIdMix" paramType="String" resultType="String">
+		SELECT TPAM_ORD_NO AS TPAM_OUT_ID FROM pagy_mixpay_txn_info WHERE PAGY_SEQ_ID=#{qPagySeqId}
+	</select> 
+	<!-- 威富通支付凭证号  -->
+	<select id="selectTpamOutIdSwf" paramType="String" resultType="String">
+		 SELECT TPAM_OUT_TRANSACTION_ID AS TPAM_OUT_ID FROM pagy_swiftpass_txn_info WHERE PAGY_SEQ_ID=#{qPagySeqId}
+	</select> 
+	<!-- 联网通汇支付凭证号  -->
+	<select id="selectTpamOutIdNet" paramType="String" resultType="String">
+		SELECT TXN_SEQ_ID AS TPAM_OUT_ID FROM bbs_txn_log WHERE RESP_TXN_SSN=#{qPagySeqId}
+	</select> 
+	<!-- 支付宝支付凭证号  -->
+	<select id="selectTpamOutIdAli" paramType="String" resultType="String">
+		SELECT TPAM_TXN_SSN AS TPAM_OUT_ID FROM pagy_alipay_txn_info WHERE PAGY_SEQ_ID=#{qPagySeqId}
+	</select> 
+	
+</mapper>

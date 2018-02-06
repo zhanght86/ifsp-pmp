@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询各个临时表信息-->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.po.PmpAuditTabTmp">
+		SELECT
+			tmp.AUDIT_ID,
+			tmp.MAP_TAB,
+			tmp.FIELD_JOIN,
+			tmp.TAB_KEY,
+			tmp.Time
+		FROM
+			pmp_audit_tab_tmp tmp
+		WHERE
+			<if test = "auditId != '' "> and tmp.AUDIT_ID = #{auditId}</if>
+			<if test = "mapTab != '' "> and tmp.MAP_TAB = #{mapTab}</if>
+			<if test = "fieldJoin != '' "> and tmp.FIELD_JOIN like #{fieldJoin})</if>
+			<if test="tabKey !='' "> and tmp.TAB_KEY =#{tabKey}</if>
+		order by tmp.Time 
+	</select>
+</mapper>

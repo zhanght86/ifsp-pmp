@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的商户网点费用日报信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthMchtNetExpenseDailyVO">
+		SELECT m.*,n.PROD_NAME from (select 
+		  b.`TXN_DT`, 
+		  a.`IN_ACCT_DATE`, 
+		  a.PROD_ID,
+		  a.`IN_ACCT_MER_ID`, 
+		  a.`IN_ACCT_MER_NAME`, 
+		  b.`POINT_ID`, 
+		  sum(a.`TXN_AMT` * 100)/ 100 TXN_AMT, 
+		  count(*) TXN_NUM, 
+		  sum(a.`SETL_AMT` * 100)/ 100 SETL_AMT, 
+		  sum(a.`SETL_FEE_AMT` * 100)/ 100 SETL_FEE_AMT 
+		from 
+		  `bth_mer_in_acc_dtl` a, 
+		  `pbs_order_info` b 
+		where 
+		  a.`TXN_SEQ_ID` = b.`TXN_SEQ_ID` 
+		  and b.`POINT_ID` is not null 
+		  <if test = "qTxnDtStart != '' "> and b.TXN_DT &gt;= #{qTxnDtStart}</if>
+		  <if test = "qTxnDtEnd != '' "> and b.TXN_DT &lt;= #{qTxnDtEnd}</if>
+		  <if test = "qInAcctMerId != '' "> and a.IN_ACCT_MER_ID like #{qInAcctMerId}</if>
+		  <if test="qInAcctMerName !='' "> and a.IN_ACCT_MER_NAME like #{qInAcctMerName}</if>
+	GROUP BY 
+		  a.PROD_ID,
+		  a.`IN_ACCT_MER_ID`, 
+		  a.`IN_ACCT_MER_NAME`, 
+		  b.`POINT_ID`, 
+		  b.`TXN_DT`, 
+		  a.`IN_ACCT_DATE` 
+) m ,pbs_prod_info n
+	where m.PROD_ID = n.PROD_ID
+		  order by m.`TXN_DT` ASC,m.`IN_ACCT_MER_ID`asc,m.`POINT_ID` ASC
+	</select>
+	
+</mapper>

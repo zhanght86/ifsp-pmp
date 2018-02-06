@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="定时任务配置" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.BopTimedSchedulerManageAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+	    <Field id="id" desc="任务id" align="center" edittype="textbox" datatype="string"  xpath="/id" />
+		<Field id="jobno" desc="任务编号" align="center" edittype="textbox" required="true"
+			datatype="string" method="None" rule="isNum" size="15" errmsg="不超过15位数字"
+			scale="2" default="" status="F" xpath="/jobno" />
+		<Field id="processFunction" desc="执行任务类" align="center" edittype="textbox" required="true"
+			datatype="string" method="None"  size="256"
+			scale="2" default="" status="F" xpath="/processFunction" />
+		<Field id="processParam" desc="任务参数" align="center" edittype="textbox" required="false"
+			datatype="string" method="None" size="512"
+			scale="2" default="" status="F" xpath="/processParam" />
+		<Field id="maxproc" desc="maxproc" align="center" edittype="textbox" required="false"
+			datatype="string" method="None" size="6"
+			scale="2" default="" status="F" xpath="/maxproc" />
+		<Field id="runtime" desc="执行方式" align="center" edittype="combobox" required="true"
+			datasource="LIST:90,每日;9N,不运行;97,每月某日" datatype="string" method="None"
+			 size="15" scale="2" default="" xpath="/runtime" />
+		<Field id="daysOfMonth" desc="每月某日" align="center" edittype="textbox" required="false"
+			datatype="string" method="None" size="6"
+			scale="2" default="" status="F" xpath="/daysOfMonth" />
+		<Field id="repeatTime" desc="执行间隔" align="center" edittype="textbox" required="true"
+			datatype="string" method="None" size="10"
+			scale="2" default="" status="F" xpath="/repeatTime" />
+		<Field id="repeatCnt" desc="日执行次数"  align="center" edittype="textbox" required="true"
+			datatype="string" method="None" 
+			size="15" scale="2" default="" xpath="/repeatCnt" />
+		<Field id="startTime" desc="开始时间"  align="center" edittype="textbox" required="true"  errmsg="请输入符合 HH:MM:SS规则的时间"
+			 datatype="string"    xpath="/startTime" />
+		<Field id="endTime" desc="结束时间" align="center" edittype="textbox" required="true" errmsg="请输入符合 HH:MM:SS规则的时间"
+			 datatype="string"   xpath="/endTime" />
+		<Field id="lastRunTime" desc="最后的执行时间" align="center" edittype="textbox" required="false" errmsg="请输入符合 HH:MM:SS规则的时间"
+			 datatype="string"   xpath="/lastRunTime" />
+		<Field id="dueTime" desc="dueTime" align="center" edittype="textbox" datatype="string"   xpath="/dueTime" />
+		<Field id="sucFlag" desc="sucFlag" align="center" edittype="textbox" datatype="string"  xpath="/sucFlag" />
+		<Field id="failFlag" desc="failFlag" align="center" edittype="textbox" datatype="string"  xpath="/failFlag" />
+		<Field id="auto" desc="auto" align="center" edittype="textbox" datatype="string"  xpath="/auto" />
+		<Field id="lockOwn" desc="lockOwn" align="center" edittype="textbox" datatype="string" xpath="/lockOwn" />
+		<Field id="desc0" desc="任务描述"  align="center" edittype="textbox"  required="true"
+			datatype="string" method="None" size="15"
+			scale="2" default="" xpath="/desc0" />	 
+		<Field id="desc1" desc="desc1"  align="center" edittype="textbox"  required="false"
+			datatype="string" method="None" size="15"
+			scale="2" default="" xpath="/desc1" />	 
+		<Field id="desc2" desc="desc2"  align="center" edittype="textbox"  required="false"
+			datatype="string" method="None"  size="15"
+			scale="2" default="" xpath="/desc2" />
+		<Field id="timestamps" desc="时间戳" align="center" edittype="textbox" required="false" errmsg="请输入符合 HH:MM:SS规则的时间"
+			 datatype="string"   xpath="/timestamps" />
+		<Field id="isRunning" desc="任务状态"  align="center" edittype="combobox" 
+			datasource="LIST:true,运行中;false,已停止" datatype="boolean" method="None"
+			 size="15" scale="2" default=""
+			xpath="/isRunning" />
+
+	</Fields>
+
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="" txn="" icon="fa fa-plus"/>
+		<Command id="btnSave"  desc="保存" type="asyncsubmit" url="#" flowid="com.ruimin.ifs.mng.comp.BopTimedSchedulerManageAction:saveOrUpdate1" icon="fa fa-save"/>
+		<Command id="btnDel" desc="删除" type="none" flowid="" url="#" txn="" icon="fa fa-remove"/>
+		<Command id="btnDelete" desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.BopTimedSchedulerManageAction:delete" url="#" txn="" icon="fa fa-remove"/>
+		<Command id="btnMod" desc="修改" type="none" url="" txn="" icon="fa fa-pencil" />
+	</Commands>
+</Data>
+

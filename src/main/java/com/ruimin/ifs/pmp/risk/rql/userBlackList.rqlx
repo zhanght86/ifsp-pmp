@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 查询数据 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.risk.process.bean.UserBlackListVo">
+		select 
+			BLACKLIST_ID,
+			BLACKLIST_TYPE,
+			BLACKLIST_VALUE,
+			BLACKLIST_STATUS,
+			START_DATE,
+			if(END_DATE='-','',END_DATE) as END_DATE,
+			CRT_TLR,
+			CRT_DATE_TIME,
+			LAST_UPD_TLR,
+			LAST_UPD_DATE_TIME
+		from RISK_USER_BLACKLIST where 1=1
+		  <if test = "qBlacklistType != '' "> and BLACKLIST_TYPE like #{qBlacklistType}</if>
+          <if test = "qBlacklistStatus != '' "> and BLACKLIST_STATUS like #{qBlacklistStatus}</if>
+		  <if test = "qBlacklistValue != '' "> and BLACKLIST_VALUE like #{qBlacklistValue}</if>
+		order by BLACKLIST_ID desc
+	</select>
+	
+	<!-- 获取黑名单最大ID-->
+	<select id="getMaxId" paramType="" resultType="string">
+		select max(BLACKLIST_ID) as BLACKLIST_ID from RISK_USER_BLACKLIST
+	</select>
+	
+	
+	<!-- 修改用户黑名单信息 -->
+	<update  id="modify" paramType="com.ruimin.ifs.pmp.risk.process.bean.UserBlackListVo">
+		update
+			RISK_USER_BLACKLIST
+		set
+			BLACKLIST_VALUE = #{blacklistValue},
+			START_DATE = #{startDate},
+			END_DATE = #{endDate},
+			LAST_UPD_TLR = #{lastUpdTlr},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 
+			BLACKLIST_ID = #{blacklistId}	
+	</update>
+	
+	<!-- 启用停用黑名单信息 -->
+	<update id="statusChange" paramType="com.ruimin.ifs.pmp.risk.process.bean.UserBlackListVo" >
+		update 
+			RISK_USER_BLACKLIST
+		set
+			BLACKLIST_STATUS = #{blacklistStatus},
+			LAST_UPD_TLR = #{lastUpdTlr},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 
+			BLACKLIST_ID = #{blacklistId}
+	</update>
+	
+	<!-- 根据黑名单类型和黑名单值查询黑名单信息 -->
+	<select id = "selectBlackListByTypeAndValue" paramType="map" resultType="com.ruimin.ifs.pmp.risk.process.bean.UserBlackListVo" >
+		select * from RISK_USER_BLACKLIST where
+		BLACKLIST_TYPE = #{blacklistType} and BLACKLIST_VALUE = #{blacklistValue}
+	</select>
+	
+	<!--根据id查询黑名单信息  -->
+	<select id="selectBlackListById" paramType="map" resultType="com.ruimin.ifs.pmp.risk.process.bean.UserBlackListVo">
+		select * from RISK_USER_BLACKLIST where
+		BLACKLIST_ID = #{blacklistId} 
+	</select>
+	
+	<!-- 查询数据库中所有已有的黑名单信息 -->
+	
+	<select id = "selectAllBlackList"  paramType="map"  resultType="com.ruimin.ifs.pmp.risk.process.bean.UserBlackListVo" >
+		select * from RISK_USER_BLACKLIST 
+	</select>
+</mapper> 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.txnQuery.comp.TxnCountAction:queryAll" 
+			desc="支付业务系统交易统计" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+       <!-- 查询条件 -->
+	   <Field id="qTxnDateStart" 	desc="交易日期(起始)" 	edittype="datebox"  	datatype="date" 	xpath="" 	status="F" 	default="" />
+	   <Field id="qTxnDateEnd" 		desc="交易日期(截止)" 	edittype="datebox"   	datatype="date" 	xpath="" 	status="F" 	default="" />
+	    
+	   <Field id="qAccessType" 		desc="接入方式" 		edittype="combogrid" 	datatype="string" 
+	      datasource="AliasAccessType:com.ruimin.ifs.pmp.sysConf.dataset.accessTypeInfo" 
+	      viewfield="accessTypeCode,accessTypeName" init="true" multiple="false" default=""
+	      fieldmap="qAccessType=accessTypeCode;qAccessTypeName=accessTypeName" xpath="" status="F"/>
+	   <Field id="qAccessTypeName" desc="接入方式" method="com.ruimin.ifs.pmp.sysConf.comp.AccessTypeMngAction.getAccessTypeCodeName" />
+
+	   <!-- 数据内容 -->
+	   <Field desc="交易日期" 		id="txnDate" 	align="center" 	edittype="datebox" 	datatype="date" 
+	   readonly="true"    		status="F" 			default="" 		xpath="/txnDate"/>
+	   
+	   <Field desc="接入方式" 		id="txnTemlType" 	align="center" 	edittype="textbox" 	datatype="string" 
+	   method="com.ruimin.ifs.pmp.sysConf.comp.AccessTypeMngAction.getAccessTypeCodeName"
+	   readonly="true"    		status="F" 			default="" 		xpath="/txnTemlType"/>
+	   
+	   <Field desc="交易总笔数" 	id="totalItems" 	align="center" 	edittype="textbox" 	datatype="string" 
+	   readonly="true"    		status="F" 			default="" 		xpath="/totalItems"/>
+	   
+	   <Field desc="交易成功笔数" 	id="successItems" 	align="center" 	edittype="textbox" 	datatype="string" 
+	   readonly="true"    		status="F" 			default="" 		xpath="/successItems"/>
+	   
+	   <Field desc="交易失败笔数" 	id="failItems" 		align="center" 	edittype="textbox" 	datatype="string" 
+	   readonly="true"    		status="F" 			default="" 		xpath="/failItems"/>
+	   
+	   <Field desc="交易成功率" 	id="successRate" 	align="center" 	edittype="textbox" 	datatype="string" 
+	   readonly="true"    		status="F" 			default="" 		xpath="/successRate"/>
+	   
+	   <Field desc="交易失败率" 	id="failRate" 	align="center" 	edittype="textbox" 	datatype="string" 
+	   readonly="true"    		status="F" 			default="" 		xpath="/failRate"/>
+	
+	</Fields> 
+</Data>

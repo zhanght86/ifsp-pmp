@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 活动管理审核 -->
+	<!-- 根据活动编号,查询临时表中的数据 	-->
+	<select id="selectActInfoByActNoTmp" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveInfTmpVO2">
+		<![CDATA[SELECT * FROM tbl_active_inf_tmp where ACTIVE_NO=#{activeNo}]]>
+	</select>
+	
+	<!-- 根据活动编号,查询正式表中的数据 	-->
+	<select id="selectActInfReal" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveInfVO2">
+		<![CDATA[SELECT * FROM tbl_active_inf where ACTIVE_NO=#{activeNo}]]>
+	</select>
+	
+	<select id="selectProInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveProdConfTmpVO">
+		<![CDATA[select * FROM tbl_active_prd_conf_tmp where ACTIVE_NO=#{activeNo}]]>
+	</select>
+	
+	<select id="selectProInfoReal" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveProdConfVO">
+		<![CDATA[select * FROM tbl_active_prd_conf where ACTIVE_NO=#{activeNo}]]>
+	</select>
+	
+	<select id="selectCyc" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveCycleConfTmpVO">
+		<![CDATA[SELECT * from tbl_active_cycle_conf_tmp WHERE ACTIVE_NO =#{activeNo}]]>
+	</select>
+	<select id="selectCycReal" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveCycleConfVO">
+		<![CDATA[SELECT * from tbl_active_cycle_conf WHERE ACTIVE_NO =#{activeNo}]]>
+	</select>
+	
+	<!-- 根据活动编号查询临时表红包配置信息 -->
+	<select id="selectRedConf" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.TblActiveRedbagConfTmp">
+		<![CDATA[SELECT * from tbl_active_redbag_conf_tmp WHERE ACTIVE_NO =#{activeNo} AND DATA_STATE = '1']]>
+	</select>
+	<!-- 根据活动编号查询正式表红包配置信息 -->
+	<select id="selectRedConfReal" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.TblActiveRedbagConf">
+		<![CDATA[SELECT * from tbl_active_redbag_conf WHERE ACTIVE_NO =#{activeNo}]]>
+	</select>
+	
+	<!-- 查询临时表活动方法配置信息 -->
+	<select id="selectActMethod" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodConfTmpVO">
+		<![CDATA[SELECT * from tbl_active_method_conf_tmp where ACTIVE_NO=#{activeNo}]]>
+	</select>
+	<!-- 查询正式表活动方法配置信息 -->
+	<select id="selectActMethodReal" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodConfVO">
+		<![CDATA[SELECT * from tbl_active_method_conf where ACTIVE_NO=#{activeNo}]]>
+	</select>
+	
+	<!-- 查询临时表商户信息 -->
+	<select id="selectMcht" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMchtInInfTmpVO">
+		<![CDATA[SELECT * from tbl_active_mcht_in_inf_tmp WHERE ACTIVE_NO = #{activeNo}]]>
+	</select>
+	<!-- 查询正式表商户信息 -->
+	<select id="selectMchtReal" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMchtInInfVO">
+		<![CDATA[SELECT * from tbl_active_mcht_in_inf WHERE ACTIVE_NO = #{activeNo}]]>
+	</select>
+	
+	
+	
+</mapper> 

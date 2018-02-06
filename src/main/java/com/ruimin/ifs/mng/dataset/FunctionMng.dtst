@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.FunctionMngAction:queryAll" desc="" expmaxrcd="100" flowctxid="" flowretid=""></Define>
+	<Fields>
+		<Field id="_id" desc="id" xpath="/id"/>
+		<Field id="_parentId" desc="父id" xpath="/pid" />
+		<Field id="_text" desc="名称" required="true" xpath="/text" />
+		<Field id="_icon" desc="图标" xpath="/iconCls" />
+		<Field id="_state" desc="展开状态" xpath="/state" />
+
+		<Field id="funcid" desc="id" readonly="true" xpath="/attributes/funcid" />
+		<Field id="funcname" desc="名称" xpath="/attributes/funcname" />
+		<Field id="iconCls" desc="图标" xpath="/attributes/iconCls" />
+		<Field id="pagepath" desc="路径" colspan="4" width="500" xpath="/attributes/pagepath" />
+		<Field id="showseq" desc="顺序" edittype="numberbox" datatype="int" xpath="/attributes/showseq" />
+		<Field id="funcType" desc="类型" edittype="combobox" required="true" readonly="true" datasource="DDIC:103" xpath="/attributes/funcType" />
+		<Field id="location" desc="位置" edittype="combobox" required="true" readonly="true" default="2" datasource="DDIC:104" xpath="/attributes/location" />
+		<Field id="funcDesc" desc="描述" edittype="textarea" width="500" size="100" colspan='4' xpath="/attributes/funcDesc" />
+		<Field id="lastdirectory" desc="描述" xpath="/attributes/lastdirectory" />
+	</Fields>
+
+	<Commands>
+		<Command id="btnSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.FunctionMngAction:saveOrUpdate" icon="fa fa-save" url="#" txn="" />
+		<Command id="btnDel" desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.FunctionMngAction:delFunc" icon="fa fa-trash" url="#" txn="" />
+	</Commands>
+</Data>

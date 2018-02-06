@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		
+<!-- 查询平安支付方式-->		
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.paPay.process.bean.PagyMixpayPayMethodInfo">
+	SELECT PMT_ID,PMT_TYPE,PMT_TAG,PMT_NAME,PMT_INTERNAL_NAME,PMT_ICON,USED_TAG
+	FROM pagy_mixpay_pay_method_info pagy
+	where 1=1
+    <if test = "pmtId != ''"><![CDATA[and pagy.PMT_ID like #{pmtId} ]]></if>
+    <if test = "pmtName != ''"><![CDATA[and pagy.pmt_name like #{pmtName} ]]></if>
+    <if test = "pmtTag != ''"><![CDATA[and pagy.pmt_tag like #{pmtTag} ]]></if>
+    ORDER BY pagy.PMT_ID DESC,pagy.PMT_TAG DESC  
+	</select>		
+</mapper>

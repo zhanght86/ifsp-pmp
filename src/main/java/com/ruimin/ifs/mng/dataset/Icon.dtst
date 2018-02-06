@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="图标" type="call" pagesize="9999" log="false" flowid="com.ruimin.ifs.mng.comp.SnowManageAction:listIcons" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+
+		<Field id="index" desc="图标索引" xpath=".[1]" />
+		<Field id="name" desc="图标名称" xpath=".[2]" />
+		<Field id="clsname" desc="图标样式" xpath=".[3]" />
+
+		<Field id="qName" desc="图标名称" />
+
+	</Fields>
+	<Commands>
+	</Commands>
+</Data>

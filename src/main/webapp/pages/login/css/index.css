@@ -1,0 +1,34 @@
+body {
+	overflow: auto;
+}
+
+.sidebar {
+	width: 200px;
+	height: 100%;
+	overflow: auto;
+}
+
+.sidebar.menu-min {
+	overflow: auto;
+}
+
+.sidebar+.main-content {
+	margin-left: 200px;
+}
+
+.main-content-inner {
+	margin-top: 2px;
+}
+
+@media only screen and (max-width: 991px) {
+	.sidebar.responsive {
+		left: 200px;
+		margin-left: -200px;
+	}
+}
+
+.main-logo:before {
+  	content: url("../imgs/logo_tl.png");
+	height: 50px;
+}
+

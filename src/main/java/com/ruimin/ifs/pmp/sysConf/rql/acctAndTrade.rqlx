@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	  <select id="query" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AcctAndTrade">
+	  select * from PBS_REL_TXN_TYPE_ACCT_TYPE where 1=1 order by rel_no
+	  </select>
+	  
+	  <select id="queryMaxSeq" paramType="map" resultType="string">
+	  select max(rel_no)rel_no from PBS_REL_TXN_TYPE_ACCT_TYPE 
+	  where 1=1
+	  </select>
+</mapper>

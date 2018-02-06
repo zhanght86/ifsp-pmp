@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.UserMngAction:queryMain" 
+	desc="商户基本信息管理" expmaxrcd="50" flowctxid="" flowretid=""/>
+	<Fields>
+	<!-- 查询字段 -->
+		<Field id="quserName" desc="用户姓名" edittype="textbox" datatype="string"/>
+		<Field id="qmchtArtifId" desc="身份证号" edittype="textbox" datatype="string"/>
+		<Field id="qmchtSimpleName" desc="商户简称" datatype="string" edittype="textbox" align="center"/>
+		<Field id="qmchtId" desc="商户编号" datatype="string" edittype="textbox" align="center"/>
+	<!-- 主表单字段 -->
+		<Field id="mchtId" desc="商户编号" datatype="string" align="center" xpath="/mchtId" />    
+		<Field id="mchtSimpleName" desc="商户简称" datatype="string" align="center" xpath="/mchtSimpleName"/>
+		<Field id="userId" desc="店长用户号" datatype="string" align="center" xpath="/userId"/>
+		<Field id="phoneNo" desc="用户手机号" datatype="string" align="center" xpath="/phoneNo"/>    
+		<Field id="userName" desc="用户姓名" datatype="string" align="center" xpath="/userName"/>
+		<Field id="mchtArtifId" desc="身份证号码" datatype="string" align="center" xpath="/mchtArtifId"/>
+		<Field id="opr" desc="操作栏" datatype="string" align="center"/>
+	<!-- 补充字段 -->
+		<Field id="nickName" desc="昵称" datatype="string" align="center" xpath="/nickName" />
+	</Fields>
+	
+	<Commands>	 
+		<Command id="btnRtn" desc="返回" type="none" url="#" txn="" />
+	</Commands>	
+</Data>

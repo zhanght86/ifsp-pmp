@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="地区下拉" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.CityAllSelectAction:queryCityByCode1" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+	<!-- 查询字段 -->
+		<Field id="qCtName" desc="地区名称" edittype="textbox" datatype="string"/>
+		<Field id="qupCtCode" desc="上级地区码" edittype="textbox" datatype="string"/>
+		<Field id="qCtCode" desc="地区码" edittype="textbox" datatype="string"/>
+		<Field id="qctFlg" desc="标志" edittype="textbox" datatype="string" />
+	<!-- 主表单字段 -->  
+		<Field id="ctCode" desc="地区码" xpath="/ctCode"/>
+		<Field id="ctFlg" desc="标志" xpath="/ctFlg" />
+		<Field id="ctName" desc="地区名称" xpath="/ctName" />
+		<Field id="upCtCode" desc="上级地区码" xpath="/upCtCode" />
+	</Fields>
+</Data>

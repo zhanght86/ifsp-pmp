@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 数据源配置 -->
+<dataSourceConfs>
+	<!-- 服务器数据库-->
+	<dataSource ismonitor="false" default="true" desc="数据源" type="proxool" name="defaultDataSource">
+		<attr value="com.ruimin.ifs.rql.dialect.MysqlRqlDialect" key="rqlDialect" />
+		<attr value="com.mysql.jdbc.Driver" key="driver" />
+<!--
+		<attr value="jdbc:mysql://localhost:3306/qrsonldb2" key="driverUrl" />
+		<attr value="root" key="user" />
+		<attr value="root" key="password" />
+-->
+		<attr value="jdbc:mysql://11.12.14.20/qrsonldb" key="driverUrl" />
+		<attr value="qrsonldb" key="user" />
+		<attr value="admin1234" key="password" />
+		
+		<attr value="150" key="maximumConnectionCount" />
+		<attr value="5" key="minimumConnectionCount" />
+		<attr value="20" key="simultaneousBuildThrottle" />
+
+	</dataSource>
+	 
+	<!-- JNDI	
+
+	<dataSource name="defaultDataSource" type="jndi" desc="jndi数据源" default="true" ismonitor="false">
+		<attr key="rqlDialect" value="com.ruimin.ifs.rql.dialect.MysqlRqlDialect"></attr>
+		<attr key="jndiName"  value="java:/comp/env/jdbc/qrs"/>
+	</dataSource>
+	--> 
+	
+	
+</dataSourceConfs>

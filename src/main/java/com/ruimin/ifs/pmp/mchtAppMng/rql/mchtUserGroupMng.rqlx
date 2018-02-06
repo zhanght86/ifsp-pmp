@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息详细查询 -->		
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MchtUserGroupBaseInfo">
+		select a.* from MCHT_USER_GROUP_INFO a where 1=1
+		<if test = "qgroupId != ''"><![CDATA[and a.GROUP_ID like #{qgroupId} ]]></if>
+		<if test = "qmchtId != ''"><![CDATA[and a.MCHT_ID like #{qmchtId} ]]></if>
+		<if test = "qdeviceType != ''"><![CDATA[and a.DEVICE_TYPE = #{qdeviceType} ]]></if>
+		order by a.GROUP_ID
+	</select>
+
+	<select id="queryByGroupId" paramType="String" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.MchtUserGroupBaseInfo">
+		select * from MCHT_USER_GROUP_INFO where GROUP_ID = #{groupId}
+	</select>
+	
+</mapper>

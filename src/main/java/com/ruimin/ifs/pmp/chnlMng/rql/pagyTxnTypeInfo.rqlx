@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 接入支付通道交易类型查询 -->  
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyTxnTypeInfoVO">
+ 		select * from PAGY_TXN_TYPE_INFO where 1=1 
+ 		<if test= "qpayTxnTypeId != ''" ><![CDATA[ and trim(PAY_TXN_TYPE_ID)=#{qpayTxnTypeId} ]]></if>
+ 		<if test = "qpayTxnTypeName != ''"><![CDATA[and PAY_TXN_TYPE_NAME like #{qpayTxnTypeName} ]]></if>
+ 		<if test = "qpayTxnTypeDesc != ''"><![CDATA[and PAY_TXN_TYPE_DESC like #{qpayTxnTypeDesc} ]]></if>
+	    order by PAY_TXN_TYPE_ID desc
+	</select>
+	<select id="queryPayTxnTypeId" paramType="map" resultType="int">
+	    select count(*) from PAGY_TXN_TYPE_INFO where PAY_TXN_TYPE_ID=#{payTxnTypeId}
+	</select>
+	<!-- 查询最大序列号 -->
+	<select id="selectReqMax" paramType="map" resultType="string">
+ 		select PAY_TXN_TYPE_ID from PAGY_TXN_TYPE_INFO where  1=1
+	</select>
+	<update id="updateType" paramType="map">
+	    update PAGY_TXN_TYPE_INFO set PAY_TXN_TYPE_NAME = #{payTxnTypeName},  
+    			PAY_TXN_TYPE_DESC = #{payTxnTypeDesc},  
+    			CRT_TLR = #{crtTlr},  
+    			CRT_DATE_TIME = #{crtDateTime},  
+    			LAST_UPD_TLR = #{lastUpdTlr},  
+    			LAST_UPD_DATE_TIME = #{lastCrtDateTime}  
+    			where PAY_TXN_TYPE_ID= #{payTxnTypeId} 
+	</update>
+	<!-- 接入支付通道交易类型查询 -->  
+	<select id="getNameByTypeIds" paramType="map" resultType="string">
+ 		select PAY_TXN_TYPE_NAME from PAGY_TXN_TYPE_INFO where  1=1
+ 		
+ 		<if test = "pagyTxnTypeIdArray != ''"> and PAY_TXN_TYPE_ID in (#{pagyTxnTypeIdArray})</if>
+	    order by CRT_DATE_TIME desc
+	</select>
+	
+	
+	<!-- 接入支付交易类型查询，下拉选，渠道权限使用-->
+	<select id="queryTxnTpyeInfo" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyTxnTypeInfo">
+	select PAY_TXN_TYPE_ID,PAY_TXN_TYPE_NAME from PAGY_TXN_TYPE_INFO where 1=1 order by PAY_TXN_TYPE_ID
+	</select>	
+	<!-- 获取交易类型名字-->	
+	<select id="getPayTxnTypeIdName" paramType="map" resultType="string">
+	  select c.PAY_TXN_TYPE_NAME from PAGY_TXN_TYPE_INFO c  where c.PAY_TXN_TYPE_ID in (#{payTxnTypeIdArray})
+	</select>
+</mapper>

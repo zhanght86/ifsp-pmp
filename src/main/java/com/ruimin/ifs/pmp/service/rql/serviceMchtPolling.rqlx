@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 商户巡检信息查询 -->
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.service.process.bean.ServiceMchtPollingVo">
+		select 
+		pol.*,
+		org.BRNAME as BRNAME, 
+		basic.SERVICE_NAME as SERVICE_NAME
+		from 
+			SERVICE_MCHT_POLLING pol
+		left join
+			PBS_MCHT_BASE_INFO pbs
+		on
+			pol.MCHT_ID = pbs.MCHT_ID
+		left join 
+			IFS_ORG org
+		on
+			pbs.MCHT_ORG_ID = org.BRCODE
+		left join
+			SERVICE_BASIC_MESSAGE basic
+		on
+			pol.SERVICE_CODE = basic.SERVICE_CODE
+		where 1=1
+		  <if test = "qserviceName != '' "> and basic.SERVICE_NAME like #{qserviceName}</if>
+          <if test = "qmchtName != '' "> and pol.MCHT_NAME like #{qmchtName}</if>
+          <if test = "qtermId != '' "> and pol.TERM_ID like #{qtermId}</if>
+          <if test = "qpollingDate != '' "> and pol.POLLING_DATE = #{qpollingDate}</if>
+		order by pol.POLLING_DATE desc
+	</select>
+	<!-- 查询已有的所有商户巡检信息中的商户号和商户巡检日期-->
+	<select id = "selectAllServiceMchtPolling"  paramType="map"  resultType="com.ruimin.ifs.pmp.service.process.bean.ServiceMchtPollingVo" >
+		select MCHT_ID,POLLING_DATE from SERVICE_MCHT_POLLING 
+	</select>
+	
+	<!-- 获取巡检最大序号-->
+	<select id="getMaxServiceId" paramType="" resultType="string">
+		select max(SERVICE_ID) as SERVICE_ID from SERVICE_MCHT_POLLING
+	</select>
+	
+	<!-- 新增商户巡检基本信息 -->
+	<insert id="addServiceMchtPolling" paramType="com.ruimin.ifs.pmp.service.process.bean.ServiceMchtPollingVo">
+		insert into SERVICE_MCHT_POLLING
+		(SERVICE_ID,MCHT_ID,POLLING_DATE,SERVICE_CODE,CRT_TLR,CRT_DATE_TIME,TERM_ID,MANAGE_NAME,MANAGE_ADDR,EQUIPMENT_ID,
+		CONFIGURATION_CODE,KEYBOARD_CODE,VERSIONS_CODE,POLLING_RESULT,REMARK,MCHT_NAME,MCHT_AMR_NO,MCHT_PERSON_NAME,MCHT_PHONE)
+		values
+		(#{serviceId},#{mchtId},#{pollingDate},#{serviceCode},#{crtTlr},#{crtDateTime},#{termId},#{manageName},#{manageAddr},#{equipmentId},
+		#{configurationCode},#{keyboardCode},#{versionsCode},#{pollingResult},#{remark},#{mchtName},#{mchtAmrNo},#{mchtPersonName},#{mchtPhone})
+	</insert>
+	
+</mapper> 

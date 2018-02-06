@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="通道商户登记" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field desc="渠道名称" edittype="combogrid"
+		datasource="chl:com.ruimin.ifs.pmp.chnlMng.dataset.channelInfo" viewfield="chlId,chlName" 
+		init="true"  fieldmap="chlId=chlId;chlIdName=chlName" id="chlId" required="true" align="center" datatype="string" status="F" xpath="/chlId"/>
+		<Field id="chlName" desc="渠道名称" align="center" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction.getChlName" required="false" edittype="textbox" datatype="string" status="F" xpath="/chlId"/>
+		
+		<Field id="combogrId" desc="申请渠道" align="center" edittype="textbox" datatype="string" status="F" xpath="/chlId" />
+		
+		<Field id="aplType" desc="申请类型" datasource="DDIC:1827" edittype="combobox" align="center" required="true" datatype="string" status="F"  xpath="/aplType"/>
+		<Field id="mchtNo" desc="通道商户号" align="center" required="false" edittype="textbox" size="32" datatype="string" status="F"  xpath="/mchtNo" />
+		<Field id="mainMchtNo" desc="主商户编号"  align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mainMchtNo" />		
+		<Field id="payMchtNo" desc="渠道商户号" align="center" size="32" required="false" edittype="textbox" datatype="string" status="F"  xpath="/payMchtNo" />
+		<Field id="payMchtName" desc="渠道商户名" align="center" required="false" edittype="textbox"  datatype="string" status="F"  xpath="/payMchtName" />
+		<Field desc="申请通道" edittype="combogrid"
+		datasource="pagy:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo" viewfield="pagyNo,pagyName" 
+		init="true"  fieldmap="pagyNo=pagyNo;pagyNoName=pagyName" id="pagyNo" required="true" align="center" datatype="string" status="F" xpath="/pagyNo"/>
+		<Field id="pagyName" desc="申请通道" align="center" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction.getPagyName" required="false" edittype="textbox" datatype="string" status="F" xpath="/pagyNo"/>				
+		<Field id="mchtPublicNo" desc="商户公众号" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtPublicNo" />
+		<Field id="mchtName" desc="商户全名"  align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtName" />		
+		<Field id="mchtNameAbbr" desc="商户简称"  align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtNameAbbr" />
+		<Field id="mchtSerPhone" desc="客服电话" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtSerPhone" />
+		<Field id="mchtContact" desc="联系人" size="21" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtContact" />		
+		<Field id="mchtContactPhone" desc="联系电话" size="11" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtContactPhone" />
+		<Field id="mchtContactEmail" desc="联系邮箱" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtContactEmail" />
+		<Field desc="一级类目" edittype="combogrid"
+		datasource="cana:com.ruimin.ifs.pmp.chnlMng.dataset.pagyCategoryName" viewfield="categoryCode,categoryDesc" 
+		init="true"  fieldmap="mchtMccWx=categoryCode;mchtMccWxName=categoryDesc" id="mchtMccWx" required="false" align="center" datatype="string" status="F" xpath="/mchtMccCode"/>
+		<Field id="mchtMccWxNm" desc="一级类目" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtMccName" />
+		<Field desc="二级类目" edittype="combogrid"
+		datasource="cana:com.ruimin.ifs.pmp.chnlMng.dataset.pagyCategoryName" viewfield="categoryCode,categoryDesc" 
+		init="true"  fieldmap="mchtMccSubWx=categoryCode;mchtMccSubWxName=categoryDesc" id="mchtMccSubWx" required="false" align="center" datatype="string" status="F" xpath="/mchtMccSubCode"/>
+		<Field id="mchtMccSubWxNm" desc="二级类目" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtMccSubName" />
+		<Field desc="一级行业" edittype="combogrid"
+		datasource="cana:com.ruimin.ifs.pmp.chnlMng.dataset.pagyCategoryName" viewfield="categoryCode,categoryDesc" 
+		init="true"  fieldmap="mchtMccZfb=categoryCode;mchtMccZfbName=categoryDesc" id="mchtMccZfb" required="false" align="center" datatype="string" status="F" xpath="/mchtMccCode"/>
+		<Field id="mchtMccZfbNm" desc="一级行业" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtMccName" />
+		<Field desc="二级行业" edittype="combogrid"
+		datasource="cana:com.ruimin.ifs.pmp.chnlMng.dataset.pagyCategoryName" viewfield="categoryCode,categoryDesc" 
+		init="true"  fieldmap="mchtMccSubZfb=categoryCode;mchtMccSubZfbName=categoryDesc" id="mchtMccSubZfb" required="false" align="center" datatype="string" status="F" xpath="/mchtMccSubCode"/>
+		<Field id="mchtMccSubZfbNm" desc="二级行业" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtMccSubName" />
+		<Field desc="MCC组别" edittype="combogrid" width="600"
+		datasource="mchtGrp:com.ruimin.ifs.pmp.baseParaMng.dataset.mchtGrpMng" viewfield="mchtGrpNo,grpDesc" 
+		init="true"  fieldmap="mchtMccYl=mchtGrpNo;mchtMccYlName=grpDesc" id="mchtMccYl" required="false" align="center" datatype="string" status="F" xpath="/mchtMccCode"/>
+		<Field id="mchtMccYlNm" desc="MCC组别" align="center" required="false" edittype="textbox" datatype="string" status="F" width="600" xpath="/mchtMccName" />
+		<Field desc="MCC类型" edittype="combogrid" width="600"
+		datasource="mchtMcc:com.ruimin.ifs.pmp.baseParaMng.dataset.mchtMccMng" viewfield="mccId,mccDesc" 
+		init="true"  fieldmap="mchtMccSubYl=mccId;mchtMccSubYlName=mccDesc" id="mchtMccSubYl" required="false" align="center" datatype="string" status="F" xpath="/mchtMccSubCode"/>
+		<Field id="mchtMccSubYlNm" desc="MCC类型" align="center" required="false" edittype="textbox" datatype="string" status="F" width="600" xpath="/mchtMccSubName" />
+		<Field id="mchtMccCode" desc="商户行业编号" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtMccCode" />
+		<Field id="mchtMccName" desc="商户行业名称" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtMccName" />		
+		<Field id="mchtMccSubCode" desc="商户行业子编号" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtMccSubCode" />
+		<Field id="mchtMccSubName" desc="商户行业子名称" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchtMccSubName" />
+		<Field id="mchRamak" desc="商户备注"  colspan="4"  align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/mchRamak" />
+		<Field id="aplFailedRes" desc="失败原因" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/aplFailedRes" />
+		<Field id="aplCategoryCode" desc="申请用行业编码" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/aplCategoryCode" />
+		<Field id="aplDate" desc="申请日期" align="center" required="false" edittype="datebox" datatype="date" status="F"  xpath="/aplDate" />
+	    <Field id="aplStat" desc="申请状态" datasource="DDIC:1826" edittype="combobox" align="center" required="false" datatype="string" status="F"  xpath="/aplStat"/>
+		<Field id="zfbMchtNo" desc="支付宝商户号" colspan="4" align="center" required="false" edittype="textbox" datatype="string" status="F"/>
+		
+		<Field id="crtTlr" desc="创建柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDateTime" desc="最近更新日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdDateTime" />
+		<Field desc="操作" id="opr" status="N" />
+		
+	    <!-- 查询条件 -->
+	     <Field desc="渠道" edittype="combogrid"
+		datasource="chl:com.ruimin.ifs.pmp.chnlMng.dataset.channelInfo" viewfield="chlId,chlName" 
+		init="true"  fieldmap="qchlId=chlId;qchlIdName=chlName" id="qchlId" required="false"/>
+	    <Field id="qaplStat" desc="申请状态" datasource="DDIC:1826" edittype="combobox" datatype="string"/>
+	    <Field id="qpayMchtNo" desc="渠道商户号" edittype="textbox" datatype="string" />
+	    <Field id="qmchtName" desc="渠道商户名" edittype="textbox" datatype="string"/>
+	    <Field desc="登记通道" edittype="combogrid"
+		datasource="pagy:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo" viewfield="pagyNo,pagyName" 
+		init="true"  fieldmap="qpagyNo=pagyNo;qpagyNoName=pagyName" id="qpagyNo" align="center" datatype="string"/>
+	    <Field id="qmchtNo" desc="通道商户号" edittype="textbox" datatype="string" />
+	    
+	    <!-- 特殊 -->
+	    	<Field id="mchtAreaNo" desc="所属地区" datatype="string" xpath="/mchtAreaNo"/>
+	    	<Field id="ctName" desc="所属地区" datatype="string" xpath="/ctName"/>
+	    	<Field id="mchtArea" desc="所属地区" datatype="string" xpath="mchtArea"/>
+	    	<Field id="mchtAreaSel" desc="所属地区" align="center" edittype="combotree" 
+			datasource="CityTree:com.ruimin.ifs.mng.dataset.CityTree" status="F"
+			fieldmap="mchtAreaNo=_id;mchtAreaSel=_text"  viewfield="_text"/>
+			
+			<Field id="addressCode" desc="地区码" datatype="string" align="center"  edittype="combogrid"  
+	 		datasource="pagyMchtMng:com.ruimin.ifs.pmp.chnlMng.dataset.CityManagerPagy"  
+			viewfield="ctCode,ctName"  searchfield="qCtName"
+			init="true" multiple="false" default=""
+			fieldmap="addressCode=ctCode;ctNamePA=ctName" xpath="/addressCode"/>
+			<Field id="ctNamePA" desc="地区名称" datatype="string" />
+			<!-- 平安进件增加参数-->			
+			<Field id="weixinCategory" desc="微信支付方式" datatype="string" align="center"  edittype="combogrid"  
+	 		datasource="weixinberl:com.ruimin.ifs.pmp.chnlMng.dataset.weixinberl"  
+			viewfield="wxberlId,wxberlName"  searchfield="qwxberlId"
+			init="true" multiple="false" default=""
+			fieldmap="weixinCategory=wxberlId;wxberlNamePA=wxberlName" xpath="/weixinCategory"/>
+			
+			<Field id="wxberlNamePA" desc="微信支付方式名称" datatype="string" />
+			<Field id="aliCategory" desc="支付宝支付方式" datatype="string" edittype="combobox" datasource="DDIC:2012"  xpath="/aliCategory"/>
+			<Field id="weixinFee" desc="微信支付方式费率" datatype="string" xpath="/weixinFee"/>
+			<Field id="aliFee" desc="支付宝支付方式费率" datatype="string" xpath="/aliFee"/>
+			<Field id="address" desc="详细地址" datatype="string" xpath="/address"/>
+			<Field id="subAppid" desc="支付公众号" datatype="string" size="64" xpath="/subAppid"/>			
+			<Field id="wxJsapiPath" desc="授权目录" datatype="string" size="128" xpath="/wxJsapiPath"/>
+			<Field id="openId" desc="openId" datatype="string" size="128" xpath="/openId"/>
+			<Field id="openKey" desc="openKey" datatype="string" size="128" xpath="/openKey"/>
+			
+			<Field id="pagyRespMsg" desc="平安进件响应信息" datatype="string"  edittype="textarea" xpath="/pagyRespMsg"/>
+			
+			<Field id="tpamCttsStatusWx" desc="平安进件微信合同审核" datatype="string" datasource="DDIC:2013" edittype="combobox" xpath="/tpamCttsStatusWx"/>
+			<Field id="tpamCttsStatusApi" desc="平安进件支付宝合同审核" datatype="string" datasource="DDIC:2013" edittype="combobox" xpath="/tpamCttsStatusApi"/>
+			<Field id="tpamMchtStatus" desc="平安进件商户信息审核" datatype="string" datasource="DDIC:2013" edittype="combobox" xpath="/tpamMchtStatus"/>
+			<Field id="tpamStoreStatus" desc="平安进件门店信息审核" datatype="string" datasource="DDIC:2013" edittype="combobox" xpath="/tpamStoreStatus"/>
+			<Field id="tpamCttsStatus" desc="平安进件合同审核" datatype="string" datasource="DDIC:2013" edittype="combobox" xpath="/tpamCttsStatus"/>
+			
+			
+			<!-- 结算状态-->
+			<Field id="settlementMark" desc="结算标示" datatype="string" datasource="DDIC:2011" edittype="combobox" xpath="/settlementMark"/>
+
+			<Field id="subscribeAppid" desc="订阅公众号" datatype="string"  edittype="textbox" xpath="/mchtPublicNo"/>
+	
+	   <Field id="speBillType" desc="特殊计费类型" datasource="LIST:00,无;03,固定比例计费;" edittype="combobox" align="center"  datatype="string" status="F"  /> 	
+	   <Field id="speBillGrade" desc="特殊计费档次" datasource="LIST:0,无;" edittype="combobox" align="center" readonly="true" datatype="string" status="F" />   
+	<!-- 新增 证书 -->
+	<Field id="encryptType" desc="加密算法" edittype="combobox"   datatype="string" datasource="LIST:02,md5"  align="center"  xpath="/encryptType"/>		
+	<Field id="md5Passwd" desc="密钥值" datatype="string"  method="com.ruimin.ifs.pmp.pubTool.util.Base64Coder.decode" align="center"  xpath="/md5Passwd"/>
+	<Field id="mainMchtAcsType" desc="接入方式" datatype="string"  align="center"  xpath="/mainMchtAcsType"/>
+	
+	</Fields>
+	<Commands>
+		<Command id="btnMchtNo" desc="通道商户号录入" type="none" url="#" icon="fa fa-plus"></Command>	 
+	    <Command id="btnManApl" desc="手工申请" type="none" url="#" icon="fa fa-plus"></Command>	    
+	    <Command id="btnOnlineApl" desc="联机申请" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:queryMchtAreaNo" url="#" icon="fa fa-pencil"></Command>
+	    <Command id="btnSubmitManApl" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction:manApl" url="#" icon="fa fa-save"></Command>
+	    
+	    <Command id="btnSubmitOnlineApl" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction:onlineApl" url="#" icon="fa fa-save"></Command>
+	    <Command id="btnDetailApl" desc="详情查看" type="none" url="#" icon="fa fa-info"></Command>
+		<Command id="btnSubmitMchtNo" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction:mchtNo" url="#" icon="fa fa-save"></Command>
+	   
+	    <Command id="btnOnlinePA" desc="联机申请" type="none" url="#" icon="fa fa-pencil"></Command>
+	    <Command id="btnSubmitManPA" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction:manPA" url="#" icon="fa fa-save"></Command>
+	    
+   	    <Command id="btnOnlineStandard" desc="标准进件" type="none" url="#" icon="fa fa-pencil"></Command>
+	    <Command id="btnSubmitManStandard" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyMchtMngAction:manStandard" url="#" icon="fa fa-save"></Command>
+	    
+	</Commands>
+</Data>

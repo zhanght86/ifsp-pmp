@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 根据操作员编号，查询角色编号 -->		
+	<select id="getRoleIdByTlrno" paramType="map" resultType="int">
+
+	select role_Id from IFS_STAFF_ROLE_REL where TLRNO=#{tlrno}
+
+	</select>
+	
+<!-- 根据审核信息编号获取审核信息-->		
+	<select id="getAuditInfoByAduitId" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditInfo">
+	
+	select * from PMP_AUDIT_INFO where AUDIT_ID=#{auditId}
+	
+	</select>
+	
+<!-- 根据审核信息编号和角色编号查询审核流程步骤表，得到审核步骤 -->		
+	<select id="getAuditStepInfo" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditStepInfo">
+	
+	select * from PMP_AUDIT_STEP_INFO where AUDIT_ID=#{auditId} and ROLE_ID=#{roleId}
+	
+	</select>
+	
+	
+<!-- 根据审核流程编号和步骤，查询下一审核步骤 	-->
+	<select id="getNextStep" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditStepInfo">
+	
+	select * from PMP_AUDIT_STEP_INFO where AUDIT_ID=#{auditId} and STEP_NO=#{stepNo}
+	
+	</select>	
+		
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.txnQuery.comp.BatchJobRecordAction:queryAll" 
+			desc="批量任务重跑" expmaxrcd="50" flowctxid="" flowretid="" />
+	 <Fields>
+	    <!-- 表格页面的字段 -->
+	    <Field id="jobId"           desc="批量任务Id" 	align="center" width="270" edittype="textbox" datatype="string" required="false" xpath="/jobId" />
+	    <Field id="settleDate"      desc="清算日期" datatype="string"  align="center" xpath="/settleDate" />
+        <Field id="batchNo"         desc="批次号" 	align="center" width="270" edittype="textbox" datatype="string" required="false" xpath="/batchNo" />
+        <Field id="jobDesc"         desc="批量任务描述" datatype="string"  align="center" xpath="/jobDesc" />
+        <Field id="jobStat"         desc="执行状态" align="center" datatype="string" edittype="combobox" datasource="DDIC:2006" status="F" xpath="/jobStat" />
+        <Field id="batchModel"      desc="批量启动模式" align="center" datatype="string" edittype="combobox" datasource="DDIC:2007" status="F" xpath="/batchModel" />
+        <Field id="jobResultCode"   desc="批量结果码" datatype="string"  align="center" xpath="/jobResultCode" />
+        <Field id="jobResult"       desc="批量结果" datatype="string"  align="center" xpath="/jobResult" />
+        <Field id="jobSpend"        desc="耗时" datatype="string"  align="center" xpath="/jobSpend" />
+        <Field id="serverIp"        desc="服务器IP" datatype="string"  align="center" xpath="/serverIp" />
+        <Field id="serverName"      desc="服务器名称" datatype="string"  align="center" xpath="/serverName" />
+        <Field id="logTraceId"      desc="下次启动时间" datatype="timestamp" edittype="datetimebox"  align="center" xpath="/logTraceId" />
+        <!--  <Field id="logTraceId"      desc="预留" datatype="timestamp"  edittype="datetimebox" xpath="/logTraceId" /> -->
+        <Field id="crtTlr"          desc="创建员" status="F" edittype="textbox" datatype="string" xpath="/crtTlr" />
+        <Field id="crtDateTime"     desc="创建日期时间" datatype="timestamp" edittype="datetimebox"  align="center" xpath="/crtDateTime" />
+        <Field id="lastUpdTlr"      desc="最近操作柜员" status="F" edittype="textbox" datatype="string" xpath="/lastUpdTlr" />
+        <Field id="lastUpdDateTime" desc="最后更新日期时间" datatype="timestamp"  align="center" xpath="/lastUpdDateTime" />
+        
+        <Field id="opr" desc="操作"  edittype="textbox"   datatype="string"  status="F" default="" xpath="/" />
+        
+        <!-- 查询条件 -->
+        <Field id="qjobId" desc="批量任务Id" edittype="textbox" datatype="string"/>      
+        <Field id="qsettleDate" desc="清算日期" edittype="datebox" datatype="date" xpath="" status="F" default="" />
+        <Field id="qjobStat" desc="执行状态" datatype="string" datasource="DDIC:2006" edittype="combobox" align="center"/>
+
+        
+	</Fields> 
+	
+	<Commands>
+	</Commands>
+</Data>

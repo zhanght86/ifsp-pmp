@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+   <Define desc="营销活动红包信息查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActiveRedBagInfoAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+   <Fields>
+      <Field id="activeNo" desc="活动号" edittype="textbox"  datatype="string" size="32" xpath="/activeNo" />
+      <Field id="redbagSeqNo" desc="序列号(红包档次)" edittype="textbox"  datatype="string" size="4" xpath="/redbagSeqNo" />
+      <Field id="redbagAmt" desc="立减红包(元)" edittype="textbox" method="com.ruimin.ifs.util.SysCQMethod.fenToYuan"  datatype="string" size="32" xpath="/redbagAmt" />
+      <Field id="redbagCount" desc="数量(个)" edittype="textbox"  datatype="string" size="10" xpath="/redbagCount" />
+      <Field id="redbagConsume" desc="小计(元)" edittype="textbox" method="com.ruimin.ifs.util.SysCQMethod.fenToYuan"  datatype="string" size="32" xpath="/redbagConsume" />
+      <Field id="sumConSume" desc="合计(元)" readonly="true" edittype="textbox" datatype="string" size="32" xpath="/sumConSume" />
+      <Field id="sumCount" desc="合计(个)" readonly="true" edittype="textbox" datatype="int" size="32" xpath="/sumCount" />
+      <Field id="misc1" desc="" edittype="textbox"  datatype="string" size="125" xpath="/misc1" />
+      <Field id="misc2" desc="" edittype="textbox"  datatype="string" size="125" xpath="/misc2" />
+      <Field id="misc3" desc="" edittype="textbox"  datatype="string" size="125" xpath="/misc3" />
+      <Field id="misc4" desc="" edittype="textbox"  datatype="string" size="125" xpath="/misc4" />
+      <Field id="updateTime" desc="更新时间" edittype="textbox"  datatype="string" size="14" xpath="/updateTime" />
+      <Field id="dataState" desc="数据有效状态" edittype="textbox"  datatype="string" size="1" xpath="/dataState" />
+      <Field id="syncFlag" desc="数据同步状态" edittype="textbox"  datatype="string" size="1" xpath="/syncFlag" />
+   </Fields>
+   <Commands>
+      <Command id="btnAddSection01" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+	  <Command id="btnDeleteSection01"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+   </Commands>
+</Data>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<select paramType="" id="findMaxRelNo" resultType="string">
+		SELECT 	MAX(REL_NO) 
+		FROM 	PMP_REL_BANK_PASS_BANK
+	</select>
+
+	<delete paramType="map" id="deleteByBankNo">
+		DELETE 	FROM PMP_REL_BANK_PASS_BANK
+		WHERE 	PROD_BANK_NO = #{bankNo}
+	</delete>
+
+	<select paramType="map" id="findByBankNo"
+		resultType="com.ruimin.ifs.pmp.sysConf.process.bean.PmpRelBankPassBankSubVO">
+
+		SELECT 	prb.* ,
+			(	SELECT 	BANK_NAME 
+				FROM 	CHL_PASS_BANK_INFO PAD  
+				WHERE 	PAD.PASS_NO = PRB.PASS_NO 
+				AND  	PAD.BANK_NO= PRB.PASS_BANK_NO
+			) 	BANK_NAME
+		FROM 	PMP_REL_BANK_PASS_BANK  PRB
+		WHERE 	DATA_STATE = '00'
+		AND 	PROD_BANK_NO=#{bankNo}
+		ORDER BY 	CRT_DATE_TIME DESC
+	</select>
+
+	<select paramType="map" id="findPassInfoByPassName"
+		resultType="com.ruimin.ifs.pmp.sysConf.process.bean.PassInfoVO">
+		SELECT 	* 
+		FROM 	CHL_PASS_BASE_INFO 
+		WHERE	PASS_STAT = '00' 	
+		AND		PASS_NAME LIKE #{passName}
+		ORDER BY 	CRT_DATE_TIME DESC
+	</select>
+	
+	<select paramType="map" id="findPassBank" 
+		resultType="com.ruimin.ifs.pmp.sysConf.process.bean.PassBankVO">
+		SELECT 	* 
+		FROM 	CHL_PASS_BANK_INFO 
+		WHERE 	DATA_STATE = '00' 
+		AND 	PASS_NO = #{passNo} 
+		AND 	BANK_NAME LIKE #{bankName} 
+		ORDER BY 	CRT_DATE_TIME DESC
+	</select>
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<select paramType="" id="findMaxBankNo" resultType="string">
+		SELECT MAX(BANK_NO) FROM PAY_BANK_BASE_INFO
+	</select>
+	
+	<!-- 查询银行信息 -->
+	<select paramType="map" id="queryBank" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.PayBankBaseInfo">
+		SELECT * FROM PAY_BANK_BASE_INFO WHERE 1=1 
+		<if test="bankNo !='' "> and trim(BANK_NO) = #{bankNo} </if>
+		<if test="bankName !='' "> and trim(BANK_NAME) like #{bankName} </if>
+		<if test="dataState !='' "> and trim(DATA_STATE) = #{dataState} </if>
+		<if test="selfOtherFlag !='' "> and trim(SELF_OTHER_FLAG) = #{selfOtherFlag} </if>		
+		ORDER BY CRT_DATE_TIME DESC
+	</select>
+	
+	<update paramType="map" id="updateState">
+		UPDATE 	PAY_BANK_BASE_INFO 
+		SET 	DATA_STATE = #{dataState},
+				LAST_UPD_TLR = #{lastUpdTlr},
+				LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		WHERE 	BANK_NO = #{bankNo}
+	</update>
+	
+	<update id="updPmpBankInfo" paramType="com.ruimin.ifs.pmp.sysConf.process.bean.PayBankBaseInfo" >
+		update 	PAY_BANK_BASE_INFO
+		set		BANK_NAME = #{bankName},
+				SHOW_SER = #{showSer},
+				SELF_OTHER_FLAG = #{selfOtherFlag},
+				PIC_ID = #{picId},
+				LAST_UPD_TLR = #{lastUpdTlr},
+				LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where   BANK_NO = #{bankNo}
+	
+	</update>
+	
+	<!-- 判断显示顺序是否重复 -->
+	<select id = "judgeShowSerExit" paramType="map" resultType="int">
+		select 	count(*) 
+		from 	(select * from PAY_BANK_BASE_INFO where BANK_NO != #{bankNo}) 
+		where 	SHOW_SER = #{showSer}
+		
+	</select>
+</mapper>

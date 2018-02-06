@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.example.comp.DemoAction:listAll" desc="表单项" expmaxrcd="50" flowctxid="" flowretid="" />
+
+	<Fields>
+		<Field id="id" desc="员工编号" edittype="textbox" xpath="" status="F" default="" />
+		<Field id="pid" desc="部门编号" edittype="textbox" xpath="" status="F" default="" />
+		<Field id="managerId" desc="经理编号" edittype="textbox" xpath="" status="F" default="" />
+		<Field id="name" desc="姓名" edittype="textbox" xpath="" status="F" default="" />
+		<Field id="sex" desc="性别" xpath="" edittype="radioboxs" datasource="LIST:male,男;female,女;" size="2" />
+		<Field id="age" desc="年龄" edittype="textbox" datatype="int" xpath="" status="F" />
+		<Field id="salary" desc="薪酬" edittype="textbox" datatype="double" xpath="" size="10" scale="2" status="F" />
+		<Field id="birthday" desc="出生日期" edittype="datebox" datatype="date" xpath="" status="F" />
+		<Field id="workStartTime" desc="工作开始时间" edittype="datetimebox" datatype="timestamp" xpath="" status="F" />
+		<Field id="workEndTime" desc="工作结束时间" edittype="datetimebox" datatype="timestamp" xpath="" status="F" />
+	</Fields>
+
+	<Commands>
+		<Command id="btn1" desc="保存" icon="fa fa-save" type="syncsubmit" url="#" txn="" />
+		<Command id="btn2" desc="新增" icon="fa fa-plus" type="addrecord" url="#" txn="" />
+		<Command id="btn3" desc="删除" icon="fa fa-remove" type="delrecord" url="#" txn="" />
+	</Commands>
+</Data>

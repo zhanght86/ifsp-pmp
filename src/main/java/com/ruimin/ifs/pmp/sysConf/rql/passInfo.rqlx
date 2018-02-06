@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询出所有通道状态正常的通道编号和通道名称 -->
+	<select id="queryPassNoName" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.PassInfoVO">
+		select PASS_NO,PASS_NAME from CHL_PASS_BASE_INFO where PASS_STAT = '00'
+	</select>
+	
+</mapper>

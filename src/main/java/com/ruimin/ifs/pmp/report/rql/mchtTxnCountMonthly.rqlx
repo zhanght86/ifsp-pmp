@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的商户交易统计月报信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthMchtTxnCntMonthlyVO">
+		select
+			txn.STLE_MONTH,
+			txn.CHL_MER_ID,
+			txn.TXN_COUNT,
+			txn.TXN_AMT as TXN_AMT,
+			txn.REFUND_TXN_COUNT,
+			txn.REFUND_TXN_AMT as REFUND_TXN_AMT,
+			txn.SETL_FEE_AMT as SETL_FEE_AMT,
+			case txn.TXN_AMT_COMPARATIVE
+				when '/' then '/' 
+				else concat(txn.TXN_AMT_COMPARATIVE,'%') 
+				end as TXN_AMT_COMPARATIVE,
+			DATE_FORMAT(txn.STLM_DATE_TIME,'%Y-%m-%d %H:%i:%s') as STLM_DATE_TIME,
+			mcht.MCHT_TYPE,
+			mcht.MCHT_SIMPLE_NAME as CHL_MER_NAME,
+			org.brname,
+			org.brno as brcode
+		from BTH_TXN_MON_STAT_ANY_FILE txn 
+			LEFT JOIN pbs_mcht_base_info mcht ON txn.CHL_MER_ID = mcht.MCHT_ID  
+			left join ifs_org org on mcht.MCHT_ORG_ID = org.brcode
+		WHERE
+			mcht.MCHT_ORG_ID in(select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{qMchtOrg})))
+			<if test = "qStleMonthStart != '' "> and txn.STLE_MONTH &gt;= #{qStleMonthStart}</if>
+			<if test = "qStleMonthEnd != '' "> and txn.STLE_MONTH &lt;= #{qStleMonthEnd}</if>
+			<if test = "qMchtInfo != '' "> and (mcht.MCHT_ID like #{qMchtInfo} or mcht.MCHT_SIMPLE_NAME like #{qMchtInfo})</if>
+			order by txn.STLE_MONTH desc,brcode desc,txn.CHL_MER_ID desc
+	</select>
+</mapper>

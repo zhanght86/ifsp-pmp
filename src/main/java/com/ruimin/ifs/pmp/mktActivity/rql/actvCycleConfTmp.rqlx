@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 活动周期配置信息临时表数据查询 -->
+	<select id="queryList" paramType="string" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveCycleConfTmpVO">
+		select 
+			trim(ACTIVE_NO) as ACTIVE_NO,
+			trim(DATE_SEQ) as DATE_SEQ,
+			trim(DATE_TP) as DATE_TP ,
+			trim(DATE_DATA) as DATE_DATA
+		from
+			TBL_ACTIVE_CYCLE_CONF_TMP
+		where 
+			ACTIVE_NO=#{methodNo}
+			and DATA_STATE='1'
+			order by date_seq asc
+	</select>
+	
+	<!-- 根据活动编号获取周期信息最大序号-->
+	<select id="getMaxSeq" paramType="string" resultType="string">
+		select trim(max(DATE_SEQ)) from TBL_ACTIVE_CYCLE_CONF_TMP where trim(ACTIVE_NO)=#{activeNo}
+	</select>
+	<!-- 删除单条分组信息-->
+	<update id="deleteCycle" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveCycleConfTmpVO" >
+		update
+			TBL_ACTIVE_CYCLE_CONF_TMP
+		set
+			DATE_TP=#{dateTp},
+			DATE_DATA=#{dateData},
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			SYNC_FLAG=#{syncFlag},
+			DATA_STATE=#{dataState}
+		where
+			ACTIVE_NO=#{activeNo}
+			and DATE_SEQ=#{dateSeq}
+	</update>
+	<!-- 更新单条分组信息-->
+	<update id="updateCycle" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveCycleConfTmpVO" >
+		update
+			TBL_ACTIVE_CYCLE_CONF_TMP
+		set
+			DATE_TP=#{dateTp},
+			DATE_DATA=#{dateData},
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			SYNC_FLAG=#{syncFlag}
+		where
+			ACTIVE_NO=#{activeNo}
+			and DATE_SEQ=#{dateSeq}
+	</update>
+	<!-- 根据活动编号删除分组信息-->
+	<update id="deleteCycleByActiveNo" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveCycleConfTmpVO" >
+		update
+			TBL_ACTIVE_CYCLE_CONF_TMP
+		set
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			SYNC_FLAG=#{syncFlag},
+			DATA_STATE=#{dataState}
+		where
+			ACTIVE_NO=#{activeNo}
+	</update>
+</mapper> 

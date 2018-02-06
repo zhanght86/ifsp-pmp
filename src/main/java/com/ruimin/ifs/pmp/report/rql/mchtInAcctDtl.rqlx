@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的商户入账明细信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthMchtInAcctDtlVO">
+		select  
+			dtl.STLM_DATE,
+			dtl.IN_ACCT_DATE,
+			TIME_FORMAT(dtl.TXN_TIME,'%H:%i:%s') as TNX_TIME,
+			dtl.TXN_AMT,
+			dtl.SETL_FEE_AMT,
+			dtl.TXN_SEQ_ID,
+			dtl.TXN_TYPE
+ 		from 
+			bth_mer_in_acc_dtl dtl,pagy_sub_mcht_info pagy
+		WHERE
+			 dtl.IN_ACCT_MER_ID =#{qMchtId}
+			and dtl.IN_ACCT_DATE =#{qInAcctDate}
+			and dtl.AMT_FLAG =#{qAmtFlg}	
+			and	pagy.PAY_MCHT_NO=dtl.CHL_MER_ID 
+			and pagy.PAGY_NO=dtl.PAGY_NO
+			and dtl.PAGY_NO ='311'
+			and pagy.SETTLEMENT_MARK='00'	
+UNION 
+		select  
+			dtl.STLM_DATE,
+			dtl.IN_ACCT_DATE,
+			TIME_FORMAT(dtl.TXN_TIME,'%H:%i:%s') as TNX_TIME,
+			dtl.TXN_AMT,
+			dtl.SETL_FEE_AMT,
+			dtl.TXN_SEQ_ID,
+			dtl.TXN_TYPE
+ 		from 
+			bth_mer_in_acc_dtl dtl
+		WHERE
+			 dtl.IN_ACCT_MER_ID =#{qMchtId}
+			and dtl.IN_ACCT_DATE =#{qInAcctDate}
+			and dtl.AMT_FLAG =#{qAmtFlg}	
+			and dtl.PAGY_NO !='311'
+	</select>
+</mapper>

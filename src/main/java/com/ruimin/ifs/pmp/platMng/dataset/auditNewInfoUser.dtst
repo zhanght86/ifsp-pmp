@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.platMng.comp.AuditNewInfoAction:queryByOnlyCheck" 
+			desc="审核消息" expmaxrcd="50"  /> 
+	 <Fields>
+	     <!-- 表格页面的字段 -->
+        <Field id="auditId"  desc="审核信息编号" 	 align="center" edittype="textbox" datatype="string" required="false" xpath="/auditId" />
+        <Field id="auditType" desc="审核业务类型" align="center" datatype="string" edittype="combobox" datasource="DDIC:1833" status="F"    xpath="/auditType" />
+        <Field id="auditProcId" desc="审核流程编号" required="false" datatype="string" align="center" xpath="/auditProcId" />
+        <Field id="applyDateTime" desc="申请时间" datatype="timestamp" edittype="datetimebox"  align="center" xpath="/applyDateTime" />  
+        <Field id="applyTlrNo" desc="申请人" datatype="string"  align="center" xpath="/applyTlrNo" />
+        <Field id="applyBrNo" desc="申请机构编号" datatype="string"  align="center" xpath="/applyBrNo" />
+        <Field id="auditUrl" desc="审核信息路径" datatype="string"  align="center" xpath="/auditUrl" />
+        <Field id="auditDesc" desc="审核信息描述" datatype="string"  align="center" xpath="/auditDesc" />
+        <Field id="auditState" desc="审核状态" datatype="string" edittype="combobox" datasource="DDIC:1834" align="center" xpath="/auditState" />
+        <Field id="crtDateTime" desc="创建日期时间" datatype="timestamp" edittype="datetimebox"  align="center" xpath="/crtDateTime" />
+        <Field id="lastUpdDateTime" desc="最后更新日期时间" datatype="string"  align="center" xpath="/lastUpdDateTime" />
+        
+        <Field id="opr" desc="操作" status="F" edittype="textbox" datatype="string" xpath="/auditState" />
+       
+        
+        <Field id="flag" 	 align="center"  datatype="string" required="false" xpath="/flag" />
+        <!-- 查询条件 -->
+        <Field id="qapplyDateTime" desc="申请日期"  edittype="datebox" datatype="date" align="center"  />
+        <Field id="qapplyTlrNo" desc="申请人"  datatype="string" align="center" status="F" />
+        <Field id="qauditType" desc="审核业务类型" datatype="string" edittype="combobox" datasource="DDIC:1833"  align="center"  />
+        <Field id="qauditState" desc="审核状态" datatype="string"  edittype="combobox" datasource="DDIC:1834" align="center"  />
+        
+	</Fields> 
+	
+	
+</Data>

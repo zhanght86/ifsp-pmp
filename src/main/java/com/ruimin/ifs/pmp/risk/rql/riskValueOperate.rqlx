@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询风控配置 -->
+	<select id="queryAll" paramType="map"
+		resultType="com.ruimin.ifs.pmp.risk.process.bean.RiskValueOperateMapping">
+		select
+		oper.VALUE_ID,
+		max(case oper.RISK_LEVEL when '1' then oper.RISK_OPERATE end) as param1,
+		max(case oper.RISK_LEVEL when '2' then oper.RISK_OPERATE end) as param2,
+		max(case oper.RISK_LEVEL when '3' then oper.RISK_OPERATE end) as param3,
+		max(model.value) as value 
+		from
+		RISK_VALUE_OPERATE oper
+		left join
+		(select value,VALUE_ID from RISK_MODEL_VALUES where RISK_MODEL_ID =
+		#{riskModelId}) model
+		on
+		oper.VALUE_ID = model.VALUE_ID
+		where
+		oper.RISK_ID = #{riskId}
+		group by
+		RISK_ID,oper.VALUE_ID
+		order by
+		oper. VALUE_ID
+
+	</select>
+<!-- 单独查询阀值 -->
+	<select  id ="queryValue" paramType="map" resultType="com.ruimin.ifs.pmp.risk.process.bean.RiskValueOperateMapping">
+		select VALUE_ID,VALUE from  RISK_MODEL_VALUES where RISK_MODEL_ID = #{riskModelId} and VALUE_ID = #{valueId}
+	</select>
+
+</mapper>

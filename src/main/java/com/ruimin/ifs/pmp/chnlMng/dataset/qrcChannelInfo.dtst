@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="渠道基本信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcChannelAuthorityInfoAction:queryChannelInfo" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="chlId" desc="渠道编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/chlId"/>
+		<Field id="chlName" desc="渠道名称" align="center" required="true" edittype="textbox" datatype="string"  status="F"  xpath="/chlName" />
+	</Fields>
+</Data>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 活动红包配置信息临时表数据查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.RebBagConfVO">
+		SELECT
+			TRIM(tr.ACTIVE_NO) AS ACTIVE_NO,
+			TRIM(tr.REDBAG_SEQ_NO) AS REDBAG_SEQ_NO,
+			TRIM(tr.REDBAG_AMT) AS REDBAG_AMT,
+			TRIM(tr.REDBAG_COUNT) AS REDBAG_COUNT,
+			TRIM(tr.REDBAG_CONSUME) AS REDBAG_CONSUME,
+			FORMAT((SELECT SUM(REDBAG_CONSUME) FROM tbl_active_redbag_conf_tmp WHERE ACTIVE_NO =#{activeNo})/100,2) AS SUM_CON_SUME,
+			(SELECT SUM(REDBAG_COUNT)FROM tbl_active_redbag_conf_tmp WHERE ACTIVE_NO =#{activeNo}) AS SUM_COUNT
+		FROM
+			tbl_active_redbag_conf_tmp tr
+		WHERE
+			tr.ACTIVE_NO =#{activeNo}
+		AND tr.DATA_STATE = '1'
+	</select>
+	<!-- 根据活动方法编号获取红包配置信息最大序号-->
+	<select id="getMaxSeq" paramType="string" resultType="string">
+		select trim(max(REDBAG_SEQ_NO)) from tbl_active_redbag_conf_tmp where trim(ACTIVE_NO)=#{activeNo}
+	</select>
+	<!-- 删除单条分组信息-->
+	<update id="deleteRedConf" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.TblActiveRedbagConfTmp" >
+		update 
+			tbl_active_redbag_conf_tmp
+		set
+			DATA_STATE=#{dataState},
+			SYNC_FLAG=#{syncFlag},
+			UPDATE_TIME=#{updateTime}
+		where
+			trim(ACTIVE_NO)=#{activeNo}
+			and trim(REDBAG_SEQ_NO) =#{redbagSeqNo}
+	</update>
+	<!-- 更新单条分组信息-->
+	<update id="updateRedConf" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.TblActiveRedbagConfTmp" >
+		update 
+			tbl_active_redbag_conf_tmp
+		set
+			REDBAG_AMT=#{redbagAmt},
+			REDBAG_COUNT=#{redbagCount},
+			REDBAG_CONSUME=#{redbagConsume},
+			DATA_STATE=#{dataState},
+			SYNC_FLAG=#{syncFlag},
+			UPDATE_TIME=#{updateTime}
+		where
+			trim(ACTIVE_NO)=#{activeNo}
+			and trim(REDBAG_SEQ_NO) =#{redbagSeqNo}
+	</update>
+</mapper> 

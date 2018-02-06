@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<params>
+	<!-- 系统参数调整 -->
+	<sysparams>
+	    <!-- 值为DEBUG，表示throwWarnException类异常，只在系统日志级别为TRACE、DEBUG才会输出异常堆栈，其他级别输出WARN -->
+	    <param key="exceptionWarn" value="DEBUG" desc="异常类型为Warn日志输出级别，默认为DEBUG"></param>
+	     <!-- 值为ERROR，表示throwErroException类异常，会在系统日志级别为TRACE、DEBUG、INFO、WARN、ERROR输出异常堆栈，其他级别输出WARN -->
+	    <param key="exceptionError" value="ERROR" desc="异常类型为Erro日志输出级别，默认为ERROR"></param>
+	</sysparams>
+	
+	<!-- 业务自定义参数 -->
+	<bizparams>
+	    <!-- 图片上传  -->
+		<param key="uploadPicTmpDir" value="/uploadTmp" desc="图片上传临时目录"></param> 
+		<param key="mchtPicPath" value="/upload/mchtImg" desc="图片存放目录"></param> 
+		
+		<!-- 交易参数  -->
+		<param key="outTime" value="20" desc="超时时间(秒)"></param> 
+		<param key="61ServerUrl" value="http://10.20.155.3:8081/ifsMerServer/HttpChannelServlet" desc="61渠道(商户服务)报文接收地址"></param> 
+		
+		<!-- 商户服务返回码转义 -->
+	</bizparams>
+</params>

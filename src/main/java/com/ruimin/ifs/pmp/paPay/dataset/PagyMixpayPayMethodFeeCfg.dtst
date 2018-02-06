@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.paPay.comp.PAPayMethodFeeCfgAction:queryMain" 
+			desc="平安支付费率" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>	
+		<Field id="pmtId" desc="支付方式编号" datatype="string" size="10" align="center" xpath="/pmtId"/>
+		<Field id="pmtTag" desc="支付标签" datatype="string"  align="center" size="10" xpath="/pmtTag"/>
+        <Field id="usedTag" desc="使用状态" edittype="combobox" datatype="string" 
+			datasource="LIST:1,启用;2,停用" align="center" xpath="/usedTag" />
+		<Field id="pmtOptHide" desc="添加合同时需要隐藏的选项" datatype="string"  align="center" size="20" xpath="/pmtOptHide"/>
+ 	    <Field id="pmtDiscountFee" desc="开启智能扣率" edittype="combobox" datatype="string" 
+			datasource="LIST:1,是;0,否" align="center" xpath="/pmtDiscountFee" />
+		<Field id="pmfId" desc="行业会类编号" datatype="string"  align="center" size="9" xpath="/pmfId"/>
+ 	    <Field id="pmfName" desc="行业分类名称" datatype="string"  align="center" size="20" xpath="/pmfName"/>
+		<Field id="pmfMinFee" desc="商户扣率最小值" datatype="string"  align="center" size="12" xpath="/pmfMinFee"/>
+		<Field id="pmfMaxFee" desc="商户扣率最大值" datatype="string"  align="center" size="12" xpath="/pmfMaxFee"/>
+		<Field id="pmfLimit" desc="商户手续费封顶值" datatype="string"  align="center" size="12" xpath="/pmfLimit"/>
+		<Field id="opmFee" desc="机构的分佣扣率扣率" datatype="string"  align="center" size="12" xpath="/opmFee"/>
+		 <Field id="opmFeeType" desc="机构的分佣扣率类型" edittype="combobox" datatype="string" 
+			datasource="LIST:1,按签约扣率;2,按首单收益" align="center" xpath="/opmFeeType" />
+		<Field id="opr" desc="操作" align="center" edittype="textbox" datatype="string" xpath="" />
+		
+		<!-- 查询条件 -->
+		<!-- <Field id="qPmtId" desc="支付方式编号" datatype="string"  size="10" /> -->
+		
+		<Field id="qPmtId" desc="支付方式名称"  
+        multiple="false" align="center" init="true"   
+         datasource="PagyMixpayPayMethodInfo:com.ruimin.ifs.pmp.paPay.dataset.PagyMixpayPayMethodInfo"  
+			edittype="combogrid" fieldmap="qPmtId=pmtId;qPmtIdName=pmtName" 
+			searchfield="qPmtTag,qPmtName" viewfield="pmtId,pmtTag,pmtName" 
+			xpath=""/>
+	<!-- /qPmtId -->
+		<Field id="qPmfId" desc="行业会类编号" datatype="string"  size="9"/>
+	</Fields> 
+	
+	<Commands>	
+	 <Command id="btnQuy" desc="支付费率查询" type="none" url="#" txn="" icon="fa fa-wrench" tip="支付费率查询"/>
+	<Command id="btnQuySub" desc="支付费率查询" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.paPay.comp.PAPayMethodFeeCfgAction:queryPayCfg"  url="" txn="" icon="fa fa-wrench" />
+	<Command id="btnUpdState"   desc="启用/停用" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.paPay.comp.PAPayMethodFeeCfgAction:updState" url="#" txn="" />
+	</Commands>
+	
+</Data>

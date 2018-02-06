@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		
+	<!-- 查询产品信息表-->
+	<select id="queryPbsProdInfo" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.MchtInfoVO">
+		 select a.*,(select count(*) 
+					           FROM PBS_MCHT_BASE_INFO s where MCHT_ID in(select MCHT_ID from 
+					           PBS_MCHT_CONTRACT_INFO where CON_ID in(select CON_ID from PBS_MCHT_REL_CONTRACT_PROD
+					           where trim(PROD_ID) = a.prod_id ))  )SIGNED_NUM
+		from PBS_PROD_INFO a 
+		where 1=1
+		<if test = "qprodId != '' "> and PROD_ID like #{qprodId}</if>
+		<if test = "qprodName != '' "> and PROD_NAME like #{qprodName}</if>
+		<if test = "qprodState != '' "> and PROD_STATE like #{qprodState}</if>
+		order by CRT_DATE_TIME DESC
+	</select>
+	
+	<!-- 接入方式下关联的有效交易查询-->
+	<select id="queryPbsProdRelTxn" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdRelTxnTypeVO">
+		select * from PBS_PROD_REL_TXN_TYPE 
+	</select>
+	
+	
+	<!-- 查询当前产品编号最大值-->
+	<select id="queryMaxPbsProdNo" paramType="map" resultType="String">
+     select max(PROD_ID)PROD_ID from PBS_PROD_INFO 
+     where 1=1
+	</select>
+	
+		<!-- 查询当前产品是否有商户使用-->
+	<select id="queryMcht" paramType="map" resultType="String">
+     select PROD_ID from PBS_MCHT_REL_CONTRACT_PROD 
+     where 1=1
+     <if test = "prodId != '' "> and PROD_ID = #{prodId}</if>
+	</select>
+	
+	<select id="querySelect" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AccessTypeInfo">
+	 select ACCESS_TYPE_CODE,ACCESS_TYPE_NAME from PBS_ACCESS_TYPE_INFO where  DATA_STATE='00' order by ACCESS_TYPE_CODE
+	</select>
+	
+	<!-- 查询已有的配置产品信息-->
+	<select id="queryConfPbsProdInfo" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfo">
+	 select txn_Type_Code from PBS_PROD_REL_TXN_TYPE where PROD_ID=#{qprodId}
+	</select>
+	
+	<!-- 产品重复性验证-->
+	<select id="check" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+	  select a.* from PBS_PROD_INFO a left join PBS_PROD_REL_TXN_TYPE b on a.prod_id=b.prod_id 
+                               left join PBS_PROD_REL_TXN_ACCT c on a.prod_id=c.prod_id
+                               where a.access_type_code=#{qaccessTypeCode} and b.txn_type_code=#{qtxnTypeCode} and c.txn_type_code=#{qtxnTypeCode} and c.acct_type_code in(#{qacctTypeCode})
+	</select>
+	
+	
+	
+	<!-- 修改看是否是本产品-->
+	<select id="checkUptHos" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+	 select a.* from PBS_PROD_INFO a left join PBS_PROD_REL_TXN_TYPE b on a.prod_id=b.prod_id 
+                               left join PBS_PROD_REL_TXN_ACCT c on a.prod_id=c.prod_id
+                               where trim(a.access_type_code)=#{qaccessTypeCode} and b.txn_type_code=#{qtxnTypeCode} and  c.txn_type_code=#{qtxnTypeCode} and trim(c.acct_type_code) in (#{qacctTypeCode})
+    </select>
+    
+    
+    <!-- 修改看是否是本产品-->
+	<select id="selectByProdId" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+	select * from PBS_PROD_INFO where trim(PROD_ID) = #{qprodId}
+    </select>
+    <!-- 根据ID查询启用时间 -->	
+	<select id="selectOpenTime" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+	  select * from PBS_PROD_INFO  where trim(prod_Id)=#{prodId}
+	</select>
+	
+		<select id="queryPbsProd" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+		select *
+		from PBS_PROD_INFO 
+		where 1=1 and PROD_STATE = '00'
+		<if test = "qprodId != '' "> and PROD_ID like #{qprodId}</if>
+		<if test = "qprodName != '' "> and PROD_NAME like #{qprodName}</if>
+		order by CRT_DATE_TIME DESC
+	</select>
+	
+	<!-- 查询主商户签订产品 -->
+	<select id="queryPbsProd1" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+		select a.prod_name,b.prod_id from PBS_PROD_INFO a ,PBS_MCHT_REL_CONTRACT_PROD b where trim(a.prod_id)= trim(b.prod_id)
+			and  b.con_id=(
+      			select con_id from pbs_mcht_contract_info where mcht_id=(
+        			select mcht_mng_no from pbs_mcht_base_info where mcht_id = #{mchtId}
+        	)  
+		)
+		order by prod_id desc
+	</select>
+	
+	<!-- 根据产品编号，查询产品名称 -->
+	<select id = "getProdName" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+		select PROD_NAME from PBS_PROD_INFO
+		where PROD_ID in (#{prodIdArray})
+	</select>
+
+</mapper> 

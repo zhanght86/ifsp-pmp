@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的商户入账结果信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthMchtInAcctVO">
+		select 
+			inAcct.date_Stlm,
+			inAcct.CHL_MER_ID,
+			inAcct.TXN_COUNT,
+			inAcct.TXN_AMT,
+			inAcct.FEE_AMT,
+			inAcct.IN_ACCT_AMT,
+			inAcct.IN_ACCT_NO,
+			DATE_FORMAT(inAcct.IN_ACCT_TIME,'%Y-%m-%d %H:%i:%s') as IN_ACCT_TIME,
+			inAcct.IN_ACCT_STAT,
+			inAcct.STAT_MARK,
+			DATE_FORMAT(inAcct.PLAN_IN_ACCT_DATE,'%Y-%m-%d') as PLAN_IN_ACCT_DATE,
+			mcht.MCHT_SIMPLE_NAME as CHL_MER_NAME,
+			inAcct.AMT_FLAG
+ 		from bth_mer_in_acc inAcct  LEFT JOIN pbs_mcht_base_info mcht ON inAcct.CHL_MER_ID = mcht.MCHT_ID
+		WHERE
+			mcht.MCHT_ORG_ID in(select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{qMchtOrg})))
+			<if test = "qStlmDateStart != '' "> and inAcct.date_Stlm &gt;= #{qStlmDateStart}</if>
+			<if test = "qStlmDateEnd != '' "> and inAcct.date_Stlm &lt;= #{qStlmDateEnd}</if>
+			<if test = "qMchtInfo != '' "> and (mcht.MCHT_ID like #{qMchtInfo} or mcht.MCHT_SIMPLE_NAME like #{qMchtInfo})</if>
+			<if test="qInAcctNo !='' "> and inAcct.IN_ACCT_NO like #{qInAcctNo}</if>
+   			<if test="qInAcctStat !=''"> and inAcct.IN_ACCT_STAT =#{qInAcctStat}</if>
+		order by inAcct.date_Stlm DESC
+	</select>
+</mapper>

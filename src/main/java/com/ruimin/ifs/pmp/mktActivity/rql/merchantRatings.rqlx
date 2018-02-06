@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<select id="querySnap" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.MchtLvInfTmpVO">
+		select 
+		    trim(tmp.MCHT_ID) as MCHT_ID,
+		    trim(tmp.MCHT_NM) as MCHT_NM,
+		    trim(tmp.MCHT_LV_L) as MCHT_LV_L,
+		    trim(tmp.MCHT_LV_C) as MCHT_LV_C,
+		    trim(tmp.DAY_DEPOSIT_L) as DAY_DEPOSIT_L,
+		    trim(tmp.BUSI_CNT_L) as BUSI_CNT_L,
+		    trim(tmp.BUSI_AMT_L) as BUSI_AMT_L,
+		    trim(tmp.M_FLG) as M_FLG
+		from
+		TBL_MCHT_LV_INF_TMP tmp
+		where 1=1
+		<if test = "qmchtId != '' "> and trim(tmp.MCHT_ID) like #{qmchtId}</if>
+		<if test = "qmchtNm != '' "> and trim(tmp.MCHT_NM) like #{qmchtNm}</if>
+		<if test = "qmchtLvC != '' "> and trim(tmp.MCHT_LV_C) like #{qmchtLvC}</if>        
+		order by tmp.MCHT_ID
+	</select>
+	
+	<select id="queryHistory" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.MchtLvInfHisVO">
+		select 
+		    trim(his.RANK_DATE) as RANK_DATE,
+		    trim(his.MCHT_LV_C) as MCHT_LV_C,
+		    trim(his.DAY_DEPOSIT_L) as DAY_DEPOSIT_L,
+		    trim(his.BUSI_CNT_L) as BUSI_CNT_L,
+		    trim(his.BUSI_AMT_L) as BUSI_AMT_L,
+		    trim(his.M_FLG) as M_FLG
+		from 
+		TBL_MCHT_LV_INF_HIS his
+		where 1=1
+		<if test = "qmchtId != '' "> and trim(his.MCHT_ID) = #{qmchtId}</if>
+		order by his.RANK_DATE DESC
+	</select>
+	
+</mapper>

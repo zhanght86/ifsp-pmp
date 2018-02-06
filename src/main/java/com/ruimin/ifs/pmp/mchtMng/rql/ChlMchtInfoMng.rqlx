@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 查询渠道商户号信息-->		
+	<select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsChlMchtInfo">
+
+		SELECT a.* FROM pbs_chl_mcht_info a where 1=1
+		<if test = "qChlMchtNo != ''"><![CDATA[and a.CHL_MCHT_NO like #{qChlMchtNo} ]]></if>
+		<if test = "qChlMchtName != ''"><![CDATA[and a.CHL_MCHT_NAME like #{qChlMchtName} ]]></if>
+		order by a.CHL_MCHT_NO DESC
+	</select>
+	
+</mapper>

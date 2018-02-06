@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="交易类型信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction:queryAcctTypeName" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+	    <!-- 显示的字段展示 -->
+		<Field id="acctTypeNo" desc="交易类型编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/acctTypeNo"/>
+		<Field id="acctTypeName" desc="交易类型名称" align="center" required="true" edittype="textbox" datatype="string" status="F"  xpath="/acctTypeName" />
+		
+	    <!-- 查询条件  -->
+	   <!--  <Field id="qacctTypeNo" desc="交易类型编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath=""/> -->
+	</Fields>
+
+</Data>

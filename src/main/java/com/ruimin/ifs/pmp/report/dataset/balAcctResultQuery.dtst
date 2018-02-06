@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="对账结果交易查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.report.comp.BalAcctResultAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qStlmDateStart" desc="清算日期(起始)" edittype="datebox"    datatype="date" />
+		<Field id="qStlmDateEnd" desc="清算日期(截止)" edittype="datebox"  datatype="date" />
+		<Field id="qMchtInfo" desc="商户号/简称" datatype="string" />
+		<Field id="qMchtOrg" desc="所属机构" datatype="string" align="center"  edittype="combogrid"  
+	 		datasource="mchtSelOrg:com.ruimin.ifs.pmp.mchtMng.dataset.mchtSelOrg"  
+			viewfield="brno,brname"  searchfield="qbrname"
+			init="true" multiple="false" default=""
+			fieldmap="qMchtOrgName=brname;qMchtOrg=brcode"/>   
+		<Field id="qTxnType" desc="交易类型" datasource="DDIC:1842"  edittype="combobox" datatype="string"  />
+		<Field id="qChkStat" desc="对账状态" datasource="DDIC:2003"  edittype="combobox" datatype="string"  />
+		<Field id="qPagyNo" desc="通道名称" edittype="combobox" datasource="DDIC:2008"/>
+		<Field id="qThirdSsn" desc="通道流水号" datatype="string" />
+		<Field id="qChlTxnSsn" desc="平台交易流水号" datatype="string" />
+		
+		<!-- 渠道商户号 -->
+		<Field id="qChlMchtNo" desc="渠道商户号" datatype="string" align="center" edittype="combogrid"  
+	 		datasource="PbsChlMchtInfo:com.ruimin.ifs.pmp.mchtMng.dataset.PbsChlMchtInfo"  
+			viewfield="chlMchtNo,chlMchtName"  searchfield="chlMchtNo"
+			init="true" multiple="false" default=""
+			fieldmap="qChlMchtNo=chlMchtNo;"/>
+			
+	<!-- 	<Field id="chlMchtNo" desc="渠道商户号" required="true" status="F" datatype="string"
+			datasource="PbsChlMchtInfo:com.ruimin.ifs.pmp.mchtMng.dataset.PbsChlMchtInfo"  
+			edittype="combogrid" searchfield="chlMchtNo"  viewfield="chlMchtNo,chlMchtName" init="true" 
+			fieldmap="chlMchtNo=chlMchtNo;" multiple="false"
+			align="center" xpath="/chlMchtNo"/>  -->
+		<Field id="chlMchtNo" desc="渠道商户号" edittype="textbox" align="center" datatype="string" xpath="/chlMchtNo"/>
+		
+		<!-- 基础信息 -->
+       <Field id="stlmDate" desc="清算日期" align="center" edittype="textbox" datatype="string"   xpath="/stlmDate" />
+       <Field id="pagyNo" desc="通道编号" align="center" edittype="textbox" datatype="string"  xpath="/pagyNo" />
+	   <Field id="pagyName"  desc="通道名称"   align="center"  edittype="textbox"  status="F" xpath="/pagyName"/>
+	   <Field id="txnDate" desc="交易日期时间" edittype="datetimebox" align="center" datatype="string"   xpath="/txnDate" />
+	   <Field id="txnType" datasource="DDIC:1842" desc="交易类型" align="center" edittype="combobox"   status="F" xpath="/txnType"/>		
+	   <Field id="txnSsn" desc="通道流水号" edittype="textbox" datatype="string" xpath="/txnSsn" />
+	   <Field id="chlTxnSsn" desc="平台交易流水号" edittype="textbox" datatype="string" xpath="/chlTxnSsn" />
+	   <Field id="chlMerId" desc="商户号" edittype="textbox" datatype="string" xpath="/chlMerId" />
+	   <Field id="chlMerName" desc="商户简称" edittype="textbox"  datatype="string" xpath="/chlMerName" />	
+	   <Field id="txnAmt" desc="交易金额" edittype="textbox" align="center" datatype="string" xpath="/txnAmt"/>
+	   <Field id="fee" desc="手续费" edittype="textbox" align="center" datatype="string" xpath="/fee"/>
+	   <Field id="amtFlg" desc="金额方向" align="center" required="false" datasource="DDIC:1844"  edittype="combobox" datatype="string" status="F" xpath="/amtFlg"/>
+		<Field id="chkStat" desc="对账状态" datasource="DDIC:2003" align="center" edittype="combobox" datatype="string"   xpath="/chkStat"/>
+		<Field id="chkRemark" desc="对账描述" edittype="textbox" align="center" datatype="string" xpath="/chkRemark"/>
+    </Fields>
+
+	<Commands>
+		<Command id="btnDownload" desc="下载报表" type="none" url="#" txn="" icon="fa fa-download"/>
+	</Commands>
+</Data>

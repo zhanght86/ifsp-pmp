@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="通道交易账户类型银行关系" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnAcctBankRelAction:queryBankList" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="pagyTxnCode" desc="交易编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/pagyTxnCode"/>
+		<Field id="acctTypeNo" desc="账户类型编号" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/acctTypeNo" />
+		<Field id="bankNo" desc="银行编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/bankNo"/>
+		<Field id="bankName" desc="银行"  align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/bankName"/>
+		<Field id="bankCount" desc="银行列表(点击查看详情)" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/bankCount"/>	
+		<Field id="crtTlr" desc="创建柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtTlr" />
+		<Field id="crtDateTime" desc="创建日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" desc="最近更新柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDateTime" desc="最近更新日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdDateTime" />
+
+	    <!-- 查询条件 -->
+	    <Field id="qpagyTxnCode" desc="交易编号" edittype="textbox" datatype="string" />
+	    <Field id="qacctTypeNo" desc="账户类型" edittype="textbox" datatype="string" />	    
+	</Fields>
+	<Commands>
+	    
+	</Commands>
+</Data>

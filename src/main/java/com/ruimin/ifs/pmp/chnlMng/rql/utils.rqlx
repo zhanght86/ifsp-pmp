@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询商户信息 -->
+	<select id="queryMchtInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtBaseInfoReal" >
+	<![CDATA[SELECT * FROM
+				(SELECT
+						'*' AS MCHT_ID,
+						'*' AS MCHT_SIMPLE_NAME
+					FROM
+						DUAL
+					UNION
+						SELECT
+							p.MCHT_ID AS MCHT_ID,
+							p.MCHT_SIMPLE_NAME AS MCHT_SIMPLE_NAME
+						FROM
+							pbs_mcht_base_info p
+				) mc
+			WHERE
+				1 = 1]]>
+		<if test = "mchtId != ''"><![CDATA[and mc.MCHT_ID like #{mchtId} ]]></if>
+		<if test = "mchtSimpleName != ''"><![CDATA[and mc.MCHT_SIMPLE_NAME like #{mchtSimpleName} ]]></if>
+	</select>
+	<!-- 查询账户类型所有记录 -->
+	<select id="queryAcctType" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AccountType">
+		   <![CDATA[SELECT *
+					FROM
+					(SELECT
+						'*' AS ACCT_TYPE_NO,
+						'*' AS ACCT_TYPE_NAME
+					FROM
+						DUAL
+					UNION
+					SELECT
+						p.ACCT_TYPE_NO AS ACCT_TYPE_NO,
+						p.ACCT_TYPE_NAME AS ACCT_TYPE_NAME
+					FROM
+						PAY_ACCT_TYPE_BASE_INFO p
+						) mm
+					where 1=1]]>
+		<if test = "qAcctTypeNo != ''"><![CDATA[and mm.acct_type_no = #{qAcctTypeNo} ]]></if>
+		<if test = "qAcctTypeName != ''"><![CDATA[and mm.acct_type_name like #{qAcctTypeName} ]]></if>
+		order by mm.acct_type_no
+	</select>
+	<!-- 查询产品信息表-->
+	<select id="queryPbsProdInfo" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.MchtInfoVO">
+		SELECT * FROM
+			(SELECT
+				'*' AS PROD_ID,
+				'*' AS PROD_NAME
+		FROM
+			DUAL
+		UNION
+		SELECT
+			PROD_ID AS PROD_ID,
+			PROD_NAME  AS PROD_NAME
+		FROM
+			pbs_prod_info) p
+		WHERE
+		1 = 1
+		<if test = "qprodId != '' "> and p.PROD_ID like #{qprodId}</if>
+		<if test = "qprodName != '' "> and p.PROD_NAME like #{qprodName}</if>
+	</select>
+	<!-- 根据商户Id查询商户简称 -->
+	<select id="queryMchtByIds" paramType="map" resultType="String">
+			<![CDATA[SELECT mc.MCHT_SIMPLE_NAME FROM
+							(SELECT
+									'*' AS MCHT_ID,
+									'*' AS MCHT_SIMPLE_NAME
+								FROM
+									DUAL
+								UNION
+									SELECT
+										p.MCHT_ID AS MCHT_ID,
+										p.MCHT_SIMPLE_NAME AS MCHT_SIMPLE_NAME
+									FROM
+										pbs_mcht_base_info p
+							) mc
+						WHERE
+							1 = 1]]>
+		<if test = "mchtIdArray != ''"><![CDATA[and mc.MCHT_ID in (#{mchtIdArray}) ]]></if>
+	</select>
+	<!-- 根据产品Id查询产品列表-->
+	<select id="queryProdByIds" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+						SELECT * FROM(
+					SELECT
+						'*' AS PROD_ID,
+						'*' AS PROD_NAME
+					FROM
+						DUAL
+					UNION
+						SELECT
+							PROD_ID AS PROD_ID,
+							PROD_NAME AS PROD_NAME
+						FROM
+							pbs_prod_info
+				) M
+		where 1=1
+		<if test = "prodIdArray != ''"><![CDATA[and M.PROD_ID in (#{prodIdArray}) ]]></if>
+	</select>
+	
+	<!-- 根据通道Id查询通道名-->
+	<select id="queryPagyById" paramType="map" resultType="String">
+					SELECT
+					PAGY_NAME
+				FROM
+					pagy_base_info
+				WHERE
+					1 = 1
+	<if test = "pagyNo != ''"><![CDATA[and PAGY_NO = #{pagyNo} ]]></if>
+	</select>
+	<!-- 根据账户Id查询账户-->
+	<select id="queryAcctNameByIds" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AccountType">
+				SELECT PAY.ACCT_TYPE_NAME
+					FROM
+					(SELECT
+						'*' AS ACCT_TYPE_NO,
+						'*' AS ACCT_TYPE_NAME
+					FROM
+						DUAL
+					UNION
+					SELECT
+						p.ACCT_TYPE_NO AS ACCT_TYPE_NO,
+						p.ACCT_TYPE_NAME AS ACCT_TYPE_NAME
+					FROM
+						PAY_ACCT_TYPE_BASE_INFO p
+						) PAY
+					where 1=1	
+	<if test = "acctNoArr != ''"><![CDATA[and  PAY.ACCT_TYPE_NO in (#{acctNoArr}) ]]></if>
+	</select>
+	
+</mapper> 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.example.comp.DemoAction:listAll" desc="表单项" expmaxrcd="50" flowctxid="" flowretid="" />
+
+	<Fields>
+		<Field id="requireField" desc="必填项，但只读不验证" edittype="textbox" required="true" readonly="true" />
+		<Field id="mail" desc="Email" edittype="textbox" rule="isEmail" errmsg="请输入合法的邮箱格式" size="50" />
+		<Field id="number" desc="整数" edittype="numberbox" rule="isNum" errmsg="请输入整数" size="8" />
+		<Field id="url" desc="URL地址" edittype="textbox" rule="isURL" errmsg="请输入正确的URL地址" size="80" />
+		<Field id="chinese" desc="中文" edittype="textbox" rule="isChinese" errmsg="请输入中文" size="10" />
+		<Field id="maxNumber" desc="最大整数100" edittype="numberbox" rule="max|100" datatype="number" errmsg="请输入100以内的数字" />
+		<Field id="password" desc="密码" edittype="textbox" rule="isPassWord" errmsg="请输入由大小写字母、数字、@符号或下划线构成的密码" size="8" />
+		<Field id="numOrWord" desc="数字或字母" edittype="textbox" rule="isNumOrWord" errmsg="请输入数字或字母" size="20" />
+		<Field id="currency" desc="货币型（长度验证）" edittype="numberbox" datatype="currency" size="10" scale="2" xpath="" status="F" default="" />
+		<Field id="bmail" desc="Email" edittype="textbox" size="50" />
+		<Field id="bnumber" desc="整数" edittype="textbox" size="8" />
+		<Field id="burl" desc="URL地址" edittype="textbox" size="80" />
+		<Field id="textarea" desc="文本域（最长10）" edittype="textarea" size="10" />
+		<Field id="multiValidate" desc="组合验证(必填+数字或字母)" edittype="textbox" rule="isNumOrWord" required="true" errmsg="请输入数字或字母" size="20" />
+	</Fields>
+	<Commands>
+		<Command id="btSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.example.comp.DemoAction:saveOrUpdate" icon="fa fa-user" url="#" txn="" />
+	</Commands>
+</Data>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 通道路由的查询功能 -->
+	 <select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalRoutMng">
+	       select * from PAGY_ROUTE_INFO a where 1=1 
+	      <if test = "routeId != '' "> and route_id like #{routeId}</if>
+	      <if test = "payTxnTypeId != '' "> and pay_txn_type_id=#{payTxnTypeId}</if>
+	      <if test = "acctTypeNo != '' "> and acct_type_no=#{acctTypeNo}</if>
+	      <if test = "routeStat != '' "> and route_stat=#{routeStat}</if>
+	      <if test = "chnlId != '' "> and chnl_id=#{chnlId}</if>
+	      order by  crt_date_time DESC
+	 </select>
+	 
+	 <!-- 查询最大序列号 -->
+	 <select id="queryMaxSeq" paramType="" resultType="string">
+	    select max(route_id)route_id from PAGY_ROUTE_INFO where 1=1 
+	 </select>
+	 <!-- 根据账户类型+交易类型+渠道编号查询重复性 -->
+	 <select id="queryExist" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalRoutMng">
+	    select * from PAGY_ROUTE_INFO where trim(pay_txn_type_id)=#{payTxnTypeId} 
+	    and acct_type_no=#{acctTypeNo} and chnl_id=#{chnlId}
+	 </select>
+	 <!-- 通道路由状态的修改  修改通道路由状态为'00' -->
+	 <update id="updateStatus" paramType="map">
+	    update PAGY_ROUTE_INFO set route_stat= #{routeStat}   where route_id = #{routeId}
+	 </update>
+	 <!-- 通道路由状态的修改  修改通道路由状态为'00'  并设置首次开通时间 -->
+	 <update id="updateRoutMngStatus" paramType="map">
+	    update PAGY_ROUTE_INFO set route_stat= #{routeStat} , open_date= #{openDate}   where route_id = #{routeId}
+	 </update>
+	 <!-- 根据通道Id查询该条记录的首次的开通时间 -->	
+	<select id="selectOpenTime" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalRoutMng">
+	  select * from PAGY_ROUTE_INFO  where trim(route_id)=#{routeId}
+	</select>
+	<!-- 在路由是 A000,A001,A002,A003,A004的下  找账户是A000,A001,A002,A003,A004的+交易类型+策略类型 下的通道 -->
+	<select id="queryThreeTerm" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalBasicInfo">
+	   select  pagy.`pagy_no`,
+	               pagy.`pagy_name`,
+	               @rank:=@rank+1 as priority_vul
+  from PAGY_TACTICS_REL tact,
+       (select distinct txn.pagy_no   as "pagy_no",
+                        txn.pagy_name as "pagy_name"
+          from TXN_TYPE_PAGY_VIEW txn, ACCT_TYPE_PAGY_VIEW acct
+        
+         where txn.pagy_no = acct.PAGY_NO
+              
+           and txn.pay_txn_type_id = #{payTxnTypeId}
+           and acct.ACCT_TYPE_NO in ('A000','A001','A002','A003','A004')) pagy,
+           (select @rank:=0) c 
+ where tact.tts_code = #{ttsCode}
+   and tact.pagy_no = pagy.`pagy_no`
+   order by tact.priority_vul asc
+	</select>
+	<!-- 在路由是 A005的账户下  找账户是A005的+交易类型+策略类型 下的通道 -->
+	<select id="queryAliply" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalBasicInfo">
+	   select   pagy.`pagy_no`,
+	               pagy.`pagy_name`,
+	               @rank:=@rank+1 as priority_vul
+  from PAGY_TACTICS_REL tact,
+       (select distinct txn.pagy_no   as "pagy_no",
+                        txn.pagy_name as "pagy_name"
+          from TXN_TYPE_PAGY_VIEW txn, ACCT_TYPE_PAGY_VIEW acct
+        
+         where txn.pagy_no = acct.PAGY_NO
+              
+           and txn.pay_txn_type_id = #{payTxnTypeId}
+           and acct.ACCT_TYPE_NO in ('A005')) pagy,
+           (select @rank:=0) c 
+ where tact.tts_code = #{ttsCode}
+   and tact.pagy_no = pagy.`pagy_no`
+	</select>
+	<!-- 在路由是 A006的账户下  找账户是A006的+交易类型+策略类型 下的通道 -->
+	<select id="queryWeChat" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalBasicInfo">
+	   select pagy.`pagy_no`,
+	               pagy.`pagy_name`,
+	               @rank:=@rank+1 as priority_vul
+  from PAGY_TACTICS_REL tact,
+       (select distinct txn.pagy_no   as "pagy_no",
+                        txn.pagy_name as "pagy_name"
+          from TXN_TYPE_PAGY_VIEW txn, ACCT_TYPE_PAGY_VIEW acct
+        
+         where txn.pagy_no = acct.PAGY_NO
+              
+           and txn.pay_txn_type_id = #{payTxnTypeId}
+           and acct.ACCT_TYPE_NO in ('A006')) pagy,
+            (select @rank:=0) c 
+ where tact.tts_code = #{ttsCode}
+   and tact.pagy_no = pagy.`pagy_no`
+	</select>
+	<!-- 分页查询通道基本信息表 -->
+	<select id="queryName" paramType="" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.BasicTest">
+	      select PRIORITY_VUL,PAGY_NO from PAGY_TACTICS_REL 
+	     where 1=1 
+	 </select>
+	 <!-- 如果不是这几中类型的路由那么就返回空的通道 -->
+	 <select id="queryThree" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalBasicInfo">
+	   select  pagy.`pagy_no`,
+	               pagy.`pagy_name`,
+	               @rank:=@rank+1 as priority_vul
+  from PAGY_TACTICS_REL tact,
+       (select distinct txn.pagy_no   as "pagy_no",
+                        txn.pagy_name as "pagy_name"
+          from TXN_TYPE_PAGY_VIEW txn, ACCT_TYPE_PAGY_VIEW acct
+        
+         where txn.pagy_no = acct.PAGY_NO
+              
+           and txn.pay_txn_type_id = #{payTxnTypeId}
+           and acct.ACCT_TYPE_NO in (#{acctTypeNo})) pagy, 
+           (select @rank:=0) c 
+ where tact.tts_code = #{ttsCode}
+   and tact.pagy_no = pagy.`pagy_no`
+	</select>
+</mapper>

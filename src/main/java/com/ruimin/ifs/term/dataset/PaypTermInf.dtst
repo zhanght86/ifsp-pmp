@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="终端信息管理" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.term.comp.PaypTermInfoAction:queryAll" flowretid="" log="false" pagesize="10" type="call"/>
+	<Fields>
+		<Field id="termId" desc="终端编号" align="center"   status="F" datatype="string"  size="8"  required="true"  xpath="/termId"/>
+        <Field id="machId" desc="绑定设备号"  align="center"    status="F" datatype="string" size="16" xpath="/machId" />	
+		<Field id="mchtId" desc="银联商户号"  align="center"  datatype="string"  xpath="/mchtId" />
+		<Field id="payMchtId" desc="渠道商户号"  align="center"  datatype="string"  xpath="/payMchtId" />
+		<Field id="mchtName" desc="商户全称"  align="center" xpath="/mchtName" readonly="false" status="F" />
+        <Field id="machInst" desc="所属机构" align="center" edittype="combotree"    
+		       datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree"  readonly="false" init="true" fieldmap="machInst=_id;machInstName=_text" viewfield="_text"  
+			   status="F" xpath="/mchtOrgId" />
+		<Field id="machInstName" align="center" method="com.ruimin.ifs.mng.comp.BctlAllSelectAction.getOrgName"  desc="所属机构" status="F" xpath="/mchtOrgId" />	
+        <Field id="termStat" desc="终端状态" align="center" xpath="/termStat" datatype="string" size="20"   required="false"  status="F" />
+        <Field id="termType" desc="终端类型" align="center" xpath="/termType" edittype="combobox"  datasource="LIST:1,传统POS;2,固话POS;3,移动POS;4,mPos" method="None" datatype="string" size="20"   required="true" status="F" />
+        <Field id="termSignStat" desc="终端签到状态" align="center" edittype="combobox"  xpath="/termSignStat" datasource="LIST:0,未签到;1,签到"  method="None" datatype="string" size="20" status="F" />
+        <!-- ************** 单选框改为默认值  默认为 1:是 *********************** -->
+        <Field id="parmDownFlag" desc="是否参数下载"  align="center"  edittype="radioboxs" datasource="LIST:1,是;0,否"  default="1"  required="true"  xpath="/parmDownFlag" method="None" datatype="string" size="20" status="F" />
+        <Field id="termParm" desc="交易权限" align="center" xpath="/termParm" method="None" datatype="string" size="512" status="F" />
+        <Field id="keyVer" desc="CA公钥版本" align="center" xpath="/keyVer" method="None" datatype="string" size="20" status="F" />
+        <Field id="icParmVer" desc="IC卡参数版本" align="center" xpath="/icParmVer" method="None" datatype="string" size="20" status="F" />
+        <!-- ************** 单选框改为默认值  默认为 1:是 *********************** -->
+        <Field id="icFlag" desc="是否支持IC卡" align="center"  edittype="radioboxs" datasource="LIST:1,是;2,否"  default="1" required="true" xpath="/icFlag" method="None" datatype="string" size="20" status="F" />
+        <Field id="termBatchNo" desc="终端批次号" align="center" xpath="/termBatchNo" method="None" datatype="string" size="20" status="F" />
+        <Field id="termBatchDate" desc="终端批结日期" align="center" xpath="/termBatchDate" method="None" datatype="string" size="20" status="F" />
+        <Field id="bindTelNo" desc="绑定电话 1" align="center" xpath="/bindTelNo" method="None" datatype="string" size="20" status="F" />
+        <Field id="bindTelNo1" desc="绑定电话 2" align="center" xpath="/bindTelNo1" method="None" datatype="string" size="20" status="F" />
+        <Field id="termInstAdrr" desc="终端安装地址" align="center" xpath="/termInstAdrr" method="None" datatype="string" size="128" status="F" />
+        <Field id="lastAudTlr" desc="最近审核操作员" align="center" xpath="/lastAudTlr" method="None" datatype="string" size="20" status="F" />
+        <Field id="lastAudDateTime" desc="最近审核日期时间" align="center" xpath="/lastAudDateTime" method="None" datatype="string" size="14" status="F" />
+        <Field id="crtTlr" desc="创建操作员" align="center" xpath="/crtTlr" method="None" datatype="string" size="20" status="F" />
+        <Field id="crtDateTime" desc="创建日期时间" align="center" xpath="/crtDateTime" method="None" datatype="string" size="14" status="F" />
+        <Field id="lastUpdTlr" desc="最近更新操作员" align="center" xpath="/lastUpdTlr" method="None" datatype="string" size="20" status="F" />
+        <Field id="lastUpdDateTime" desc="最近更新日期时间" align="center" xpath="/lastUpdDateTime" method="None" datatype="string" size="14" status="F" />
+        <Field id="zmk" desc="zmk" align="center" xpath="/zmk" method="None" datatype="string" size="40" status="F" />
+        <Field id="zak" desc="zak" align="center" xpath="/zak" method="None" datatype="string" size="40" status="F" />
+        <Field id="zpk" desc="zpk" align="center" xpath="/zpk" method="None" datatype="string" size="40" status="F" />
+        <Field id="count" desc="秘钥文件下载" align="center"  status="N"  />
+        <Field id="opr"  align="center" desc="操作"  status="N" />
+		<Field id="bindStat"  align="center" desc="绑定状态"   status="N" xpath="/machId" />
+		<Field id="flag" desc="标记位" align="center"  datatype="string" size="14" status="F" />
+		
+		<Field id="balance" desc="余额查询" edittype="checkbox" datatype="boolean" default="" readonly="false" status="F" xpath="/balance" size="1"/> 
+		
+		<!-- 新增子商户字段 -->
+		<Field id="secMerId" desc="子商户号"  align="center"  datatype="string"  xpath="/secMerId" />
+		
+		<!-- 查询条件 -->
+		<Field id="qmchtName"  align="center"  datatype="string"  edittype="textbox" desc="商户简称"  />
+		<Field id="qtermId"  align="center"  datatype="string"  edittype="textbox" desc="终端编号"    />
+		<Field id="qtermStat" align="center"  edittype="combobox" desc="终端状态" readonly="false"  
+			 datasource="LIST:00,新增待审核;01,启用;02,新增被拒绝;03,修改待审核;04,修改被拒绝;05,启用待审核;06,启用被拒绝;07,停用待审核;08,停用被拒绝" 
+			 	datatype="string"  method="None"  status="F" size="2" />
+		<Field id="qtermType" align="center"  edittype="combobox" desc="终端类型" readonly="false"   
+			 datasource="LIST:1,传统POS;2,固话POS;3,移动POS;4,mPos" datatype="string"  
+			method="None"  status="F" size="2" />
+	    <Field id="qmachInst" edittype="combotree" desc="所属分行" 
+	    	datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree" 
+	    		fieldmap="qmachInst=_id;qmachInstName=_text" viewfield="_text" />
+<!-- 		<Field id="qmchtName"  align="center"  datatype="string"  edittype="textbox" desc="商户简称"  xpath="/mchtName" /> -->
+<!-- 		<Field id="qtermId"  align="center"  datatype="string"  edittype="textbox" desc="终端编号"   xpath="/termId" /> -->
+<!-- 		<Field id="qtermStat" align="center"  edittype="combobox" desc="终端状态" readonly="false"   xpath="/termStat"  -->
+<!-- 			 datasource="LIST:00,新增待审核;01,启用;02,新增被拒绝;03,修改待审核;04,修改被拒绝;05,启用待审核;06,启用被拒绝;07,停用待审核;08,停用被拒绝"  -->
+<!-- 			 	datatype="string"  method="None"  status="F" size="2" /> -->
+<!-- 		<Field id="qtermType" align="center"  edittype="combobox" desc="终端类型" readonly="false"    -->
+<!-- 			xpath="/termType" datasource="LIST:1,传统POS;2,固话POS;3,移动POS;4,mPos" datatype="string"   -->
+<!-- 			method="None"  status="F" size="2" /> -->
+<!-- 	    <Field id="qmachInst" edittype="combotree" desc="所属分行"  -->
+<!-- 	    	datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree"  -->
+<!-- 	    		fieldmap="qmachInst=_id;qmachInstName=_text" viewfield="_text" /> -->
+
+	 
+        <Field id="mchtOrgId" desc="所属机构编号" datatype="string" align="center" xpath="/mchtOrgId"/>    
+        <Field id="mchtOrg" desc="所属机构" datatype="string" align="center" xpath="/mchtOrg"/>        
+        <Field id="mchtSimpleName" desc="商户简称" datatype="string" align="center" xpath="/mchtSimpleName"/>
+        
+        <Field id="mchtNo" desc="商户号" datatype="string" align="center" xpath="/mchtNo"/>        
+<!-- 	    <Field id="qmchtId" desc="商户编号" datatype="string" align="center"  edittype="combogrid"   -->
+<!--             datasource="mchtMng2:com.ruimin.ifs.pmp.mchtMng.dataset.mchtMng2"   -->
+<!--             viewfield="mchtId,mchtName"  searchfield="qmchtName" -->
+<!--             init="true" multiple="false"  -->
+<!--             fieldmap="mchtName=mchtName;payMchtId=mchtId;mchtOrgId=mchtOrgId;mchtOrg=mchtOrg;mchtId=mchtNo" /> -->
+        
+        <Field id="qmchtId" desc="商户编号" datatype="string" align="center"  edittype="combogrid"  
+            datasource="mchtMng2:com.ruimin.ifs.pmp.mchtMng.dataset.mchtMng2"  
+            viewfield="mchtId,mchtName"  searchfield="qmchtName"
+            init="true" multiple="false" 
+            fieldmap="qmchtId=mchtId;qmchtIdName=mchtName" xpath="/qmchtId"/>
+        
+         <!-- 查询子商户号 -->
+         <Field id="mchtNoFlag" desc="是否选择子商户" align="center"  edittype="radioboxs" datasource="LIST:1,是;2,否"  default="2" required="true" xpath="" method="None" datatype="string" size="20" status="F" />
+<!--          <Field id="qmchtNo" desc="子商户编号" datatype="string" align="center"  edittype="combogrid"   -->
+<!--             datasource="mchtMng3:com.ruimin.ifs.pmp.mchtMng.dataset.mchtMng3"   -->
+<!--             viewfield="mchtId,mchtName"  searchfield="qmchtName" -->
+<!--             init="true" multiple="false"  -->
+<!-- 			fieldmap="mchtName=mchtName;secMerId=mchtId;mchtOrgId=mchtOrgId;mchtOrg=mchtOrg " /> -->
+        <Field id="qmchtNo" desc="子商户编号" datatype="string" align="center"  edittype="combogrid"  
+            datasource="mchtMng3:com.ruimin.ifs.pmp.mchtMng.dataset.mchtMng3"  
+            viewfield="mchtId,mchtName"  searchfield="qmchtName"
+            init="true" multiple="false" 
+			fieldmap="qmchtNo=mchtId;qmchtNoName=mchtName" 
+				xpath="/qmchtNo" />
+        
+        <!-- 临时表添加的有关审核信息的字段 -->
+        <Field id="auditId" desc="审核信息编号" datatype="string" align="center" width="270" size="270" xpath="/auditId"/>
+        <Field id="syncState" desc="同步状态" datatype="string" align="center" xpath="/syncState"/>
+        <Field id="auditView" desc="审核意见" datatype="string" edittype="textarea" colspan="4" width="635" size="128" readonly="false" align="center"  xpath="/auditView" />
+     
+	</Fields>
+	<Commands>
+	    <Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus" tip="新增"/>
+	    <Command id="btnSave1"  desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.term.comp.PaypTermInfoAction:saveOrUpdatePaypTermInf" url="#" txn="" />
+		<Command id="btnUpdateSave"  desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.term.comp.PaypTermInfoAction:saveOrUpdatePaypTermInf" url="#" txn="updateorg" />
+		<Command id="btnMod" desc="修改" type="none" url="#" txn="" icon="fa fa-pencil" tip="修改"/>
+		<Command id="btStatus" desc="启用/停用" type="asyncsubmit" url="#" txn="" icon="fa fa-gears"/>
+		<Command id="btStatus2" desc="绑定/解绑" type="asyncsubmit" url="#" txn="" icon="fa fa-gears"/>
+		<Command id="btnShowDetail" desc="明细" type="none" icon="fa fa-info" flowid="" url="#" txn="" />
+		<Command id="btnBingMachId"  desc="绑定设备号" type="asyncsubmit" flowid="com.ruimin.ifs.term.comp.PaypMachInfAction:updateMachMachStat" url="#"  tip="绑定"/>
+		<Command id="btnUnBingMachId"  desc="解除绑定设备号" type="asyncsubmit" flowid="com.ruimin.ifs.term.comp.PaypMachInfAction:updateUnMachMachStat" url="#"  tip="绑定"/>
+	    <Command id="btnPaypMachDetail"  desc="绑定设备号查询设备详情" type="asyncsubmit" flowid="com.ruimin.ifs.term.comp.PaypMachInfAction:updateUnMachMachStat" url="#"  tip="绑定"/>
+	    <Command id="btnUpdateTermStatu"  desc="终端启用,停用" type="asyncsubmit" flowid="com.ruimin.ifs.term.comp.PaypTermInfoAction:updatePaypTermInfTermStat" url="#"  tip="绑定"/>
+	    <Command id="btnKey" desc="申请秘钥" type="asyncsubmit" icon="fa fa-info" flowid="com.ruimin.ifs.term.comp.PaypTermInfoAction:makeKey" url="#" txn="" />
+	    
+	    <Command id="batDownLoad" desc="批量下载" type="asyncsubmit" url="#" txn="" icon="fa fa-info"/>
+	    
+	    <!--审核按钮 -->
+	    <Command id="btnAuditAgree" desc="通过" type="asyncsubmit"   icon="fa fa-check" flowid="com.ruimin.ifs.term.comp.CommonAuditAction:pass"/>
+	    <Command id="btnAuditDisagree" desc="拒绝" type="asyncsubmit"   icon="fa fa-remove" flowid="com.ruimin.ifs.term.comp.CommonAuditAction:refuse"/>
+	    <Command id="btnReturn" desc="返回" type="none"  icon="fa fa-list" url="#"  ></Command>
+	</Commands>
+	
+</Data>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!--支付业务系统  订单信息表sql配置 -->
+	
+	<!-- 交易列表查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.BatchJobRecord">
+       select 
+       		JOB_ID,
+       		SETTLE_DATE,
+       		BATCH_NO,
+       		JOB_DESC,
+       		BATCH_MODEL,
+       		JOB_STAT,
+       		JOB_RESULT_CODE,
+       		JOB_RESULT,
+       		JOB_SPEND,
+      		SERVER_IP,
+       		SERVER_NAME,
+      	 	LOG_TRACE_ID,
+       		CRT_TLR,
+       		CRT_DATE_TIME,
+       		LAST_UPD_TLR,
+       		LAST_UPD_DATE_TIME
+  		from batch_job_record
+       	where 1=1
+       		<if test = "qjobId != ''"><![CDATA[and JOB_ID like #{qjobId} ]]></if>
+       		<if test = "qsettleDate != ''"><![CDATA[and SETTLE_DATE = #{qsettleDate} ]]></if>
+       		<if test = "qjobStat != ''"><![CDATA[and JOB_STAT = #{qjobStat} ]]></if>
+       		order by SETTLE_DATE desc,JOB_ID asc
+	</select>
+</mapper>

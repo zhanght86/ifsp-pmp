@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="定时任务日志查询" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.BopTimedSchedulerManageAction:queryLogAll" expmaxrcd="100" flowctxid="false" flowretid="false" />
+	<Fields>
+		<Field id="id" desc="主键" required="false" edittype="textbox" datatype="string" method="None"
+			readonly="false" size="32" status="N" default="false"  xpath="/id" />
+
+		<Field id="jobno" desc="任务编号" required="false" edittype="textbox" datatype="string" method="None"
+			readonly="false" size="32"  status="N" default="false" xpath="/jobno" />
+
+		<Field id="subProceFunction" desc="任务类" required="false" edittype="textbox" datatype="string" method="None"
+			readonly="false" size="256"  status="F" default="false" xpath="/subProceFunction" />
+
+		<Field id="excuteTime" desc="执行时间" required="false" edittype="datebox" datatype="timestamp" method="None"
+			readonly="false" size="32"  status="F" default="false" xpath="/excuteTime" />
+
+		<Field id="excuteOwn" desc="执行人" required="false" edittype="textbox" datatype="string" method="None"
+			readonly="false"  xpath="/excuteOwn" />
+
+		<Field id="failFlag" desc="失败标志" required="false" edittype="combobox" datasource="LIST:0,未失败;1,失败" method="None"
+			readonly="false" size="256" status="F" default="false" xpath="/failFlag" />
+
+	 	<Field id="sucFlag" desc="成功标志" required="false" edittype="combobox" datasource="LIST:0,未成功;1,成功" method="None"
+	 	  readonly="false"  xpath="/sucFlag" />
+	 	  
+	 	<Field id="exceptionMsg" desc="失败信息" required="false" edittype="textbox" datatype="string" method="None" 
+	 	  readonly="false" size="512" status="N" default="无日志记录" xpath="/exceptionMsg" />
+
+        <Field id="endExcuteFlag" desc="是否已结束当日执行" required="false" edittype="combobox" datatype="string" method="None"
+	 	  readonly="false" size="32" status="N" default="false" xpath="/endExcuteFlag" datasource="LIST:0,否;1,是" />
+
+		<!-- 查询条件 -->
+		<Field id="excuteTimeStart" desc="执行时间开始" edittype="datebox" datatype="date" xpath="" status="F" default="" />
+		<Field id="excuteTimeEnd" desc="执行时间结束" edittype="datebox" datatype="date" xpath="" status="F" default="" />
+		<Field id="excuteResult" desc="执行结果" required="false" edittype="combobox" datatype="string" method="None" readonly="false" size="2" datasource="LIST:0,成功;1,失败" status="F" xpath="/excuteResult"/>
+	</Fields>
+</Data>

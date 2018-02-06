@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.baseParaMng.comp.MchtGrpMngAction:queryMain"
+		desc="商户组别管理主页面" expmaxrcd="50" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询字段 -->
+		<Field id="qmchtGrpNo" 	desc="商户组别编号" datatype="string" 	edittype="textbox" />
+		<Field id="qgrpDesc" 	desc="商户组别描述" datatype="string" 	edittype="textbox" />
+
+		<!-- 主表单字段 -->
+		<Field id="mchtGrpNo" 	desc="组别编号" 	datatype="string" 	edittype="textbox" width="200"
+			   align="center" 	required="true" size="2" rule="isNum" errmsg="数据类型错误(数字)" xpath="/mchtGrpNo" />
+		
+		<Field id="grpDesc" 	desc="组别描述" 	datatype="string" 	edittype="textbox"
+			   align="left"		required="true" width="600"		colspan="4" 	xpath="/grpDesc" />
+		
+		<Field id="grpState" 	desc="组别状态" 	datatype="string" 	edittype="radioboxs"
+			   datasource="LIST:00,启用;99,停用" 	align="center"		required="false" xpath="/grpState" />
+
+	</Fields>
+
+	<Commands>
+		<!-- 主界面按钮 -->
+		<Command id="btnAdd" desc="新增" type="addrecord" icon="fa fa-plus" />
+		<Command id="btnUpd" desc="修改" type="none" icon="fa fa-pencil" />
+		<Command id="btnDel" desc="删除" type="none" url="#" txn="" icon="fa fa-remove" tip="删除" />
+
+		<!-- 新增窗口 -->
+		<Command id="btnAddSub" desc="提交" type="asyncsubmit" icon="fa fa-save"
+			flowid="com.ruimin.ifs.pmp.baseParaMng.comp.MchtGrpMngAction:addMchtGrp" />
+		<!-- 修改窗口 -->
+		<Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save"
+			flowid="com.ruimin.ifs.pmp.baseParaMng.comp.MchtGrpMngAction:updMchtGrp" />
+		<!-- 删除 -->
+		<Command id="btnDelSub" desc="" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.baseParaMng.comp.MchtGrpMngAction:delMchtGrp"
+			url="#" txn="" icon="fa fa-trash-o" tip="删除" />
+
+	</Commands>
+
+</Data>

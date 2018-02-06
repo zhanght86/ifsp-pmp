@@ -1,0 +1,148 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	background: url("../imgs/login-bg.jpg");
+	font-family: "寰蒋闆呴粦";
+}
+.container{
+	width: 1000px;
+	margin: 0 auto;
+}
+a,a:hover,a:active,a:focus,a:visited{
+	border: none 0;
+	outline: none 0;
+	text-decoration: none;
+}
+.header{
+	border-bottom: 1px solid #eee;
+	background: white;
+}
+.header .container{
+	height: 100px;
+	line-height: 100px;
+	background: url("../imgs/rm_logo.png") no-repeat left center;
+}
+.header .link{
+	float: right;
+}
+.header .link a,.header .link span{
+	display: inline-block;
+	color: #29c7da;
+	font-size: 12px;
+}
+.header .link a:hover{
+	text-decoration: underline;
+}
+.header .link span{
+	margin: 0 6px;
+}
+
+.center .container{
+	background: url("../imgs/login-bg3.gif") no-repeat;
+	position: relative;
+	padding-top: 1px
+}
+.center .khao{
+	width: 320px;
+	height: 300px;
+	background: url("../imgs/login-bg2.gif") no-repeat;
+	margin-left: 120px;
+}
+.center .form-div{
+	position: absolute;
+	right: 60px;
+	border: 1px solid #eee;
+	background: white;
+}
+.center .form{
+	width: 300px;
+	margin: 0 40px 40px 40px;
+}
+.center .form h3{
+	font-weight: normal;
+	color: #29c7da;
+	text-align: center;
+	height: 70px;
+	line-height: 70px;
+	border-bottom: 1px dashed #d0eef2;
+}
+.center .form div{
+	margin: 20px 0;
+	position: relative;
+}
+.center .form input{
+	width: 292px;
+	height: 38px;
+	vertical-align: middle;
+	line-height: 40px\0;
+	*line-height: 40px;
+	font-size: 14px;
+	color: #666;
+	border: 1px solid #ddd;
+	outline: none;
+	padding-left: 6px;
+}
+.center .form i{
+	display: block;
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.center i.icon-user{
+	background: url("../imgs/login-icon.gif") no-repeat 0 top;
+}
+.center i.icon-pwd{
+	background: url("../imgs/login-icon.gif") no-repeat 0 -40px;
+}
+.center .ifocus i.icon-user{
+	background: url("../imgs/login-icon.gif") no-repeat 0 -80px;
+}
+.center .ifocus i.icon-pwd{
+	background: url("../imgs/login-icon.gif") no-repeat 0 -120px;
+}
+.center input:hover{
+	border: 1px solid #ccc;
+}
+.center .ifocus input{
+	border: 1px solid #29c7da;
+}
+.center .btn-div a{
+	display: block;
+	width: 300px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: white;
+	background: #29c7da;
+	border: none 0;
+	font-size: 16px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.center .btn-div a:hover{
+	text-decoration: underline;
+	opacity: 0.85;
+	filter: alpha(opacity=85);
+}
+.footer{
+	background: white;
+	border-top: 1px solid #eee;
+	width: 100%;
+	position: fixed;
+	left:0;
+	bottom: 0;   /* 闈濱E涓嬬殑瀹氫綅 */
+	_position: absolute;   /*IE6 鐢╝bsolute妯℃嫙fixed*/
+	_top: expression(document.documentElement.scrollTop + Math.round(document.documentElement.offsetHeight-81) + "px"); /*IE6 鍔ㄦ�乼op鍊�*/
+	right:0;	
+}
+.footer p{
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	color: #999;
+	font-size: 14px;
+}

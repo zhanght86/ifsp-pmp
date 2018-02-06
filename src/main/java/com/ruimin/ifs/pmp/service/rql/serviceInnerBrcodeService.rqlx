@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.service.process.bean.ServiceInnerBrcodeMapping">
+		select 
+			pbs.MCHT_ID as MCHT_ID,
+			pbs.MCHT_NAME as MCHT_NAME
+		from 
+		(	select  BRCODE from  SERVICE_INNER_BRCODE_SERVICE
+		 	where IN_FLAG = '00'
+		  	<if test = "serviceCode != '' "> and SERVICE_CODE = #{serviceCode}</if>
+         ) service
+          ,
+          		PBS_MCHT_BASE_INFO pbs
+          	where
+          	service.BRCODE = pbs.MCHT_ORG_ID
+          order by pbs.MCHT_ORG_ID,pbs.MCHT_ID desc
+		
+	</select>
+	
+	<!-- 服务机构管理关联页面查询 -->
+	<select id="queryInnerBrcode" paramType="map" resultType="com.ruimin.ifs.pmp.service.process.bean.ServiceInnerBrcodeMapping">
+		select 
+			f.brname as brname,
+			f.brno as brno,
+			f.brcode as brcode,
+			if(trim(p.IN_FLAG)='00',1,0)  "select",
+			if(p.IN_FLAG='','01',p.IN_FLAG) as in_Flag,
+			#{serviceCode} as code
+		from ifs_org f
+		left join
+			SERVICE_INNER_BRCODE_SERVICE p 
+		on f.brcode = p.BRCODE  and p.SERVICE_CODE = #{serviceCode}
+		where
+			f.brcode not in (
+ 				select s.BRCODE from SERVICE_INNER_BRCODE_SERVICE s where s.IN_FLAG='00' and s.SERVICE_CODE != #{serviceCode}
+			)
+			<if test = "qbrcode != '' "> and f.brcode like #{qbrcode}</if>
+			<if test = "qbrname != '' "> and f.brname like #{qbrname}</if>
+			<if test = "qconnectState != '' "> and if(trim(p.IN_FLAG)='','01',trim(p.IN_FLAG)) like #{qconnectState}</if>
+		order by f.brcode desc
+	</select>
+	
+	<!-- 修改服务机构和内部机构的关联状态 -->
+	<update  id="quite" paramType="com.ruimin.ifs.pmp.service.process.bean.ServiceInnerBrcodeServiceVo">
+		update
+			SERVICE_INNER_BRCODE_SERVICE
+		set
+			LAST_UPD_TLR = #{lastUpdTlr},
+			IN_FLAG = #{inFlag},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 
+			SERVICE_CODE = #{serviceCode}	
+		AND 
+			BRCODE = #{brcode}	
+	</update>
+	<select id="queryServiceInnerByCode" paramType="map" resultType="string">
+		select brcode from SERVICE_INNER_BRCODE_SERVICE where SERVICE_CODE = #{serviceCode}
+		 and IN_FLAG = '00'
+	</select>
+</mapper> 

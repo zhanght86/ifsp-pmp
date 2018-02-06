@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="操作员密码修改" type="call" pagesize="5" log="false" flowid="" expmaxrcd="100" flowctxid="" flowretid=""></Define>
+	<Fields>
+		<Field id="oldPassWord" desc="当前密码" status="F" method="None" colspan="4" edittype="password" required="true"  size="60" default="" xpath="/oldPassWord"  />
+		<Field id="newPassWord" desc="新密码" status="F" method="None" colspan="2" edittype="password" required="true" size="60" default="" xpath="/newPassWord"  />
+		<Field id="againNewPassWord" desc="确认新密码" status="F" method="None" colspan="2" edittype="password" required="true"  size="60" default="" xpath="/againNewPassWord"  />
+	</Fields>
+	<Commands>
+    	<Command id="btSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.login.comp.ChangePwdAction:saveOrUpdate" url="#" txn="" />
+    </Commands>
+</Data>

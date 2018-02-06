@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:queryMain3" 
+	desc="商户基本信息管理" expmaxrcd="50" flowctxid="" flowretid=""/> 
+	<Fields>
+	<!-- 查询字段 -->
+		<Field id="qmchtId" desc="商户编号" edittype="textbox" datatype="string"/>
+		
+		<Field id="qmchtSimpleName" desc="商户简称" edittype="textbox" datatype="string"/>
+		<Field id="qmchtName" desc="商户全名" edittype="textbox" datatype="string" width="406"/>
+		<Field id="qmchtType" desc="商户类型" datatype="string" datasource="DDIC:1804" edittype="combobox" align="center"/>
+		<Field id="qmchtStat" desc="商户状态" datatype="string" datasource="DDIC:1803" edittype="combobox" align="center"/>
+		<Field id="qmchtOrgId" desc="所属机构" datatype="string" align="center" edittype="combogrid"  
+	 		datasource="mchtSelOrg:com.ruimin.ifs.pmp.mchtMng.dataset.mchtSelOrg"  
+			viewfield="brcode,brname"  searchfield="qbrname"
+			init="true" multiple="false" default=""
+			fieldmap="qmchtOrgId=brcode;qmchtOrgIdName=brname;"/> 		
+	<!-- 主表单字段 -->      
+		<Field id="mchtOrg" desc="所属机构" datatype="string" align="center" xpath="/mchtOrg"/>
+		<Field id="mchtNo" desc="子商户号" datatype="string" align="center" xpath="/mchtNo"/> 	   
+		<Field id="mchtId" desc="商户编号" datatype="string" align="center" xpath="/mchtId" />    
+		<Field id="mchtSimpleName" desc="商户简称" datatype="string" align="center" required="true" xpath="/mchtSimpleName"/>    
+		<Field id="mchtName" desc="商户全名" datatype="string" align="center" required="true" xpath="/mchtName"/>    
+		<Field id="mchtType" desc="商户类型" datatype="string" datasource="DDIC:1804" edittype="combobox" align="center" required="true" xpath="/mchtType"/>    
+		<Field id="mchtStat" desc="商户状态" datatype="string" datasource="DDIC:1803" edittype="combobox" align="center" xpath="/mchtStat"/>    
+		<Field id="mchtMng" desc="上级商户" datatype="string" align="center"  xpath="/mchtMng"/>    	
+		<Field id="regDate" desc="注册日期" datatype="date" align="center" xpath="/regDate"/>
+		<Field id="opr" desc="操作栏" datatype="string" align="center"/>      
+	<!-- 补充字段 -->
+		<Field id="mchtOrgId" desc="所属机构编号" datatype="string" align="center" xpath="/mchtOrgId"/>    
+		<Field id="mchtMngNo" desc="上级商户编号" datatype="string" align="center" xpath="/mchtMngNo"/>    		
+		<Field id="mchtAreaNo" desc="所属地区编号" datatype="string" align="center" xpath="/mchtAreaNo"/>    
+		<Field id="mchtArea" desc="所属地区" datatype="string" align="center" xpath="/mchtArea"/>    
+		<Field id="mchtPersonName" desc="联系人" datatype="string" align="center" required="true" xpath="/mchtPersonName"/>    
+		<Field id="mchtPhone" desc="联系电话" datatype="string" align="center" required="true" xpath="/mchtPhone"/>    
+		<Field id="mchtEmail" desc="联系邮箱" datatype="string" align="center" required="true" xpath="mchtEmail"/>    
+		<Field id="mchtZipNo" desc="邮政编码" datatype="string" align="center" xpath="/mchtZipNo"/>    
+		<Field id="mchtContAddr" desc="联系地址" datatype="string" align="center" xpath="/mchtContAddr"/>    
+		<Field id="mchtAmrNo" desc="客户经理工号" datatype="string" align="center" required="true" xpath="/mchtAmrNo"/>    
+		<Field id="mchtAmrName" desc="经理姓名" datatype="string" align="center" required="true" xpath="/mchtAmrName"/> 
+		<Field id="mchtAmrPhone" desc="经理电话" datatype="string" align="center" required="true" xpath="/mchtAmrPhone"/> 
+		<Field id="crtTlr" desc="创建操作员" datatype="string" align="center" xpath="/crtTlr"/>
+		<Field id="crtDateTime" desc="创建日期时间" datatype="string" align="center" xpath="/crtDateTime"/>	
+	<!-- 资质信息字段 -->      	   
+		<Field id="mchtLicnNo" desc="营业执照号码" datatype="string" align="center" xpath="/mchtLicnNo"/>    
+		<Field id="mchtLicnType" desc="执照类型" datatype="string" datasource="DDIC:1819" edittype="combobox" align="center" xpath="/mchtLicnType"/>    
+		<Field id="mchtLicnExpDate" desc="执照有效期"  edittype="datebox" datatype="date" xpath="/mchtLicnExpDate"/>    
+		<Field id="mchtMngScope" desc="经营范围" edittype="textarea" datatype="string"  align="center" xpath="/mchtMngScope"/>    
+		<Field id="mchtRegAmt" desc="注册资金" edittype="textbox" datatype="string" align="center" method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.transFenToYuan" xpath="/mchtRegAmt"/>    
+		<Field id="mchtTrcnNo" desc="税务登记证号码" datatype="string" align="center" xpath="/mchtTrcnNo"/>    
+		<Field id="mchtArtifName" desc="法定代表人姓名" datatype="string" align="center" xpath="/mchtArtifName"/> 
+		<Field id="mchtArtifPhone" desc="法定代表人电话" datatype="string" align="center" xpath="/mchtArtifPhone"/>
+		<Field id="mchtArtifType" desc="法定代表人证件类型" datatype="string" datasource="DDIC:1820" edittype="combobox" align="center" xpath="/mchtArtifType"/> 
+		<Field id="mchtArtifId" desc="法定代表人证件号码" datatype="string" align="center" xpath="/mchtArtifId"/>
+		<Field id="recvDeposit" desc="应收保证金" edittype="textbox" datatype="string" align="center" method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.transFenToYuan" xpath="/recvDeposit"/>
+		<Field id="paidDeposit" desc="实收保证金" edittype="textbox" datatype="string" align="center" method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.transFenToYuan" xpath="/paidDeposit"/>
+	<!-- 图片字段 -->
+		<Field id="picId1" desc="图片编号[1]" datatype="string" xpath="/picId1"/>
+		<Field id="picId2" desc="图片编号[2]" datatype="string" xpath="/picId2"/>
+		<Field id="picId3" desc="图片编号[3]" datatype="string" xpath="/picId3"/>
+		<Field id="picId4" desc="图片编号[4]" datatype="string" xpath="/picId4"/>
+		<Field id="picId5" desc="图片编号[5]" datatype="string" xpath="/picId5"/>
+	<!-- 特殊 -->
+		<Field id="mchtOrgSel" desc="所属机构" datatype="string" align="center"  edittype="combogrid"  
+	 		datasource="mchtSelOrg:com.ruimin.ifs.pmp.mchtMng.dataset.mchtSelOrg"  
+			viewfield="brcode,brname"  searchfield="qbrname"
+			init="true" multiple="false" default=""
+			fieldmap="mchtOrgSel=brname;mchtOrgId=brcode"/>   
+		<Field id="mchtMngSel" desc="上级商户" datatype="string" align="center"  edittype="combogrid"  
+	 		datasource="mchtMng:com.ruimin.ifs.pmp.mchtMng.dataset.mchtMng"  
+			viewfield="mchtId,mchtName"  searchfield="qmchtName"
+			init="true" multiple="false" default=""
+			fieldmap="mchtMngSel=mchtName;mchtMngNo=mchtId"/>	
+		<Field id="mchtAreaSel" desc="所属地区" align="center" edittype="combotree" 
+			datasource="CityTree:com.ruimin.ifs.mng.dataset.CityTree" status="F"
+			fieldmap="mchtAreaNo=_id;mchtAreaSel=_text"  viewfield="_text" required="true"/>
+		<Field id="mchtTypeUpd" desc="商户类型" datatype="string" datasource="DDIC:1804" edittype="combobox" align="center" required="true" xpath="/mchtType"/>
+	<!-- 审核功能新增字段 -->
+	    <Field id="auditId" desc="审核信息编号" datatype="string" width="630" colspan="4" align="center" xpath="/auditId"/> 	
+	    <Field id="auditView" desc="审核意见" datatype="string" edittype="textarea" colspan="4" rows="6" width="635"  size="128" readonly="false" align="center"  xpath="/auditView" />
+	
+	</Fields> 
+	
+	<Commands>	 
+	<!-- 主界面按钮 -->
+		<Command id="btnAdd" desc="新增" type="addrecord" icon="fa fa-plus"/>
+		<Command id="btnUpd" desc="修改" type="none" icon="fa fa-pencil"/>
+		<Command id="btnFrz" desc="冻结/解冻" type="asyncsubmit" icon="fa fa-gears"/>
+		<Command id="btnOff" desc="注销" type="none" icon="fa fa-gears"/>
+	<!-- 新增窗口 -->		
+		<Command id="btnAddSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:addMcht"/>
+	<!-- 修改窗口 -->		
+		<Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:updMcht"/>
+	<!-- 冻结/解冻 -->	
+		<Command id="btnFrzSub" desc="提交" type="asyncsubmit" url="#" txn="" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:frzMcht" icon="fa fa-gears"/>
+	<!-- 注销 -->	
+		<Command id="btnOffSub" desc="提交" type="asyncsubmit" url="#" txn="" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAction:offMcht" icon="fa fa-gears"/>	
+	<!-- 审核 -->
+	    <Command id="btnAuditAgree" desc="通过" type="asyncsubmit"   icon="fa fa-check" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAuditAction:pass"/>
+	    <Command id="btnAuditDisagree" desc="拒绝" type="asyncsubmit"   icon="fa fa-remove" flowid="com.ruimin.ifs.pmp.mchtMng.comp.MchtMngAuditAction:refuse"/>
+	
+	</Commands>	
+</Data>

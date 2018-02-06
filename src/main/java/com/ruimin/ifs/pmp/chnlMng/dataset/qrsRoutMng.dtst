@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="二维码路由管理" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.QrsRoutMngAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="routeId" desc="路由编号" align="center" required="true" edittype="textbox" datatype="string" size="32" status="F" xpath="/routeId"></Field>	
+		
+		<Field id="qmchtId" desc="商户简称" align="center" method="com.ruimin.ifs.pmp.chnlMng.comp.QueryMchtAction.getMchtName" edittype="textbox" datatype="string" size="128" status="F" xpath="/mchtId"></Field>	
+		<Field id="qprodId" desc="产品编码" align="center" method="com.ruimin.ifs.pmp.chnlMng.comp.QueryProAction.getProdName" edittype="textbox"  datatype="string" size="128"  xpath="/prodId"></Field>	
+		<Field id="qacctType" desc="账户类型" align="center" method="com.ruimin.ifs.pmp.chnlMng.comp.QueryAcctTypeAction.getAcctN" edittype="textbox" datatype="string" size="128" status="F" xpath="/acctType"></Field>	
+		<Field id="qpagyNo" desc="通道编号" align="center"  method="com.ruimin.ifs.pmp.chnlMng.comp.QrsRoutMngAction.getPagyName" edittype="textbox" datatype="string" status="F" xpath="/pagyNo"></Field>
+		
+		<Field id="priority" desc="优先级" align="center" required="true" edittype="textbox" datatype="string" size="11" status="F" xpath="/priority"></Field>	
+		<Field id="status" desc="路由状态" align="center" required="true" edittype="combobox" datasource="LIST:00,启用;99,停用" datatype="string" status="F" xpath="/status"></Field>	
+		<Field id="routeDesc" desc="路由描述" align="center" required="false" edittype="textbox" datatype="string" size="256" status="F" xpath="/routeDesc"></Field>	
+		<Field id="crtTlr" desc="创建操作员编号" align="center" required="false" edittype="textbox" datatype="string" size="20" status="F" xpath="/crtTlr"></Field>	
+		<Field id="crtDateTime" desc="创建时间" align="center" required="false" edittype="textbox" datatype="string" size="14" status="F" xpath="/crtDateTime"></Field>	
+		<Field id="lastUpdTlr" desc="最后更新柜员编号" align="center" required="false" edittype="textbox" datatype="string" size="20" status="F" xpath="/lastUpdTlr"></Field>	
+		<Field id="lastUpdDateTime" desc="最后更新时间" align="center" required="false" edittype="textbox" datatype="string" size="14" status="F" xpath="/lastUpdDateTime"></Field>	
+		<!-- 特殊  -->
+		<Field id="pagyNo" desc="通道编号" edittype="combogrid" required="true" datatype="string" datasource="pagyInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo"
+				viewfield="pagyNo,pagyName" searchfield="qpagyName" init="true"
+				fieldmap="pagyNo=pagyNo" xpath="/pagyNo"/>
+		 
+		 <Field id="mchtId" desc="商户编号" align="center" edittype="combogrid" status="F" xpath="/mchtId"
+          datasource="mchtName:com.ruimin.ifs.pmp.chnlMng.dataset.mchtName" fieldmap="mchtId=mchtId"
+          datatype="string" required="true" multiple="true" readonly="false" searchfield="qmchtId" viewfield="mchtId,mchtSimpleName" init="true"></Field>	
+		 
+		 <Field id="acctType" desc="账户类型" align="center" edittype="combogrid" status="F" xpath="/acctType"
+          datasource="acctType:com.ruimin.ifs.pmp.chnlMng.dataset.acctType" fieldmap="acctType=acctTypeNo"
+          datatype="string" required="true" multiple="true" readonly="false" searchfield="qAcctTypeNo" viewfield="acctTypeNo,acctTypeName" init="true"></Field>	
+		 
+		 <Field id="prodId" desc="产品编码" align="center" edittype="combogrid" status="F" xpath="/prodId"
+          datasource="payPro:com.ruimin.ifs.pmp.chnlMng.dataset.payPro" fieldmap="prodId=prodId"
+          datatype="string" required="true" multiple="true" readonly="false" searchfield="qprodId" viewfield="prodId,prodName" init="true"></Field>	
+		
+		 <!-- 查询条件 -->   
+	    <Field id="qrouteId" desc="路由编号" edittype="textbox" datatype="string" />
+	    <Field id="qqmchtId" desc="商户编号" edittype="textbox" datatype="string" />
+	    
+		
+	</Fields>
+	<Commands>
+	    <!-- 新增窗口按钮 --> 
+	    <Command id="btnAdd" desc="新增" type="addrecord" url="#" icon="fa fa-plus"></Command>
+	    <Command id="btnAddSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.chnlMng.comp.QrsRoutMngAction:addOrUpdQrsRout"/>
+	    <!-- 修改窗口按钮 -->
+	    <Command id="btnMod" desc="修改" type="none" url="#" icon="fa fa-pencil" flowid=""></Command>
+	    <Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save" flowid="com.ruimin.ifs.pmp.chnlMng.comp.QrsRoutMngAction:addOrUpdQrsRout"/>
+	    <!-- 删除 -->
+	    <Command id="btnDelete" desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+	    <Command id="btnDeleteSub"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.QrsRoutMngAction:deleteQrs" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+	    <Command id="btnRef"  desc="刷新缓存" type="none" flowid="" url="#" txn="" icon="fa fa-refresh" tip="刷新缓存"/>
+	    <Command id="btnRefSub"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.QrsRoutMngAction:refreshQrs" url="#" txn="" icon="fa fa-refresh" tip="刷新缓存"/>
+	    
+	</Commands>
+</Data>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 费率规则信息查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.RateRuleInfo">
+        select 
+		  trim(rate_rule_no) as rate_rule_no,
+		  trim(rate_id) as rate_id,
+		  if(SECTION_MIN='','',if(SECTION_MIN=0,0,SECTION_MIN/100)) section_min ,
+			if(section_max='','',if(section_max=0,0,section_max/100)) section_max ,
+		   trim(charge_type) as charge_type,
+		   case charge_type	 
+           		when '00'  then IFNULL(charge_value,0)/100
+           		else trim(charge_value)
+      	   end  as charge_value,
+      	   if(fee_min='','',if(fee_min=0,0,fee_min/100)) fee_min ,
+		   if(fee_max='','',if(fee_max=0,0,fee_max/100)) fee_max ,
+      	   trim(date_state) as date_state,
+           trim(crt_tlr) as crt_tlr,
+           trim(crt_date_time) as crt_date_time, 
+           trim(last_upd_tlr) as last_upd_tlr, 
+           trim(last_upd_date_time) as last_upd_date_time
+		from 
+			pbs_rate_rule_info
+		where
+			trim(rate_id)=#{rateId}
+			and date_state='00'
+			order by rate_rule_no
+        
+	</select> 
+	
+<delete id="deleteRateRuleInfo" paramType="map">
+delete from pbs_rate_rule_info where rate_id = #{rateId}
+</delete>
+	
+	
+	<select id="query" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.RateRuleInfo">
+	select rate_rule_no, rate_id, section_min, section_max, charge_type, charge_value, fee_min, fee_max, date_state, crt_tlr, crt_date_time, last_upd_tlr, last_upd_date_time from pbs_rate_rule_info
+    where rate_id= #{rateId}
+	</select>
+	
+	
+</mapper>

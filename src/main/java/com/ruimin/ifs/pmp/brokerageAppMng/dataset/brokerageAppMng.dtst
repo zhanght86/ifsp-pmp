@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="券商app管理数据集" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.brokerageAppMng.comp.BrokerageAppMngAction:pageQuery" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+             <!-- 查询条件 -->
+             <Field id="qAppId" desc="appID"  size="32" edittype="textbox"></Field>
+             <Field id="qAppName" desc="app名称"  size="20" edittype="textbox"></Field>
+             <Field id="qTraderName" desc="券商名称"  size="20" edittype="textbox"></Field>
+             <Field id="qOrgId" desc="机构号"  size="32" edittype="textbox"></Field>
+             <Field id="qStat" desc="状态" align="center" datasource="DDIC:2002"  edittype="combobox"></Field>
+             <!-- 数据字段 -->
+             <Field id="appid" desc="appid" align="center" size="11" rule="isNum" errmsg="格式错误,必须是11位数字" readonly="true" required="true" status="F" xpath="/appid"></Field>
+             <Field id="appName" desc="app名称" align="center" size="20" datatype="string" required="true" status="F" xpath="/appName"></Field>
+             <Field id="traderName" desc="券商名称" align="center" size="20" required="true" datatype="string" status="F" xpath="/traderName"></Field>
+             <Field id="freeAmt" desc="免密金额" align="center" edittype="textbox"  required="true" method="com.ruimin.ifs.pmp.pubTool.util.CommonUtil.transFenToYuan" status="F" xpath="/freeAmt"></Field>
+             <Field id="orgId" desc="机构号" align="center" size="32" colspan="3" width="300" required="true" status="F" xpath="/orgId"></Field>
+             <Field id="commAddr" desc="后台通讯地址" align="center" size="128" colspan="3" width="640" status="F" xpath="/commAddr"></Field>
+             <Field id="stat" desc="状态" align="center" datasource="DDIC:2002"  edittype="combobox" readonly="true"  required="true" status="F" xpath="/stat"></Field>
+             <Field id="md5Key" desc="密钥值" align="center" colspan="3" width="300" edittype="textbox"  required="true" status="F" xpath="/md5Key"></Field>
+             <Field id="crtTlr" desc="创建人" align="center" size="32" readonly="true" required="true" status="F" xpath="/crtTlr"></Field>
+             <Field id="crtDateTime" desc="创建日期时间" align="center" size="32" readonly="true" required="true" status="F" xpath="/crtDateTime"></Field>
+             <Field id="lastUpdTlr" desc="最近修改人" align="center" size="32" readonly="true" required="true" status="F" xpath="/lastUpdTlr"></Field>
+             <Field id="lastUpdDateTime" desc="最近修改日期时间" align="center" size="32" readonly="true" required="true" status="F" xpath="/lastUpdDateTime"></Field>
+             <Field id="opr" desc="操作"  status="N"></Field>
+             
+     </Fields>
+     <Commands>
+             <Command id="btnAdd" desc="新增" type="addrecord" flowid="" icon="fa fa-plus" url="#" txn="" ></Command>
+             <Command id="btnAddSubmit" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.brokerageAppMng.comp.BrokerageAppMngAction:add" icon="fa fa-save" url="#" txn="" ></Command>
+             
+             <Command id="btnUpd" desc="修改" type="none" flowid="" icon="fa fa-pencil" url="#" txn="" ></Command>
+             <Command id="btnUpdSubmit" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.brokerageAppMng.comp.BrokerageAppMngAction:update" icon="fa fa-save" url="#" txn="updateacct"></Command>
+             
+		     <Command id="btnStatus" desc="启用/停用" type="none" url="#" txn="" icon="fa fa-gears" tip="启用或停用"/>
+		     <Command id="btnStatusSubmit"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.brokerageAppMng.comp.BrokerageAppMngAction:disableOrEnable" url="#" txn="" icon="fa fa-trash-o"/>
+		     
+     </Commands>
+</Data>

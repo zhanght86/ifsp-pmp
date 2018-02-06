@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息辅临时表查询 -->		
+<select id="selectMchtAssit" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtAssistInfoTmp">
+	SELECT * FROM pbs_mcht_assist_info_tmp p WHERE p.MCHT_ID = #{mchtId}
+</select>
+
+
+<select id="selectMchtAssitReal" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtAssistInfo">
+	SELECT * FROM pbs_mcht_assist_info p WHERE p.MCHT_ID = #{mchtId}
+</select>
+
+
+
+
+
+
+
+
+
+</mapper>

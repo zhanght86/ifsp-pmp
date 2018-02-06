@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 通道信息查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyTxnBaseInfo">
+		select * from PAGY_TXN_BASE_INFO
+    	where 1=1
+    	<if test = "qpagyNo != ''"><![CDATA[and PAGY_NO like #{qpagyNo} ]]></if>
+    	<if test = "qpagyTxnCode != ''"><![CDATA[and PAGY_TXN_CODE = #{qpagyTxnCode} ]]></if>
+    	<if test = "qpagyTxnName != ''"><![CDATA[and PAGY_TXN_NAME like #{qpagyTxnName} ]]></if>
+		order by PAGY_TXN_CODE DESC
+	</select>
+
+	<select id="queryPagyTxnCode" paramType="map" resultType="int">
+	     select count(*) from PAGY_TXN_BASE_INFO where PAGY_TXN_CODE = #{pagyTxnCode}
+	</select>
+	
+	<select id="queryRel" paramType="map" resultType="int">
+	     select count(*) from PAGY_TXN_ACCT_BANK_REL 
+	     where PAGY_TXN_CODE = #{pagyTxnCode}
+	     and ACCT_TYPE_NO = #{acctTypeNo}
+	     and BANK_NO = #{bankNo}
+	</select>
+	
+	<update id="delRel"  paramType="String" >
+		delete from PAGY_TXN_ACCT_BANK_REL where PAGY_TXN_CODE = #{pagyTxnCode}
+	</update>
+	
+	<update id="updateState" paramType="map" >
+		update 	PAGY_TXN_BASE_INFO
+		set 	PAGY_TXN_STAT = #{pagyTxnStat},
+				LAST_UPD_TLR = #{lastUpdTlr},
+				LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 	PAGY_TXN_CODE = #{pagyTxnCode}
+	</update>
+   
+   <select id="getPagyTxnNames" paramType="map" resultType="string">
+      select PAGY_TXN_NAME from PAGY_TXN_BASE_INFO where PAGY_TXN_CODE in (#{pagyTxnCodeArray})
+</select>
+</mapper>

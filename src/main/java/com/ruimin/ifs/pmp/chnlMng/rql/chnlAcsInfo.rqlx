@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 查询 【通道接入信息】-->		
+	<select id="queryMassInfo" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.ChnlAcsInfoVO">
+		select a.*, b.pagy_name, e.*
+  from PAGY_MAIN_MCHT_INFO a
+  left join PAGY_BASE_INFO b on a.pagy_no = b.pagy_no
+
+  left join
+
+ (select c.*, d.md5_passwd, d.md5_date, d.md5_end_date,d.md5_encrypt_way_type
+    from (select *
+          
+            from pagy_pay_cert_cfg
+            where 1=1 
+           ) c left join
+         (select certifi_id,
+                 certifi_passwd as md5_passwd,
+                 certifi_date as md5_date,
+                 certifi_end_date as md5_end_date,
+                 encrypt_way_type as md5_encrypt_way_type
+            from pagy_pay_cert_cfg
+           where certifi_type = '03') d on c.certifi_id = d.certifi_id
+           where c.encrypt_way_type = '02'
+ ) e on a.main_mcht_no = e.certifi_bl
+      where 1=1
+      and b.pagy_stat = '00'
+  		<if test = "qpagyNo != ''"><![CDATA[and a.PAGY_NO = #{qpagyNo} ]]></if>
+  		<if test = "qmainMchtAcsType != ''"><![CDATA[and a.MAIN_MCHT_ACS_TYPE = #{qmainMchtAcsType} ]]></if>
+  		<if test = "qmainMchtNo != ''"><![CDATA[and a.MAIN_MCHT_NO like #{qmainMchtNo} ]]></if>
+  		<if test = "qmainMchtName != ''"><![CDATA[and a.MAIN_MCHT_NAME like #{qmainMchtName} ]]></if>
+  		<if test = "qmainMchtStat != ''"><![CDATA[and a.MAIN_MCHT_STAT = #{qmainMchtStat} ]]></if>
+  		<if test = "qmainMchtNoAC != ''"><![CDATA[and a.MAIN_MCHT_NO = #{qmainMchtNoAC} ]]></if>
+  		order by a.crt_date_time desc
+	</select>
+	
+	
+<!-- 删除【基本信息】 -->
+	<update id="delBase" paramType="String" >
+		delete
+		from PAGY_MAIN_MCHT_INFO
+		where main_mcht_no= #{mainMchtNoAC}
+	</update>
+	
+
+	
+<!-- 新增或修改时，查询【功能清单】,所选通道下的交易+账户类型，根据操作标志判断sql执行 -->		
+	<select id="queryFuncTreeWhenAddOrUpd" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.ChnlAcsInfoVO">
+		select distinct pagy.pagy_no,
+                pagy.pagy_name,
+                txn.pagy_txn_code,
+                txn.pagy_txn_name,
+                acct.acct_type_no,
+                acct.acct_type_name 
+		from PAGY_BASE_INFO pagy
+		left join PAGY_TXN_BASE_INFO txn on pagy.pagy_no = txn.pagy_no
+		left join PAGY_TXN_ACCT_BANK_REL rel on txn.pagy_txn_code = rel.pagy_txn_code
+		left join PAY_ACCT_TYPE_BASE_INFO acct on rel.acct_type_no = acct.acct_type_no
+		where 1=1 
+		and pagy.pagy_stat != '99'
+		and txn.pagy_txn_stat !='99'
+        and acct.acct_type_stat !='99'
+		and pagy.pagy_no = #{qpagyNo}
+		and (pagy.pagy_no,txn.pagy_txn_code,acct.acct_type_no) 
+		not in (select pagy_no,pagy_txn_code,acct_type_no from PAGY_MCHT_TXN_REL
+		where 1=1 
+		<if test = "qoprType == 'UPD'"><![CDATA[and main_mcht_no != #{mainMchtNo} ]]></if>)
+		order by txn.pagy_txn_code,acct.acct_type_no
+	</select>
+	
+	
+<!-- 详情时，查询【功能清单】,所选通道下的交易+账户类型 -->		
+	<select id="queryFuncTreeWhenDetail" paramType="String" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.ChnlAcsInfoVO">
+		select txn.pagy_txn_code,
+               txn.pagy_txn_name,
+               acct.acct_type_no,
+               acct.acct_type_name
+  		from PAGY_MCHT_TXN_REL rel
+  		left join PAGY_TXN_BASE_INFO txn on rel.pagy_txn_code = txn.pagy_txn_code
+  		left join PAY_ACCT_TYPE_BASE_INFO acct on rel.acct_type_no = acct.acct_type_no
+ 		where 1=1 
+ 		and rel.main_mcht_no = #{mainMchtNo}
+ 		and txn.pagy_txn_stat !='99'
+        and acct.acct_type_stat !='99'
+	</select>
+	
+	
+<!-- 查询【接入编号是否重复】 -->		
+	<select id="validPkNoRepeat" paramType="String" resultType="String">
+		select main_mcht_no 
+		from pagy_main_mcht_info 
+		where main_mcht_no= #{mainMchtNo}
+	</select>
+	
+	
+<!-- 删除【证书信息】 -->		
+	<update id="delCert" paramType="String" >
+		delete
+		from pagy_pay_cert_cfg
+		where certifi_id= #{certifiId}
+	</update>
+	
+	
+<!-- 删除【功能清单树节点】 -->		
+	<update id="delFuncTree" paramType="String" >
+		delete
+		from PAGY_MCHT_TXN_REL
+		where main_mcht_no= #{mainMchtNoAC}
+	</update>
+		
+
+<!-- 启用/停用-->		
+	<update id="stpAcs" paramType="map" >
+		update
+			PAGY_MAIN_MCHT_INFO
+		set
+			LAST_UPD_TLR=#{trlno},
+			LAST_UPD_DATE_TIME=#{lastUpdDateTime},
+			<if test = "mainMchtStat == '00'"><![CDATA[ MAIN_MCHT_STAT = '99']]></if>
+			<if test = "mainMchtStat == '02'"><![CDATA[ MAIN_MCHT_STAT = '00']]></if>
+			<if test = "mainMchtStat == '99'"><![CDATA[ MAIN_MCHT_STAT = '00']]></if>
+		where
+			MAIN_MCHT_NO=#{mainMchtNo}
+	</update>
+</mapper>

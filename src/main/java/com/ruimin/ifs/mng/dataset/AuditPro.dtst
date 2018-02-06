@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="审核流程信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.AuditInfoAction:queryPro" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="auditId" 	desc="任务编号" edittype="textbox" readonly="true" datatype="string" xpath="/auditId" />
+		<Field id="auditLevel" 	desc="审核级别" edittype="textbox" readonly="true" datatype="string" xpath="/auditLevel" />
+		<Field id="auditName" 	desc="审核名称" edittype="textbox" readonly="true" datatype="string" xpath="/auditName" />
+		<Field id="auditRole" desc="审核角色"  edittype="combogrid" datasource="RoleSelect:com.ruimin.ifs.mng.dataset.RoleMngEntry"  
+			fieldmap="auditRole=roleId;auditRoleName=roleName" viewfield="roleId,roleName" multiple="true" init="true" xpath="/auditRole" />
+		<Field id="auditRoleName" desc="审核角色" method="com.ruimin.ifs.mng.comp.AuditInfoAction.getAuditRoleName" datatype="string" edittype="textbox" xpath="/auditRole" />	
+    </Fields>
+    
+	<Commands>
+	</Commands>
+</Data>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 机构管理 -->
+	<select id="listAll" paramType="map" resultType="com.ruimin.ifs.po.TblBctl">
+		select * from IFS_ORG order by brattr desc, brcode asc
+	</select>
+	<!-- 查询上级分类机构列表-->
+	<select id="queryUpOrg" paramType="map" resultType="com.ruimin.ifs.po.TblBctl">
+		select * from IFS_ORG where 1=1 
+		<if test = "currentBrClass != '' "> and BRCLASS &lt; #{currentBrClass}</if>
+	</select>
+	<select id="queryOrg" paramType="map" resultType="com.ruimin.ifs.po.TblBctl">
+		select * from IFS_ORG where 1=1 
+		<if test = "blnUpBrcode != '' "> and BLN_UP_BRCODE=#{blnUpBrcode}</if>
+		<if test = "brno != '' "> and BRNO=#{brno}</if>
+		<if test = "brname != '' "> and BRNAME like #{brname}</if>
+	</select>
+	
+	<select id="queryDownOrg" paramType="map" resultType="com.ruimin.ifs.po.TblBctl">
+		select * from IFS_ORG where 1=1 
+		<if test = "brCode != '' "> and BLN_UP_BRCODE=#{brCode}</if>
+	</select>
+	
+	<select id="queryOrgByBrNo" paramType="map" resultType="int">
+		select count(*) from IFS_ORG where BRNO=#{brno} and STATUS='00'
+		<if test = "brcode != '' "> and BRCODE!=#{brcode}</if>
+	</select>
+	
+	<select id="queryOrgByBrClass" paramType="map" resultType="int">
+		select count(*) from IFS_ORG where BRCLASS='1'
+	</select>
+	<!-- 工作日历 -->
+	<select id="queryHoliday" paramType="map" resultType="com.ruimin.ifs.po.TblCalInf">
+		select * from IFS_CAL_INF where 1=1
+		<if test = "year != '' "> and YEAR=#{year}</if>
+	</select>
+	
+	<!-- 批量 -->
+	<select id="queryBhProcStep" paramType="map" resultType="com.ruimin.ifs.po.TblBhProcStep">
+		select * from IFS_BAT_PROC_STEP order by id
+	</select>
+	
+	<select id="queryBhProcStepStatus" paramType="map" resultType="com.ruimin.ifs.po.TblBhProcStatus">
+		select * from IFS_BAT_PROC_STATUS where JOBNO=#{jobno} and STEP=#{step} and SUB_STEP=#{substep} and BHDATE=#{bhdate}
+	</select>
+	<!-- 系统管理员查询 -->
+	<select id="queryBizLog" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.BizLogVO">
+		<![CDATA[
+			select log.id,log.txn_date,log.txn_start_time,log.txn_end_time,log.txn_run_time,
+			staff.brcode,log.oprcode,log.ip_adr,log.funcid,log.oprtxncd,log.txn_biz_log1,
+			log.txn_biz_log2,log.txn_status,log.txn_fail_log,staff.tlr_name,staff.tlrno from ifs_biz_log log,ifs_staff staff 
+			where trim(log.oprcode) = staff.tlrno and trim(staff.brcode) =#{brno} 
+		]]>		
+		<if test = "startDate != '' "><![CDATA[and log.txn_date >= #{startDate}]]></if>
+		<if test = "endDate != '' "><![CDATA[and log.txn_date <= #{endDate}]]></if>
+		<if test = "tlrno != '' "><![CDATA[and staff.tlrno = #{tlrno}]]></if>
+		<if test = "oprcode != '' "><![CDATA[and staff.tlr_name like #{oprcode}]]></if>
+		<![CDATA[ order by log.txn_date desc,log.txn_end_time desc ]]>
+	</select>
+	<!-- 非系统管理员查询 -->
+	<select id="queryBizLog1" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.BizLogVO">
+		<![CDATA[
+			select log.id,log.txn_date,log.txn_start_time,log.txn_end_time,log.txn_run_time,
+			staff.brcode,log.oprcode,log.ip_adr,log.funcid,log.oprtxncd,log.txn_biz_log1,
+			log.txn_biz_log2,log.txn_status,log.txn_fail_log,staff.tlr_name,staff.tlrno from ifs_biz_log log,ifs_staff staff 
+			where trim(log.oprcode) = staff.tlrno and trim(log.oprcode) =#{brno} 
+		]]>		
+		<if test = "startDate != '' "><![CDATA[and log.txn_date >= #{startDate}]]></if>
+		<if test = "endDate != '' "><![CDATA[and log.txn_date <= #{endDate}]]></if>
+		<if test = "tlrno != '' "><![CDATA[and staff.tlrno = #{tlrno}]]></if>
+		<if test = "oprcode != '' "><![CDATA[and staff.tlr_name like #{oprcode}]]></if>
+		<![CDATA[ order by log.txn_date desc,log.txn_end_time desc ]]>
+	</select>
+	<!-- 查询操作员类型 -->
+	<select id="queryType" paramType="map" resultType="string">
+		select tlr_name from IFS_STAFF where 1=1 and tlrno = #{tlrNo}
+		
+	</select>
+	
+	<select id="findFunctionMaxId" paramType="map" resultType="string">
+		select max(funcid) from IFS_MENU_INF where 
+		<ifs>
+			<if test="param == null"> lastdirectory is null </if>
+			<else> lastdirectory = #{param} </else>
+		</ifs>
+	</select>
+	<select id="findAllFunctions" paramType="" resultType="com.ruimin.ifs.po.TblFunction">
+		select * from IFS_MENU_INF order by showseq, funcid
+	</select>
+	<select id="checkFunctionHaschild" paramType="string" resultType="long">
+		select count(1) from IFS_MENU_INF where lastdirectory = #{funcid}
+	</select>
+	<select id="checkFunctionHasusing" paramType="string" resultType="long">
+		select count(1) from IFS_RES_INF where funcid = #{funcid}
+	</select>
+	
+	<select id="querySysParam" paramType="map" resultType="com.ruimin.ifs.po.TblSysParam">
+		<![CDATA[select * from IFS_SYS_PARAM where 1=1 ]]>
+		<if test = "queryParamId != ''"><![CDATA[and PARAM_ID like #{queryParamId}]]></if>
+		<if test = "queryOprcode1 != ''"><![CDATA[and MAGIC_ID like #{queryOprcode1}]]></if>
+	</select>
+
+	<select id="queryValueByMagicId" paramType="string" resultType="string">
+		<![CDATA[select PARAM_VALUE_TX from IFS_SYS_PARAM where MAGIC_ID=#{magicId}]]>
+	</select>
+
+	<select id="queryLogByTlrno1" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.LoginLogVO">
+		<![CDATA[
+			select distinct ifsStaff.tlrno,ifsStaff.brcode,ifsStaff.lastaccesstm,
+			ifsStaff.lastlogouttm,ifsStaff.lastfailedtm,ifsBizLog.ip_adr,ifsLogin.login_remark 
+			from ifs_staff ifsStaff ,ifs_login_log ifsLogin ,ifs_biz_log ifsBizLog where 1=1 
+		]]>
+	 	<if test="queryTlrno != ''">and ifsStaff.tlrno like #{queryTlrno}</if>
+		<if test="queryBrcode != ''">and ifsStaff.brcode = #{queryBrcode}</if>
+		<![CDATA[ order by ifsStaff.lastaccesstm desc ]]>
+	</select>
+	<select id="queryOrgByBrnoId" paramType="map" resultType="int">
+	     select count(*) from IFS_ORG where BRNO=#{brno}
+	</select>
+		<select id="queryLogByTlrno" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.LoginLogVO">
+		<![CDATA[
+			select * from ifs_login_log where 1=1 
+		]]>
+	 	<if test="queryTlrno != ''">and TLR_NO like #{queryTlrno}</if>
+		<if test="queryBrcode != ''">and BR_NO = #{queryBrcode}</if>
+	</select>
+	
+	<select id="queryLogDetail" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.LoginLogVO">
+		<![CDATA[
+			select tlrno,br_no,lastaccesstm,lastlogouttm,count(crt_tm) as crt_tm 
+			from ifs_staff,ifs_login_log where 1=1 
+		]]>
+	 	<if test="queryTlrno != ''"><![CDATA[and tlrno like #{queryTlrno}]]></if>
+		<if test="queryBrcode != ''"><![CDATA[and br_no = #{queryBrcode}]]></if>
+		<if test="queryLastaccesstm != ''"><![CDATA[and lastaccesstm >= #{queryLastaccesstm}]]></if>
+		<if test="queryLastlogouttm != ''"><![CDATA[and lastlogouttm <= #{queryLastlogouttm}]]></if>
+		<![CDATA[ group by tlrno,br_no,lastaccesstm,lastlogouttm ]]>
+	</select>
+	
+
+	
+	<select id="queryExpTaskInfoForReadyExport" paramType="map" resultType="com.ruimin.ifs.po.TblExpTaskInfo">
+		select * from ifs_exp_task_inf where tsk_stat = '0' order by tsk_start_tms for update
+	</select>
+	
+	<select id="queryExpTaskInfoForReadyExportByOwner" paramType="map" resultType="com.ruimin.ifs.po.TblExpTaskInfo">
+		select * from ifs_exp_task_inf where tsk_stat = '1'  and tsk_owner = #{tskOwner} order by tsk_start_tms
+	</select>
+	
+	<update id="updateExpTaskInfoForReadyExport" paramType="com.ruimin.ifs.po.TblExpTaskInfo">
+		update ifs_exp_task_inf set tsk_stat = '1' , tsk_owner = #{tskOwner} where tsk_id = #{tskId} 
+	</update>
+	
+	<select id="queryTlrRole" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.TlrRoleVO">
+		<![CDATA[select isf.tlrno,isf.tlr_name,ir.role_name from ifs_staff isf
+				left join ifs_staff_role_rel isrr on isrr.tlrno = isf.tlrno
+				left join ifs_role ir on isrr.role_id = ir.role_id
+				where 1=1
+			]]>
+		<if test = "tlrno != ''"><![CDATA[and isf.tlrno like #{tlrno}]]></if>
+		<if test = "tlrName != ''"><![CDATA[and isf.tlr_name like #{tlrName}]]></if>
+		<![CDATA[ order by isf.tlrno,ir.role_name  ]]>
+	</select>
+	
+	<select id="queryDataDic" paramType="map" resultType="com.ruimin.ifs.po.TblDataDic">
+		<![CDATA[select id,data_type_no,data_type_name,data_no,data_name,data_no_len from ifs_data_dic where 1=1 ]]>
+		<if test = "queryDataTypeNo != ''"><![CDATA[and data_type_no like #{queryDataTypeNo} ]]></if>
+		<if test = "queryDataNo != ''"><![CDATA[and data_no like #{queryDataNo} ]]></if>
+		<if test = "queryDataName != ''"><![CDATA[and data_name like #{queryDataName} ]]></if>
+		<if test = "queryDataTypeName != ''"><![CDATA[and data_type_name like #{queryDataTypeName} ]]></if>
+		<if test = "qUpDataNo != ''"><![CDATA[and miscflgs like #{qUpDataNo} ]]></if>
+		order by data_type_no desc,data_no desc
+	</select>
+	
+	<!-- added by mj 2015-11-24 -->
+	<select id="queryDataDicByDataNo" paramType="map" resultType="com.ruimin.ifs.po.TblDataDic">
+		<![CDATA[select id,data_type_no,data_type_name,data_no,data_name,data_no_len from ifs_data_dic where 1=1 ]]>
+		<if test = "dataTypeNo != ''"><![CDATA[and data_type_no=#{dataTypeNo} ]]></if>
+		<if test = "dataNo != ''"><![CDATA[and data_no=#{dataNo} ]]></if>
+		<if test = "upDataNo != ''"><![CDATA[and miscflgs like #{upDataNo} ]]></if>
+	</select>
+	
+	<select id="queryBiNationregionEntry" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.BiNationregionEntryVO">
+		<![CDATA[select nationregion_code,china_name,nationregion_number,china_short_name,eng_name,eng_short_name,crt_dt,last_upd_tms,last_upd_oper from ifs_nation_inf where 1=1 ]]>
+		<if test = "qid != ''"><![CDATA[and nationregion_code like #{qid} ]]></if>
+		<if test = "qnationregionNumber != ''"><![CDATA[and nationregion_number like #{qnationregionNumber} ]]></if>
+		<if test = "cnEnFullName != ''"><![CDATA[and (china_name like #{cnEnFullName} or eng_name like #{cnEnFullName}) ]]></if>
+		<if test = "cnEnShortName != ''"><![CDATA[and (china_short_name like #{cnEnShortName} or eng_short_name like #{cnEnShortName}) ]]></if>
+	</select>
+	
+	<select id="queryUserRoles" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.UserAuthority">
+		select tlrno,tlr_name,funcname from ifs_menu_inf b,ifs_staff d where b.funcid in 
+			(select funcid from ifs_res_inf a where a.role_id in 
+				(select role_id from ifs_staff_role_rel where tlrno = #{tlrno} )) and d.tlrno = #{tlrno}
+					order by b.lastdirectory, b.showseq
+	</select>
+	
+	<select id="queryCurrencyManEntry" paramType="map" resultType="com.ruimin.ifs.po.TblCurInf">
+		<![CDATA[select curcd, cnname, create_date, last_upd_date, last_upd_tlr, showseq, enname, cursymbol, create_tlr, base_unit, min_unit, cur_edicd, cur_ediname, curno, dratedays from ifs_cur_inf where 1=1 ]]>
+		<if test = "qcurcd != ''"><![CDATA[and curcd like #{qcurcd} ]]></if>
+		<if test = "qcurname != ''"><![CDATA[and cnname like #{qcurname} ]]></if>
+	</select>
+	
+	<select id="queryCronJob" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.TblCronJobVO">
+		select id, jobno, process_function, process_param, maxproc, runtime, 
+		days_of_month, repeat_time, repeat_cnt, start_time, end_time, 
+		last_run_time, due_time, suc_flag, fail_flag, auto, lock_own, 
+		desc0, desc1, desc2, timestamps, dualcontrol_lockstatus 
+		from ifs_cron_job
+	</select>
+	
+	<select id="queryCurrrateMng" paramType="map" resultType="com.ruimin.ifs.po.TblCurRate">
+		select id, curcd, currrate_date, last_upd_date, last_upd_tlr, to_curcd, buy_rate, 
+		sell_rate, exchg_rate from ifs_cur_rate where 1=1 
+		<if test = "curcd != ''"><![CDATA[and curcd = #{curcd} ]]></if>
+		<if test = "tocurcd != ''"><![CDATA[and to_curcd = #{tocurcd} ]]></if>
+		<if test = "currrateDate != ''"><![CDATA[and currrate_Date = #{currrateDate} ]]></if>
+	</select>
+	
+	<select id="queryJobLog" paramType="map" resultType="com.ruimin.ifs.po.TblCronJobLog">
+		select id, jobno, sub_proce_function, excute_time, excute_result, 
+		excute_own, fail_flag, suc_flag, exception_msg, end_excute_flag from ifs_cron_job_log where 1=1 
+		<if test = "excuteTimeStart != ''"><![CDATA[and excute_time >= #{excuteTimeStart} ]]></if>
+		<if test = "excuteTimeEnd != ''"><![CDATA[and excute_time <= #{excuteTimeEnd} ]]></if>
+		<if test = "excuteResult != ''"><![CDATA[and excute_result = #{excuteResult} ]]></if> 
+	</select>
+	
+	<select id="queryUserInfo" paramType="map" resultType="com.ruimin.ifs.po.TblStaff">
+		select * from ifs_staff where 1=1 
+		<if test = "brcode != ''"><![CDATA[and brcode = #{brcode} ]]></if>
+		<if test = "tlrno != ''"><![CDATA[and tlrno = #{tlrno} ]]></if>
+		<if test = "tlrName != ''"><![CDATA[and tlr_Name like #{tlrName} ]]></if>
+		Order by  tlrno desc
+	</select>
+	
+	<select id="queryMaxPk" paramType="map" resultType="int">
+		select max(role_id) from ifs_role
+	</select>
+	
+	<select id="queryResInf" paramType="map" resultType="com.ruimin.ifs.po.TblResInfo">
+		select distinct funcid from ifs_res_inf where role_id = #{roleId}
+	</select> 
+	
+	<select id="queryStaffRoleInfo" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.StaffRoleRefVO">
+		select isf.tlrno,isf.tlr_name,isf.flag,isf.lastaccesstm,org.BRNAME from ifs_staff isf
+		left join  ifs_staff_role_rel isrr on isf.tlrno = isrr.tlrno 
+	left join ifs_org org on isf.BRCODE = org.BRCODE
+		where isrr.status = '1' and isrr.role_id = #{roleId}
+	</select>
+	
+	<select id="querySelected" paramType="map" resultType="int">
+		select role_id from ifs_staff_role_rel where tlrno = #{tlrno}
+	</select>
+	
+	<select id="querySelectedByParam" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.TblStaffRoleRelVO">
+		select role_id, role_name, status, effect_date, expire_date, brclass, miscflgs, misc, role_type, is_lock, crt_dt, last_upd_tms, last_upd_oper, st from ifs_role where 1=1 
+		<if test = "qRoleName != ''"><![CDATA[and ROLE_NAME = #{qRoleName} ]]></if>
+		<if test = "qStatus != ''"><![CDATA[and STATUS = #{qStatus} ]]></if>
+	</select>
+	
+	<select id="queryRoleVo" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.TblStaffRoleRelVO">
+		select role_id, role_name, status, effect_date, expire_date, brclass, miscflgs, misc, role_type, is_lock, crt_dt, last_upd_tms, last_upd_oper, st from ifs_role 
+	</select>
+
+	<!-- 岗位管理表管理 -->
+	<select id="queryRole" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.TblStaffRoleRelVO">
+<!-- 		select * from IFS_ROLE  -->
+		<!-- 通过select 默认勾选已选角色 并且排除 无效角色信息 where a.status='00'  -->
+		select a.* ,if(role_id=(select role_id from ifs_staff_role_rel where tlrno=#{tlrno}),1,0) as "select"  from ifs_role a
+		where a.status ='00' 
+		<if test = "roleId != '' "> and ROLE_ID = #{roleId}</if>
+		<if test = "currBrClass != '' "><![CDATA[ and brclass >= #{currBrClass} ]]></if>
+		<if test = "roleName != '' "> and trim(ROLE_NAME) like #{roleName} </if>
+		<if test = "status != '' "> and STATUS = #{status}</if>
+		<if test = "brclass != '' "> and brclass = #{brclass}</if>
+		<if test = "brCodeClass != '' "> and brclass = #{brCodeClass}</if>
+		order by role_id
+	</select>
+	
+	<select id="queryRole1" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.TblStaffRoleRelVO">
+		select * from IFS_ROLE 
+		where 1=1 
+		<if test = "roleId != '' "> and ROLE_ID = #{roleId}</if>
+		<if test = "currBrClass != '' "><![CDATA[ and brclass >= #{currBrClass} ]]></if>
+		<if test = "roleName != '' "> and trim(ROLE_NAME) like #{roleName} </if>
+		<if test = "status != '' "> and STATUS = #{status}</if>
+		<if test = "brclass != '' "> and brclass = #{brclass}</if>
+		<if test = "brCodeClass != '' "> and brclass = #{brCodeClass}</if>
+		order by role_id
+	</select>
+	
+	<delete id="deleteRoleResInf" paramType="map" >
+		delete from ifs_res_inf where role_id = #{roleId}
+	</delete>
+	
+	<delete id="deleteRoleResInfByTlrno" paramType="map" >
+		delete from ifs_staff_role_rel where tlrno = #{tlrno}
+	</delete>
+	
+	<select id="queryBatchExpTask" paramType="map" resultType="com.ruimin.ifs.po.TblExpTaskInfo">
+		select * from ifs_exp_task_inf where 1=1
+		<if test = "filename != ''"> and tsk_desc like #{filename}</if>
+		<if test = "begin != ''"> and tsk_start_tms > #{begin}</if>
+		<if test = "state != ''"> and tsk_stat = #{state}</if>
+		order by tsk_start_tms desc
+	</select>
+	
+	<select id="queryListSelected" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.TblStaffRoleRelVO">
+		select a.role_id, a.role_name  
+		from ifs_role a,ifs_staff_role_rel b 
+		where b.tlrno = #{tlrno} and a.role_id= b.role_id
+		
+	</select>
+	
+	<!--根据操作员账号查询角色  added by mj 2015-11-20-->
+	<select id="queryListByTlr" paramType="map" resultType="String">
+		select role_id from ifs_staff_role_rel where tlrno = #{tlrno}
+	</select>
+		
+	<select id="queryOprById" paramType="map" resultType="int">
+		select count(*) from IFS_STAFF_ROLE_REL where ROLE_ID=#{roleId}
+	</select>
+	
+	<select id="querySysParamByGroup" paramType="map" resultType="com.ruimin.ifs.po.TblSysParam">
+		select * from IFS_SYS_PARAM where PARAM_ID = #{group}
+	</select>
+	<select id="querySysParamByGroupAndKey" paramType="map" resultType="com.ruimin.ifs.po.TblSysParam">
+		select * from IFS_SYS_PARAM where PARAM_ID = #{group} and MAGIC_ID = #{key}
+	</select>
+	
+	<!-- 根据操作员编号查找角色 -->
+	<select id="queryPageByTlr" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.TblStaffRoleRelVO">
+		select role.* from IFS_ROLE role left join ifs_staff_role_rel rel on role.role_id=rel.role_id where rel.tlrno = #{tlrno}
+	</select>
+	
+	<!-- 查询出所有符合条件的角色信息 -->
+	<select id="queryStaffByParam" paramType="map" resultType="com.ruimin.ifs.po.TblStaff">
+			select * from ifs_staff where 1=1 
+			<if test = "tlrno != ''"> and TLRNO = #{tlrno}</if>
+			<if test = "tlrName != ''"> and TLR_NAME like #{tlrName}</if>
+			<if test = "flag != ''"> and FLAG = #{flag}</if>
+			<if test = "isLock != ''"> and IS_LOCK = #{isLock}</if>
+			<if test = "brcode != ''"> and BRCODE = #{brcode}</if>
+			<if test = "brCode != ''"> and BRCODE in (#{brCode})</if> 
+			order by TLRNO
+	</select>
+	<!-- 查询政通内部机构号 -->
+	<select id="queryAcctInst" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.AcctInst">
+		select a.ACCT_INST_NO from PBS_ACCT_INST_INFO  a where 1=1
+		<if test = "acctInstName != ''"> and a.ACCT_INST_NAME like #{acctInstName}</if>
+		order by a.ACCT_INST_NO
+	</select>
+	<select id="queryAgent" paramType="map" resultType="com.ruimin.ifs.mng.process.bean.MchtAgent">
+			select * 
+			from PBS_AGENT_INFO a
+			where 1=1
+			<if test = "agentId != '' "><![CDATA[ and a.AGENT_ID like #{agentId} ]]></if>
+		    <if test = "agentNames != '' "><![CDATA[ and a.AGENT_NAME like #{agentNames} ]]></if>	
+		    order by a.CRT_DATE_TIME,a.AGENT_ID desc			
+	</select>
+	<select id="agentId" paramType="" resultType="string">
+		select max(a.AGENT_ID) from PBS_AGENT_INFO a ;
+	</select>
+	<select id="getAgentNameById" paramType="string" resultType="string">
+		select AGENT_NAME from PBS_AGENT_INFO where AGENT_ID=#{agentId} ;
+	</select>
+	<select id="queryAgentIdMcht" paramType="string" resultType="String">
+		select MCHT_ID from PBS_MCHT_BASE_INFO where AGENT_ID=#{agentId} ;
+	</select>
+		<select id="qTlrRole" paramType="map" resultType="String">
+		SELECT a.TLRNO from IFS_STAFF_ROLE_REL a,IFS_RES_INF b 
+		where  a.ROLE_ID=b.ROLE_ID and a.TLRNO=#{tlrno} and b.FUNCID=#{funcid}
+	</select>
+</mapper> 

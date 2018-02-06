@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		
+	<!-- 查询指定接入方式下的交易-->
+	<select id="queryTxnTypeInfo" paramType="Map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.TradeType">
+	    SELECT * FROM PBS_TXN_TYPE_INFO
+		WHERE TXN_TYPE_CODE IN(
+		select TXN_TYPE_CODE from PBS_REL_ACCESS_TYPE_TXN_TYPE where ACCESS_TYPE_CODE=#{qaccessTypeCode}
+		) and DATA_STATE='00'	
+		order by TXN_TYPE_CODE DESC
+	</select>
+	<!-- 查询显示结果-->
+	<select id="query" paramType="Map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfo">
+	       select a.txn_type_code,group_concat(b.acct_type_code) acct_type_code  from PBS_PROD_REL_TXN_TYPE a 
+        left join PBS_PROD_REL_TXN_ACCT b on 
+      a.prod_id=b.prod_id  left join PBS_TXN_TYPE_INFO c on c.txn_type_code=a.txn_type_code left join 
+      PBS_ACCESS_TYPE_INFO d on d.access_type_code=b.acct_type_code
+      where trim(a.prod_id)=#{qprodId} and trim(b.prod_id)=#{qprodId} and a.txn_type_code=b.txn_type_code
+      group by a.txn_type_code
+	</select>
+	<!-- 查询账户类型名称-->
+	<select id="getAcctTypeName" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfo">
+	     select (d.acct_type_name)acct_type_code_name from PAY_ACCT_TYPE_BASE_INFO d where d.acct_type_no in (#{prodIdArray})
+	</select>
+	<!-- 查询交易类型名称-->
+	<select id="getTxnTypeName" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfo">
+	  select (c.txn_type_name)txn_type_code_name from PBS_TXN_TYPE_INFO c  where c.txn_type_code in (#{prodIdArray})
+	</select>
+	<!-- 查询接入方式名称-->
+	<select id="getAccessTypeCodeName" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AccessTypeInfo">
+	  select c.access_Type_Name from PBS_ACCESS_TYPE_INFO c  where c.access_Type_Code in (#{prodIdArray})
+	</select>
+	
+</mapper> 

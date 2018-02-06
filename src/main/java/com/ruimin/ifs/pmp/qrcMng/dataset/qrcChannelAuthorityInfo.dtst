@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="二维码渠道权限管理" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcChannelAuthorityInfoAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 基础信息 -->
+		   <Field id="chlAuNo" desc="权限编号" edittype="textbox" datatype="string" xpath="/chlAuNo" />
+		   <Field id="chlNo" desc="渠道" multiple="false" align="center" placeholder="占位符" edittype="combogrid" datatype="string" searchfield="" 
+				 datasource="qrcChannelInfo:com.ruimin.ifs.pmp.chnlMng.dataset.qrcChannelInfo" viewfield="chlId,chlName" init="true"
+				 fieldmap="chlNo=chlId;chlNoName=chlName" readonly="false" status="F"  required="true"  xpath="/chlNo"/>
+	        <Field id="chlNoName" method="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction.queryByChnlName" desc="渠道" status="N" 
+	             datatype="string" align="center" size="20" default=""  edittype="textbox" xpath="/chlNo" />
+           <!-- 二维码类型 -->
+	      <Field id="qrcTypeNo" desc="二维码类型名称" multiple="false" align="center" placeholder="占位符" edittype="combogrid" datatype="string" searchfield="" 
+		  	    datasource="DataQrcTypeInfo:com.ruimin.ifs.pmp.qrcMng.dataset.qrcChannelType" viewfield="qrcTypeNo,qrcTypeName" init="true" 
+		  	    fieldmap="qrcTypeNo=qrcTypeNo;qrcTypeNoName=qrcTypeName" readonly="false"  status="F"    required="true"  xpath="/qrcTypeNo" />
+        
+          <Field id="qrcTypeNoName" method="com.ruimin.ifs.pmp.qrcMng.comp.QrcTypeInfoAction.getQrcTypeName"  desc="二维码类型" status="N"
+	       		datatype="string" align="center" size="20" default=""  edittype="textbox" xpath="/qrcTypeNo" /> 
+
+	       <Field id="crtUsr" desc="创建操作员" edittype="textbox" datatype="string" xpath="/crtUsr" />
+		   <Field id="crtTm" desc="创建时间" edittype="textbox"  datatype="string" xpath="/crtTm" />
+		   <Field id="updUsr" desc="最近更新操作员" edittype="textbox" datatype="string" xpath="/updUsr" />
+		   <Field id="updTm" desc="最近更新时间" edittype="textbox" datatype="string" xpath="/updTm" />	
+		<!-- 查询条件 --> 
+          <Field id="qChlNo" desc="渠道" datasource="channelInfo:com.ruimin.ifs.pmp.chnlMng.dataset.channelInfo"  edittype="combogrid" fieldmap="qChlNo=chlId;qChlNoName=chlName" 
+				required="false" status="F" viewfield="chlId,chlName" init="true" />
+          <Field id="qQrcTypeNo" desc="二维码类型名称" datasource="DataQrcTypeInfo:com.ruimin.ifs.pmp.qrcMng.dataset.qrcTypeInfo"  edittype="combogrid" fieldmap="qQrcTypeNo=qrcTypeNo;qQrcTypeNoName=qrcTypeName" 
+			required="false" status="F" viewfield="qrcTypeNo,qrcTypeName"  init="true"/>
+    </Fields>
+    
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcChannelAuthorityInfoAction:save" url="#" txn="" />
+		<Command id="btnUpdate" desc="修改" type="none" url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnDel" 	desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" />
+		<!--修改保存 -->
+        <Command id="btnUpdateSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcChannelAuthorityInfoAction:update" url="#" txn="" />
+		<Command id="btnDelete"   desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcChannelAuthorityInfoAction:delete" url="#" txn="" />
+	</Commands>
+</Data>

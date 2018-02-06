@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		
+<!-- 查询 【通道核心配置情况】-->		
+	<select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.oprMng.process.bean.PagyCoreMngVO">
+	select distinct pagy.pagy_no,
+       pagy.pagy_name,
+       txn.pagy_txn_code,
+       txn.pagy_txn_name,
+       acct.acct_type_no,
+       acct.acct_type_name,
+       mainMcht.Main_Mcht_No,
+       mainMcht.Main_Mcht_Name,
+       pagyTxn.Pay_Txn_Code,
+       pagyTxn.Pay_Txn_Resp,
+       6-(case when pagy.pagy_name is null then 1  else 0 end +
+       case when txn.pagy_txn_name is null then 1  else 0  end +        
+       case when acct.acct_type_name is null then 1  else 0 end +
+       case when mainMcht.Main_Mcht_Name is null then 1  else 0  end +
+       case when pagyTxn.Pay_Txn_Resp is null then 1  else 0  end)as need_set_col
+  from (select pagy_no,pagy_name,pagy_stat from pagy_base_info where pagy_stat = '00') pagy
+  left join (select pagy_txn_code,pagy_txn_name,pagy_txn_stat,pagy_no from pagy_txn_base_info where pagy_txn_stat = '00') txn 
+    on pagy.pagy_no = txn.pagy_no
+  left join pagy_txn_acct_bank_rel acctRel 
+    on txn.pagy_txn_code = acctRel.pagy_txn_code
+  left join (select acct_type_no,acct_type_name,acct_type_stat from pay_acct_type_base_info where acct_type_stat = '00') acct 
+    on acctRel.acct_type_no = acct.acct_type_no
+  left join pagy_mcht_txn_rel mainMchtRel 
+    on acctRel.Acct_Type_No =mainMchtRel.Acct_Type_No and txn.pagy_txn_code = mainMchtRel.Pagy_Txn_Code
+  left join (select Main_Mcht_No,Main_Mcht_Name,main_mcht_stat from pagy_main_mcht_info where main_mcht_stat = '00') mainMcht
+    on mainMchtRel.Main_Mcht_No =mainMcht.Main_Mcht_No   
+  left join pagy_pay_txn_rel pagyTxnRel 
+    on pagyTxnRel.Pagy_Txn_Code =mainMchtRel.pagy_txn_code and pagyTxnRel.Pagy_No = mainMchtRel.Pagy_No
+  left join (select Pay_Txn_Code,Pay_Txn_resp,pay_txn_stat from pagy_pay_txn_base_info where pay_txn_stat = '00') pagyTxn 
+    on pagyTxn.Pay_Txn_Code = pagyTxnRel.Pay_Txn_Code
+    where 1=1
+    <if test = "qpagyNo != ''"><![CDATA[and pagy.pagy_no = #{qpagyNo} ]]></if>
+    <if test = "qpagyTxnCode != ''"><![CDATA[and txn.pagy_txn_code = #{qpagyTxnCode} ]]></if>
+    <if test = "qacctTypeNo != ''"><![CDATA[and acct.acct_type_no = #{qacctTypeNo} ]]></if>
+    <if test = "qmainMchtNo != ''"><![CDATA[and mainMcht.Main_Mcht_No = #{qmainMchtNo} ]]></if>
+    <if test = "qpayTxnCode != ''"><![CDATA[and pagyTxn.Pay_Txn_Code = #{qpayTxnCode} ]]></if>
+    order by pagy.pagy_no    
+	</select>		
+</mapper>

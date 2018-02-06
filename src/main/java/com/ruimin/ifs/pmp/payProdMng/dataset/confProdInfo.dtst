@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	  
+	<Define desc="交易类型信息" type="call" pagesize="10" log="false" 
+	flowid="com.ruimin.ifs.pmp.payProdMng.comp.TxnTypeQueryAction:query" 
+	expmaxrcd="100" flowctxid="" flowretid="" />
+
+	<Fields>
+       <Field id="txnTypeCode" desc="交易类型" required="true" init="true"
+			datasource="queryTxnTypeInfo:com.ruimin.ifs.pmp.payProdMng.dataset.queryTxnTypeInfo"
+			edittype="combogrid" fieldmap="txnTypeCodeName=txnTypeName;txnTypeCode=txnTypeCode"
+			 searchfield="" viewfield="txnTypeCode,txnTypeName" xpath="/txnTypeCode" />
+		<Field id="acctTypeCode" desc="账户类型" required="true" init="true" datatype="string"
+			datasource="queryAccountType:com.ruimin.ifs.pmp.payProdMng.dataset.queryAccountType"
+			edittype="combogrid" multiple="true" fieldmap="acctTypeCodeName=acctTypeName;acctTypeCode=acctTypeCode"
+			searchfield="" viewfield="acctTypeCode,acctTypeName" xpath="/acctTypeCode" />  
+		
+       <Field id="acct" desc="账户类型" datatype="string" size="200" align="center" edittype="textbox" xpath="/acctTypeCode"/>
+       <Field id="txn" desc="交易类型" datatype="string" size="200" align="center" edittype="textbox" xpath="/txnTypeCode"/>
+		
+		
+		
+		<Field id="acctTypeCodeName" desc="账户类型" method="com.ruimin.ifs.pmp.payProdMng.comp.TxnTypeQueryAction.getAcctTypeName" 
+		align="center" edittype="textbox" datatype="string" xpath="/acctTypeCode" /> 	
+		
+		<Field id="txnTypeCodeName" desc="交易类型" method="com.ruimin.ifs.pmp.payProdMng.comp.TxnTypeQueryAction.getTxnTypeName" 
+		align="center" edittype="textbox" datatype="string" xpath="/txnTypeCode" />
+		
+	</Fields> 
+	
+	<Commands>
+		<Command id="btnAddConfig" desc="新增" type="addrecord" url="#"
+			txn="" icon="fa fa-plus" />
+		<Command id="btnDeleteConfig" desc="删除" type="delrecord" url="#"
+			txn="" icon="fa fa-minus" />
+	</Commands>
+</Data>

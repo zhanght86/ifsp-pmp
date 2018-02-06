@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+<!-- 商户信息详细查询 -->		
+	<select id="queryMassInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.EventBaseInfo">
+		select c.* from(
+select a.*,b.mcht_amr_no from MSS_EVENT_BASE_INFO a,pbs_mcht_base_info_tmp b where a.mcht_id=b.mcht_id) c where c.mcht_amr_no=#{tlrno}
+		<if test = "qcrtDate != ''"><![CDATA[and crt_date like #{qcrtDate} ]]></if>
+		<if test = "qeventTitle != ''"><![CDATA[and event_title like #{qeventTitle} ]]></if>
+		<if test = "qphoneNo != ''"><![CDATA[and phone_no like #{qphoneNo} ]]></if>
+		<if test = "qmchtId != ''"><![CDATA[and MCHT_ID like #{qmchtId} ]]></if>	
+		<if test = "qmchtSimpleName != ''"><![CDATA[and MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "qeventStat != ''"><![CDATA[and EVENT_STAT = #{qeventStat} ]]></if>
+		order by crt_date desc
+	</select>
+	
+	<select id="queryMassInfo2" paramType="map" resultType="com.ruimin.ifs.pmp.mchtAppMng.process.bean.EventBaseInfo">
+		select c.* from(
+select a.*,b.mcht_org_id  from MSS_EVENT_BASE_INFO a,pbs_mcht_base_info_tmp b where a.mcht_id=b.mcht_id)  c where c.mcht_org_id in (
+	select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList((select brcode from ifs_staff where tlrno=#{tlrno})))
+)
+		<if test = "qcrtDate != ''"><![CDATA[and crt_date like #{qcrtDate} ]]></if>
+		<if test = "qeventTitle != ''"><![CDATA[and event_title like #{qeventTitle} ]]></if>
+		<if test = "qphoneNo != ''"><![CDATA[and phone_no like #{qphoneNo} ]]></if>
+		<if test = "qmchtId != ''"><![CDATA[and MCHT_ID like #{qmchtId} ]]></if>	
+		<if test = "qmchtSimpleName != ''"><![CDATA[and MCHT_SIMPLE_NAME like #{qmchtSimpleName} ]]></if>
+		<if test = "qeventStat != ''"><![CDATA[and EVENT_STAT = #{qeventStat} ]]></if>
+		order by crt_date desc
+	</select>
+</mapper>

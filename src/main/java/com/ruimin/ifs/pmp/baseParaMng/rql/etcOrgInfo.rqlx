@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询证通机构信息 -->
+	<select id="queryList" paramType="map" resultType="map">
+	   select 
+			ptyCd as pty_cd,
+			ptyNm as pty_nm
+		from 
+			ECT_ORG_SYN_INFO
+		WHERE
+			ptySts = '0'
+	   <if test = "qPtyCd !='' "> and ptyCd like #{qPtyCd}</if>
+	   <if test = "qPtyNm !='' "> and ptyNm like #{qPtyNm}</if>
+	   order by ptyCd desc
+	</select>
+	
+	<select id="getNameById" paramType="string" resultType="string">
+	 select 
+			ptyNm as pty_nm
+		from 
+			ECT_ORG_SYN_INFO
+		WHERE
+			ptyCd =#{orgId}
+	</select>
+</mapper>
+	

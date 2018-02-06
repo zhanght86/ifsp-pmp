@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 特殊商户交易白名单查询 -->
+	<select id="queryList" paramType="map" resultType="map">
+       SELECT
+			wl.*,
+			mcht.MCHT_SIMPLE_NAME
+		FROM
+			PBS_WHITE_LIST_CFG wl,
+			pbs_mcht_base_info mcht
+        where
+        	wl.mcht_id = mcht.MCHT_ID
+       <if test = "qMchtId != ''"><![CDATA[and mcht.MCHT_ID like #{qMchtId} ]]></if>
+	   <if test = "qMchtSimpleName != ''"><![CDATA[and mcht.MCHT_SIMPLE_NAME like #{qMchtSimpleName} ]]></if>
+	   <if test = "qFiltrateValue != ''"><![CDATA[and wl.FILTRATE_VALUE like #{qFiltrateValue} ]]></if>
+	    order by CRT_DATE_TIME desc,CFG_ID desc
+	</select> 
+	
+	<select id="queryList1" paramType="map" resultType="String">
+       SELECT mcht_id FROM PBS_WHITE_LIST_CFG where  1=1 
+       <if test = "qMchtId != ''"><![CDATA[and MCHT_ID = #{qMchtId} ]]></if>
+	   <if test = "qFiltrateValue != ''"><![CDATA[and FILTRATE_VALUE = #{qFiltrateValue} ]]></if>
+	</select> 
+	<select id="getAllKeysForImport" paramType="" resultType="string">
+      SELECT
+		CONCAT(wl.MCHT_ID,"_",wl.FILTRATE_VALUE)
+	  FROM
+		PBS_WHITE_LIST_CFG wl
+	</select> 
+</mapper>

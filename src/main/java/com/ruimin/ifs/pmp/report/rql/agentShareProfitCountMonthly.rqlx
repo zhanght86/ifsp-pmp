@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的商户交易统计月报信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthAgentShareProfitMonthlyVO">
+		select 
+			agent.STLM_MONTH,
+			agent.AGENT_ID,
+			agent.AGENT_NAME,
+			agent.SIG_CONT_MCHT_COUNT,
+			agent.SHA_BENF_AMT as SHA_BENF_AMT,
+			DATE_FORMAT(agent.STLM_DATE_TIME,'%Y-%m-%d %H:%i:%s') as STLM_DATE_TIME
+		from 
+			BTH_AGENT_SHA_BENF_FILE agent
+		where 1=1
+			<if test = "qStlmMonthStart != '' "> and agent.STLM_MONTH &gt;= #{qStlmMonthStart}</if>
+			<if test = "qStlmMonthEnd != '' "> and agent.STLM_MONTH &lt;= #{qStlmMonthEnd}</if>
+			<if test = "qAgentId != '' "> and agent.AGENT_ID like #{qAgentId}</if>
+			<if test="qAgentName !='' "> and agent.AGENT_NAME like #{qAgentName}</if>
+		order by agent.STLM_MONTH desc,AGENT_ID desc
+	</select>
+</mapper>

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="机构管理" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.mng.comp.BctlAllSelectAction:queryOrgByCode" flowretid="" log="false" pagesize="10" type="call"/>
+	<Fields>
+		<Field desc="机构号" id="brcode" align="center" status="F" xpath="/brcode"/>
+		<Field desc="机构编号" id="brno" align="center" required="true" edittype="textbox" status="F" xpath="/brno" />
+		<Field desc="机构名称" id="brname" align="center" required="true" edittype="textbox" status="F" xpath="/brname"/>
+		<Field desc="机构类型" id="brclass" align="center" datasource="DDIC:105" required="true" edittype="combobox" status="F" xpath="/brclass"/>
+		<Field desc="上级机构" id="blnUpBrcode" align="center" required="false" datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree" edittype="combotree" 
+			fieldmap="blnUpBrcode=_id;blnUpBrcodeName=_text" status="F" viewfield="_text" xpath="/blnUpBrcode"/>
+		<Field desc="上级机构" id="blnUpBrcodeName" align="center" method="com.ruimin.ifs.mng.comp.BctlAllSelectAction.getOrgName" status="F" xpath="/blnUpBrcode"/>
+		 <Field id="status" desc="机构状态" align="center" datasource="LIST:00,启用;99,停用" edittype="combobox"
+ required="false" xpath="/status"></Field>
+		<Field desc="所属地区" id="areaCd" align="center" required="true" datasource="AreaTree:com.ruimin.ifs.mng.dataset.AreaTree" edittype="combotree" 
+			fieldmap="areaCd=_id;areaCdName=_text" status="F" viewfield="_text" xpath="/areaCd"/>
+		<Field desc="所属地区" id="areaCdName" align="center" method="com.ruimin.ifs.mng.comp.CityAllSelectAction.getCityName" status="N" xpath="/areaCd" />
+		
+		<Field desc="邮政编码" id="postno" align="center" edittype="textbox" rule="isNum" errmsg="必须为6位以内数字" size="6" status="F" xpath="/postno"/>
+		<Field desc="联系电话" id="teleno" align="center" edittype="textbox" size="14" status="F" xpath="/teleno"/>
+		<Field desc="联系地址" id="address" align="center" status="F" xpath="/address"/>
+		<Field desc="联系人" id="linkman" align="center" status="F" xpath="linkman"/>
+		<!-- <Field desc="银联机构编号" id="cupBrhId" align="center" required="true" rule="isNum" errmsg="必须为8位以内数字" size="8" status="F" xpath="/cupBrhId" /> -->
+		
+		<!-- 不维护属性 -->  
+		<!-- <Field desc="账务机构" id="blnManageBrcode" datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree" edittype="combotree" 
+			fieldmap="blnManageBrcode=_id;blnManageBrcodeName=_text" required="false" status="F" viewfield="_text" xpath="/blnManageBrcode"/>
+		<Field desc="账务机构" id="blnManageBrcodeName" method="com.ruimin.ifs.mng.comp.BctlAllSelectAction.getOrgName" status="F" xpath="/blnManageBrcode"/>
+		<Field desc="有效标志" id="status" edittype="combobox" datasource="DDIC:102" xpath="/status"/>
+		<Field desc="机构属性" id="brattr" required="false" size="40" status="F" xpath="brattr"/>
+		<Field desc="行政区划代码" id="regionalism" required="false" size="40" status="F" xpath="regionalism"/>
+		<Field desc="异地行标识" id="otherAreaFlag" required="false" size="8" status="F" xpath="otherAreaFlag"/>
+		<Field desc="金融机构代码" id="financeCode" required="false" size="40" status="F" xpath="financeCode"/>
+		<Field desc="BLN_BRANCH_CLASS" id="binBranchClass" required="false" size="40" status="F" xpath="binBranchClass"/>
+		<Field desc="BLN_BRANCH_BRCODE" id="binBranchBrcode" required="false" size="40" status="F" xpath="binBranchBrcode"/>
+		<Field desc="BLN_MANAGE_BRCODE" id="binManageBrcode" required="false" size="40" status="F" xpath="binManageBrcode"/>
+		<Field desc="权限级别" id="authLvl" required="false" size="8" status="F" xpath=""/>
+		<Field desc="核心机构编号" id="hostBrhId" required="false" size="10" status="F" xpath="/hostBrhId" edittype="numberbox"/> -->
+		
+		<!--查询条件-->
+		<Field desc="机构编号" id="qbrno" size="12" />
+		<Field desc="机构名称" id="qbrname" size="40" />	
+		<Field desc="上级机构" id="qblnUpBrcode" datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree" edittype="combotree" 
+			fieldmap="qblnUpBrcode=_id;qblnUpBrcodeName=_text" viewfield="_text" />
+		<Field desc="机构类型" id="qbrclass" edittype="combobox" datasource="DDIC:105"></Field>
+		<Field desc="有效标志" id="qstatus" edittype="combobox" datasource="DDIC:102" />
+		
+		<Field desc="操作" id="opr" status="N" />
+	</Fields>
+	<Commands>
+		<Command id="btSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.BctlAllSelectAction:addOrg" icon="fa fa-save" url="#" txn="addorg" />
+		<Command id="btUpdate" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.BctlAllSelectAction:updateOrg"  url="#" txn="updateorg" />
+		<Command id="btAdd" desc="新增" type="addrecord" flowid="" icon="fa fa-plus" url="#" txn="" tip="新增"/>
+		<Command id="btUpt" desc="修改" type="none" icon="fa fa-wrench" flowid="" url="#" txn="" />
+		<Command id="btnDelete" desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		<Command id="btnDeleteSub" desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.BctlAllSelectAction:delOrg" url="#" txn="" icon="fa fa-trash-o"/>
+		<Command id="btDetail" desc="明细" type="none" icon="fa fa-info" flowid="" url="#" txn="" />
+		<Command id="btImport" desc="Excel全量导入" type="none" flowid="" icon="fa fa-plus" url="#" txn="" />
+		
+	</Commands>
+</Data>

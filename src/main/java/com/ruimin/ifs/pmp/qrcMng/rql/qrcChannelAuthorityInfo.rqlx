@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 二维码渠道权限管理查询-->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.qrcMng.process.bean.QrcChannelAuthorityInfo">
+		select * from QRC_CHANNEL_AUTHORITY_INFO where 1=1 
+		<if test = "qChlNo != '' "> and CHL_NO = #{qChlNo}</if>
+		<if test = "qQrcTypeNo != '' "> and QRC_TYPE_NO like #{qQrcTypeNo}</if>
+		order by CHL_NO DESC 
+	</select>
+	
+		<!--获取当前二维码渠道参数最大编号ID-->
+	<select id="queryMaxQrcTypeNo" paramType="map" resultType="String">
+		select max(CHL_AU_NO) from QRC_CHANNEL_AUTHORITY_INFO
+	</select>
+		
+</mapper>

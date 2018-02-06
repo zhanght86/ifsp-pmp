@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.service.comp.ServiceInnerBrcodeServiceAction:queryMain" 
+		desc="内部机构服务机构关联(根据服务机构号查询该服务机构号下面所有的商户)" expmaxrcd="50" 
+		 flowctxid="" flowretid="" />
+	<Fields>
+
+		<Field id="mchtId" desc="商户号"  datatype="string" readonly="true"
+			align="center" xpath="/mchtId" />
+			
+		<Field id="mchtName" desc="商户名称"  datatype="string" readonly="true" 
+			align="center" xpath="/mchtName" />
+			
+		
+	</Fields>
+
+</Data>

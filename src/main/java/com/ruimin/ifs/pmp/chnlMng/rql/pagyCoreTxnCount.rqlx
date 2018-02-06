@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+<!--通道交易统计 -->  
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.txnQuery.process.bean.CountResultVO">
+	  select tab_a.CORE_TXN_TIME,tab_a.PAGY_NO,
+      if(tab_a.num1=null,'0',tab_a.num1) as total_Items,
+      if(tab_b.num2=null,'0',tab_b.num2) as success_Items,
+      if(tab_c.num3=null,'0',tab_c.num3) as fail_Items, 
+      if(tab_b.num2=null,'0%',concat(ROUND(tab_b.num2/tab_a.num1,4)*100,'%')) as success_Rate, 
+      if(tab_c.num3=null,'0%',concat(ROUND(tab_c.num3/tab_a.num1,4)*100,'%')) as fail_Rate from 
+      (select count(*) num1,LEFT(coreTxn.CORE_TXN_TIME,8) as CORE_TXN_TIME,coreTxn.PAGY_NO from pagy_core_txn_record coreTxn where (coreTxn.STATUS='00' or coreTxn.STATUS='02')
+      <if test = "qTxnDateStart != ''"><![CDATA[and LEFT(coreTxn.CORE_TXN_TIME,8) >= #{qTxnDateStart} ]]></if>
+      <if test = "qTxnDateEnd != ''"><![CDATA[and LEFT(coreTxn.CORE_TXN_TIME,8) <= #{qTxnDateEnd} ]]></if>
+      <if test = "qPagyNo != ''"><![CDATA[and coreTxn.PAGY_NO = #{qPagyNo} ]]></if> 
+      group by LEFT(coreTxn.CORE_TXN_TIME,8),coreTxn.PAGY_NO ) tab_a
+      left join 
+      (select count(*) num2,LEFT(coreTxn.CORE_TXN_TIME,8) as CORE_TXN_TIME,coreTxn.PAGY_NO from pagy_core_txn_record coreTxn where (coreTxn.STATUS='00')
+      <if test = "qTxnDateStart != ''"><![CDATA[and LEFT(coreTxn.CORE_TXN_TIME,8) >= #{qTxnDateStart} ]]></if>
+      <if test = "qTxnDateEnd != ''"><![CDATA[and LEFT(coreTxn.CORE_TXN_TIME,8) <= #{qTxnDateEnd} ]]></if>
+      <if test = "qPagyNo != ''"><![CDATA[and coreTxn.PAGY_NO = #{qPagyNo} ]]></if> 
+      group by LEFT(coreTxn.CORE_TXN_TIME,8),coreTxn.PAGY_NO ) tab_b
+      on tab_a.PAGY_NO = tab_b.PAGY_NO and tab_a.CORE_TXN_TIME = tab_b.CORE_TXN_TIME
+      left join
+      (select count(*) num3,LEFT(coreTxn.CORE_TXN_TIME,8) as CORE_TXN_TIME,coreTxn.PAGY_NO from pagy_core_txn_record coreTxn where  (coreTxn.STATUS='02')
+      <if test = "qTxnDateStart != ''"><![CDATA[and LEFT(coreTxn.CORE_TXN_TIME,8) >= #{qTxnDateStart} ]]></if>
+      <if test = "qTxnDateEnd != ''"><![CDATA[and LEFT(coreTxn.CORE_TXN_TIME,8) <= #{qTxnDateEnd} ]]></if>
+      <if test = "qPagyNo != ''"><![CDATA[and coreTxn.PAGY_NO = #{qPagyNo} ]]></if> 
+      group by LEFT(coreTxn.CORE_TXN_TIME,8),coreTxn.PAGY_NO ) tab_c
+      on tab_a.PAGY_NO=tab_c.PAGY_NO and tab_a.CORE_TXN_TIME=tab_c.CORE_TXN_TIME
+      order by tab_a.CORE_TXN_TIME DESC,tab_a.PAGY_NO
+	</select>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 交易类型全查询 -->
+	<select id="queryTradeByParam" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.TradeType">
+	       select * from PBS_TXN_TYPE_INFO where 1=1
+	       <if test = "txnTypeCode != ''"> and txn_type_code=#{txnTypeCode}</if>
+	       <if test = "txnTypeName != ''"> and txn_type_name like #{txnTypeName}</if>
+	       order by CRT_DATE_TIME  desc
+
+	</select>
+	<!-- 到交易类型表中查询最大序列号 -->
+	<select id="queryMaxSeq" paramType="map" resultType="string">
+	    select max(cast(txn_type_code as   unsigned  int))txn_type_code from PBS_TXN_TYPE_INFO
+	    where 1=1
+	</select>
+	<!-- 到交易关系表中查询最大序列号 -->
+	<select id="queryMaxSeq1" paramType="map" resultType="int">
+		select max(cast(rel_no as unsigned  int)) as rel_no from PBS_REL_TXN_TYPE_ACCT_TYPE 
+		where 1=1
+<!-- 	    select max(rel_no)rel_no from PBS_REL_TXN_TYPE_ACCT_TYPE -->
+<!-- 	    where 1=1 -->
+	</select>
+	<!-- 修改交易类型状态 -->
+	<update id="updateTradeStatus" paramType="map">
+	  update PBS_TXN_TYPE_INFO set data_state= #{dataState}  ,last_upd_tlr= #{lastUpdTlr} ,last_upd_date_time= #{lastUpdDate}  
+                 where txn_type_code= #{txnTypeCode} 
+	</update>
+	<!-- 修改交易类型与关联表中的数据状态（00-启用；99-停用） -->
+	<update id="updateTradeStatusAcctAndTrade" paramType="map">
+	  update PBS_REL_TXN_TYPE_ACCT_TYPE set data_state= #{dataState}  where txn_type_code= #{txnTypeCode}
+	</update>
+	<!--  删除交易类型表中的数据 -->
+	<delete id="deleteByTxnTypeCode" paramType="map">
+	 delete from PBS_REL_TXN_TYPE_ACCT_TYPE where txn_type_code=#{txnTypeCode}
+	</delete>
+	
+	<!-- 根据交易类型和账户类型去查询该条数据是否重复添加 -->
+	 <select id="queryAcctTypeNo" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AcctAndTrade">
+	   select * from PBS_REL_TXN_TYPE_ACCT_TYPE where 1=1 
+	   and txn_type_code = #{txnTypeCode} and acct_type_no=#{acctTypeNo}
+	 </select>
+	 <!-- 根据账户类型编号去查询账户类型名称 -->
+	 <select id="queryByAcctTypeNo" paramType="map" resultType="com.ruimin.ifs.pmp.sysConf.process.bean.AcctType">
+	    select acct_type_name from PAY_ACCT_TYPE_BASE_INFO where acct_type_no in (#{prodIdArray})
+	 </select>
+	 
+</mapper>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 查询 -->
+	<select id="queryList" paramType="map" resultType="map">
+		select  
+			qrc.QRC_CODE_ID,
+			qrc.MCHT_ID,
+			qrc.MCHT_SIMPLE_NAME,
+			qrc.QRC_STAT,
+			qrc.MCHT_USE_STAT,
+			qrc.CRT_DATE,
+			qrc.QRC_PIC_ID,
+			qrc.QRC_TYPE,
+			qrc.EXPIRY_DATE_TIME,
+			mcht.MCHT_AMR_NO,
+			mcht.MCHT_AMR_NAME
+		from 
+			MSS_QRC_BASE_INFO qrc
+		left join 
+		 	PBS_MCHT_BASE_INFO mcht
+		on
+		 	qrc.MCHT_ID = mcht.MCHT_ID
+		where
+		mcht.MCHT_ORG_ID in(
+		select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+		)
+		   and qrc.QRC_STAT = '1'
+			<if test = "mchtId != '' "> and qrc.MCHT_ID like #{mchtId}</if>
+			<if test = "mchtSimpleName != '' "> and qrc.MCHT_SIMPLE_NAME like #{mchtSimpleName}</if>
+			<if test = "mchtAmrNo != '' "> and mcht.MCHT_AMR_NO like #{mchtAmrNo}</if>
+			<if test = "mchtAmrName != '' "> and mcht.MCHT_AMR_NAME like #{mchtAmrName}</if>
+			<if test = "qrcCodeId != '' "> and qrc.QRC_CODE_ID like #{qrcCodeId}</if>
+			<if test = "qrcStat != '' "> and qrc.QRC_STAT = #{qrcStat}</if>
+			<if test = "mchtUseStat != '' "> and qrc.MCHT_USE_STAT = #{mchtUseStat}</if>
+			<if test = "qrcType != '' "> and qrc.QRC_TYPE = #{qrcType}</if>
+			GROUP BY MCHT_ID
+		order by CRT_DATE desc 
+	</select>
+
+	<!-- 新增商户二维码基本信息 -->
+	<insert id="addBaseInfo" paramType="com.ruimin.ifs.pmp.mchtMng.process.bean.QrcBaseInfo" >
+		insert into MSS_QRC_BASE_INFO
+		(QRC_CODE_ID,MCHT_ID,QRC_TYPE,MCHT_SIMPLE_NAME,
+		QRC_STAT,CRT_TLR,CRT_DATE_TIME,
+		MCHT_USE_STAT,LAST_UPD_DATE_TIME,LAST_UPD_TLR,
+		QR_CODE,RESP_TXN_SSN,RESP_TXN_TIME,QRC_PIC_ID,BRCODE)
+		values
+		(#{qrcCodeId},#{mchtId},#{qrcType},#{mchtSimpleName},
+		#{qrcStat},#{crtTlr},#{crtDateTime},
+		#{mchtUseStat},#{lastUpdDateTime},#{lastUpdTlr},
+		#{qrCode},#{respTxnSsn},#{respTxnTime},#{qrcPicId},#{brcode})
+	</insert>
+	
+	<!-- 查询最大二维码编号 -->
+	<select id="getMaxId" paramType="string" resultType="string">
+		select max(QRC_CODE_ID) as QRC_CODE_ID from MSS_QRC_BASE_INFO
+	</select>
+
+	<!-- 根据商户号查询商户合同正式表中的合同编号 -->
+	<select id="getCodIdByMchtId" paramType="map" resultType="String">
+		select CON_ID from PBS_MCHT_CONTRACT_INFO where MCHT_ID = #{mchtId} and CON_STATE != '99'
+	</select>
+	<!-- 根据商户合同编号查询合同正式表下支付产品有哪些交易类型 -->
+	<select id = "getTxnTypeCodeByConId" paramType="map" resultType="String" >
+		select 
+        	group_concat(t.TXN_TYPE_CODE)
+		from
+			PBS_MCHT_REL_CONTRACT_PROD  p
+		left join
+         	(select PROD_ID, group_concat(TXN_TYPE_CODE)  as TXN_TYPE_CODE
+           	from  PBS_PROD_REL_TXN_TYPE where   DATA_STATE = '00' group by PROD_ID order by prod_id ) t      
+         on  
+         	p.PROD_ID = t.PROD_ID
+         where 
+         	p.CON_ID = #{conId}  
+         and 
+         	p.DATA_STATE = '00' 
+         group by t.prod_id
+         order by t.prod_id
+	</select>
+	
+	
+
+	
+	<!-- 根据商户号查询商户合同临时表中的合同编号 -->
+	<select id="getCodIdByMchtIdFromTmp" paramType="map" resultType="String">
+		select CON_ID from PBS_MCHT_CONTR_INFO_TMP where MCHT_ID = #{mchtId} and CON_STATE != '99' 
+	</select>
+	<!-- 根据商户合同编号查询合同临时表下支付产品有哪些交易类型 -->
+	<select id = "getTxnTypeCodeByConIdFromTmp" paramType="map" resultType="String" >
+	
+	select 
+        	group_concat(t.TXN_TYPE_CODE)
+		from
+			PBS_MCHT_REL_CONTR_PROD_TMP  p
+		left join
+         	(select PROD_ID, group_concat(TXN_TYPE_CODE)  as TXN_TYPE_CODE
+           	from  PBS_PROD_REL_TXN_TYPE where   DATA_STATE = '00' group by PROD_ID order by prod_id) t      
+         on  
+         	p.PROD_ID = t.PROD_ID
+         where 
+         	p.CON_ID = #{conId}  
+         and 
+         	p.DATA_STATE = '00' 
+          group by t.prod_id
+         order by t.prod_id
+	</select>
+	
+	<!-- 根据商户号将商户的二维码状态变成无效 -->
+	<update id="modifyMchtQrcStateByMchtId" paramType="map" >
+		update 
+			MSS_QRC_BASE_INFO
+		set
+			QRC_STAT = '0',MCHT_USE_STAT = '0'
+		where 
+			MCHT_ID = #{mchtId} 
+			and QRC_STAT = '1'
+			and QRC_TYPE = #{qrcType}
+	</update>
+	
+		<!-- 根据商户号将商户的二维码状态变成无效 -->
+	<update id="modifyMchtId" paramType="map" >
+		update 
+			MSS_QRC_BASE_INFO
+		set
+			MCHT_USE_STAT = '1'
+		where 
+			MCHT_ID = #{mchtId} 
+			and MCHT_USE_STAT = '0'
+			and QRC_STAT = '0'
+	</update>
+	
+	<!-- 根据商户号插叙商户简称 -->
+	<select id="getMchtSimpleNameByMchtId" paramType="map" resultType="String">
+		select MCHT_SIMPLE_NAME from PBS_MCHT_BASE_INFO where MCHT_ID = #{mchtId}
+	</select>
+	
+	<!--根据商户号查询商户二维码基本信息表中二维码状态为正常的二维码信息，用于二维码信息停用  -->
+	<select id="selectMchtQrcBaseInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.QrcBaseInfo">
+		select * from MSS_QRC_BASE_INFO where mcht_id = #{mchtId} and QRC_STAT = '1' and QRC_TYPE = #{qrcType}
+	</select>
+	<!-- 启用停用商户二维码信息 -->
+	<update id="statusChange" paramType="com.ruimin.ifs.pmp.mchtMng.process.bean.QrcBaseInfo" >
+		update 
+			MSS_QRC_BASE_INFO
+		set
+			MCHT_USE_STAT = #{mchtUseStat},
+			LAST_UPD_TLR = #{lastUpdTlr},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 
+			trim(QRC_CODE_ID) = trim(#{qrcCodeId})
+	</update>
+	
+</mapper>

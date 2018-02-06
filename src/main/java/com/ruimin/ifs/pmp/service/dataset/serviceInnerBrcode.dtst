@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.service.comp.ServiceInnerBrcodeServiceAction:queryInnerBrcode" 
+		desc="内部机构服务机构关联(根据服务机构号查询该服务机构号下面所有的内部机构)" expmaxrcd="50" 
+		 flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qbrcode" desc="内部机构号"  datatype="string" required="false"
+			align="center"  />
+		<Field id="qbrname" desc="机构名称"  datatype="string"  required="false"
+			align="center"  />
+		<Field id="qconnectState" 	desc="关联状态" 	edittype="combobox"  align="center" 
+			datasource="LIST:00,关联;01,未关联;99,退出关联" multiple="false" status="F" 
+			required="false" datatype="string" xpath=""/>
+		<!-- 显示字段 -->
+		<Field id="brcode" desc="内部机构号"  datatype="string" readonly="true"
+			align="center" xpath="/brcode" />
+		<Field id="brno" desc="机构号"  datatype="string" readonly="true"
+			align="center" xpath="/brno" />
+		<Field id="brname" desc="机构名称"  datatype="string" readonly="true" 
+			align="center" xpath="/brname" />
+		<Field id="inFlag"   align="center"	desc="关联状态"  readonly="true"	
+			edittype="combobox" datasource="LIST:00,关联;01,未关联;99,退出关联" multiple="false" status="F" 
+			 	required="false" datatype="string" xpath="/inFlag" />
+		<Field id="select" 	align="center"	desc="" 	edittype="checkbox"   
+			 readonly="false"    datatype="boolean" xpath="/select" />
+		<Field id="code" desc="服务机构号"  datatype="string" readonly="true" 
+			align="center" required="false" xpath="/code" />
+	</Fields>
+
+</Data>

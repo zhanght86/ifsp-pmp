@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 根据通道名称，银行编号，银行名称查询有效记录 -->
+	<select id="queryPassBankInfo" paramType="map"
+		resultType="com.ruimin.ifs.pmp.sysConf.process.bean.PassBankInfoVO">
+		select 
+			b.PASS_NO, a.PASS_NAME, b.BANK_NO, b.BANK_NAME,b.DATA_STATE
+		from 
+			CHL_PASS_BASE_INFO a,CHL_PASS_BANK_INFO b 
+		where 
+			1=1 and b.PASS_NO = a.PASS_NO
+			<if test="qPassName != ''"><![CDATA[and trim(a.PASS_NAME) = #{qPassName} ]]></if>
+			<if test="qBankCode != ''"><![CDATA[and b.BANK_NO = #{qBankCode} ]]></if>		
+			<if test="qBankName != ''"><![CDATA[and b.BANK_Name like #{qBankName} ]]></if>		
+	</select>
+
+	<!-- 根据通道编号和银行编号查找记录是否存在 -->
+	<select id="queryPassBankExits" paramType="map" resultType="int">
+		select count(*) from CHL_PASS_BANK_INFO where PASS_NO=#{passNo} and
+		BANK_NO = #{bankNo}
+	</select>
+
+	<!-- 跟新通道银行信息 -->
+	<update id="updPassBankInfo" paramType="com.ruimin.ifs.pmp.sysConf.process.bean.PassBankVO">
+		update
+		CHL_PASS_BANK_INFO
+		set
+		BANK_NAME=#{bankName},
+		LAST_UPD_TLR=#{lastUpdTlr},
+		LAST_UPD_DATE_TIME=#{lastUpdDateTime}
+		where
+		trim(PASS_NO)=#{passNo}
+		and trim(BANK_NO)=#{bankNo}
+	</update>
+	
+	<!-- 更新状态启用停用 -->
+	<update id="updatePassBankState" paramType="com.ruimin.ifs.pmp.sysConf.process.bean.PassBankVO">
+		update
+		CHL_PASS_BANK_INFO
+		set
+		DATA_STATE=#{dataState},
+		LAST_UPD_TLR=#{lastUpdTlr},
+		LAST_UPD_DATE_TIME=#{lastUpdDateTime}
+		where
+		trim(PASS_NO)=#{passNo}
+		and trim(BANK_NO)=#{bankNo}
+	</update>
+
+</mapper>

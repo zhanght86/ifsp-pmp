@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="渠道基本信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction:query" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>	
+		<!-- 路由交易下拉选 （全查询）-->
+        <Field id="payTxnTypeId" desc="路由交易" edittype="combogrid" datatype="string" required="true"
+		   datasource="pagyTxnTpyeInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyTxnTpyeInfo" 
+		   viewfield="payTxnTypeId,payTxnTypeName"  init="true" multiple="false" default="" 
+		   readonly="false" fieldmap="payTxnTypeId=payTxnTypeId;payTxnTypeIdName=payTxnTypeName" xpath="/payTxnTypeId"/>
+		
+		<!-- 账户下拉选（复选框，全查询） -->
+        <Field id="acctTypeNo" desc="账户" edittype="combogrid" datatype="string" required="true"
+		   datasource="payAcctTypeBaseInfo:com.ruimin.ifs.pmp.chnlMng.dataset.payAcctTypeBaseInfo" 
+		   viewfield="acctTypeNo,acctTypeName"  init="true" multiple="true" default="" 
+		   readonly="false" fieldmap="acctTypeNo=acctTypeNo;acctTypeNoName=acctTypeName" xpath="/acctTypeNo"/>
+		   
+		<!-- 第二次点击权限的时候，让已经配置的数据显示出来 --> 
+		<Field id="payTxnTypeIdName" desc="路由交易名字" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnTypeInfoAction.getPayTxnTypeIdName" 
+		align="center" edittype="textbox" datatype="string" xpath="/payTxnTypeId" /> 	
+		
+		<Field id="acctTypeNoName" desc="账户名字" method="com.ruimin.ifs.pmp.sysConf.comp.AccountTypeAction.getAcctTypeNoName" 
+		align="center" edittype="textbox" datatype="string" xpath="/acctTypeNo" /> 
+		   
+		   
+	</Fields>
+	<Commands>
+	    <Command id="btnAddConfig" desc="新增" type="addrecord" url="#"
+			txn="" icon="fa fa-plus" />
+		<Command id="btnDeleteConfig" desc="删除" type="delrecord" url="#"
+			txn="" icon="fa fa-minus" />
+	</Commands>
+</Data>

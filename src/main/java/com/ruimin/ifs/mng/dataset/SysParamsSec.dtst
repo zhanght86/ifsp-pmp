@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="系统参数设置" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.SysParamsSecAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+	
+		<Field id="paramId" desc="参数主键" align="center" status="N" readonly="true"
+			required="false" method="None"  size="4"
+			xpath="/paramId" default="" width="400"/>
+			
+	    <Field id="magicId" desc="参数标识" align="center"  status="F" readonly="true"
+			required="false" method="None" size="20"
+			xpath="/magicId" default="" width="400"/>
+
+		<Field id="paramValueTx" desc="系统参数" align="center"  status="F" readonly="true"
+			required="false" method="None"  datatype="string"  size="200"
+			xpath="/paramValueTx" default="" width="400"/>
+
+		<Field id="desc0" desc="参数说明" align="center"  status="F" readonly="true" edittype="textarea" 
+			required="false"  datatype="string" method="None" 
+			xpath="/desc0" default="" width="400"/>
+			
+		<Field id="opr" desc="操作" align="center"  required="false" edittype="textbox"
+			datatype="string" method="None" readonly="true"  
+			 default="" xpath=""   />
+		<Field id="paramStartTm" desc="生效日期" align="center"  edittype="datebox" xpath="paramStartTm" datatype="date"  readonly="false" status="F" />
+        <Field id="paramEndTm" desc="失效日期" align="center"  edittype="datebox" xpath="paramEndTm" datatype="date"  readonly="false" status="F" />	 
+		<!-- 查询条件 -->
+		<Field id="queryParamId" desc="参数主键" edittype="textbox" datatype="string" size="4" xpath="" status="F" default="" />
+		<Field id="queryOprcode1" desc="参数标识" edittype="textbox" datatype="string" xpath="" status="F" default="" />
+	</Fields>
+	<Commands>
+		<Command id="btnSave"  desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.SysParamsSecAction:addSysParams" url="#" txn="" />
+		<Command id="btUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.SysParamsSecAction:saveOrUpdate" icon="fa fa-save" url="#" txn="saveOrUpdate" />
+		<Command id="btnCancel" desc="取消" type="asyncsubmit" flowid="" url="#" txn="" />
+	
+<!-- 	    add by TTT 20151104 -->
+	    <Command id="btAdd" desc="新增" type="addrecord" flowid="" icon="fa fa-plus" url="#" txn="" />
+		<Command id="btnDelete" desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		<Command id="btnDeleteSub"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.SysParamsSecAction:delSysParams" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		<Command id="btUpt" desc="修改" type="none" icon="fa fa-pencil" flowid="" url="#" txn="" />
+<!-- 		end add  -->
+	</Commands>
+</Data>

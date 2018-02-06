@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="二维码类型维护" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcTypeInfoAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 基础信息 -->
+	       <Field id="qrcTypeNo" desc="二维码类型编号" align="center" edittype="textbox" datatype="string"  required="false" xpath="/qrcTypeNo" />
+           <Field id="qrcTypeName" desc="二维码类型名称" align="center" edittype="textbox" datatype="string" required="true" xpath="/qrcTypeName" />
+		   <Field id="unitsType"  datasource="DDIC:1840"  align="center" desc="单位类型" edittype="combobox" required="true" status="F" xpath="/unitsType"/>
+		   <Field id="unitsValues" desc="有效期" edittype="textbox" align="center" datatype="string"  required="true" xpath="/unitsValues" />
+		   <Field id="qrcTypeSat" datasource="DDIC:1839" desc="二维码类型状态" align="center" edittype="combobox"  required="false" status="F" xpath="/qrcTypeSat"/>		
+		   <Field id="crtUsr" desc="创建操作员" edittype="textbox" datatype="string" xpath="/crtUsr" />
+		   <Field id="crtTm" desc="创建时间" edittype="textbox" datatype="string" xpath="/crtTm" />
+		   <Field id="updUsr" desc="最近更新操作员" edittype="textbox" datatype="string" xpath="/updUsr" />
+		   <Field id="updTm" desc="最近更新时间" edittype="textbox"  datatype="string" xpath="/updTm" />	
+		   <Field id="qrcAmount" desc="生成数量" edittype="textbox" align="center" datatype="string" xpath="/qrcAmount"  required="true"/>
+		<!-- 查询条件 -->
+		<Field id="QrcTypeNo" desc="二维码类型编号" datatype="string" />
+		<Field id="QrcTypeName" desc="二维码类型名称" datatype="string" />
+		<Field datasource="DDIC:1839" desc="二维码类型状态" edittype="combobox" id="QrcTypeSat" default="00" />
+    </Fields>
+
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcTypeInfoAction:save" url="#" txn="" />
+		<Command id="btnUpdate" desc="修改" type="none" url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnDel" 	desc="停用/启用" type="none" url="#" txn="" />
+		
+		<!--修改保存 -->
+        <Command id="btnUpdateSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcTypeInfoAction:update" url="#" txn="" />
+		<Command id="btnDelete"   desc="停用/启用" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.qrcMng.comp.QrcTypeInfoAction:delete" url="#" txn="" />
+	</Commands>
+</Data>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="动态下拉机构树" type="call" pagesize="5" log="false" flowid="com.ruimin.ifs.mng.comp.BctlAllSelectAction:queryBctlAllSelect" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="brcode" desc="机构编码" datatype="string"  method="" xpath="/brcode"/>
+		<Field id="brno" desc="机构号" datatype="string"  method="" xpath="/brno"/>
+		<Field id="brcodeTypeName" desc="机构名称" datatype="string" method="" xpath="/brname"/>
+	</Fields>
+</Data>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldModel xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Field  id="s1111" desc="静态下拉框-LIST(单选)" xpath="" multiple="false" placeholder="占位符" edittype="combobox" default="female" datasource="LIST:male,男;female,女" readonly="false" status="F" />
+</FieldModel>

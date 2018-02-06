@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="营销活动报表" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.report.comp.MktActivityAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qTxnDt" desc="交易日期" edittype="datebox"    datatype="date" />
+		<Field id="qStlmDate" desc="清算日期" edittype="datebox"    datatype="date" />
+		<Field id="qActiveNo" desc="活动编号" edittype="textbox" datatype="string"></Field>
+		<Field id="qCardNo" desc="用户编号" edittype="textbox" datatype="string"></Field>
+		
+		<!-- 基础信息 -->
+	    <Field id="pointId" desc="投注机编号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/pointId"/>
+	    <Field id="activeNo" desc="活动编号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/activeNo"/>
+	    <Field id="activeNm" desc="活动名称" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/activeNm"/>
+	    <Field id="activeAmt" desc="优惠金额" edittype="textbox" method="com.ruimin.ifs.util.SysCQMethod.fenToYuan" readonly="true"   align="center" datatype="string" xpath="/activeAmt"/>
+	    <Field id="realPayAmt" desc="实收金额" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/txnAmt"/>
+	    <Field id="txnOrderAmt" desc="订单金额" edittype="textbox" method="com.ruimin.ifs.util.SysCQMethod.fenToYuan" readonly="true"  align="center" datatype="string" xpath="/txnOrderAmt"/>
+	    <Field id="merId" desc="商户编号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/merId"/>
+	    <Field id="txnDt" desc="交易日期" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/txnDt"/>
+	    <Field id="stlmDate" desc="清算日期" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/stlmDate"/>
+	    <Field id="cardNo" desc="用户编号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/cardNo"/>
+	    <Field id="orgIdRecv" desc="接受机构号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/orgIdRecv"/>
+	    <Field id="acctNo" desc="付款人账号" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/acctNo"/>
+	    <Field id="payerName" desc="付款人名称" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/payerName"/>
+	    <Field id="acctName" desc="账户名称" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/acctName"/>
+		
+	</Fields>
+	<Commands>
+		<Command id="btnDownload" desc="下载报表" type="none" url="#" txn="" icon="fa fa-download"/>
+	</Commands>
+</Data>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	
+<!-- 根据合同编号去查询一条商户合同的记录 -->
+  <select id="queryMchtContractInfoTemp" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractVO" >
+		
+		  select * from PBS_MCHT_CONTR_INFO_TMP where  con_Id = #{conId} 
+     
+	</select>
+	
+	<!-- 根据合同编号去查询商户合同下面的合同照片的集合 -->
+<select id="queryMchtContractPIcInfoTemp" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractPicVO" >
+		
+		  select * from PBS_MCHT_CONTR_PIC_INFO_TMP where  con_Id = #{conId} 
+     
+	</select>
+
+<select id="QContractProd" paramType="String" resultType="String" >
+		
+		  select * from PBS_MCHT_REL_CONTRACT_PROD where  con_Id = #{conId} 
+     
+	</select>
+	
+		<!-- 根据合同编号去查询商户合同下面关联的产品的集合 -->
+<select id="queryMchtContractRelProdTemp" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractProduct" >
+		
+		  select * from PBS_MCHT_REL_CONTR_PROD_TMP where con_Id = #{conId} 
+     
+	</select>
+	
+	<!-- 根据合同编号去查询商户合同下面关联的账户费率集合 -->
+<select id="queryMchtContrAcctRateTemp" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractAcctRate" >
+		
+		  select * from PBS_MCHT_CONTR_ACCT_RATE_TMP where con_Id = #{conId} 
+     
+	</select>
+	
+	<!-- 根据合同编号去查询一条商户合同的记录 -->
+  <select id="queryMchtContractInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtContractInfo" >
+		
+		  select * from PBS_MCHT_CONTRACT_INFO where  con_Id = #{conId} 
+     
+	</select>
+	
+	<!-- 根据合同编号去查询商户合同下面的合同照片的集合 -->
+<select id="queryMchtContractPIcInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtContractPicInfo" >
+		
+		  select * from PBS_MCHT_CONTRACT_PIC_INFO where  con_Id = #{conId} 
+     
+	</select>
+	
+		<!-- 根据合同编号去查询商户合同下面关联的产品的集合 -->
+<select id="queryMchtContractRelProd" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbcMchtRelContractProd" >
+		
+		  select * from PBS_MCHT_REL_CONTRACT_PROD where con_Id = #{conId} 
+     
+	</select>
+	
+	<!-- 根据合同编号去查询商户合同下面关联的账户费率集合 -->
+<select id="queryMchtContrAcctRate" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.PbsMchtContractAcctRate" >
+		
+		  select * from PBS_MCHT_CONTRACT_ACCT_RATE where con_Id = #{conId} 
+     
+	</select>
+	
+	<!-- 根据合同编号去删除一条商户合同的记录 -->
+     <update id="deleteMchtContractInfoTemp" paramType="map" >
+		
+		 delete from PBS_MCHT_CONTR_INFO_TMP where  con_Id = #{conId} 
+     
+	</update>
+	
+	<!-- 根据合同编号去删除商户合同下面的合同照片的集合 -->
+    <update id="deleteMchtContractPIcInfoTemp" paramType="map"  >
+		
+		  delete  from PBS_MCHT_CONTR_PIC_INFO_TMP where  con_Id = #{conId} 
+     
+	</update>
+	
+		<!-- 根据合同编号去删除商户合同下面关联的产品的集合 -->
+    <update id="deleteMchtContractRelProdTemp" paramType="map"  >
+		
+		  delete  from PBS_MCHT_REL_CONTR_PROD_TMP where con_Id = #{conId} 
+     
+	</update>
+	
+	<!-- 根据合同编号去删除商户合同下面关联的账户费率集合 -->
+ <update id="deleteMchtContrAcctRateTemp" paramType="map" >
+		  
+		   delete from PBS_MCHT_CONTR_ACCT_RATE_TMP where con_Id = #{conId} 
+     
+	</update>
+	
+	
+	<!-- 根据合同编号去删除一条商户合同的记录 -->
+     <update id="deleteMchtContractInfo" paramType="map" >
+		
+		 delete from PBS_MCHT_CONTRACT_INFO where  con_Id = #{conId} 
+     
+	</update>
+	
+	<!-- 根据合同编号去删除商户合同下面的合同照片的集合 -->
+    <update id="deleteMchtContractPIcInfo" paramType="map"  >
+		
+		  delete  from PBS_MCHT_CONTRACT_PIC_INFO where  con_Id = #{conId} 
+     
+	</update>
+	
+	<!-- 根据合同编号去删除商户合同下面关联的产品的集合 -->
+    <update id="deleteMchtContractRelProd" paramType="map"  >
+		
+		  delete  from PBS_MCHT_REL_CONTRACT_PROD where con_Id = #{conId} 
+	
+	</update>
+	
+	<!-- 根据合同编号去删除商户合同下面关联的账户费率集合 -->
+  <update id="deleteMchtContrAcctRate" paramType="map" >
+	
+		   delete from PBS_MCHT_CONTRACT_ACCT_RATE where con_Id = #{conId} 
+	
+	</update>
+	
+	<!-- 根据商户ID获取商户基本信息表中的商户名字-->
+	<select id="selectMchtNameById" paramType="map" resultType="string">
+	
+		select MCHT_NAME  from PBS_MCHT_BASE_INFO a where 1=1 and MCHT_ID = #{mchtId} 
+		
+	</select>
+	
+		
+ <update id="updateMethod1" paramType="map" >
+		  
+		  update PMP_AUDIT_STEP_INFO 
+		  set AUDIT_STATE = #{auditState},
+		      AUDIT_OPR_NO = #{auditOprNo},
+		      AUDIT_DATET_IME = #{auditDatetIme},
+		      AUDIT_VIEW = #{auditView}
+		  where SEQ_ID = #{seqId}
+     
+	</update>
+	
+		
+ <update id="updateMethod2" paramType="map" >
+		  
+		   update PBS_MCHT_CONTR_INFO_TMP 
+		   set CON_STATE = #{conState},
+		       SYNC_STATE = #{syncState}
+		  where AUDIT_ID = #{auditId}
+     
+	</update>
+		
+ <update id="updateMethod3" paramType="map" >
+		  
+		  update PBS_MCHT_CONTRACT_INFO  
+	     set  CON_STATE = #{conState},
+	          SYNC_STATE = #{syncState}
+		 where  CON_ID = #{conId}
+     
+	</update>
+		
+ <update id="updateMethod4" paramType="map" >
+		  
+		  update PBS_MCHT_CONTR_INFO_TMP 
+	      set CON_STATE = #{conState},
+	          SYNC_STATE = #{syncState}
+		where AUDIT_ID = #{auditId}
+     
+	</update>
+	<update id="updateMethod5" paramType="map" >
+		  
+		  update PBS_MCHT_CONTR_INFO_TMP 
+		  set SYNC_STATE = #{syncState}
+		  where AUDIT_ID = #{auditId}
+     
+	</update>
+	<update id="updateMethod6" paramType="map" >
+		  
+		  update PBS_MCHT_CONTR_INFO_TMP 
+		  set CON_STATE = #{conState}
+		  where AUDIT_ID = #{auditId}
+     
+	</update>
+	<update id="updateMethod7" paramType="map" >
+		  
+		 update PMP_AUDIT_INFO 
+		 set AUDIT_STATE = #{auditState},
+		      LAST_UPD_DATE_TIME= #{lastUpdDateTime} 
+		 where AUDIT_ID = #{auditId}
+     
+	</update>
+	<select  id="getProdIdListByConId" paramType="string" resultType="string">
+		select prod_id  from PBS_MCHT_REL_CONTRACT_PROD where CON_ID=#{contractId}
+	</select>
+	<select  id="getTmpProdIdListByConId" paramType="string" resultType="string">
+		select prod_id  from PBS_MCHT_REL_CONTR_PROD_TMP where CON_ID=#{contractId}
+	</select>
+	
+	<!-- 同步商户信息辅临时表字段 -->
+	<update id="updPbsassistTmp" paramType="map" >
+		 UPDATE pbs_mcht_assist_info_tmp SET SETL_ACCT_NAME = #{setlAcctName},ACCOUNT_TYPE=#{accountType} WHERE MCHT_ID = #{mchtId} 
+	</update>
+	<!-- 同步商户信息辅表字段 -->
+	<update id="updPbsassist" paramType="map" >
+		 UPDATE pbs_mcht_assist_info SET SETL_ACCT_NAME = #{setlAcctName},ACCOUNT_TYPE=#{accountType} WHERE MCHT_ID = #{mchtId} 
+	</update>
+</mapper>

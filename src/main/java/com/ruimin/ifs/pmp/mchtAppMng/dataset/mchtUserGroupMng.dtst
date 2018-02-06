@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.MchtUserGroupMngAction:queryMain" 
+			desc="商户用户组管理" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>		
+		<Field id="qgroupId" desc="组号" datatype="string" align="center" />
+		<Field id="qmchtId" desc="商户号" datatype="string" align="center" />
+		<Field id="qdeviceType" desc="设备类型" edittype="combobox" datatype="string" 
+			datasource="LIST:1,IOS;2,Android" align="center" />
+			
+		<Field id="groupId" desc="组号" datatype="string" align="center" xpath="/groupId"/>
+		<Field id="mchtId" desc="商户号" datatype="string" align="center" xpath="/mchtId"/>
+		<Field id="deviceType" desc="设备类型" edittype="combobox" datatype="string" 
+			datasource="LIST:1,IOS;2,Android" align="center" xpath="/deviceType"/>
+		<Field id="userCount" desc="用户数量" datatype="string" align="center" xpath="/userCount"/>
+	</Fields>
+	
+	
+	<Commands>		
+		<Command id="btnAdd" desc="新增" type="addrecord" url="" txn="" icon="fa fa-plus"/>
+	    <Command id="btnSave" desc="确认保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.MchtUserGroupMngAction:add" url="#" txn="" /> 
+		
+	</Commands>
+	
+</Data>

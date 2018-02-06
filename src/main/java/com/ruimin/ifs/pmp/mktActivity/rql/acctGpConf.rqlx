@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="querydDistinctNoName" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.AcctGpConfVO">
+		select distinct a.gp_tp_no,
+    	a.gp_tp_nm,
+    	if(IFNULL(b.active_no,'')='','未使用','使用中') ac_state,
+    	GP_NUMBER
+    
+  		from 
+   		(select trim(gp_tp_no) as gp_tp_no ,trim(gp_tp_nm) as gp_tp_nm ,COUNT(DISTINCT GP_SEQ)GP_NUMBER 
+		from tbl_acct_gp_conf  where 1=1 
+    
+    	<if test = "qgpTpNo != ''"><![CDATA[and trim(GP_TP_NO) = #{qgpTpNo} ]]></if>
+		<if test = "qgpTpNm != ''"><![CDATA[and trim(GP_TP_NM) like #{qgpTpNm} ]]></if>
+    	
+    	group by GP_TP_NO,GP_TP_NM ) a
+   		left join
+    	TBL_ACTIVE_INF_TMP b 
+    	on a.gp_tp_no = b.card_gp_no
+    	where 1=1 order by a.gp_tp_no,a.gp_tp_nm
+   
+	</select>
+	
+	
+	<select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.AcctGpConfVO">
+		select 
+		trim(GP_TP_NO) as GP_TP_NO,
+		trim(GP_TP_NM) as GP_TP_NM,
+		trim(GP_SEQ) as GP_SEQ,
+		trim(GP_NM) as GP_NM,
+		trim(MEM_TP) as MEM_TP,
+		trim(MEM_NM) as MEM_NM,
+		trim(ACCT_TP_LEN) as ACCT_TP_LEN,
+		trim(ACCT_TP) as ACCT_TP 
+		from TBL_ACCT_GP_CONF where 1=1	
+		
+		<if test = "qgpTpNo != ''"><![CDATA[and trim(GP_TP_NO) = #{qgpTpNo} ]]></if>
+
+		order by  GP_SEQ
+	</select>
+	
+
+	<select id="queryActiveInfTmp" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.AcctGpConfVO">
+		select 
+	distinct a.card_gp_no,
+   	a.ACTIVE_NO,
+   	a.ACTIVE_NM,
+    a.ACTIVE_TYPE,
+   	a.S_DATE,
+  	a.E_DATE
+   
+    
+   from 
+   (select 
+   trim(ACTIVE_NO) as ACTIVE_NO,
+    trim(ACTIVE_NM) as ACTIVE_NM,
+    trim(ACTIVE_TYPE) as ACTIVE_TYPE,
+    trim(S_DATE) as S_DATE,
+    trim(E_DATE) as E_DATE,
+    trim(card_gp_no) as card_gp_no
+    from TBL_ACTIVE_INF_TMP
+    ) a,
+       TBL_ACCT_GP_CONF b
+   where a.card_gp_no = b.gp_tp_no 
+   
+  <if test = "qgpTpNo != ''"><![CDATA[and trim(GP_TP_NO) = #{qgpTpNo} ]]></if>
+   
+   
+   order by a.card_gp_no
+
+	</select>
+	
+	<select id="getGpNoAndName" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.AcctGpConfVO">
+		select 
+			(select GROUP_CONCAT(a.gp_seq) from( select distinct gp_seq,gp_nm from tbl_acct_gp_conf where gp_tp_no=#{gpTpNo} order by gp_seq asc) a) as "gp_Seq" ,
+			(select GROUP_CONCAT(trim(b.gp_nm)) from (select distinct gp_seq,gp_nm from tbl_acct_gp_conf where gp_tp_no=#{gpTpNo} order by gp_seq asc) b) "gp_Nm" 
+		from 
+			dual
+	</select>
+</mapper>

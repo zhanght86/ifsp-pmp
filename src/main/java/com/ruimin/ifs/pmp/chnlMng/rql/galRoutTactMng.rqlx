@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 分页查询通道路由策略管理信息 -->
+	 <select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalRoutTactMng">
+	      select * from PAGY_TACTICS_INFO where 1=1 
+	      <if test = "ttsCode != '' "> and tts_code like #{ttsCode}</if>
+	      <if test = "ttsResp != '' "> and tts_resp like #{ttsResp}</if>
+	      <if test = "ttsType != '' "> and tts_type=#{ttsType}</if>
+	      <if test = "ttsStat != '' "> and tts_stat=#{ttsStat}</if>
+	      order by tts_code desc 
+	 </select>
+	 <!-- 分页查询通道基本信息表 -->
+	 <select id="queryName" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.BasicTest">
+	      select PRIORITY_VUL,PAGY_NO from PAGY_TACTICS_REL 
+	     where 1=1 
+	      <if test = "ttsCode != '' "> and TTS_CODE = #{ttsCode}</if>
+	      order by cast(priority_vul as unsigned  int)
+	 </select>
+	 <!-- 新增时查询通道的名称  并让优先级按照从1 到 2 .....排列 -->
+	 <select id="queryGalBasicInfo" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalBasicInfo">
+	     select pagy_no,pagy_name from PAGY_BASE_INFO where PAGY_STAT='00'
+
+	      <if test = "ttsCode != '' "> and pagy_no = #{ttsCode}</if>
+	      order by pagy_no
+	 </select>
+	 <!-- 查询最大序列号 -->
+	 <select id="queryMaxSeq" paramType="" resultType="string">
+	    select max(tts_code)tts_code from PAGY_TACTICS_INFO 
+	    where 1=1 
+	 </select>
+	 <insert id="addData" paramType="com.ruimin.ifs.pmp.chnlMng.process.bean.TactAndBasic">
+	     insert into PAGY_TACTICS_REL 
+	     (pagy_no,tts_code,priority_vul)
+	     values(#{pagyNo},#{ttsCode},#{priorityVul}) 
+	 </insert>
+	 <!-- 修改路由策略的状态 -->
+	 <update id="updateTtsStat" paramType="map">
+	   update PAGY_TACTICS_INFO set tts_stat= #{ttsStat}, last_upd_tlr= #{lastUpdTlr}, last_upd_date_time= #{lastUpdDate}  
+                where tts_code = #{ttsCode}
+	 </update>
+	 <!-- 修改交易表中的信息 -->
+	 <update id="updateByTtsCodeInfo" paramType="map">
+	   update PAGY_TACTICS_REL set priority_vul = #{priorityVul}  where tts_code= #{ttsCode}  
+                 and pagy_no=  #{pagyNo}
+	 </update>
+	 <!-- 根据通道编号查询通道名称 -->
+	 <select id="getPagyNoName" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.GalBasicInfo">
+	      select pagy_name from  PAGY_BASE_INFO where pagy_no in (#{prodIdArray})
+	 </select>
+	 <!-- 到支付通道策略关系表查询同一个策略下通道的优先级有没有重复的 -->
+	 <select id="selectPriorityVul" paramType="map" resultType="int">
+	    select count(*) from PAGY_TACTICS_REL where priority_vul=#{priorityVul} and tts_code=#{ttsCode}
+	 </select>
+	 <!-- 到支付通道策略关系表查询每个策略下有没有重复的通道 -->
+	 <select id="selectPagyNo" paramType="map" resultType="int">
+	    select count(*) from PAGY_TACTICS_REL where pagy_no=#{pagyNo} and tts_code=#{ttsCode}
+	 </select>
+	 <!-- 根据策略编号去查询策略名称 -->
+	  <select id="queryByTtsCode" paramType="map" resultType="string">
+	    select group_concat(tts_Resp) from PAGY_TACTICS_INFO where tts_code in (#{prodIdArray})
+	 </select>
+	 <!-- 查询支付通道策略表名称 -->
+	 <select id="queryTtsResp" paramType="" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.SaveDataUser">
+	     select tts_code,tts_resp from PAGY_TACTICS_INFO where tts_stat='00'
+	 </select>
+</mapper>

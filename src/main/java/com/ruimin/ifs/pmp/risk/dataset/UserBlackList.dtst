@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="用户黑名单" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.risk.comp.UserBlackListAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qBlacklistType"	desc="黑名单种类" align="center" edittype="combobox" datasource="DDIC:1926" multiple="false"  required="false" datatype="string" xpath="" />
+		<Field id="qBlacklistStatus" desc="状态" align="center" edittype="combobox" datasource="DDIC:1927" multiple="false"  required="false" datatype="string" xpath="" />
+		<Field id="qBlacklistValue" desc="卡号" align="center" edittype="textbox"  required="false" datatype="string" xpath="" />
+		
+		<Field id="blacklistId" desc="序号" align="center"  edittype="textbox" datatype="string" readonly="true" xpath="/blacklistId"/>
+		<Field id="blacklistType" desc="黑名单种类" align="center"  edittype="combobox" datasource="DDIC:1926"  multiple="false" datatype="string" required="true" xpath="/blacklistType" />
+		<Field id="blacklistValue" desc="卡号" align="center"  edittype="textbox"  datatype="string"  xpath="/blacklistValue" />
+		<Field id="blacklistStatus" desc="状态" align="center" edittype="combobox" datasource="DDIC:1927"   xpath="/blacklistStatus" />
+		<Field id="startDate" desc="开始日期" align="center"  edittype="datebox" datatype="date"  required="true" xpath="/startDate"/>	
+		<Field id="endDate" desc="结束日期" align="center"  edittype="datebox" datatype="date"   xpath="/endDate"/>
+    </Fields>
+    
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus" />
+		<Command id="btnAddSave" 	desc="确认新增" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.risk.comp.UserBlackListAction:addActive" url="#" txn="" icon="fa fa-save"/>
+		
+		<Command id="btnMod" desc="修改" type="none" url="#" txn="" icon="fa fa-wrench" />
+		<Command id="btnModSave" desc="确认修改" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.risk.comp.UserBlackListAction:modificationActive" url="#" txn="" icon="fa fa-pencil" />
+		
+		<Command id="btnStatus" desc="启用/停用" type="none" url="#" txn="" icon="fa fa-certificate" />
+		<Command id="btnStatusSave" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.risk.comp.UserBlackListAction:stautsActive" url="#" txn="" icon="fa fa-gears" />
+		
+		<Command id="btnDel" desc="删除" type="none" url="#" txn="" icon="fa fa-ban" />
+		<Command id="btnDelSave" desc="确认删除" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.risk.comp.UserBlackListAction:deleteActive" url="#" txn="" icon="" />
+		
+		<Command id="btnImport" desc="全量导入" type="none" url="#" txn="" icon="fa fa-upload" />
+	</Commands>
+</Data>

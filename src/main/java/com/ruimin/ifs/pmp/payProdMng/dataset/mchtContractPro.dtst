@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.payProdMng.comp.PbsProdInfoAction:queryPbsProd" 
+			desc="产品基本信息" expmaxrcd="50" flowctxid="" flowretid="" /> 
+	<Fields>
+        <Field id="prodId" desc="产品编号" required="false" datatype="string" size="200" align="center" xpath="/prodId" />
+        <Field id="prodName" desc="产品名称" required="true" datatype="string" size="200" align="center" xpath="/prodName" />
+        <Field id="prodState" desc="产品状态" edittype="combobox" required="true"
+			datasource="DDIC:1800" datatype="string" method="None" align="center"
+			 size="100"  default="" xpath="/prodState"/>
+        <!-- 查询条件 -->
+        <Field id="qprodId" desc="产品编号"  datatype="string" xpath="" status="F" default="" />
+        <Field id="qprodName" desc="产品名称" datatype="string" size="200" align="center" xpath="" />
+        <Field id="qprodState" desc="产品状态" edittype="combobox" required="false"
+			datasource="DDIC:1800" datatype="string" method="None" align="center"
+			 size="100"  default="" xpath=""/>
+	</Fields> 
+</Data>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 活动方法临时表数据查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfTmpVO">
+		select 
+		    trim(method.method_no) as method_no,
+		    trim(method.method_tp) as method_tp,
+		    trim(method.method_nm) as method_nm,
+		    trim(method.param_1_tp) as param_1_tp,
+		    trim(method.param_1_data) as param_1_data,
+		    trim(method.param_2_tp) as param_2_tp,
+		    trim(method.param_2_data) as param_2_data,
+		    trim(method.param_3_tp) as param_3_tp,
+		    trim(method.param_3_data) as param_3_data,
+		    trim(method.param_4_tp) as param_4_tp,
+		    trim(method.param_4_data) as param_4_data,
+		    trim(method.update_time) as update_time,
+		    trim(method.update_opr) as update_opr,
+		    trim(method.audit_opr) as audit_opr,
+		    trim(method.audit_time) as audit_time,
+		    trim(method.audit_flag) as audit_flag,
+		    trim(method.audit_id) as audit_id,
+		    trim(method.remark) as remark,
+		    trim(method.method_stat) as method_stat,
+		    if(IFNULL(con.method_no,'')='','未使用','使用中') as USE_STATE
+		from TBL_ACTIVE_METHOD_INF_TMP method left outer join 
+		(select distinct method_no from TBL_ACTIVE_METHOD_CONF_TMP where data_state='1') con
+		on method.method_no=con.method_no
+		where method.METHOD_STAT !='01'
+			<if test = "methodNm != '' "> and method.method_nm like #{methodNm}</if>
+			<if test = "methodNo != '' "> and method.method_no = #{methodNo}</if>
+			<if test = "methodTp != '' "> and method.method_tp = #{methodTp}</if>
+			<if test = "auditId != '' "> and method.audit_id = #{auditId}</if>
+		order by method.method_no desc
+	</select>
+	<!-- 根据方法编号删除方法信息 -->
+	<update id="deleteByMethodNo" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfTmpVO" >
+		update 
+			TBL_ACTIVE_METHOD_INF_TMP
+		set
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			AUDIT_OPR=#{auditOpr},
+			AUDIT_TIME=#{auditTime},
+			METHOD_STAT=#{methodStat},
+			SYNC_FLAG=#{syncFlag}
+		where
+			METHOD_NO=#{methodNo}
+	</update>
+	<!-- 查询活动方法临时表最大的活动方法编号 -->
+	<select id="getMaxSeq" paramType="" resultType="string">
+		select max(METHOD_NO) as method_no from TBL_ACTIVE_METHOD_INF_TMP
+	</select>
+	<!-- 新增活动方法-->
+	<insert id="insertMethod" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfTmpVO" >
+		insert into TBL_ACTIVE_METHOD_INF_TMP(METHOD_NO,METHOD_TP,METHOD_NM,PARAM_1_TP,PARAM_1_DATA,PARAM_2_TP,PARAM_2_DATA,PARAM_3_TP,PARAM_3_DATA,PARAM_4_TP,PARAM_4_DATA,UPDATE_TIME,
+		UPDATE_OPR,AUDIT_OPR,AUDIT_TIME,AUDIT_FLAG,REMARK,METHOD_STAT,SYNC_FLAG,AUDIT_ID) values(#{methodNo},#{methodTp},#{methodNm},#{param1Tp},#{param1Data},#{param2Tp},#{param2Data},#{param3Tp},#{param3Data},#{param4Tp},#{param4Data},#{updateTime},
+		#{updateOpr},#{auditOpr},#{auditTime},#{auditFlag},#{remark},#{methodStat},#{syncFlag},#{auditId})
+	</insert>
+	<!--修改活动方法 -->
+	<update id="updateMethod" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfTmpVO" >
+		update 
+			TBL_ACTIVE_METHOD_INF_TMP
+		set
+			METHOD_NM=#{methodNm},
+			PARAM_1_TP=#{param1Tp},
+			PARAM_1_DATA=#{param1Data},
+			PARAM_2_TP=#{param2Tp},
+			PARAM_2_DATA=#{param2Data},
+			UPDATE_TIME=#{updateTime},
+			UPDATE_OPR=#{updateOpr},
+			AUDIT_OPR=#{auditOpr},
+			AUDIT_TIME=#{auditTime},
+			SYNC_FLAG=#{syncFlag},
+			AUDIT_FLAG=#{auditFlag},
+			AUDIT_ID=#{auditId}
+		where 
+			METHOD_NO=#{methodNo}
+	</update>
+	
+	
+	
+	<!-- 根据活动类型查询方法列表 -->
+	<select id="queryListByActiveType" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfVO">
+		select 
+		    trim(method.method_no) as method_no,
+		    trim(method.method_nm) as method_nm
+		   
+		from TBL_ACTIVE_METHOD_INF method 
+		where method.METHOD_STAT !='01'
+			<if test = "methodNo != '' "> and method.method_no = #{methodNo}</if>
+			and method.method_tp = #{activeType}
+		order by method.method_no desc
+	</select>
+	<!-- 根据方法编号获取方法-->
+		<select id="getMethodByNo" paramType="string" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMethodInfTmpVO">
+			select 
+			    trim(method.method_no) as method_no,
+			    trim(method.method_nm) as method_nm
+			   
+			from TBL_ACTIVE_METHOD_INF_TMP method 
+			where method.METHOD_STAT !='01'
+				and method.method_no = #{methodNo}
+		</select>
+	<!-- 根据审核业务类型查询审核步骤信息-->	
+	<select id="selectTepList" paramType="map" resultType="com.ruimin.ifs.pmp.platMng.process.bean.PmpAuditProcStep">
+		select *
+  		from PMP_AUDIT_PROC_STEP a<!-- 流程步骤 -->
+  		left join PMP_AUDIT_PROC_INFO b on a.audit_proc_id = b.audit_proc_id<!-- 流程 -->
+  		where b.audit_proc_type = #{auditType}	<!-- 审核类型 -->
+	</select>
+</mapper> 

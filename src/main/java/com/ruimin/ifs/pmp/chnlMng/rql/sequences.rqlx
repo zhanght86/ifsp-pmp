@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 集团商户序号 -->
+	<select id="queryGroupMchtSer" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select mchtSer from 
+	        (
+	        select substr(mcht_id,10,7)+1 as mchtSer 
+	        from imp_group_mcht_inf where 1=1
+	        and substr(mcht_id,10,7)+1 not in (select substr(mcht_id,10,7) from imp_group_mcht_inf where substr(mcht_id,0,9) = #{date}) 
+	       	and substr(mcht_id,10,7)+1 >= #{min}
+			and substr(mcht_id,10,7)+1 <= #{max}
+			and substr(mcht_id,0,9) = #{date} 
+			order by substr(mcht_id,10,7) 
+			)
+			where rownum =1
+   	  	 ]]>
+	</select>
+	
+	<!-- 商户序号 -->
+	<select id="queryMchtSer" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select mchtSer from 
+	        (
+	        select substr(mcht_id,10,7)+1 as mchtSer 
+	        from imp_mcht_inf_tmp where 1=1
+	        and substr(mcht_id,10,7)+1 not in (select substr(mcht_id,10,7) from imp_mcht_inf_tmp where substr(mcht_id,0,9) = #{date}) 
+	       	and substr(mcht_id,10,7)+1 >= #{min}
+			and substr(mcht_id,10,7)+1 <= #{max}
+			and substr(mcht_id,0,9) = #{date} 
+			order by substr(mcht_id,10,7) 
+			)
+			where rownum =1
+   	  	 ]]>
+	</select>
+	
+	<!-- 商户巡检号 -->
+	<select id="queryMchtCheckId" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select mchtSer from 
+	        (
+	        select substr(mcht_xj_id,10,7)+1 as mchtSer 
+	        from IMP_MCHT_CHECK_INFO where 1=1
+	        and substr(mcht_xj_id,10,7)+1 not in (select substr(mcht_xj_id,10,7) from IMP_MCHT_CHECK_INFO where substr(mcht_xj_id,0,9) = #{date}) 
+	       	and substr(mcht_xj_id,10,7)+1 >= #{min}
+			and substr(mcht_xj_id,10,7)+1 <= #{max}
+			and substr(mcht_xj_id,0,9) = #{date} 
+			order by substr(mcht_xj_id,10,7) 
+			)
+			where rownum =1
+   	  	 ]]>
+	</select>
+	
+	
+	<!-- 商户合同流水号 -->
+	<select id="querySeqId" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select mchtSer from 
+	        (
+	        select substr(seq_id,9,7)+1 as mchtSer 
+	        from imp_mcht_contract_inf where 1=1
+	        and substr(seq_id,9,7)+1 not in (select substr(seq_id,9,7) from imp_mcht_contract_inf where substr(seq_id,0,8) = #{date}) 
+	       	and substr(seq_id,9,7)+1 >= #{min}
+			and substr(seq_id,9,7)+1 <= #{max}
+			and substr(seq_id,0,8) = #{date} 
+			order by substr(seq_id,9,7) 
+			)
+			where rownum =1
+   	  	 ]]>
+	</select>
+	
+	
+	<!-- 营销活动序号 -->
+	<select id="queryActSer" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select mchtSer from 
+	        (
+	        select substr(ACT_NO,3,4)+1 as mchtSer 
+	        from IMP_MCHT_MARKET_ACT where 1=1
+	        and substr(ACT_NO,3,4)+1 not in (select substr(ACT_NO,3,4) from IMP_MCHT_MARKET_ACT ) 
+	       	and substr(ACT_NO,3,4)+1 >= #{min}
+			and substr(ACT_NO,3,4)+1 <= #{max}
+			order by substr(ACT_NO,3,4) 
+			)
+			where rownum =1
+   	  	 ]]>
+       	 
+	</select>
+	
+	
+	
+	<!-- 终端版本号 -->
+	<select id="queryTermVer" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select mchtSer from 
+	        (
+	        select VER_ID+1 as mchtSer 
+	        from IMP_VER_MNG where 1=1
+	        and VER_ID+1 not in (select VER_ID from IMP_VER_MNG ) 
+	       	and VER_ID+1 >= #{min}
+			and VER_ID+1 <= #{max}
+			order by VER_ID
+			)
+			where rownum =1
+   	  	 ]]>
+	</select>
+	
+	<!-- 终端菜单号 -->
+	<select id="queryMenuSer" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select mchtSer from 
+	        (
+	        select MENU_ID+1 as mchtSer 
+	        from IMP_MENU_MSG where 1=1
+	        and MENU_ID+1 not in (select MENU_ID from IMP_MENU_MSG ) 
+	       	and MENU_ID+1 >= #{min}
+			and MENU_ID+1 <= #{max}
+			and VER_ID = #{verId}
+			order by MENU_ID
+			)
+			where rownum =1
+   	  	 ]]>
+       	 
+	</select>
+	
+	
+	<!-- 银联商户序号  added by mj 2015-11-20-->
+	<select id="queryCupMchtSer" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select max(SEQ_NO)+1 from IMP_CUP_MCHT_SEQ where 1=1 
+			 	and BANK_ID = #{gen}
+				and AREA_NO = #{areaNo}
+				and MCHT_MCC = #{mcc}
+   	  	 ]]>
+	</select>
+	<select id="queryDiscId" paramType="map" resultType="int">
+		 <![CDATA[
+			select  max(substr(DISC_ID,3,6)+1) from IMP_DISC_ID_INF where 1=1 and substr(DISC_ID,3,6)+1 not in (select substr(DISC_ID,3,6)  from IMP_DISC_ID_INF)   	  	 ]]>
+	</select>
+	
+	
+	
+	<!-- 商户序号 -->
+	<select id="queryTermTp" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select TERM_TYPE+1 from IMP_TERM_TP WHERE 1=1
+		 	and TERM_TYPE+1 not in (select TERM_TYPE from IMP_TERM_TP ) 
+		 	and TERM_TYPE+1 <= #{max}
+   	  	 ]]>
+	</select>
+	
+	
+	<!-- 内部结构编码 -->
+	<select id="queryOrgSeq" paramType="map" resultType="int">
+		 <![CDATA[
+		 	select br from (
+			 	select BRCODE+1 as br 
+			 	from IFS_ORG where BRCODE+1 not in (select BRCODE from IFS_ORG) 
+			 	and BRCODE+1 >= #{min}
+			 	and BRCODE+1 <= #{max} 
+			 	order by br) c
+		 	limit 1
+
+   	  	 ]]>
+	</select>
+</mapper> 

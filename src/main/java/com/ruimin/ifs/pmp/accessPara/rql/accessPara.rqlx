@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtCertInfoVO">
+		select a.* 
+		from PBS_MCHT_CERT_INFO a
+		where CERTIFI_USE_TYPE ='3008'
+			<if test = "certifiId != '' "> and a.CERTIFI_BL like #{certifiId}</if>
+			<if test = "certifiStatus != '' "> and a.CERTIFI_STATUS = #{certifiStatus}</if>
+		order by REC_CRT_TS desc
+	</select>
+	
+	<!-- 通过证书号查询是否已有该配置信息 -->
+	<select id = "queryCertExits" paramType="map" resultType="int">
+		
+		SELECT count(*) FROM PBS_MCHT_CERT_INFO	where CERTIFI_ID = #{certifiId} and CERTIFI_USE_TYPE ='3008'
+	
+	</select>
+
+</mapper>

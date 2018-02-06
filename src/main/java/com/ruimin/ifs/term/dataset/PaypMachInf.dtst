@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="设备库存信息" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.term.comp.PaypMachInfAction:queryAllPaypMachInfo" flowretid="" log="false" pagesize="10" type="call"/>
+	<Fields>
+		<Field id="machId" desc="设备库存编号"  align="center"   status="F" method="" 
+				 datatype="string" size="16" default="" xpath="/machId"/>
+        <Field id="machType" desc="设备类型" align="center"    required="true"  
+         	method="None" edittype="combobox" datasource="LIST:1,传统POS;2,固话POS;3,移动POS;4,mPos"  
+         	datatype="string" size="1" default="" status="F"  xpath="/machType"/>
+        <Field id="machStat" desc="设备状态" align="center"   method="None"  edittype="combobox" 
+        	datasource="LIST:0,已入库;1,已出库;2,已作废" datatype="string" size="1" default="" status="F"  xpath="/machStat"/>
+        <Field id="batchNo" desc="批次号" align="center"  method="None" datatype="string" size="12" status="F" xpath="/batchNo"/>
+        <Field id="machInst" desc="所属机构" align="center" edittype="combotree"  required="true"  
+		       datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree"  readonly="false" init="true" fieldmap="machInst=_id;machInstName=_text" viewfield="_text"  
+			   status="F" xpath="/machInst" />
+		<Field id="machInstName" align="center" method="com.ruimin.ifs.mng.comp.BctlAllSelectAction.getOrgName" 
+			 desc="所属机构" status="F" xpath="/machInst" />	
+        <Field id="propertyType" desc="产权归属" align="center"   required="true"   edittype="combobox" 
+        	datasource="LIST:0,我行产权;1,我行租赁;2,第三方投入" default="" readonly="false" status="F"  size="15" xpath="/propertyType"/> 
+        <Field id="propertyInst" desc="产权机构名" align="center"  method="None" 
+        	datatype="string" size="64" status="F" xpath="/propertyInst"/>
+        <Field id="companyName" desc="厂商名称" align="center"   edittype="combobox"  
+        	datasource="LIST:0,至高;1,新国都"  required="true"  method="None" datatype="string" 
+        	size="40" status="F" xpath="/companyName"/>
+        <!-- 新增字段 -->
+        <Field id="machNo" desc="设备型号" align="center"  required="false" 
+        	edittype="textbox" datatype="string" default="" size="10" xpath="/machNo"/>
+        <Field id="confNo" desc="配置号" align="center"  required="false" 
+        	edittype="textbox" datatype="string" default="" size="20" xpath="/confNo"/>
+        <Field id="machVersion" desc="终端版本" align="center"  required="false" 
+        	edittype="textbox" datatype="string" default="" size="32" xpath="/machVersion"/>
+        
+        <Field id="lastAudTlr" desc="最近审核操作员" align="center"  method="None" 
+        	datatype="string" size="20" status="F" xpath="/lastAudTlr"/>
+        <Field id="lastAudDateTime" desc="最近审核日期时间" align="center"  method="None" 
+        	datatype="string" size="14" status="F" xpath="/lastAudDateTime"/>
+        <Field id="crtTlr" desc="创建操作员" align="center"  method="None" datatype="string"
+        	 size="20" status="F" xpath="/crtTlr"/>
+        <Field id="crtDateTime" desc="创建日期时间" align="center"  method="None"
+        	 datatype="string" size="14" status="F" xpath="/crtDateTime"/>
+        <Field id="lastUpdTlr" desc="最近更新操作员" align="center"  method="None" 
+        	datatype="string" size="20" status="F" xpath="/lastUpdTlr"/>
+        <Field id="lastUpdDateTime" desc="最近更新日期时间" align="center"  method="None" 
+        	datatype="string" size="14" status="F" xpath="/lastUpdDateTime"/>        
+		<Field id="opr" desc="操作栏" datatype="string" align="center" />
+		<Field id="opr2" desc="绑定操作" datatype="string" align="center" />
+		<Field id="machNumber" desc="设备数量" datatype="string"  default="1"  align="center" required="true"/>
+		<!-- 查询条件 -->
+		<Field id="qmachId" datatype="string" size="20" edittype="textbox" desc="设备库存编号" />
+	    <Field id="qmachType" desc="设备类型" align="center"   method="None" edittype="combobox" 
+	    	datasource="LIST:1,传统POS;2,固话POS;3,移动POS;4,mPos"  datatype="string" size="1" default="" status="F"  />
+        <Field id="qmachStat" desc="设备状态" align="center"  method="None"  edittype="combobox" 
+        	datasource="LIST:0,已入库;1,已出库;2,已作废" datatype="string" size="1" default=""  status="F"   />
+		<Field id="qpropertyType" desc="产权归属" align="center"  edittype="combobox" 
+			datasource="LIST:0,我行产权;1,我行租赁;2,第三方投入" default="" readonly="false" status="F"  size="15"/> 
+		<Field id="qbatchNo" datatype="string" edittype="textbox" desc="批次号" />
+		<Field id="qmachInst" edittype="combotree" desc="所属机构" 
+			datasource="OrgTree:com.ruimin.ifs.mng.dataset.OrgTree" 
+				fieldmap="qmachInst=_id;qmachInstName=_text" viewfield="_text" />
+	</Fields>
+	<Commands>
+	   <Command id="btnAdd" desc="入库" type="addrecord" url="#" txn="" icon="fa fa-plus" tip="入库"/>
+	   <Command id="btSave" desc="提交" type="asyncsubmit"   flowid="com.ruimin.ifs.term.comp.PaypMachInfAction:addMachInfo" icon="fa fa-save" url="#" tip="提交"/>
+	   <Command id="btStatus" desc="作废" type="asyncsubmit"   flowid="com.ruimin.ifs.term.comp.PaypMachInfAction:voidedMachInfo" icon="fa fa-gears" url="#" tip="作废"/>
+	   <Command id="bathAdd" desc="批量入库" type="none" icon="fa fa-plus"   url="#" tip="批量入库"/>
+	</Commands>
+	
+</Data>

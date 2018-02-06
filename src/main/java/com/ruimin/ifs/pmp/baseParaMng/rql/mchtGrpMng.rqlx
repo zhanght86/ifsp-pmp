@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 商户信息详细查询 -->
+	<select id="queryMainInfo" paramType="map"
+		resultType="com.ruimin.ifs.pmp.baseParaMng.process.bean.PbsMchtGrpInfo">
+		select 
+			MCHT_GRP_NO,GRP_DESC,GRP_STATE 
+		from PBS_MCHT_GRP_INFO
+		where 1 = 1
+			<if test="qmchtGrpNo != ''"><![CDATA[and MCHT_GRP_NO = #{qmchtGrpNo} ]]></if>
+			<if test="qgrpDesc != ''"><![CDATA[and GRP_DESC like #{qgrpDesc} ]]></if>
+		order by 
+			CRT_DATE_TIME desc
+	</select>
+
+	<!-- 判断商户组别记录是否存在 -->
+	<select id="checkMchtGrpExist" paramType="map"
+		resultType="int">
+		select count(*) from PBS_MCHT_GRP_INFO where trim(MCHT_GRP_NO)= #{mchtGrpNo}
+	</select>
+	
+	<!-- 修改商户组别记录信息 -->
+	<update id="updMchtGrp" paramType="com.ruimin.ifs.pmp.baseParaMng.process.bean.PbsMchtGrpInfo">
+	update 
+		PBS_MCHT_GRP_INFO
+	set
+		GRP_DESC=#{grpDesc},
+		LAST_UPD_TLR=#{lastUpdTlr},
+		LAST_UPD_DATE_TIME=#{lastUpdDateTime}
+	where
+		trim(MCHT_GRP_NO)= #{mchtGrpNo}
+	</update>
+	
+	<!-- 去商户mcc表中查询该组别下有没有mcc -->
+	<select id="queryMccByMchtGrpNo" paramType="map"
+		resultType="int">
+		select count(*) from PBS_MCHT_MCC_INFO 
+		where 
+			MCHT_GRP_ID = #{mchtGrpNo}
+	</select>
+
+</mapper>

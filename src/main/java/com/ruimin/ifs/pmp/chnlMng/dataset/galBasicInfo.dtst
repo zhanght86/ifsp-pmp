@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction:queryName" flowretid="" log="false" pagesize="10" type="call"/>
+      <Fields>
+           <Field id="pagyName" desc="通道名称" align="center"  required="false" edittype="combobox" xpath="/pagyName" ></Field>
+           <Field id="pagyStat" desc="通道状态" align="center"  required="false" edittype="textbox" xpath="/pagyStat" ></Field>
+           
+           <Field id="pagyNo" desc="通道编号" datatype="string" align="center" edittype="combogrid"
+          datasource="basicTest:com.ruimin.ifs.pmp.chnlMng.dataset.basicTest" init="true" viewfield="pagyNo,pagyName" 
+          fieldmap="pagyNo=pagyNo;pagyNoName=pagyName" xpath="/pagyNo"></Field>
+          <Field id="priorityVul" desc="优先级" datatype="string" align="center" edittype="textbox"
+          datasource="tactAndBasic:com.ruimin.ifs.pmp.chnlMng.dataset.tactAndBasic" init="false" fieldmap="priorityVul=priorityVul" xpath="/priorityVul"></Field> 
+          
+          <Field id="pagyNoName" desc="通道名称" datatype="string" align="center" edittype="textbox"
+          method="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction.getPagyNoName"  xpath="/pagyNo"></Field>
+         
+         <!--  
+          <Field id="priorityVulName" desc="优先级" datatype="string" align="center" edittype="textbox"
+          method="com.ruimin.ifs.pmp.chnlMng.comp.GalRoutTactMngAction.getPriorityVulName" xpath="/priorityVul"></Field> 
+     -->
+      </Fields>
+      
+      <Commands>
+           <Command id="btnAddSection01" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		  <Command id="btnDeleteSection01"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+		  <Command id="btnAddSection02" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		  <Command id="btnDeleteSection02"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+      </Commands>
+</Data>

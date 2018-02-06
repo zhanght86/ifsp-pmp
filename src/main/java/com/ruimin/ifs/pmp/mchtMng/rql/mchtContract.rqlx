@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 所有的商户合同基本信息详细查询 -->	
+	<select id="queryMassInfoAll" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractVO1" >
+ select TRIM(IFNULL(pma.CHL_SYS_NO,'')) as CHL_SYS_NO,a.con_Id,a.sync_State,a.audit_Id,a.mcht_Id,b.mcht_Simple_Name,paper_Con_Id,start_Date, end_Date,b.mcht_type, 
+        extend_Flag,  con_Term,setl_Type, setl_Symbol, setl_Cycle, spec_Setl_Day,setl_Acct_Type, 
+        setl_Acct_No, setl_Cert_Type, setl_Cert_No,setl_Acct_Institute, a.crt_Tlr,a.crt_Date_Time,a.last_Upd_Tlr,e.limit_One,
+        e.limit_Day,e.data_State,a.last_Upd_Date_Time,a.SETL_ACCT_BANK_NO,a.SETL_ACCT_BANK_NAME,a.SETL_BANK_PHONE,SETL_ACCT_AREA_CODE,
+       	 case when
+          con_state='99'
+          then con_state
+  when  (con_state = '00' or con_state = '01' or con_state = '02' or con_state ='03') and  #{sysdate1} > end_Date
+        then '03'
+  when (con_state = '00' or con_state = '01' or con_state = '02' or con_state ='03') and #{sysdate2} > end_Date 
+    then '02'
+      else
+        con_state
+ end 
+ as con_state,
+ IF(a.setl_Acct_Name='',pma.setl_Acct_Name,a.setl_Acct_Name) AS setl_Acct_Name, 
+ IF(a.ACCOUNT_TYPE='',pma.ACCOUNT_TYPE,a.ACCOUNT_TYPE) AS ACCOUNT_TYPE,
+ a.ACCOUNT_BOSS 
+  	 from PBS_MCHT_CONTR_INFO_TMP  a
+  	LEFT JOIN pbs_mcht_assist_info_tmp pma on pma.mcht_Id = a.mcht_Id   
+    left join PBS_MCHT_BASE_INFO_TMP b on a.mcht_Id = b.mcht_Id
+    left join PBS_MCHT_TXN_LIMIT_INFO_TMP e on a.mcht_Id = e.mcht_Id
+    left join ifs_staff staff on staff.tlrno = a.crt_tlr
+     where
+     staff.brcode in(
+       select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+      )
+		<if test = "qmchtId != ''"><![CDATA[and a.mcht_Id like #{qmchtId} ]]></if>
+		<if test = "qconId != ''"><![CDATA[and a.con_Id like #{qconId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and b.mcht_Simple_Name like #{qmchtSimpleName} ]]></if>
+		<if test = "qpaperConId != ''"><![CDATA[and paper_Con_Id like #{qpaperConId} ]]></if>
+		<if test = "qsetlAcctNo != ''"><![CDATA[and setl_Acct_No like #{qsetlAcctNo} ]]></if>
+		<if test = "qconState != ''"><![CDATA[and con_State like #{qconState} ]]></if>
+		<if test = "auditId != ''"><![CDATA[and a.audit_Id = #{auditId} ]]></if>
+		order by con_Id desc
+	</select>
+	<!-- 签订中同基本信息详细查询 -->	
+	<select id="queryMassInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractVO1">
+ select TRIM(IFNULL(pma.CHL_SYS_NO,'')) as CHL_SYS_NO,a.con_Id,a.sync_State,a.audit_Id,a.mcht_Id,b.mcht_Simple_Name,paper_Con_Id,start_Date, end_Date,b.mcht_type, 
+        extend_Flag,  con_Term,setl_Type, setl_Symbol, setl_Cycle, spec_Setl_Day,setl_Acct_Type,  
+        setl_Acct_No, setl_Cert_Type, setl_Cert_No,setl_Acct_Institute, a.crt_Tlr,a.crt_Date_Time,a.last_Upd_Tlr,e.limit_One,
+        e.limit_Day,e.data_State,
+         a.last_Upd_Date_Time,a.SETL_ACCT_BANK_NO,a.SETL_ACCT_BANK_NAME,a.SETL_BANK_PHONE,SETL_ACCT_AREA_CODE,
+       	 case when
+          con_state='99'
+          then con_state
+  when (con_state = '00' or con_state = '01' or con_state = '02' or con_state ='03') and  #{sysdate1} > end_Date 
+        then '03'
+  when  (con_state = '00' or con_state = '01' or con_state = '02' or con_state ='03') and  #{sysdate2} > end_Date 
+    then '02'
+      else
+        con_state
+ end 
+ as con_state,
+ IF(a.setl_Acct_Name='',pma.setl_Acct_Name,a.setl_Acct_Name) AS setl_Acct_Name, 
+ IF(a.ACCOUNT_TYPE='',pma.ACCOUNT_TYPE,a.ACCOUNT_TYPE) AS ACCOUNT_TYPE,
+ a.ACCOUNT_BOSS 
+  	 from PBS_MCHT_CONTR_INFO_TMP  a
+  	LEFT JOIN pbs_mcht_assist_info_tmp pma on pma.mcht_Id = a.mcht_Id   
+    left join PBS_MCHT_BASE_INFO b on a.mcht_Id = b.mcht_Id
+    left join PBS_MCHT_TXN_LIMIT_INFO_TMP e on a.mcht_Id = e.mcht_Id
+    and <![CDATA[ #{sysdate2} < end_Date ]]>
+    left join ifs_staff staff on staff.tlrno = a.crt_tlr      
+    where 
+     staff.brcode in(
+        select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+      )
+		<if test = "qmchtId != ''"><![CDATA[and a.mcht_Id like #{qmchtId} ]]></if>
+		<if test = "qconId != ''"><![CDATA[and a.con_Id like #{qconId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and b.mcht_Simple_Name like #{qmchtSimpleName} ]]></if>
+		<if test = "qpaperConId != ''"><![CDATA[and paper_Con_Id like #{qpaperConId} ]]></if>
+		<if test = "qsetlAcctNo != ''"><![CDATA[and setl_Acct_No like #{qsetlAcctNo} ]]></if>
+		<if test = "qconState != ''"><![CDATA[and con_State like #{qconState} ]]></if>
+		<if test = "auditId != ''"><![CDATA[and a.audit_Id = #{auditId} ]]></if>
+		order by con_Id desc
+	</select>
+	
+	
+	<!--即将到期的合同查询  -->
+	<select id="queryMassInfoing" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractVO1">
+ select TRIM(IFNULL(pma.CHL_SYS_NO,'')) as CHL_SYS_NO,a.con_Id,a.sync_State,a.audit_Id,a.mcht_Id,b.mcht_Simple_Name,paper_Con_Id,start_Date, end_Date,b.mcht_type, 
+        extend_Flag,  con_Term,setl_Type, setl_Symbol, setl_Cycle, spec_Setl_Day,setl_Acct_Type,  
+        setl_Acct_No, setl_Cert_Type, setl_Cert_No,setl_Acct_Institute, a.crt_Tlr,a.crt_Date_Time,a.last_Upd_Tlr,e.limit_One,
+        e.limit_Day,e.data_State,
+         a.last_Upd_Date_Time,a.SETL_ACCT_BANK_NO,a.SETL_ACCT_BANK_NAME,a.SETL_BANK_PHONE,SETL_ACCT_AREA_CODE,
+       	 case when
+          con_state='99'
+          then con_state
+  when (con_state = '00' or con_state = '01' or con_state = '02' or con_state ='03') and  #{sysdate1} > end_Date 
+        then '03'
+  when (con_state = '00' or con_state = '01' or con_state = '02' or con_state ='03') and  #{sysdate2} > end_Date 
+    then '02'
+      else
+        con_state
+ end 
+ as con_state,
+ IF(a.setl_Acct_Name='',pma.setl_Acct_Name,a.setl_Acct_Name) AS setl_Acct_Name, 
+ IF(a.ACCOUNT_TYPE='',pma.ACCOUNT_TYPE,a.ACCOUNT_TYPE) AS ACCOUNT_TYPE,
+ a.ACCOUNT_BOSS 
+  	 from PBS_MCHT_CONTR_INFO_TMP  a
+  	LEFT JOIN pbs_mcht_assist_info_tmp pma on pma.mcht_Id = a.mcht_Id   
+    left join PBS_MCHT_BASE_INFO b on a.mcht_Id = b.mcht_Id
+    left join PBS_MCHT_TXN_LIMIT_INFO_TMP e on a.mcht_Id = e.mcht_Id
+    
+    and <![CDATA[ #{sysdate1} <= end_Date ]]> and  <![CDATA[ #{sysdate2} > end_Date ]]>
+	left join ifs_staff staff on staff.tlrno = a.crt_tlr
+     where
+      staff.brcode in(
+       select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+      )
+		<if test = "qmchtId != ''"><![CDATA[and a.mcht_Id like #{qmchtId} ]]></if>
+		<if test = "qconId != ''"><![CDATA[and a.con_Id like #{qconId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and b.mcht_Simple_Name like #{qmchtSimpleName} ]]></if>
+		<if test = "qpaperConId != ''"><![CDATA[and paper_Con_Id like #{qpaperConId} ]]></if>
+		<if test = "qsetlAcctNo != ''"><![CDATA[and setl_Acct_No like #{qsetlAcctNo} ]]></if>
+		<if test = "auditId != ''"><![CDATA[and a.audit_Id = #{auditId} ]]></if>
+		order by con_Id desc
+	</select>
+	<!--已到期的合同查询  -->
+	<select id="queryMassInfoed" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractVO1">
+ select TRIM(IFNULL(pma.CHL_SYS_NO,'')) as CHL_SYS_NO,a.con_Id,a.sync_State,a.audit_Id,a.mcht_Id,b.mcht_Simple_Name,paper_Con_Id,start_Date, end_Date,b.mcht_type, 
+        extend_Flag,  con_Term,setl_Type, setl_Symbol, setl_Cycle, spec_Setl_Day,setl_Acct_Type, 
+        setl_Acct_No, setl_Cert_Type, setl_Cert_No,setl_Acct_Institute, a.crt_Tlr,a.crt_Date_Time,a.last_Upd_Tlr,e.limit_One,
+        e.limit_Day,e.data_State,a.last_Upd_Date_Time,a.SETL_ACCT_BANK_NO,a.SETL_ACCT_BANK_NAME,a.SETL_BANK_PHONE,SETL_ACCT_AREA_CODE,
+       	 case when
+          con_state='99'
+          then con_state
+  when  (con_state = '00' or con_state = '01' or con_state = '02' or con_state ='03') and #{sysdate1} > end_Date
+        then '03'
+  when (con_state = '00' or con_state = '01' or con_state = '02' or con_state ='03') and #{sysdate2} > end_Date 
+    then '02'
+      else
+        con_state
+ end 
+ as con_state,
+ IF(a.setl_Acct_Name='',pma.setl_Acct_Name,a.setl_Acct_Name) AS setl_Acct_Name, 
+ IF(a.ACCOUNT_TYPE='',pma.ACCOUNT_TYPE,a.ACCOUNT_TYPE) AS ACCOUNT_TYPE,
+ a.ACCOUNT_BOSS
+  	 from PBS_MCHT_CONTR_INFO_TMP  a 
+  	LEFT JOIN pbs_mcht_assist_info_tmp pma on pma.mcht_Id = a.mcht_Id
+    left join PBS_MCHT_BASE_INFO_TMP b on a.mcht_Id = b.mcht_Id
+    left join PBS_MCHT_TXN_LIMIT_INFO_TMP e on a.mcht_Id = e.mcht_Id
+   
+          and <![CDATA[ #{sysdate1} > end_Date ]]>
+         left join ifs_staff staff on staff.tlrno = a.crt_tlr
+      where 
+      staff.brcode in(
+    	select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+    	)
+		<if test = "qmchtId != ''"><![CDATA[and a.mcht_Id like #{qmchtId} ]]></if>
+		<if test = "qconId != ''"><![CDATA[and a.con_Id like #{qconId} ]]></if>
+		<if test = "qmchtSimpleName != ''"><![CDATA[and b.mcht_Simple_Name like #{qmchtSimpleName} ]]></if>
+		<if test = "qpaperConId != ''"><![CDATA[and paper_Con_Id like #{qpaperConId} ]]></if>
+		<if test = "qsetlAcctNo != ''"><![CDATA[and setl_Acct_No like #{qsetlAcctNo} ]]></if>
+		<if test = "auditId != ''"><![CDATA[and a.audit_Id = #{auditId} ]]></if>
+		order by con_Id desc
+	</select>
+
+	<!-- 获取商户编号最大值 -->
+	<select id="queryMaxConId" paramType="" resultType="String">
+		select max(CON_ID) CON_ID from  PBS_MCHT_CONTR_INFO_TMP where 1=1
+	
+	</select>
+	
+	<!--在中止状态下获取合同的实际状态  -->
+	<select id="queryOne" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractVO1">
+		select 
+       	 case 
+  when   #{sysdate1} > end_Date
+        then '03'
+  when #{sysdate2} > end_Date 
+    then '02'
+      else
+        '01'
+ end 
+ as con_state 
+  	from PBS_MCHT_CONTR_INFO_TMP where con_Id = #{conId} 
+	</select>
+	
+	<!-- 更新图片信息-->
+	<update id="updMchtPic" paramType="map" >
+		update
+			PBS_MCHT_CONTR_PIC_INFO_TMP
+		set
+			PIC_ID=#{picId},
+			LAST_UPD_TLR=#{lastUpdTlr},
+			LAST_UPD_DATE_TIME=#{lastUpdAteTime}			
+		where 1=1
+			and CON_ID=#{conId} 
+			and pic_ser_num=#{picType}
+	</update>
+	<select id="queryAcctType" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfo" >
+				     
+      select distinct a.acct_type_code from PBS_PROD_REL_TXN_ACCT a 
+         left join  PAY_ACCT_TYPE_BASE_INFO b  on a.acct_type_code=b.acct_type_no 
+         where trim(a.prod_id)=#{prodId}  and a.data_state='00' 
+	</select>
+
+	<select id="queryAllRecord" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.AccountAndRate" >
+      
+      select distinct a.acct_type_code,d.rate_id,d.rate_name from PBS_PROD_REL_TXN_ACCT a left join  PAY_ACCT_TYPE_BASE_INFO b  
+on a.acct_type_code=b.acct_type_no left join PBS_MCHT_CONTR_ACCT_RATE_TMP c on c.acct_type_code=b.acct_type_no
+left join PBS_RATE_BASE_INFO d on d.rate_id=c.rate_id
+where trim(c.prod_id)=#{prodId} and trim(c.con_id) = #{conId}
+     
+	</select>
+	
+	<insert id="addMchtContractAcctRate" paramType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractAcctRate"  >
+	   insert into PBS_MCHT_CONTR_ACCT_RATE_TMP
+	   values(#{conId},#{prodId},#{acctTypeCode},#{rateId},#{dataState},#{crtTlr},#{crtDateTime},#{lastUpdTlr},#{lastUpdDateTime})
+	
+	</insert>
+	<insert id="addMchtContractProduct" paramType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractProduct" >
+	   insert into PBS_MCHT_REL_CONTR_PROD_TMP 
+	   values(#{conId},#{prodId},#{dataState},#{crtTlr},#{crtDateTime},#{lastUpdTlr},#{lastUpdDateTime})
+	
+	</insert>
+	<select id="queryConfirm" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractProduct" >
+		
+		  select * from PBS_MCHT_REL_CONTR_PROD_TMP where trim(prod_id) =#{prodId} and trim(con_id) =#{conId} 
+     
+	</select>
+	<select id="queryProdAll" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractIdProductAll" >
+		  select a.prod_name,b.prod_id from PBS_PROD_INFO a , PBS_MCHT_REL_CONTR_PROD_TMP b where trim(a.prod_id)= trim(b.prod_id) 
+		   <if test = "conId != ''"><![CDATA[and  b.con_id=#{conId} ]]></if>
+		   order by prod_id desc
+	</select>
+	
+	<select id="getSetlAcctInstituteName" paramType="map" resultType="string">
+	     select ACCT_INST_NAME from PBS_ACCT_INST_INFO d where d.acct_inst_no in (#{prodIdArray})
+	</select>
+	
+	<!-- 根据合同conId查找对应合同的合同状态 -->
+	<select id="selectConStateByConId" paramType="map" resultType="string">
+	     select CON_STATE from PBS_MCHT_CONTR_INFO_TMP d where d.con_Id =#{conId}
+	</select>
+	
+	<update paramType="map" id="delTabPro">
+	delete from PBS_MCHT_REL_CONTR_PROD_TMP  where 
+	   CON_ID = #{conId} and trim(PROD_ID) = #{prodId}
+	
+	</update>
+	<update paramType="map" id="delTabRate">
+	delete from PBS_MCHT_CONTR_ACCT_RATE_TMP  where  
+	    CON_ID = #{conId} and trim(PROD_ID) = #{prodId}
+	
+	</update>
+	<select id="queryMchtFlag" paramType="map" resultType="com.ruimin.ifs.pmp.mchtMng.process.bean.MchtContractVO" >
+		
+		  select * from PBS_MCHT_CONTR_INFO_TMP where trim(MCHT_ID) =#{mchtflag}
+     
+	</select>
+		<!-- 查询 审核流程编号-->
+	<select id="selectAuditIdByBrno" paramType="map" resultType="String">
+			select  m.audit_proc_id from PMP_AUDIT_PROC_INFO m left join IFS_ORG n
+            on m.br_class=n.brclass where n.brno=#{brno}
+	</select>
+
+	<select id="queryPagyCategroyCfgl" paramType="map" resultType="map">
+select c.LEVEL_TWO_CODE,n.CATEGORY_DESC from pagy_category_cfg c
+LEFT JOIN pagy_category_name n ON c.USER_CODE=c.USER_CODE and c.LEVEL_TWO_CODE=n.CATEGORY_CODE
+where n.USER_CODE='01' 
+		   <if test = "qLevelTwoCode != ''"><![CDATA[and  c.LEVEL_ONE_CODE=#{qLevelTwoCode} ]]></if>
+ GROUP BY c.LEVEL_TWO_CODE
+	</select>
+		<select id="queryPagyCategroyCfgl2" paramType="map" resultType="map">
+select c.LEVEL_THREE_CODE,n.CATEGORY_DESC from pagy_category_cfg c
+LEFT JOIN pagy_category_name n ON c.USER_CODE=c.USER_CODE and c.LEVEL_THREE_CODE=n.CATEGORY_CODE
+where n.USER_CODE='01' 
+		   <if test = "qLevelThreeCode != ''"><![CDATA[and  c.LEVEL_TWO_CODE=#{qLevelThreeCode} ]]></if>
+ GROUP BY c.LEVEL_THREE_CODE
+	</select>
+	
+	
+	<select id="queryPagyCategroy" paramType="map" resultType="map">
+	
+	<if test = "qLevelTwoCode != ''"><![CDATA[and  c.LEVEL_TWO_CODE=#{qLevelTwoCode} ]]></if>
+	</select>
+	
+	
+	
+	
+</mapper>

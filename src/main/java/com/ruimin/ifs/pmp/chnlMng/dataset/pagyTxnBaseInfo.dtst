@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="支付通道交易信息基础信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnBaseInfoAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="pagyTxnCode" desc="交易编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/pagyTxnCode"/>
+		<Field id="pagyTxnName" desc="交易名称" align="center" required="true"  edittype="textbox" datatype="string" status="F" xpath="/pagyTxnName" />
+		<Field id="txnCode"     desc="交易序号" align="center" required="false"  edittype="textbox" datatype="string" status="F" size="3" />
+		
+		<Field id="pagyNo"      desc="通道编号" edittype="combogrid"  datatype="string" status="F" required="true" init="true" 
+		datasource="pagyInfo:com.ruimin.ifs.pmp.chnlMng.dataset.pagyInfo"  readonly="false" multiple="false" 
+		fieldmap="pagyNo=pagyNo;pagyName=pagyName" viewfield="pagyNo,pagyName"  xpath="/pagyNo" />
+		
+		<Field id="pagyName"    desc="通道名称" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyInfoAction.getPagyNames"   
+        edittype="textbox"      align="center" xpath="/pagyNo" ></Field>
+		
+		<Field id="pagyTxnStat" desc="交易状态" align="center" required="true" edittype="combobox" datatype="string" 
+		datasource="DDIC:1849"  status="F" xpath="/pagyTxnStat" />
+		
+		<Field id="txnType" 	desc="交易种类" align="center" required="true" edittype="combobox" datatype="string" 
+		datasource="DDIC:1850"  status="F"  xpath="/txnType" />
+		
+		<Field id="bindCheck" 	desc="签约标识" align="center" required="false" edittype="combobox" datatype="string" 
+		datasource="DDIC:1851"  status="F"  xpath="/bindCheck" />
+		
+		<Field id="cancelTxncode" 	desc="撤销交易编号" 	align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/cancelTxncode" />
+		<Field id="refundTxnCode" 	desc="退货交易编号" 	align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/refundTxnCode" />
+		<Field id="queryTxnCode" 	desc="正交易编号" 		align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/queryTxnCode" />
+		<Field id="validateTxnCode" desc="验证交易编号" 	align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/validateTxnCode" />
+		<Field id="crtTlr" 			desc="创建柜员" 		align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtTlr" />
+		<Field id="crtDateTime" 	desc="创建日期时间" 	align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtDateTime" />
+		<Field id="lastUpdTlr" 		desc="最近更新柜员" 	align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDateTime" desc="最近更新日期时间" 	align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdDateTime" />
+
+		<Field id="opr" desc="操作" align="center" />
+
+	    <!-- 查询条件 -->
+	    <Field id="qpagyNo" 	 desc="通道编号" edittype="textbox" datatype="string" />
+	    <Field id="qpagyTxnCode" desc="交易编号" edittype="textbox" datatype="string" />
+		<Field id="qpagyTxnName" desc="交易名称" edittype="textbox" datatype="string" />
+			    
+	</Fields>
+	<Commands>
+        <Command id="btAdd"  	desc="新增" type="addrecord" 	  	flowid="" icon="fa fa-plus" url="#" txn="" tip="新增"></Command>
+        <Command id="btAddSave" desc="保存" type="asyncsubmit"  	flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnBaseInfoAction:addPagyTxn" icon="fa fa-save" url="#" txn="addacct"></Command>
+             
+        <Command id="btUpt" 	desc="修改" type="none" 			flowid="" icon="fa fa-pencil" url="#" txn="" ></Command>
+        <Command id="btUptSave" desc="保存" type="asyncsubmit" 	flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnBaseInfoAction:uptPagyTxn" icon="fa fa-save" url="#" txn="updateacct"></Command>
+        
+        <Command id="btState" 	desc="启用/停用" type="none" 		flowid="" icon="fa fa-pencil" url="#" txn="" ></Command>
+        <Command id="btStateSave" 	desc="确认" type="asyncsubmit" 	flowid="com.ruimin.ifs.pmp.chnlMng.comp.PagyTxnBaseInfoAction:uptState" icon="fa fa-save" url="#" txn="updaStateteacct"></Command>
+    <!-- 返回通道核心配置页面 -->
+		<Command id="btnPagyCore" desc="返回通道核心配置页面" type="none" flowid="" icon="fa fa-gears" url="#" txn="" />    
+	</Commands>
+</Data>

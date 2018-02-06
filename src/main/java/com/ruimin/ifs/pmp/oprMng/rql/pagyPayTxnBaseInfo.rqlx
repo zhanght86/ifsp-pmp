@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+	<!-- 接入支付交易基础信息全查询 -->  
+	<select id="queryAll" paramType="map" resultType="com.ruimin.ifs.pmp.oprMng.process.bean.PagyPayTxnBaseInfo">
+ 		select * from PAGY_PAY_TXN_BASE_INFO where 1=1 
+ 		<if test= "qpayTxnCode != ''" ><![CDATA[ and trim(PAY_TXN_CODE)=#{qpayTxnCode} ]]></if>
+ 		<if test = "qpayTxnResp != ''"><![CDATA[and PAY_TXN_RESP like #{qpayTxnResp} ]]></if>
+ 		<if test = "qpayTxnTypeId != ''"><![CDATA[and PAY_TXN_TYPE_ID = #{qpayTxnTypeId} ]]></if>
+ 		<if test = "qpayTxnStat != ''"><![CDATA[and PAY_TXN_STAT = #{qpayTxnStat} ]]></if>
+	    order by CRT_DATE_TIME desc
+	</select>
+	<!-- 查询支付与通道交易关系表中所有数据 -->
+	<select id="queryPagyPayTxnRel" paramType="map" resultType="com.ruimin.ifs.pmp.oprMng.process.bean.PagyPayTxnRel">
+	   select * from PAGY_PAY_TXN_REL where 1=1 
+	   <if test = "payTxnCode != ''"><![CDATA[ and PAY_TXN_CODE = #{payTxnCode}]]></if>
+	</select>
+	<!-- 接入支付交易基础信息表修改 -->
+	<update id="updateType"  paramType="map" >
+	   update PAGY_PAY_TXN_BASE_INFO set PAY_TXN_RESP = #{payTxnResp},  
+				CRT_TLR = #{crtTlr}, 
+				CRT_DATE_TIME = #{crtDateTime},  
+				LAST_UPD_TLR = #{lastUpdTlr}, 
+				LAST_UPD_DATE_TIME = #{lastUpdDateTime} 
+				where PAY_TXN_CODE = #{payTxnCode}
+	</update>
+	<select id="queryPayTxnCode" paramType="map" resultType="int">
+	     select count(*) from PAGY_PAY_TXN_BASE_INFO where PAY_TXN_CODE = #{payTxnCode}
+	</select>
+	<!-- 接入支付交易基础信息表状态修改 -->
+	<update id="updateStatus"  paramType="map" >
+	   update PAGY_PAY_TXN_BASE_INFO set PAY_TXN_STAT = #{payTxnStat},  
+				CRT_TLR = #{crtTlr}, 
+				CRT_DATE_TIME = #{crtDateTime} 
+				where PAY_TXN_CODE = #{payTxnCode}
+	</update>
+	<!-- 根据 通道交易编号+支付交易编号查重复 -->
+	<select id="query" paramType="map" resultType="int">
+	     select count(*) from PAGY_PAY_TXN_REL
+	      where PAGY_TXN_CODE = #{pagyTxnCode} 
+	      and PAY_TXN_CODE = #{payTxnCode} 
+	</select>
+	<!-- 像支付与通道交易关系表中插入数据 -->
+	<insert id="addPagyPayTxnRel" paramType="map"> 
+	    insert into PAGY_PAY_TXN_REL 
+	    (PAGY_TXN_CODE,PAY_TXN_CODE,PAGY_NO) 
+	    values(#{pagyTxnCode},#{payTxnCode},#{pagyNo})
+	</insert>
+	<update id="deleteData" paramType="map" >
+	   delete from PAGY_PAY_TXN_REL where PAY_TXN_CODE = #{payTxnCode}  
+	</update>
+	<!--  修改支付与通道交易关系表中的数据 -->
+	<update id="updateData"  paramType="map" >
+	   update PAGY_PAY_TXN_REL set PAGY_TXN_CODE = #{pagyTxnCode}   
+				where PAY_TXN_CODE = #{payTxnCode} 
+				and PAGY_NO = #{pagyNo} 
+	</update>
+</mapper>

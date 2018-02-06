@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="queryMchtInfo" paramType="map" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveQueryMchtVO">
+<!-- 		select  -->
+<!-- 		mcht.mcht_id, -->
+<!-- 		mcht.mcht_name, -->
+<!-- 		mcht.mcht_area_no, -->
+<!-- 		mcht.mcht_mcc, -->
+<!-- 		mcht.mcht_lv_c as "mcht_Levl", -->
+<!-- 		decode(act.in_flg,'','03',trim(act.in_flg)) as in_flg, -->
+<!-- 		#{activeNo} as "active_no", -->
+<!-- 		decode(act.in_flg,'01',1,0) as "select" -->		
+<!-- 		from  -->
+<!-- 		(select distinct -->
+<!-- 		trim(a.mcht_id) as mcht_id, -->
+<!-- 		trim(a.mcht_name) as mcht_name, -->
+<!-- 		trim(a.mcht_area_no) as mcht_area_no, -->
+<!-- 		trim(a.mcht_mcc) as mcht_mcc, -->
+<!-- 		trim(b.mcht_lv_c) as mcht_lv_c -->
+<!-- 		from  -->
+<!-- 		IMP_MCHT_INF_TMP a -->
+<!-- 		, TBL_MCHT_LV_INF_TMP b -->
+<!-- 		where a.mcht_id = b.mcht_id  -->
+<!-- 		) mcht -->
+<!-- 		,  -->
+<!-- 		(select -->
+<!-- 		trim(in_flg) as in_flg, -->
+<!-- 		trim(mcht_id) as mcht_id, -->
+<!-- 		trim(active_no) as active_no  -->
+<!-- 		from -->
+<!-- 		TBL_ACTIVE_MCHT_IN_INF_TMP) act -->
+<!-- 		where mcht.mcht_id = act.mcht_id and act.active_no=#{activeNo} -->
+<!-- 		and 1=1  -->
+<!-- 		<if test = "mchtId != '' "> and trim(mcht.MCHT_ID) like #{mchtId}</if> -->
+<!-- 		<if test = "mchtName != '' "> and trim(mcht.MCHT_name) like #{mchtName}</if> -->
+<!-- 		<if test = "mchtAreaNo != '' "> and trim(mcht.MCHT_AREA_NO) like #{mchtAreaNo}</if>     -->
+<!-- 		<if test = "mchtMcc != '' "> and trim(mcht.mcht_mcc) like #{mchtMcc}</if> -->
+<!-- 		<if test = "mchtLevl != '' "> and trim(mcht.mcht_lv_c) like #{mchtLevl}</if> -->
+<!-- 		<if test = "inFlg != '' "> and trim(act.in_flg) like #{inFlg}</if>     -->
+<!-- 		 order by  in_flg asc, MCHT_ID -->
+   
+
+	select 
+		mcht.mcht_id,
+		mcht.mcht_name,
+		mcht.mcht_area_no,
+		mcht.mcht_lv_c as "mcht_Levl",
+		if(IFNULL(act.in_flg,'')='','03',trim(act.in_flg)) as in_flg,
+		#{activeNo} as "active_no",
+		if(IFNULL(act.in_flg,'')='01',1,0) as "select"
+ 		
+		from 
+		(select 
+		trim(a.mcht_id) as mcht_id,
+		trim(a.mcht_name) as mcht_name,
+		trim(a.mcht_area_no) as mcht_area_no,
+		trim(b.mcht_lv_c) as mcht_lv_c
+		from 
+		pbs_mcht_base_info a
+		left join TBL_MCHT_LV_INF_TMP b
+		on a.mcht_id = b.mcht_id 
+		) mcht
+		left join  
+		(select 
+		trim(in_flg) as in_flg,
+		trim(mcht_id) as mcht_id,
+		trim(active_no) as active_no 
+		from
+		TBL_ACTIVE_MCHT_IN_INF_TMP) act
+		on mcht.mcht_id = act.mcht_id and act.active_no=#{activeNo}
+		where 1=1 
+		<if test = "mchtId != '' "> and trim(mcht.MCHT_ID) like #{mchtId}</if>
+		<if test = "mchtName != '' "> and trim(mcht.MCHT_name) like #{mchtName}</if>
+		<if test = "mchtAreaNo != '' "> and trim(mcht.MCHT_AREA_NO) like #{mchtAreaNo}</if>    
+		<if test = "mchtMcc != '' "> and trim(mcht.mcht_mcc) like #{mchtMcc}</if>
+		<if test = "mchtLevl != '' "> and trim(mcht.mcht_lv_c) like #{mchtLevl}</if>
+		<if test = "inFlg != '' "> and if(IFNULL(act.in_flg,'')='','03',trim(act.in_flg)) like #{inFlg}</if>     
+		 order by  in_flg asc, MCHT_ID
+   
+	</select>
+	
+	<!-- 当商户已经有状态时，更新参与状态，操作信息-->
+	<update id="reIn" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMchtInInfTmpVO" >
+		update 
+		TBL_ACTIVE_MCHT_IN_INF_TMP
+		set
+			IN_FLG=#{inFlg},
+			UPDATE_OPR=#{updateOpr},
+			UPDATE_TIME=#{updateTime},
+			SYNC_FLAG=#{syncFlag},
+			IN_DATE=#{inDate}
+
+		where
+			trim(MCHT_ID)=#{mchtId}
+			and trim(ACTIVE_NO)=#{activeNo}
+	</update>
+	
+	
+	
+	
+	<!-- 当商户已经有状态时，更新参与状态，操作信息-->
+	<update id="quite" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveMchtInInfTmpVO" >
+		update 
+		TBL_ACTIVE_MCHT_IN_INF_TMP
+		set
+			IN_FLG=#{inFlg},
+			UPDATE_OPR=#{updateOpr},
+			UPDATE_TIME=#{updateTime},
+			SYNC_FLAG=#{syncFlag},
+			OUT_DATE=#{outDate}
+
+		where
+			trim(MCHT_ID)=#{mchtId}
+			and trim(ACTIVE_NO)=#{activeNo}
+	</update>
+	<!-- 根据商户编号查询活动编号-->
+	<select id="selectActNo" paramType="map" resultType="String">
+			SELECT ACTIVE_NO from tbl_active_mcht_in_inf_tmp  WHERE MCHT_ID = #{mchtId}
+			and IN_FLG =01
+	</select>
+	
+	<!-- 根据活动编号查询优先级-->
+	<select id="selectActLv" paramType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveQueryMchtVO" resultType="String">
+			SELECT
+				ta.ACTIVE_LV
+			FROM
+				tbl_active_inf ta
+			WHERE
+				ta.ACTIVE_NO = #{activeNo}
+	</select>
+	
+	
+
+</mapper>

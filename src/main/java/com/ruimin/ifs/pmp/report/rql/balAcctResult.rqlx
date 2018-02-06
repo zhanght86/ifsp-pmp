@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的对账结果信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthBalRsltVO">
+		SELECT
+			rslt.STLM_DATE,
+			rslt.PAGY_NO,
+			rslt.PAGY_NAME,
+			rslt.TXN_SSN,
+			DATE_FORMAT(rslt.TXN_DATE,'%Y-%m-%d %H:%i:%s') as TXN_DATE,
+			rslt.TXN_TYPE,
+			rslt.TXN_CODE,
+			rslt.THIRD_SSN,
+			rslt.CHL_TXN_SSN,
+			rslt.CHL_MER_ID,
+			FORMAT(IFNULL(rslt.TXN_AMT,0)/100,2) as TXN_AMT,
+			FORMAT(IFNULL(rslt.FEE,0)/100,2) as fee,
+			rslt.AMT_FLG,
+			rslt.CHK_STAT,
+			rslt.CHK_REMARK,
+			mcht.MCHT_SIMPLE_NAME as chl_Mer_Name,
+			ass.CHL_SYS_NO as CHL_MCHT_NO
+		FROM
+			bth_bal_rslt rslt
+		LEFT JOIN pbs_mcht_base_info mcht ON rslt.CHL_MER_ID = mcht.MCHT_ID
+		left join pbs_mcht_assist_info_tmp ass on ass.mcht_id=mcht.mcht_id
+		WHERE
+			mcht.MCHT_ORG_ID in(select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{qMchtOrg})))
+			<if test = "qStlmDateStart != '' "> and rslt.STLM_DATE &gt;= #{qStlmDateStart}</if>
+			<if test = "qStlmDateEnd != '' "> and rslt.STLM_DATE &lt;= #{qStlmDateEnd}</if>
+			<if test = "qMchtInfo != '' "> and (mcht.MCHT_ID like #{qMchtInfo} or mcht.MCHT_SIMPLE_NAME like #{qMchtInfo})</if>
+			<if test="qTxnType !='' "> and rslt.TXN_TYPE =#{qTxnType}</if>
+   			<if test="qChkStat !=''"> and rslt.CHK_STAT =#{qChkStat}</if>
+   			<if test="qPagyNo !=''"> and rslt.PAGY_NO =#{qPagyNo}</if>
+   			<if test="qThirdSsn !=''"> and rslt.TXN_SSN like #{qThirdSsn}</if>
+   			<if test="qChlTxnSsn !=''"> and rslt.CHL_TXN_SSN like #{qChlTxnSsn}</if>
+   			<if test="qChlMchtNo !=''"> and ass.CHL_SYS_NO like #{qChlMchtNo}</if>
+		order by rslt.STLM_DATE ,rslt.CHL_TXN_SSN DESC
+	</select>
+		
+		
+</mapper>

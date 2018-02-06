@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="汇率信息维护" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.CurrrateMngAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="id" desc="币种ID" status="F" required="false" method="none" width="140" xpath="/id" datatype="string" default="" />
+		<Field id="buyRate" desc="买入价" status="F" required="false" method="None" size="16" datatype="currency" scale="3" xpath="/buyRate" default="" edittype="textbox" readonly="false" />
+		<Field id="exchgRate" desc="中间价" status="F" required="false" method="None" size="16" datatype="currency" scale="3" xpath="/exchgRate" default="" edittype="textbox" readonly="false" />
+		<Field id="sellRate" desc="卖出价" status="F" required="false" method="None" size="16" datatype="currency" scale="3" xpath="/sellRate" default="" edittype="textbox" readonly="false" />
+		<Field id="curcdName" method="com.ruimin.ifs.mng.comp.CurrrateMngAction.queryCurcdName" desc="币种" status="F" required="false" datatype="string" size="20" default=""  edittype="textbox" xpath="/curcd" />
+		<Field id="toCurcdName" method="com.ruimin.ifs.mng.comp.CurrrateMngAction.queryCurcdName" desc="兑换币种" status="F" required="false" datatype="string" size="20" default=""  edittype="textbox" xpath="/toCurcd" />
+		<Field id="opr" desc="操作" />
+		
+		<!-- 查询条件 -->
+		<Field id="curcd" desc="币种"  edittype="combogrid" 
+			datasource="CurrencyManEntry:com.ruimin.ifs.mng.dataset.CurrencyManEntry"  
+				fieldmap="curcd=curcd;curcdName=cnname" 
+					viewfield="curcd,cnname,cursymbol" required="false" 
+						readonly="false" multiple="false" init="true" xpath="/curcd"/>
+					
+		<Field id="toCurcd" desc="兑换币种"  edittype="combogrid" 
+			datasource="CurrencyManEntry:com.ruimin.ifs.mng.dataset.CurrencyManEntry"  
+				fieldmap="toCurcd=curcd;toCurcdName=cnname" 
+					viewfield="curcd,cnname,cursymbol" required="false" 
+						readonly="false" multiple="false" init="true" xpath="/toCurcd"/>
+					
+		<Field id="currrateDate" desc="汇率日期" edittype="datebox" datatype="date" xpath="/currrateDate" status="F" default="" />
+	</Fields>
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnSave"  desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.CurrrateMngAction:saveOrUpdate" url="#" txn="" />
+		<Command id="btnDelete"  desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.CurrrateMngAction:delete" url="#" txn="" />
+	</Commands>
+
+</Data>

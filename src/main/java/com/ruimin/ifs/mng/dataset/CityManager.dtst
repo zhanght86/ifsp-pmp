@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="地区管理" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.mng.comp.CityAllSelectAction:queryCityByCode" flowretid="" log="false" pagesize="10" type="call"/>
+	<Fields>
+		<Field desc="地区编号" id="ctCode" align="center" edittype="textbox" 
+		required="true" size="4" rule="isNum" errmsg="必须为4位数字" status="F" xpath="/ctCode" />
+		
+		<Field desc="地区名称" id="ctName" align="center" edittype="textbox" 
+		required="true" status="F" xpath="/ctName"/>
+		
+		<Field desc="地区标识" id="ctFlg" align="center" edittype="combobox" 
+		datasource="DDIC:401" required="true" status="F" xpath="/ctFlg"/>
+
+		<Field desc="上级地区" id="upCtCode" align="center" edittype="combotree" 
+		datasource="CityTree:com.ruimin.ifs.mng.dataset.CityTree" 
+		fieldmap="upCtCode=_id;upCtCodeName=_text" status="F" viewfield="_text" xpath="/upCtCode"/>
+		
+		<Field desc="上级地区" id="upCtCodeName" align="center" 
+		method="com.ruimin.ifs.mng.comp.CityAllSelectAction.getCityName" 
+		status="N" datatype="string" size="20" default=""  xpath="/upCtCode" />	
+		
+		<Field desc="内部地区码" id="tlCtCode" align="center" edittype="textbox" 
+		size="4" rule="isNum" errmsg="必须为数字" status="F" xpath="/tlCtCode" />
+		
+		<Field desc="操作" id="opr" status="N" />
+		
+		<!-- 查询条件 -->
+		<Field desc="地区编号" id="qCtCode" size="4" />
+		<Field desc="地区名称" id="qCtName" size="20" />
+		
+		<Field desc="上级地区" id="qupCtCode" edittype="combotree"		 
+		datasource="CityTree:com.ruimin.ifs.mng.dataset.CityTree" 
+		fieldmap="qupCtCode=_id;qupCtCodeName=_text" viewfield="_text" />
+		
+		<Field desc="地区标识" id="qctFlg" edittype="combobox" datasource="DDIC:401" />
+		
+		
+	</Fields>
+	<Commands>
+		<Command id="btAdd" desc="新增" type="addrecord" flowid="" icon="fa fa-plus" url="#" txn="" />
+		<Command id="btSave" desc="保存" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.mng.comp.CityAllSelectAction:addCity" icon="fa fa-save" url="#" txn="addcity" />
+		
+		<Command id="btUpt" desc="修改" type="none" icon="fa fa-pencil" flowid="" url="#" txn="" />
+		<Command id="btUpdate" desc="保存" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.mng.comp.CityAllSelectAction:updateCity" icon="fa fa-save" url="#" txn="updatecity" />
+		
+		
+		<Command id="btnDelete" desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		<Command id="btnDeleteSub"  desc="" type="asyncsubmit" 
+		flowid="com.ruimin.ifs.mng.comp.CityAllSelectAction:delCity" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		
+		<Command id="btnShowDetail" desc="明细" type="none" icon="fa fa-list" flowid="" url="#" txn="" />
+		
+		<Command id="btImport" desc="导入" type="none" flowid="" icon="fa fa-plus" url="#" txn="" />
+		
+		<Command id="btnImput" desc="全量导入" type="none" flowid="" icon="fa fa-plus" url="#" txn="" />		
+	</Commands>
+</Data>

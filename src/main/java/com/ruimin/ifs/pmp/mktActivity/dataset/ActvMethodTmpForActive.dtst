@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动方法查询,用于活动管理中方法配置功能" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodTmpAction:queryByActiveType" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件-->
+		<Field id="qActiveType" 		desc="活动类型" 	edittype="textbox"        datatype="string" xpath="/activeType"/>
+		<Field id="qMethodNo" 		desc="方法编号" 	edittype="textbox"        datatype="string" xpath="/methodNo"/>
+		<!-- 数据显示-->
+		<Field id="methodNo" 		desc="方法编号" 	edittype="textbox"    required="true"     datatype="string" xpath="/methodNo"/>
+    	<Field id="methodNm" 	desc="方法名称" 	edittype="textbox"     required="true"   datatype="string" xpath="/methodNm" />
+	</Fields>
+</Data>

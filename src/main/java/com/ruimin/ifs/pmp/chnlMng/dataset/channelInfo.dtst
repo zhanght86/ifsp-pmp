@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="渠道基本信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+	    <Field id="oper" desc="操作" status="F" edittype="textbox" datatype="string" size="100" xpath=""/>
+		<Field id="chlId" desc="渠道编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/chlId"/>
+		<Field id="chlName" desc="渠道名称" align="center" required="true" edittype="textbox" datatype="string"  status="F"  xpath="/chlName" />
+		<Field id="chlStat" desc="渠道使用状态" align="center" required="true" datasource="DDIC:1818" edittype="combobox" datatype="string" status="F"  xpath="/chlStat" />
+		<Field id="chlType" desc="渠道种类" align="center" required="false" datasource="LIST:01,一级商户;02,二级商户" edittype="combobox" datatype="string" status="F"  xpath="/chlType" />	
+		<Field id="chlAccNo" desc="渠道清算账户" align="center" required="false" edittype="textbox" datatype="string"  status="F"  xpath="/chlAccNo" />
+		<Field id="chlSetlCycleType" desc="清算周期类型" align="center" required="true" datasource="DDIC:1832"  edittype="combobox" datatype="string" status="F"  xpath="/chlSetlCycleType" />
+		<Field id="chlSetlCycle" desc="渠道清算周期" align="center" required="true" edittype="textbox" datatype="string" status="F" xpath="/chlSetlCycle"/>		
+		<!-- 
+		<Field id="chlSetlTm" desc="渠道清算时间" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/chlSetlTm"/>		
+		 -->
+		<Field id="chlOpenDate" desc="开通日期" align="center" required="false" edittype="datebox" datatype="date" status="F"  xpath="/chlOpenDate" />
+		<Field id="crtTlr" desc="创建柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/crtTlr" />	
+		<Field id="crtDateTime" desc="创建日期时间" align="center" required="false" edittype="datetimebox" datatype="timestamp" status="F"  xpath="/crtDateTime" />	
+		<Field id="lastUpdTlr" desc="最近更新柜员" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdTlr" />
+		<Field id="lastUpdDateTime" desc="最近更新日期时间" align="center" required="false" edittype="textbox" datatype="string" status="F"  xpath="/lastUpdDateTime" />
+		
+		<!-- 时间预览做了格式转换 -->
+		<Field id="chlSetlTm" desc="渠道清算时间" method="com.ruimin.ifs.pmp.pubTool.util.SysCQMethod.timeFormat" 
+		align="center"  required="true" edittype="textbox" datatype="string" xpath="/chlSetlTm" /> 
+		
+		
+		<!-- 费率模板下拉选 -->
+        <Field id="chlRateCode" desc="渠道费率模板" edittype="combogrid" datatype="string" required="true"
+		   datasource="rateBaseInfo:com.ruimin.ifs.pmp.chnlMng.dataset.rateBaseInfo" 
+		   viewfield="chlRateCode,chlRateCodeName"  init="true" multiple="false" default="" 
+		   readonly="false" fieldmap="chlRateCode=chlRateCode;chlRateCodeName=chlRateCodeName" xpath="/chlRateCode"/>
+		
+		<Field id="chlRateCodeName" desc="费率模板名字" method="com.ruimin.ifs.pmp.mchtMng.comp.RateTempletMngAction.getchlRateName" 
+		align="center" edittype="textbox" datatype="string" xpath="/chlRateCode" />   
+		
+
+	    <!-- 查询条件 -->   
+	    <Field id="qchlId" desc="渠道编号" edittype="textbox" datatype="string" />
+	    <Field id="qchlName" desc="渠道名称" edittype="textbox" datatype="string" />
+	    <Field id="qchlAccNo" desc="渠道清算账户" edittype="textbox" datatype="string" />
+	    <Field id="qchlStat" desc="渠道状态" datasource="DDIC:1818" edittype="combobox" datatype="string" />
+	   
+	    
+	</Fields>
+	<Commands>
+	    <Command id="btnAdd" desc="新增" type="addrecord" url="#" icon="fa fa-plus"></Command>
+	    <Command id="btnSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction:add" url="#" icon="fa fa-save"></Command>
+	    
+	    <Command id="btnMod" desc="修改" type="none" url="#" icon="fa fa-pencil"></Command>
+	    <Command id="btnSave1" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction:update" url="#" icon="fa fa-save"></Command>
+	    
+	    <Command id="btnUpdate" desc="启用/停用" type="none" flowid="" url="#" icon="fa fa-cogs"></Command>
+	    <Command id="btnUpdateSub" desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction:updateChnlStat" url="#" icon=""></Command>
+	    
+	    <Command id="powerAdd" desc="权限" type="none" url="#" icon="fa fa-gear"></Command>
+	    <Command id="powerAddSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.chnlMng.comp.ChannelInfoAction:addChannelAuthInfo" url="#" icon="fa fa-save"></Command>
+	    
+	    <Command id="btnShowDetail" desc="" type="none" icon="fa fa-list" flowid="" url="#" txn="详情" />
+	
+	</Commands>
+</Data>

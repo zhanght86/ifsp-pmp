@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		
+	<!-- 根据产品Id查询产品列表-->
+	<select id="queryProdListByIds" paramType="map" resultType="com.ruimin.ifs.pmp.payProdMng.process.bean.PbsProdInfoVO">
+		select * from PBS_PROD_INFO where 1=1
+		<if test = "prodIdArray != ''"><![CDATA[and PROD_ID in ( #{prodIdArray}) ]]></if>
+	</select>
+	
+	<!-- 根据活动编号查询所有产品配置列表，包括无效的数据-->
+	<select id="queryProdListWithoutDataState" paramType="string" resultType="com.ruimin.ifs.pmp.mktActivity.process.bean.ActiveProdConfTmpVO">
+		select 
+			trim(ACTIVE_NO) as ACTIVE_NO,
+			trim(PRD_ID) as PRD_ID,
+			trim(DATA_STATE) as DATA_STATE
+		 from TBL_ACTIVE_PRD_CONF_TMP 
+		where 
+			trim(ACTIVE_NO)=#{activeNo}
+	</select>
+	
+	<!-- 根据活动编号删除活动下所有产品配置-->
+	<select id="deleteByActiveNo" paramType="string" resultType="">
+		delete 
+		 from TBL_ACTIVE_PRD_CONF_TMP 
+		where 
+			trim(ACTIVE_NO)=#{activeNo}
+	</select>
+</mapper> 

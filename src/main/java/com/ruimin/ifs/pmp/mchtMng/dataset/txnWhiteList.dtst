@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="特殊商户交易白名单" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtMng.comp.TxnWhiteListAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		
+	    <!-- 查询条件 -->
+	    <Field id="qMchtId" desc="商户编号" edittype="textbox" datatype="string" size="16"/>
+	    <Field id="qMchtSimpleName" desc="商户简称" edittype="textbox" datatype="string" size="20" />
+	    <Field id="qFiltrateValue" desc="投注机编号" edittype="textbox" datatype="string" size="32"  />
+	    
+		<!-- 字段 -->
+		<Field id="cfgId" desc="配置编号" align="center" required="false" edittype="textbox" datatype="string" status="F" xpath="/cfgId"/>
+		<Field id="mchtId" desc="商户编号" align="center" required="true" edittype="textbox" readonly="false" datatype="string" status="F" size="32" xpath="/mchtId"/>
+		<Field id="mchtSimpleName" desc="商户简称" align="center" required="false" edittype="textbox" readonly="false" datatype="string" status="F" size="32" xpath="/mchtSimpleName"/>
+		<Field id="filtrateValue" desc="投注机编号" align="center" required="true" edittype="textbox" datatype="string" status="F" colspan="3" width="300" size="32" xpath="/filtrateValue" />
+		<Field id="crtTlr" desc="创建人" align="center" size="32" readonly="true" required="true" status="F" xpath="/crtTlr"></Field>
+        <Field id="crtDateTime" desc="创建日期时间" align="center" size="32" readonly="true" required="true" status="F" xpath="/crtDateTime"></Field>
+        <Field id="lastUpdTlr" desc="最近修改人" align="center" size="32" readonly="true" required="true" status="F" xpath="/lastUpdTlr"></Field>
+        <Field id="lastUpdDateTime" desc="最近修改日期时间" align="center" size="32" readonly="true" required="true" status="F" xpath="/lastUpdDateTime"></Field>
+		
+	</Fields>
+	<Commands>
+	    <Command id="btnAdd" desc="新增" type="addrecord" url="#" icon="fa fa-plus"></Command>
+	    <Command id="btnAddSubmit" desc="提交" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.TxnWhiteListAction:add" url="#" icon=""></Command>
+	    
+	    <Command id="btnUpd" desc="修改" type="none" url="#" icon="fa fa-pencil"></Command>
+	    <Command id="btnUpdSubmit" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.TxnWhiteListAction:update" url="#" icon=""></Command>
+	    
+	    <Command id="btnDlt" desc="删除" type="none" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+		<Command id="btnDltSubmit"  desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.mchtMng.comp.TxnWhiteListAction:delete" url="#" txn="" icon="fa fa-trash-o" tip="删除"/>
+	    <Command id="btnImport" desc="批量导入" type="none" flowid="" icon="fa fa-plus" url="#" txn="" />
+	</Commands>
+</Data>

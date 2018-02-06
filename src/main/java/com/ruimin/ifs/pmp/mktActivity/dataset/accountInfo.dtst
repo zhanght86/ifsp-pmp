@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="" type="call" pagesize="100" log="false" flowid="" expmaxrcd="100" flowctxid="" flowretid="" />	  
+	 <!-- 账户信息 -->
+	<Fields>   
+	    <Field id="username" desc="操作员号(工号)" status="F" edittype="textbox" required="true" datatype="string" size="100" xpath=""/>
+	    <Field id="password" desc="密码" status="F" edittype="password" required="true" datatype="string" size="100" xpath=""/>  
+	</Fields>
+	
+</Data>

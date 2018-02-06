@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动方法配置" type="call" pagesize="100" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodConfTmpAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="qActiveNo" 		desc="活动编号" 	edittype="textbox"        datatype="string" xpath="/activeNo"/>
+		<Field id="qGpTpNo" 		desc="账户分组编号" 	edittype="textbox"        datatype="string" xpath="/gpTpNo"/>
+		
+		<Field id="activeNo" 		desc="活动编号" 	edittype="textbox"        datatype="string" xpath="/activeNo"/>
+		<Field id="confSeq" 		desc="活动编号" 	edittype="textbox"        datatype="string" xpath="/confSeq"/>
+		<Field id="mchtLevel" 	    desc="商户等级" 	edittype="combobox" datasource="DDIC:1715"  readonly="false" required="true"     datatype="string" xpath="/mchtLevel" />
+		<Field id="methodParam1"	desc="账户小组1" required="true" init="true" datasource="ActvMethodTmpForActive1:com.ruimin.ifs.pmp.mktActivity.dataset.ActvMethodTmpForActive" edittype="combogrid" fieldmap="methodParam1=methodNo;methodParam1Name=methodNm" searchfield="qMethodNo" viewfield="methodNo,methodNm" xpath="/methodParam1"/>
+		<Field id="methodParam1Name" desc="账户小组名称1" method="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodConfTmpAction.getMethodName" align="center" edittype="textbox" datatype="string" xpath="/methodParam1" />
+		<Field id="methodParam2"	desc="账户小组2" required="true" init="true" datasource="ActvMethodTmpForActive2:com.ruimin.ifs.pmp.mktActivity.dataset.ActvMethodTmpForActive" edittype="combogrid" fieldmap="methodParam2=methodNo;methodParam2Name=methodNm" searchfield="qMethodNo" viewfield="methodNo,methodNm" xpath="/methodParam2"/>
+		<Field id="methodParam2Name" desc="账户小组名称2" method="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodConfTmpAction.getMethodName" align="center" edittype="textbox" datatype="string" xpath="/methodParam2" />
+		<Field id="methodParam3"	desc="账户小组3" required="true" init="true" datasource="ActvMethodTmpForActive3:com.ruimin.ifs.pmp.mktActivity.dataset.ActvMethodTmpForActive" edittype="combogrid" fieldmap="methodParam3=methodNo;methodParam3Name=methodNm" searchfield="qMethodNo" viewfield="methodNo,methodNm" xpath="/methodParam3"/>
+		<Field id="methodParam3Name" desc="账户小组名称3" method="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodConfTmpAction.getMethodName" align="center" edittype="textbox" datatype="string" xpath="/methodParam3" />
+		<Field id="methodParam4"	desc="账户小组4" required="true" init="true" datasource="ActvMethodTmpForActive4:com.ruimin.ifs.pmp.mktActivity.dataset.ActvMethodTmpForActive" edittype="combogrid" fieldmap="methodParam4=methodNo;methodParam4Name=methodNm" searchfield="qMethodNo" viewfield="methodNo,methodNm" xpath="/methodParam4"/>
+		<Field id="methodParam4Name" desc="账户小组名称4" method="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodConfTmpAction.getMethodName" align="center" edittype="textbox" datatype="string" xpath="/methodParam4" />
+		<Field id="methodParam5"	desc="账户小组5" required="true" init="true" datasource="ActvMethodTmpForActive5:com.ruimin.ifs.pmp.mktActivity.dataset.ActvMethodTmpForActive" edittype="combogrid" fieldmap="methodParam5=methodNo;methodParam5Name=methodNm" searchfield="qMethodNo" viewfield="methodNo,methodNm" xpath="/methodParam5"/>
+		<Field id="methodParam5Name" desc="账户小组名称5" method="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodConfTmpAction.getMethodName" align="center" edittype="textbox" datatype="string" xpath="/methodParam5" />
+		<Field id="methodParam6"	desc="账户小组6" required="true" init="true" datasource="ActvMethodTmpForActive6:com.ruimin.ifs.pmp.mktActivity.dataset.ActvMethodTmpForActive" edittype="combogrid" fieldmap="methodParam6=methodNo;methodParam6Name=methodNm" searchfield="qMethodNo" viewfield="methodNo,methodNm" xpath="/methodParam6" />
+		<Field id="methodParam6Name" desc="账户小组名称6" method="com.ruimin.ifs.pmp.mktActivity.comp.ActvMethodConfTmpAction.getMethodName" align="center" edittype="textbox" datatype="string" xpath="/methodParam6" />
+	</Fields>
+	<Commands>
+		<Command id="btnAddConfig" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnDeleteConfig"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+	</Commands>
+	
+</Data>

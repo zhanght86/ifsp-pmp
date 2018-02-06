@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flowLogic id="MyfirstFlow" name="测试流程" desc="测试流程" type="1" flowTransaction="false" onlineTransaction="route">
+	<flow>
+		<!-- 系统组件 -->
+		<action id="StartAction" name="开始" ref="component.compcont.StartAction" type="system">
+			<!-- 路由 -->
+			<transitions>
+				<transition dest="MyfirstAction" condition="" desc="" />
+			</transitions>
+		</action>
+		<!-- 业务组件 -->
+		<action id="MyfirstAction" name="测试组件" ref="com.ruimin.ifs.example.comp.MyFirstAction:listAll" desc="" type="custom">
+			<attrs>
+			</attrs>
+			<!-- 输入参数 -->
+			<inputs>
+				<input name="queryBean" dataType="com.ruimin.ifs.framework.dataobject.QueryParamBean" value="ctx" valueType="variable"></input>
+			</inputs>
+			<!-- 返回参数 -->
+			<outputs>
+				<output name="returnBean" dataType="java.util.List" value="SFields" valueType="variable"></output>
+			</outputs>
+
+			<!-- 路由 -->
+			<transitions>
+				<transition dest="EndAction" condition="" type="" />
+			</transitions>
+		</action>
+		<action id="EndAction" name="结束" ref="component.compcont.EndAction" type="system">
+		</action>
+	</flow>
+	<datadef>
+		<!-- 输入 -->
+		<dataInputs>
+			<dataInput id="ctx" dataType="snowQuery" arrayType="" desc="" ref=""></dataInput>
+		</dataInputs>
+		<!-- 输出 -->
+		<dataOutputs>
+			<dataOutput id="SFields" dataType="javabean" arrayType="" desc="" ref="com.ruimin.ifs.framework.dataobject.PageQueryResult"></dataOutput>
+		</dataOutputs>
+		<!-- 内部使用 -->
+		<dataInners>
+		</dataInners>
+		<!-- 系统 -->
+		<dataSystems>
+			<dataSystem id="$systemData" dataType="javabean" arrayType="None" desc="系统内置" ref="com.ruimin.ifs.core.common.bean.SystemDataObject"></dataSystem>
+		</dataSystems>
+	</datadef>
+</flowLogic>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="审核流程信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.AuditInfoAction:query" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="auditId" 	desc="任务编号" align="center" edittype="textbox" readonly="true" datatype="string" xpath="/auditId" />
+		<Field id="auditType" 	desc="任务类型" align="center" edittype="combobox" datasource="LIST:00,商户审核;" readonly="true" datatype="string" xpath="/auditType" />
+		<Field id="auditDesc" 	desc="任务描述" align="center" edittype="textarea" readonly="true" datatype="string" xpath="/auditDesc" />
+		<Field id="auditStat" 	desc="任务状态" align="center" edittype="combobox" datasource="LIST:0,停用;1,启用;" readonly="true" datatype="string" xpath="/auditStat" />
+    </Fields>
+    
+	<Commands>
+		<Command id="btnUpd" 	desc="修改" type="none" url="#" txn="" icon="fa fa-pencil"/>
+		<Command id="btnUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.AuditInfoAction:update" url="#" txn="" icon="" tip=""/>
+		<Command id="btnStat" 	desc="启用/停用" type="none" url="#" txn="" icon="fa fa-gears"/>
+		<Command id="btnUseChg" desc="" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.AuditInfoAction:useStatChg" url="#" txn="" icon="" tip=""/>
+	</Commands>
+</Data>

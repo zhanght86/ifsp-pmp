@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.example.comp.TreeAction:listAll" desc="" expmaxrcd="100" flowctxid="" flowretid="" />
+
+	<Fields>
+		<Field id="funcid" desc="行业代码" method="" xpath="" readonly="false" />
+		<Field id="funcname" desc="行业名称" method="" xpath="" readonly="false" />
+		<Field id="lastdirectory" desc="上级节点" method="" xpath="" readonly="false" />
+
+
+		<Field id="_hasChild" desc="是否有孩子结点" method="" edittype="checkbox" datatype="boolean" xpath="/hasChild" readonly="false" />
+		<Field id="_id" desc="id" method="" xpath="/id" />
+		<Field id="_parentId" desc="父id" method="" xpath="/pid" />
+		<Field id="_checked" desc="" method="" xpath="/checked" />
+		<Field id="_canSelected" desc="" method="" xpath="/canSelected" />
+
+		<!-- 做为树控件属性 -->
+		<Field id="_text" desc="名称" method="" xpath="/id" />
+		<!-- 做为树控件扩展属性 -->
+		<Field id="_icon" desc="图标" method="" xpath="/iconCls" />
+	</Fields>
+</Data>

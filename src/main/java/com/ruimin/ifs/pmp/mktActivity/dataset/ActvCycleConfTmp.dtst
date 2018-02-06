@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="活动周期列表查询" type="call" pagesize="100" log="false" flowid="com.ruimin.ifs.pmp.mktActivity.comp.ActvCycleConfTmpAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />	 
+	<Fields>
+	    <!-- 活动周期信息 -->
+	    <Field id="activeNo" desc="活动编号" status="F" edittype="textbox" required="false" datatype="string"  xpath="/activeNo"/>
+	    <Field id="dateSeq" desc="周期序号" status="F" edittype="textbox" required="false" datatype="string" size="100" xpath="/dateSeq"/>  
+		<Field id="dateTp" 	desc="周期类型" 	 edittype="combobox" datasource="DDIC:1714" multiple="false" status="F" required="true" datatype="string" xpath="/dateTp"/>
+		<Field id="dateData" desc="周期数据" status="F" edittype="textbox" required="true" datatype="string"  xpath="/dateData"/>
+	</Fields>
+	<Commands>
+		<Command id="btnAddCycle01" 	desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnDeleteCycle01"  desc="删除" type="delrecord" url="#" txn="" icon="fa fa-minus"/>
+	</Commands>
+</Data>

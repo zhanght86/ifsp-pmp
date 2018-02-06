@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<select id="querySerNum" paramType="map" resultType="com.ruimin.ifs.framework.core.bean.IfsSerNum">
+		select * from IFS_SER_NUM where VALUE_NO=#{valueNo} and VALUE_INDEX=#{valueIndex} for update
+	</select>
+	<update id="updateCurrNum" paramType="map">
+		update IFS_SER_NUM set VALUE_CURR=#{valueCurr} where VALUE_NO=#{valueNo} and VALUE_INDEX=#{valueIndex}
+	</update>
+</mapper> 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询：风控管理数据列表 -->
+	<select id="queryMain" paramType="map"
+		resultType="com.ruimin.ifs.pmp.risk.process.bean.RiskBaseCfg">
+		
+	select
+		risk.RISK_ID,
+		risk.RISK_MODEL_ID,
+		risk.RISK_NAME,
+		risk.RISK_STAUTS,
+		risk.OPEN_DATE,
+		if(trim(risk.END_DATE)='-','',trim(risk.END_DATE)) as END_DATE,
+		risk.CRT_TLR,
+		risk.CRT_DATE_TIME,
+		risk.LAST_UPD_TLR,
+		risk.LAST_UPD_DATE_TIME,
+		prod.prod_id ,
+		oper.value_id ,
+		model.ACTION_BITMAP
+		from
+		RISK_BASE_CFG risk
+		left join
+		(select risk_id, group_concat(prod_id) prod_id from RISK_PROD_MATCH group by
+		RISK_ID order by risk_id) prod
+		on
+		risk.risk_id = prod.risk_id
+		
+		left join
+		(select risk_id,group_concat(value_id) value_id 
+		 from (
+		         select risk_id,value_id,row_number() over (partition by risk_id,value_id order by risk_id) as rn from RISK_VALUE_OPERATE
+		         order by risk_id,value_id
+		 )
+		 where rn = 1 group by risk_id order by risk_id) oper 
+		
+		on
+		risk.risk_id = oper.risk_id
+		left join
+		(select risk_model_id,if(ACTION_BITMAP='11','10,01',ACTION_BITMAP) as ACTION_BITMAP from RISK_MODEL_CFG )model
+		on
+		risk.risk_model_id = model.risk_model_id
+		where 1 = 1
+		<if test="qriskId != ''"><![CDATA[and risk.risk_id like #{qriskId} ]]></if>
+		<if test="qriskName != ''"><![CDATA[and risk.risk_name like #{qriskName} ]]></if>
+		<if test="qprodId != ''"><![CDATA[and prod.prod_id like #{qprodId} ]]></if>
+		<if test="qriskStauts != ''"><![CDATA[and risk.risk_stauts = #{qriskStauts} ]]></if>
+		order by risk.CRT_DATE_TIME desc,RISK_ID asc
+		
+
+	</select>
+
+
+	<!-- 获取最大风控编号 -->
+	<select id="getMaxId" paramType="string" resultType="string">
+		select max(RISK_ID) as RISK_ID from RISK_BASE_CFG
+	</select>
+
+
+	<!-- 新增风控基本信息 -->
+	<insert id="addRiskBase" paramType="com.ruimin.ifs.pmp.risk.process.bean.RiskBaseCfg">
+		insert into RISK_BASE_CFG
+		(RISK_ID,RISK_NAME,RISK_MODEL_ID,RISK_STAUTS,OPEN_DATE,END_DATE,CRT_TLR,CRT_DATE_TIME,LAST_UPD_TLR,LAST_UPD_DATE_TIME)
+		values
+		(#{riskId},#{riskName},#{riskModelId},#{riskStauts},#{openDate},#{endDate},#{crtTlr},#{crtDateTime},#{lastUpdTlr},#{lastUpdDateTime})
+	</insert>
+	
+	<!-- 修改风控规则基本配置表信息 -->
+	<update id="modifyRiskBase" paramType="com.ruimin.ifs.pmp.risk.process.bean.RiskBaseCfg" >
+		update 
+			RISK_BASE_CFG
+		set
+			RISK_NAME = #{riskName},
+			RISK_MODEL_ID = #{riskModelId},
+			OPEN_DATE = #{openDate},
+			END_DATE = #{endDate},
+			LAST_UPD_TLR = #{lastUpdTlr},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 
+			RISK_ID = #{riskId}
+	</update>
+	<!-- 启用停用风控信息 -->
+	<update id="statusChange" paramType="com.ruimin.ifs.pmp.risk.process.bean.RiskBaseCfg" >
+		update 
+			RISK_BASE_CFG
+		set
+			RISK_STAUTS = #{riskStauts},
+			LAST_UPD_TLR = #{lastUpdTlr},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where 
+			RISK_ID = #{riskId}
+	</update>
+</mapper>

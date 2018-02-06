@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="交易查询" expmaxrcd="100" flowctxid="" flowid="com.ruimin.ifs.pmp.sysConf.comp.TradeTypeAction:queryTradeByCode" flowretid="" log="false" pagesize="10" type="call"/>
+     <Fields>
+          
+          <Field id="txnTypeCode" desc="交易类型编号" size="8" align="center" status="F" xpath="/txnTypeCode"></Field>
+          <Field id="txnTypeName" desc="交易类型名称" align="center" required="true"  edittype="textbox" status="F" xpath="/txnTypeName"></Field>
+          <Field id="txnTypeDesc" desc="交易类型描述" align="center" required="false"  edittype="textbox" status="F" xpath="/txnTypeDesc"></Field>
+          
+          <Field id="dataState" desc="数据状态" align="center" datasource="LIST:00,启用;99,停用" edittype="combobox"
+ required="false" xpath="/dataState"></Field>
+          
+          <Field id="crtTlr" desc="创建柜员" align="center" edittype="textbox" required="false" status="F" xpath="/crtTlr"></Field>
+          <Field id="crtDateTime" desc="创建日期时间" align="center" edittype="datebox" required="false" status="F" xpath="/crtDateTime"></Field>
+          <Field id="lastUpdTlr" desc="最近更新柜员" align="center" edittype="textbox" status="F" xpath="/lastUpdTlr"></Field>
+          <Field id="lastUpdDateTime" desc="最近更新日期时间" align="center" edittype="datebox" status="F" xpath="/lastUpdDateTime"></Field>
+           
+          <!-- 查询字段 -->
+          <Field id="qtxnTypeCode" desc="交易类型编号" size="8" edittype="textbox"></Field>
+          <Field id="qtxnTypeName" desc="交易类型名称" size="21" edittype="textbox"></Field>
+          
+          <Field desc="有效标识" id="qdataState" edittype="combobox" datasource="DDIC:102"></Field>
+          
+          <Field desc="交易描述" id="opr" status="N"></Field>
+     </Fields>
+     <Commands>
+          <Command id="btAdd" desc="新增" type="addrecord"  icon="fa fa-plus" url="#"  tip="新增"></Command>
+          <Command id="btSave" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.TradeTypeAction:addTrade" icon="fa fa-save" url="#" txn="addtrade"></Command>
+          
+          <Command id="btUpt" desc="修改" type="none"  icon="fa fa-pencil" url="#"  ></Command>
+          <Command id="btUpdate" desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.TradeTypeAction:updateTrade" icon="fa fa-save" url="#" txn="updatetrade"></Command>
+          
+          <Command id="btStatus" desc="启用/停用" type="none"  icon="fa fa-gears" url="#" ></Command>
+          <Command id="btnStatusSub" desc="" type="asyncsubmit" flowid="com.ruimin.ifs.pmp.sysConf.comp.TradeTypeAction:updateTradeStatus"  url="#" ></Command>
+          <Command id="btnShowDetail" desc="明细" type="none"  icon="fa fa-list" url="#" ></Command>
+      
+
+     </Commands>
+</Data>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	
+	<!-- 查询: 商户的最近一条 -->
+	<select id="queryLastOne" paramType="string" resultType="com.ruimin.ifs.server.common.process.bean.ImpTxnInfo">
+		select * from 
+		(
+			select * from imp_txn_info where mcht_Id = #{id} and  txn_type in ('621001',
+			'621002') order by txn_dt desc, txn_tm desc 
+		) where rownum = 1
+	</select>
+	
+	<!-- 查询: 商户最近一条 受理成功 -->
+	<select id="queryLastForWait" paramType="string" resultType="com.ruimin.ifs.server.common.process.bean.ImpTxnInfo">
+		select * from 
+		(
+			select * from imp_txn_info where mcht_Id = #{id} and TXN_STAT= '02' and  txn_type in ('621001',
+			'621002') order by txn_dt desc, txn_tm desc 
+		) where rownum = 1
+	</select>
+		
+</mapper> 

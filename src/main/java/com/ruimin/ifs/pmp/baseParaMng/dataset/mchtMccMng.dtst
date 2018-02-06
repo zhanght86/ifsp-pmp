@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false"
+		flowid="com.ruimin.ifs.pmp.baseParaMng.comp.MchtMccMngAction:queryMain"
+		desc="MCC管理主页面" expmaxrcd="50" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询字段 -->
+		<Field id="qmccId" 		desc="MCC编号" 	edittype="textbox" 	datatype="string" />
+		<Field id="qmccDesc" 	desc="MCC描述" 	edittype="textbox" 	datatype="string" />
+		<Field id="qmchtGrpId" 	desc="商户组别" edittype="combogrid" datatype="string" init="true"
+		datasource="mchtMng:com.ruimin.ifs.pmp.baseParaMng.dataset.mchtGrpMng"  
+		viewfield="mchtGrpNo,grpDesc" fieldmap="qmchtGrpId=mchtGrpNo;qmchtGrpIdName=grpDesc"/>
+
+		<!-- 主表单字段 -->
+		<Field id="mccId" 		desc="MCC编号"   edittype="textbox"   datatype="string" 
+		align="center" 	required="true"  width="200" xpath="/mccId" />
+		
+		<Field id="mccDesc" 	desc="MCC描述" 	edittype="textbox"	 datatype="string" 
+		align="left" 	required="true" width="570" colspan="4" xpath="/mccDesc" />
+		
+		<Field id="mchtGrpId"	desc="商户组别"  	datatype="string" 
+		align="center" 	required="true" xpath="/mchtGrpId" />
+		
+		<Field id="grpDesc"		desc="组别描述"  	datatype="string" 
+		method="com.ruimin.ifs.pmp.baseParaMng.comp.MchtMccMngAction.getGrpName"
+		align="left" 	required="true" xpath="/mchtGrpId"/>
+		
+		<Field id="mchtGrpIdGrid" 	desc="组别编号" edittype="combogrid" datatype="string" init="true" required="true"
+		datasource="mchtMng:com.ruimin.ifs.pmp.baseParaMng.dataset.mchtGrpMng" searchfield="qmchtGrpNo" 
+		viewfield="mchtGrpNo,grpDesc" fieldmap="mchtGrpIdGrid=mchtGrpNo;mchtGrpId=mchtGrpNo;grpDesc=grpDesc" xpath="mchtGrpId"/>
+		
+		<Field id="pagyName"    desc="通道名称" method="com.ruimin.ifs.pmp.chnlMng.comp.PagyInfoAction.getPagyNames"   
+        edittype="textbox"      align="center" xpath="/pagyNo" ></Field>
+		
+		
+		
+		<Field id="mccState" desc="Mcc状态" datatype="string" align="center"
+			required="false" xpath="/mccState" />
+		
+	</Fields>
+
+	<Commands>
+		<!-- 主界面按钮 -->
+		<Command id="btnAdd" desc="新增" type="addrecord" icon="fa fa-plus" />
+		<Command id="btnUpd" desc="修改" type="none" icon="fa fa-pencil" />
+		<Command id="btnDel" desc="删除" type="none" url="#" txn="" icon="fa fa-remove" tip="删除" />
+
+		<!-- 新增窗口 -->
+		<Command id="btnAddSub" desc="提交" type="asyncsubmit" icon="fa fa-save"
+			flowid="com.ruimin.ifs.pmp.baseParaMng.comp.MchtMccMngAction:addMchtMcc" />
+		<!-- 修改窗口 -->
+		<Command id="btnUpdSub" desc="提交" type="asyncsubmit" icon="fa fa-save"
+			flowid="com.ruimin.ifs.pmp.baseParaMng.comp.MchtMccMngAction:updMchtMcc" />
+		<!-- 删除 -->
+		<Command id="btnDelSub" desc="" type="asyncsubmit"
+			flowid="com.ruimin.ifs.pmp.baseParaMng.comp.MchtMccMngAction:delMchtMcc"
+			url="#" txn="" icon="fa fa-trash-o" tip="删除" />
+
+	</Commands>
+
+</Data>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 20170418fjf 修改,查询分为总行和非总行,仅总行显示接入渠道为 本行接入(C0002)的商户交易信息 -->
+	<!-- 通道交易列表查询 总行查询 -->
+	<select id="headQueryList" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyCoreTxnRecord">
+ 	   select `CORE_TXN_SSN`, `CORE_TXN_TIME`, CASE `STATUS` WHEN '11' THEN '00' WHEN '99' THEN '02' ELSE `STATUS` END AS `STATUS`, `CHL_TXN_SSN`, `CHL_TXN_TIME`, `PAGY_TXN_SSN`, `PAGY_TXN_TIME`, `MSG_SEND_FLAG`, `MSG_TXN_SSN`, `MSG_TXN_TIME`, `CHL_NO`, `PAY_TXN_CODE`, `PAY_TXN_NAME`, coreTxn.`PAY_TXN_TYPE_ID`,coreTxn.`ACCT_TYPE_NO`, `TXN_AMT`, `CHL_MER_ID`, `ACCT_NO`, `CURRENCY_CODE`, `PAGY_TXN_CODE`, `PAGY_TXN_NAME`, `TXN_TYPE`, coreTxn.`PAGY_NO`, `PAGY_TYPE`, `PAGY_MER_ID`, `PAGY_SUB_MER_ID`, `PAGY_SUB_MER_NAME`, `PAGY_MER_MCC`, `RESP_CODE`, `RESP_MSG`, `SPEND_TIME`, `PAGY_SPEND_TIME`, `SERVER_NAME`, `SERVER_IP`, `ORIG_PAGY_TXN_SSN`, `ORIG_PAGY_TXN_TIME`, coreTxn.`CRT_TLR`, coreTxn.`CRT_DATE_TIME`, coreTxn.`LAST_UPD_TLR`, coreTxn.`LAST_UPD_DATE_TIME`, pagyInfo.Pagy_Name,chnlInfo.Chl_Name,acctInfo.Acct_Type_Name,txnType.Pay_Txn_Type_Name
+  		from pagy_core_txn_record coreTxn
+  		left join pagy_base_info pagyInfo
+    		on coreTxn.Pagy_No = pagyInfo.Pagy_No
+  		left join pagy_channel_info chnlInfo
+    		on coreTxn.Chl_No = chnlInfo.Chl_Id
+  		left join pay_acct_type_base_info acctInfo 
+    		on coreTxn.Acct_Type_No = acctInfo.Acct_Type_No
+    	left join PAGY_TXN_TYPE_INFO txnType
+            on coreTxn.Pay_Txn_Type_Id = txnType.Pay_Txn_Type_Id
+    	where  1 = 1
+       <if test = "qTxnDateStart != ''"><![CDATA[and substr(coreTxn.CORE_TXN_TIME,1,8) >= #{qTxnDateStart} ]]></if>
+	   <if test = "qTxnDateEnd != ''"><![CDATA[and substr(coreTxn.CORE_TXN_TIME,1,8) <= #{qTxnDateEnd} ]]></if>
+	   <if test = "qChnlNo != ''"><![CDATA[and coreTxn.CHL_NO = #{qChnlNo} ]]></if>
+	   <if test = "qPagyNo != ''"><![CDATA[and coreTxn.PAGY_NO = #{qPagyNo} ]]></if>
+	   <if test = "qTxnType != ''"><![CDATA[and coreTxn.PAY_TXN_TYPE_ID = #{qTxnType} ]]></if>
+	   <if test = "qTxnState != ''"><![CDATA[and coreTxn.STATUS = #{qTxnState} ]]></if>
+	   <if test = "qChnlTxnSsn != ''"><![CDATA[and coreTxn.CHL_TXN_SSN like #{qChnlTxnSsn} ]]></if>
+	   <if test = "qPagyCoreTxnSsn != ''"><![CDATA[and coreTxn.CORE_TXN_SSN like #{qPagyCoreTxnSsn} ]]></if>
+	   <if test = "qThirdPagyTxnSsn != ''"><![CDATA[and coreTxn.PAGY_TXN_SSN like #{qThirdPagyTxnSsn} ]]></if>
+	    order by CORE_TXN_TIME desc
+	</select>
+	
+	<!-- 通道交易列表查询 非总行 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.chnlMng.process.bean.PagyCoreTxnRecord">
+ 	   select `CORE_TXN_SSN`, `CORE_TXN_TIME`, CASE `STATUS` WHEN '11' THEN '00' WHEN '99' THEN '02' ELSE `STATUS` END AS `STATUS`, `CHL_TXN_SSN`, `CHL_TXN_TIME`, `PAGY_TXN_SSN`, `PAGY_TXN_TIME`, `MSG_SEND_FLAG`, `MSG_TXN_SSN`, `MSG_TXN_TIME`, `CHL_NO`, `PAY_TXN_CODE`, `PAY_TXN_NAME`, coreTxn.`PAY_TXN_TYPE_ID`, coreTxn.`ACCT_TYPE_NO`, `TXN_AMT`, `CHL_MER_ID`, `ACCT_NO`, `CURRENCY_CODE`, `PAGY_TXN_CODE`, `PAGY_TXN_NAME`, `TXN_TYPE`, coreTxn.`PAGY_NO`, `PAGY_TYPE`, `PAGY_MER_ID`, `PAGY_SUB_MER_ID`, `PAGY_SUB_MER_NAME`, `PAGY_MER_MCC`, `RESP_CODE`, `RESP_MSG`, `SPEND_TIME`, `PAGY_SPEND_TIME`, `SERVER_NAME`, `SERVER_IP`, `ORIG_PAGY_TXN_SSN`, `ORIG_PAGY_TXN_TIME`, coreTxn.`CRT_TLR`, coreTxn.`CRT_DATE_TIME`, coreTxn.`LAST_UPD_TLR`, coreTxn.`LAST_UPD_DATE_TIME`, pagyInfo.Pagy_Name,chnlInfo.Chl_Name,acctInfo.Acct_Type_Name,txnType.Pay_Txn_Type_Name
+  		from pagy_core_txn_record coreTxn
+  		left join pagy_base_info pagyInfo
+    		on coreTxn.Pagy_No = pagyInfo.Pagy_No
+  		left join pagy_channel_info chnlInfo
+    		on coreTxn.Chl_No = chnlInfo.Chl_Id
+  		left join pay_acct_type_base_info acctInfo 
+    		on coreTxn.Acct_Type_No = acctInfo.Acct_Type_No
+    	left join PAGY_TXN_TYPE_INFO txnType
+            on coreTxn.Pay_Txn_Type_Id = txnType.Pay_Txn_Type_Id
+    	where  
+	    	coreTxn.chl_mer_id in(
+					select mcht.mcht_id   
+					from 
+					PBS_MCHT_BASE_INFO mcht			 
+					left join ifs_staff staff on staff.tlrno = mcht.crt_tlr
+					where     
+					staff.brcode in(
+						select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{currentBrCode}))
+					)
+				)
+       <if test = "qTxnDateStart != ''"><![CDATA[and substr(coreTxn.CORE_TXN_TIME,,8) >= #{qTxnDateStart} ]]></if>
+	   <if test = "qTxnDateEnd != ''"><![CDATA[and substr(coreTxn.CORE_TXN_TIME,1,8) <= #{qTxnDateEnd} ]]></if>
+	   <if test = "qChnlNo != ''"><![CDATA[and coreTxn.CHL_NO = #{qChnlNo} ]]></if>
+	   <if test = "qPagyNo != ''"><![CDATA[and coreTxn.PAGY_NO = #{qPagyNo} ]]></if>
+	   <if test = "qTxnType != ''"><![CDATA[and coreTxn.PAY_TXN_TYPE_ID = #{qTxnType} ]]></if>
+	   <if test = "qTxnState != ''"><![CDATA[and coreTxn.STATUS = #{qTxnState} ]]></if>
+	   <if test = "qChnlTxnSsn != ''"><![CDATA[and coreTxn.CHL_TXN_SSN like #{qChnlTxnSsn} ]]></if>
+	   <if test = "qPagyCoreTxnSsn != ''"><![CDATA[and coreTxn.CORE_TXN_SSN like #{qPagyCoreTxnSsn} ]]></if>
+	   <if test = "qThirdPagyTxnSsn != ''"><![CDATA[and coreTxn.PAGY_TXN_SSN like #{qThirdPagyTxnSsn} ]]></if>
+	    order by CORE_TXN_TIME desc
+	</select>
+</mapper>

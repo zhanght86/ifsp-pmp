@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define desc="商户信息" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.chnlMng.comp.QueryMchtAction:queryMchtInfo" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+	<!-- 查询字段 -->
+		<Field id="qmchtId" desc="商户编号" edittype="textbox" datatype="string"/>
+		<Field id="qmchtSimpleName" desc="商户简称" edittype="textbox" datatype="string"/>
+	
+		<Field id="mchtId" desc="商户编号" edittype="textbox" datatype="string" xpath="/mchtId"/>
+		<Field id="mchtSimpleName" desc="商户简称" edittype="textbox" datatype="string" xpath="/mchtSimpleName"/>
+	</Fields>
+</Data>

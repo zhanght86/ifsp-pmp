@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+	<!-- 查询开户机构所有信息 -->
+	<select id="queryListTmp" paramType="map" resultType="com.ruimin.ifs.pmp.baseParaMng.process.bean.OpenAcctOrgan">
+	   select * from PBS_ACCT_INST_INFO where 1=1
+	   <if test = "acctInstNo !='' "> and acct_inst_no like #{acctInstNo}</if>
+	   <if test = "acctInstName !='' "> and acct_inst_name like #{acctInstName}</if>
+	   order by crt_date_time desc
+	</select>
+	<!-- 查询开户机构编号是否重复 -->
+	<select id="queryByNo" paramType="string" resultType="com.ruimin.ifs.pmp.baseParaMng.process.bean.OpenAcctOrgan">
+	   select * from PBS_ACCT_INST_INFO where acct_inst_no=#{acctInstNo}
+	</select>
+	<!-- 根据开户机构表ID像商户信息表中查询有关这条数据的状态 -->
+	<select id="queryByAcctInstNo" paramType="string" resultType="string">
+	   select pmci.CON_STATE from PBS_ACCT_INST_INFO paii left join PBS_MCHT_CONTRACT_INFO pmci 
+	   on paii.acct_inst_no=pmci.SETL_ACCT_INSTITUTE where paii.acct_inst_no=#{acctInstNo}
+	</select>
+	<!-- 删除开户机构表中所有信息 -->
+	<delete id="deleteAll" paramType="">
+	     delete from PBS_ACCT_INST_INFO
+	</delete>
+	<!-- 根据开户机构编号查找开户机构名 -->
+	<select id="getSetlAcctInstituteName" paramType="map" resultType="string">
+	     select ACCT_INST_NAME from PBS_ACCT_INST_INFO d where d.acct_inst_no in (#{prodIdArray})
+	</select>
+	
+</mapper>
+	

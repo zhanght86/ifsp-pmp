@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="商户交易汇总月报表" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.report.comp.MchtTxnCountMonthlyAction:pageQuery" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<!-- 查询条件 -->
+		<Field id="qStleMonthStart" desc="统计月(起始)" edittype="datebox"    datatype="date" />
+		<Field id="qStleMonthEnd" desc="统计月(截止)" edittype="datebox"  datatype="date" />
+		<Field id="qMchtInfo" desc="商户号/简称" datatype="string" />
+		<Field id="qMchtOrg" desc="所属机构" datatype="string" align="center"  edittype="combogrid"  
+	 		datasource="mchtSelOrg:com.ruimin.ifs.pmp.mchtMng.dataset.mchtSelOrg"  
+			viewfield="brno,brname"  searchfield="qbrname"
+			init="true" multiple="false" default=""
+			fieldmap="qMchtOrgName=brname;qMchtOrg=brcode"/>   
+		<!-- 基础信息 -->
+       <Field id="stleMonth" desc="统计月" align="center" readonly="true" edittype="textbox" datatype="string"   xpath="/stleMonth" />
+	   <Field id="brcode" desc="所属机构编号" edittype="textbox" align="center" readonly="true" datatype="string" xpath="/brcode" />
+	   <Field id="brname" desc="所属机构名称" edittype="textbox" align="center" readonly="true" datatype="string" xpath="/brname" />
+	   <Field id="chlMerId" desc="商户号" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/chlMerId" />	
+	   <Field id="chlMerName" desc="商户简称" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/chlMerName"/>
+		<Field id="mchtType" desc="商户类型" datasource="DDIC:1804" edittype="combobox"  readonly="true" align="center" datatype="string" xpath="/mchtType"/>
+		<Field id="txnCount" desc="正向交易笔数" align="center" readonly="true" required="false" edittype="textbox" datatype="string" status="F" xpath="/txnCount"/>
+		<Field id="txnAmt" desc="正向交易金额" align="center" readonly="true" required="false" edittype="textbox" datatype="string" status="F" xpath="/txnAmt"/>
+	    <Field id="refundTxnCount" desc="退货交易笔数" align="center" readonly="true" required="false"  edittype="textbox" datatype="string" status="F" xpath="/refundTxnCount"/>
+        <Field id="refundTxnAmt" desc="退货交易金额" edittype="textbox" readonly="true"  align="center" datatype="string" xpath="/refundTxnAmt"/>
+        <Field id="setlFeeAmt" desc="商户手续费"  readonly="true" align="center" edittype="textbox" datatype="string" status="F" xpath="/setlFeeAmt"/>
+    	<Field id="txnAmtComparative" desc="交易额环比" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/txnAmtComparative"/>
+    	<Field id="stlmDateTime" desc="生成日期时间" edittype="textbox" readonly="true" align="center" datatype="string" xpath="/stlmDateTime"/>
+    	
+    </Fields>
+
+	<Commands>
+		<Command id="btnDownload" desc="下载报表" type="none" url="#" txn="" icon="fa fa-download"/>
+	</Commands>
+</Data>

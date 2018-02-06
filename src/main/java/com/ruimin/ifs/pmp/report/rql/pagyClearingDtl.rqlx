@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的通道清算明细信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthPagyClearingDtlVO">
+		SELECT
+			bill.STLM_DATE,
+			bill.PAGY_NO,
+			bill.PAGY_NAME,
+			bill.PAGY_MAIN_MCHT_NO,
+			bill.TXN_TYPE,
+			bill.TXN_CODE,
+			TIME_FORMAT(bill.TXN_TIME,'%H:%i:%s') as TXN_TIME,
+			FORMAT(IFNULL(bill.TXN_AMT,0),2) as TXN_AMT,
+			FORMAT(IFNULL(bill.TRAM_FEE_AMT,0),2) as TRAM_FEE_AMT,
+			FORMAT(IFNULL(bill.SETL_AMT,0),2) as SETL_AMT,
+			FORMAT(IFNULL(bill.RET_TPAM_FEE_AMT,0),2) as RET_TPAM_FEE_AMT,
+			bill.THIRD_SSN,
+			FORMAT(IFNULL(bill.REAL_FEE,0),2) as REAL_FEE
+		FROM
+			BTH_PAGY_BILL_INFO bill
+		WHERE
+			bill.STLM_DATE = #{qSettleDate}
+			and bill.PAGY_NO = #{qPagyNo}
+		order by bill.TXN_TIME asc,bill.THIRD_SSN asc
+	</select>
+</mapper>

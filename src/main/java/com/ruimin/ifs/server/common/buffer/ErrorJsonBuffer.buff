@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<buffer id="ErrorJsonBuffer" name="错误报文" desc="错误报文" class="outer" xmltag="" xmltagattrs="">
+  <format formattype="JsonFormat" encoding="utf-8">
+    <attrs>
+      <attr key="dateFormatPattern" value="yyyyMMdd" desc="日期格式"/>
+      <attr key="isPretty" value="false" desc="ture:格式化;false:不格式化"/>
+      <attr key="serializeNulls" value="true" desc="true:空值会显示为null;false:不会显示值为null的属性"/>
+      <attr key="outtype" value="string" desc="输出打包类型"/>
+      <attr key="rootid" value="" desc="对应JSON对象的根ID,如果为空则不生成根ID"/>
+      <attr key="isFmtArrBuffer" value="false" desc="循环体为buffer时格式化是否显示,默认为false"/>
+    </attrs>
+  </format>
+  <field id="errorCode" name="错误码" type="StringType" defValue="999999" desc="错误码">
+    <format>
+      <attrs>
+        <attr key="jid" value="errorCode" desc="对应JSON对象的属性ID,如果为空则默认和数据对象属性ID相同"/>
+        <attr key="jType" value="" desc="建议和数据对象属性的类型一致"/>
+        <attr key="type" value="" desc="将JSON值进行格式化显示"/>
+        <attr key="length" value="" desc="值长度"/>
+        <attr key="scale" value="" desc="值为数值型精度"/>
+      </attrs>
+    </format>
+  </field>
+  <field id="errorMsg" name="错误信息" type="StringType" defValue="" desc="错误信息">
+    <format>
+      <attrs>
+        <attr key="jid" value="errorMsg" desc="对应JSON对象的属性ID,如果为空则默认和数据对象属性ID相同"/>
+        <attr key="jType" value="" desc="建议和数据对象属性的类型一致"/>
+        <attr key="type" value="" desc="将JSON值进行格式化显示"/>
+        <attr key="length" value="" desc="值长度"/>
+        <attr key="scale" value="" desc="值为数值型精度"/>
+      </attrs>
+    </format>
+  </field>
+</buffer>

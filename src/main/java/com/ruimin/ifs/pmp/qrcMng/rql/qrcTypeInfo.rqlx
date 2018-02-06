@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询出为二维码类型的查询 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.qrcMng.process.bean.QrcTypeInfo">
+		select * from QRC_TYPE_INFO where 1=1 
+		<if test = "qrcTypeNo != '' "> and QRC_TYPE_NO = #{qrcTypeNo}</if>
+		<if test = "qrcTypeName != '' "> and QRC_TYPE_NAME like #{qrcTypeName}</if>
+		<if test="qrcTypeSat!='' "> and QRC_TYPE_SAT =#{qrcTypeSat}</if>
+<!--    <if test="qrcTypeSat==''"> and QRC_TYPE_SAT ='01'</if>  -->
+		order by QRC_TYPE_NO DESC 
+	</select>
+		
+	<!--获取当前维码类型最大编号ID-->
+	<select id="queryMaxQrcTypeNo" paramType="map" resultType="String">
+		select max(QRC_TYPE_NO)  from QRC_TYPE_INFO WHERE 1=1
+	</select>
+		
+</mapper>

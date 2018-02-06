@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.SuggMngAction:updStat" 
+	desc="商户基本信息管理" expmaxrcd="50" flowctxid="" flowretid=""/>
+	<Fields>
+		<Field id="suggId" desc="事件编号" edittype="textbox" datatype="string" xpath="/suggId"/>
+	<!-- 查询字段 -->
+		<Field id="qcrtDate" desc="日期" edittype="textbox" datatype="string"/>
+		<Field id="qrate" desc="评价" edittype="combobox" datatype="string" datasource="LIST:1,好用;2,不好用;3,还行"/>
+	<!-- 主表单字段 -->
+		<Field id="suggStat" desc="状态" edittype="combobox" datatype="string" datasource="LIST:1,未查看;2,已查看" align="center" xpath="/suggStat" />    
+		<Field id="crtDate" desc="日期" datatype="date" edittype="datebox" align="center" xpath="/crtDate"/>
+		<Field id="rate" desc="评价" edittype="combobox" datatype="string" datasource="LIST:1,好用;2,不好用;3,还行" align="center" xpath="/rate"/>
+		<Field id="userEmail" desc="用户邮箱" datatype="string" align="center" xpath="/userEmail"/>    
+		<Field id="suggInfo" desc="内容" edittype="textarea" colspan="4" rows="4" width="600" size="128" align="center" xpath="/suggInfo"/>
+		<Field id="opr" desc="操作栏" datatype="string" align="center"/>
+	</Fields>
+	
+	<Commands>	 
+		<Command id="btnRtn" desc="返回" type="none" url="#" txn="" />
+	</Commands>	
+</Data>

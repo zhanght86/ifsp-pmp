@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+<Define desc="国家地区代码维护" type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.mng.comp.BiNationregionEntryAction:queryAll" expmaxrcd="100" flowctxid="" flowretid="" />
+	<Fields>
+		<Field id="nationregionCode" desc="国家/地区代码" edittype="textbox" datatype="string" status="F" size="3" xpath="/nationregionCode" required="true" readonly="true" />
+		<Field id="chinaName" desc="中文全称"  edittype="textarea" status="F" datatype="string" size="64" xpath="/chinaName" />
+		<Field id="nationregionNumber" desc="国家/地区数字代码" edittype="textbox" status="F" datatype="string" size="3" xpath="/nationregionNumber" />
+		<Field id="chinaShortName" desc="中文简称" edittype="textbox" datatype="string" status="N" size="64" xpath="/chinaShortName" />
+		<Field id="engName" desc="英文全称" edittype="textarea" datatype="string" status="N" size="64" xpath="/engName" />
+		<Field id="engShortName" desc="英文简称" edittype="textarea" datatype="string" status="N" size="64" xpath="/engShortName" />
+		<Field id="opr" desc="操作" />
+		
+		<!-- 查询条件 -->
+    	<Field id="qid" desc="国家/地区代码" edittype="textbox" datatype="string" size="10" required="false" />
+		<Field id="qnationregionNumber" desc="国家/地区数字代码" edittype="textbox" status="F" datatype="string" size="10" />
+		<Field id="cnEnFullName" desc="中文/英文全称"  edittype="textbox" datatype="string" size="64" />
+		<Field id="cnEnShortName" desc="中文/英文简称"  edittype="textbox" datatype="string" size="64" />
+    </Fields>
+   
+	<Commands>
+		<Command id="btnAdd" desc="新增" type="addrecord" url="#" txn="" icon="fa fa-plus"/>
+		<Command id="btnSave"  desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.BiNationregionEntryAction:saveOrUpdate" url="#" txn="" />
+		<Command id="btnSave1"  desc="保存" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.BiNationregionEntryAction:saveOrUpdate1" url="#" txn="" />
+		<Command id="btnDelete"  desc="删除" type="asyncsubmit" flowid="com.ruimin.ifs.mng.comp.BiNationregionEntryAction:delete" url="#" txn="" />
+	</Commands>
+</Data>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+		
+<!-- 查询平安支付费率-->		
+	<select id="queryMain" paramType="map" resultType="com.ruimin.ifs.pmp.paPay.process.bean.PagyMixpayPayMethodFeeCfg">
+	SELECT *
+	FROM pagy_mixpay_pay_method_fee_cfg pagy
+	where 1=1 
+    <if test = "pmtId != ''"><![CDATA[and pagy.PMT_ID like #{pmtId} ]]></if>
+    <if test = "pmfId != ''"><![CDATA[and pagy.pmf_Id like #{pmfId} ]]></if>
+    <if test = "pmtTag != ''"><![CDATA[and pagy.pmt_tag like #{pmtTag} ]]></if>
+   ORDER BY pagy.PMT_ID DESC,pagy.PMT_TAG DESC,pagy.PMF_ID DESC
+	</select>		
+</mapper>

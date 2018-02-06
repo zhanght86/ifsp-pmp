@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Data xmlns="http://www.rmitec.cn/dtst-mapper"  
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.rmitec.cn/dtst-mapper http://www.rmitec.cn/dtst-mapper">
+	<Define type="call" pagesize="10" log="false" flowid="com.ruimin.ifs.pmp.mchtAppMng.comp.UserMngAction:queryInfo" 
+	desc="商户基本信息管理" expmaxrcd="50" flowctxid="" flowretid=""/>
+	<Fields>
+		<Field id="userIdAss" desc="店员用户号" datatype="string" align="center" xpath="/userIdAss"/>
+		<Field id="empNo" desc="店员号" datatype="string" align="center" xpath="/empNo"/>
+		<Field id="userName" desc="店员姓名" datatype="string" align="center" xpath="/userName"/>
+		<Field id="phoneNo" desc="手机号码" datatype="string" align="center" xpath="/phoneNo"/>    
+	</Fields>
+	
+</Data>

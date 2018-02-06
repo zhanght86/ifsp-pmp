@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper xmlns="http://sqlmap.rql.org/rql-mapper" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://sqlmap.rql.org/rql-mapper http://sqlmap.rql.org/rql-mapper">
+
+<!-- 查询符合条件的对账差错信息 -->
+	<select id="queryList" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthBalErrorsVO">
+		SELECT
+			err.STLM_DATE,
+			err.PAGY_NO,
+			err.PAGY_NAME,
+			err.TXN_SSN,
+			DATE_FORMAT(err.TXN_DATE,'%Y-%m-%d %H:%i:%s') as TXN_DATE,
+			err.TXN_TYPE,
+			err.TXN_CODE,
+			err.THIRD_SSN,
+			err.CHL_TXN_SSN,
+			err.CHL_MER_ID,
+			FORMAT(IFNULL(err.TXN_AMT,0)/100,2) as TXN_AMT,
+			FORMAT(IFNULL(err.FEE,0)/100,2) as fee,
+			err.AMT_FLG,
+			err.ERR_STAT,
+			err.CORR_STAT,
+			err.ERR_REMARK,
+			err.LAST_UPD_TLR,
+			err.REFUND_STAT,
+			err.AUDIT_ID,
+			DATE_FORMAT(err.LAST_UPD_DATE_TIME,'%Y-%m-%d %h:%i:%s') as LAST_UPD_DATE_TIME,
+			third.PAGY_SEQ_ID,
+			mcht.MCHT_SIMPLE_NAME as chl_Mer_Name,
+			third.TPAM_TRANSACTION_ID,
+			third.TPAM_OUT_TRANSACTION_ID
+		FROM
+			bth_bal_err err
+		LEFT JOIN pbs_mcht_base_info mcht ON err.CHL_MER_ID = mcht.MCHT_ID
+		LEFT JOIN bal_acct_tab_vim third ON err.THIRD_SSN = third.PAGY_SEQ_ID
+		WHERE
+			mcht.MCHT_ORG_ID in(select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{qMchtOrg})))
+			<if test = "qStlmDateStart != '' "> and err.STLM_DATE &gt;= #{qStlmDateStart}</if>
+			<if test = "qStlmDateEnd != '' "> and err.STLM_DATE &lt;= #{qStlmDateEnd}</if>
+			<if test = "qMchtInfo != '' "> and (mcht.MCHT_ID like #{qMchtInfo} or mcht.MCHT_SIMPLE_NAME like #{qMchtInfo})</if>
+			<if test="qTxnType !='' "> and err.TXN_TYPE =#{qTxnType}</if>
+   			<if test="qErrStat !=''"> and err.ERR_STAT =#{qErrStat}</if>
+   			<if test="qPagyNo !=''"> and err.PAGY_NO =#{qPagyNo}</if>
+   			<if test="qThirdSsn !=''"> and err.THIRD_SSN like #{qThirdSsn}</if>
+   			<if test="qChlTxnSsn !=''"> and err.CHL_TXN_SSN like #{qChlTxnSsn}</if>
+   			<if test="qCorrStat !=''"> and err.CORR_STAT =#{qCorrStat}</if>
+   			<if test="qtpamOutTransactionId !=''"> and third.TPAM_OUT_TRANSACTION_ID =#{qtpamOutTransactionId}</if>
+   			<if test = "auditId != ''"><![CDATA[and err.audit_Id = #{auditId} ]]></if>
+   			<if test = "qRefundStat != ''"><![CDATA[and err.REFUND_STAT = #{qRefundStat} ]]></if>   			
+		order by err.STLM_DATE ,err.CHL_TXN_SSN DESC
+	</select>
+	<!-- 查询符合条件的对账差错信息 所有的-->
+	<select id="queryListRole" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthBalErrorsVO">
+		SELECT
+			err.STLM_DATE,
+			err.PAGY_NO,
+			err.PAGY_NAME,
+			err.TXN_SSN,
+			DATE_FORMAT(err.TXN_DATE,'%Y-%m-%d %H:%i:%s') as TXN_DATE,
+			err.TXN_TYPE,
+			err.TXN_CODE,
+			err.THIRD_SSN,
+			err.CHL_TXN_SSN,
+			err.CHL_MER_ID,
+			FORMAT(IFNULL(err.TXN_AMT,0)/100,2) as TXN_AMT,
+			FORMAT(IFNULL(err.FEE,0)/100,2) as fee,
+			err.AMT_FLG,
+			err.ERR_STAT,
+			err.CORR_STAT,
+			err.ERR_REMARK,
+			err.LAST_UPD_TLR,
+			err.REFUND_STAT,
+			err.AUDIT_ID,
+			DATE_FORMAT(err.LAST_UPD_DATE_TIME,'%Y-%m-%d %h:%i:%s') as LAST_UPD_DATE_TIME,
+			third.PAGY_SEQ_ID,
+			mcht.MCHT_SIMPLE_NAME as chl_Mer_Name,
+			third.TPAM_TRANSACTION_ID,
+			third.TPAM_OUT_TRANSACTION_ID
+		FROM
+			bth_bal_err err
+		LEFT JOIN pbs_mcht_base_info mcht ON err.CHL_MER_ID = mcht.MCHT_ID
+		LEFT JOIN bal_acct_tab_vim third ON err.THIRD_SSN = third.PAGY_SEQ_ID
+		WHERE
+			1=1
+			<if test = "qStlmDateStart != '' "> and err.STLM_DATE &gt;= #{qStlmDateStart}</if>
+			<if test = "qStlmDateEnd != '' "> and err.STLM_DATE &lt;= #{qStlmDateEnd}</if>
+			<if test = "qMchtInfo != '' "> and (mcht.MCHT_ID like #{qMchtInfo} or mcht.MCHT_SIMPLE_NAME like #{qMchtInfo})</if>
+			<if test="qTxnType !='' "> and err.TXN_TYPE =#{qTxnType}</if>
+   			<if test="qErrStat !=''"> and err.ERR_STAT =#{qErrStat}</if>
+   			<if test="qPagyNo !=''"> and err.PAGY_NO =#{qPagyNo}</if>
+   			<if test="qThirdSsn !=''"> and err.THIRD_SSN like #{qThirdSsn}</if>
+   			<if test="qChlTxnSsn !=''"> and err.CHL_TXN_SSN like #{qChlTxnSsn}</if>
+   			<if test="qCorrStat !=''"> and err.CORR_STAT =#{qCorrStat}</if>
+   			<if test="qtpamOutTransactionId !=''"> and third.TPAM_OUT_TRANSACTION_ID =#{qtpamOutTransactionId}</if>
+   			<if test = "auditId != ''"><![CDATA[and err.audit_Id = #{auditId} ]]></if>
+   			<if test = "qRefundStat != ''"><![CDATA[and err.REFUND_STAT = #{qRefundStat} ]]></if>   			
+		order by err.STLM_DATE ,err.CHL_TXN_SSN DESC
+	</select>
+		<select id="queryList1" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthBalErrorsVO">
+		SELECT
+			err.STLM_DATE,
+			err.PAGY_NO,
+			err.PAGY_NAME,
+			err.TXN_SSN,
+			DATE_FORMAT(err.TXN_DATE,'%Y-%m-%d %H:%i:%s') as TXN_DATE,
+			err.TXN_TYPE,
+			err.TXN_CODE,
+			err.THIRD_SSN,
+			err.CHL_TXN_SSN,
+			err.CHL_MER_ID,
+			FORMAT(IFNULL(err.TXN_AMT,0)/100,2) as TXN_AMT,
+			FORMAT(IFNULL(err.FEE,0)/100,2) as fee,
+			err.AMT_FLG,
+			err.ERR_STAT,
+			err.CORR_STAT,
+			err.ERR_REMARK,
+			err.LAST_UPD_TLR,
+			case err.REFUND_STAT
+       			when '00' then '退款成功'
+      			when '01' then '退款失败'
+       			when '02' then '受理成功'
+       			when '03' then '未处理'
+       			when '04' then '退款待审核'
+      			when '05' then '退款查询待审核'
+       			when '06' then '退款审核被拒绝'
+       			else err.REFUND_STAT
+     			end as REFUND_STAT,
+			err.AUDIT_ID,
+			DATE_FORMAT(err.LAST_UPD_DATE_TIME,'%Y-%m-%d %h:%i:%s') as LAST_UPD_DATE_TIME,
+			third.PAGY_SEQ_ID,
+			mcht.MCHT_SIMPLE_NAME as chl_Mer_Name,
+			third.TPAM_TRANSACTION_ID,
+			third.TPAM_OUT_TRANSACTION_ID
+		FROM
+			bth_bal_err err
+		LEFT JOIN pbs_mcht_base_info mcht ON err.CHL_MER_ID = mcht.MCHT_ID
+		LEFT JOIN bal_acct_tab_vim third ON err.THIRD_SSN = third.PAGY_SEQ_ID
+		WHERE
+			mcht.MCHT_ORG_ID in(select brcode from ifs_org where FIND_IN_SET(brcode,getChildOrgList(#{qMchtOrg})))
+			<if test = "qStlmDateStart != '' "> and err.STLM_DATE &gt;= #{qStlmDateStart}</if>
+			<if test = "qStlmDateEnd != '' "> and err.STLM_DATE &lt;= #{qStlmDateEnd}</if>
+			<if test = "qMchtInfo != '' "> and (mcht.MCHT_ID like #{qMchtInfo} or mcht.MCHT_SIMPLE_NAME like #{qMchtInfo})</if>
+			<if test="qTxnType !='' "> and err.TXN_TYPE =#{qTxnType}</if>
+   			<if test="qErrStat !=''"> and err.ERR_STAT =#{qErrStat}</if>
+   			<if test="qPagyNo !=''"> and err.PAGY_NO =#{qPagyNo}</if>
+   			<if test="qThirdSsn !=''"> and err.THIRD_SSN like #{qThirdSsn}</if>
+   			<if test="qChlTxnSsn !=''"> and err.CHL_TXN_SSN like #{qChlTxnSsn}</if>
+   			<if test="qCorrStat !=''"> and err.CORR_STAT =#{qCorrStat}</if>
+   			<if test="qtpamOutTransactionId !=''"> and third.TPAM_OUT_TRANSACTION_ID =#{qtpamOutTransactionId}</if>
+   			<if test = "auditId != ''"><![CDATA[and err.audit_Id = #{auditId} ]]></if>
+		order by err.STLM_DATE ,err.CHL_TXN_SSN DESC
+	</select>
+			<select id="queryList2" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthBalErrorsVO">
+		SELECT
+			err.STLM_DATE,
+			err.PAGY_NO,
+			err.PAGY_NAME,
+			err.TXN_SSN,
+			DATE_FORMAT(err.TXN_DATE,'%Y-%m-%d %H:%i:%s') as TXN_DATE,
+			err.TXN_TYPE,
+			err.TXN_CODE,
+			err.THIRD_SSN,
+			err.CHL_TXN_SSN,
+			err.CHL_MER_ID,
+			FORMAT(IFNULL(err.TXN_AMT,0)/100,2) as TXN_AMT,
+			FORMAT(IFNULL(err.FEE,0)/100,2) as fee,
+			err.AMT_FLG,
+			err.ERR_STAT,
+			err.CORR_STAT,
+			err.ERR_REMARK,
+			err.LAST_UPD_TLR,
+			case err.REFUND_STAT
+       			when '00' then '退款成功'
+      			when '01' then '退款失败'
+       			when '02' then '受理成功'
+       			when '03' then '未处理'
+       			when '04' then '退款待审核'
+      			when '05' then '退款查询待审核'
+       			when '06' then '退款审核被拒绝'
+       			else err.REFUND_STAT
+     			end as REFUND_STAT,
+			err.AUDIT_ID,
+			DATE_FORMAT(err.LAST_UPD_DATE_TIME,'%Y-%m-%d %h:%i:%s') as LAST_UPD_DATE_TIME,
+			third.PAGY_SEQ_ID,
+			mcht.MCHT_SIMPLE_NAME as chl_Mer_Name,
+			third.TPAM_TRANSACTION_ID,
+			third.TPAM_OUT_TRANSACTION_ID
+		FROM
+			bth_bal_err err
+		LEFT JOIN pbs_mcht_base_info mcht ON err.CHL_MER_ID = mcht.MCHT_ID
+		LEFT JOIN bal_acct_tab_vim third ON err.THIRD_SSN = third.PAGY_SEQ_ID
+		WHERE
+			1=1
+			<if test = "qStlmDateStart != '' "> and err.STLM_DATE &gt;= #{qStlmDateStart}</if>
+			<if test = "qStlmDateEnd != '' "> and err.STLM_DATE &lt;= #{qStlmDateEnd}</if>
+			<if test = "qMchtInfo != '' "> and (mcht.MCHT_ID like #{qMchtInfo} or mcht.MCHT_SIMPLE_NAME like #{qMchtInfo})</if>
+			<if test="qTxnType !='' "> and err.TXN_TYPE =#{qTxnType}</if>
+   			<if test="qErrStat !=''"> and err.ERR_STAT =#{qErrStat}</if>
+   			<if test="qPagyNo !=''"> and err.PAGY_NO =#{qPagyNo}</if>
+   			<if test="qThirdSsn !=''"> and err.THIRD_SSN like #{qThirdSsn}</if>
+   			<if test="qChlTxnSsn !=''"> and err.CHL_TXN_SSN like #{qChlTxnSsn}</if>
+   			<if test="qCorrStat !=''"> and err.CORR_STAT =#{qCorrStat}</if>
+   			<if test="qtpamOutTransactionId !=''"> and third.TPAM_OUT_TRANSACTION_ID =#{qtpamOutTransactionId}</if>
+   			<if test = "auditId != ''"><![CDATA[and err.audit_Id = #{auditId} ]]></if>
+		order by err.STLM_DATE ,err.CHL_TXN_SSN DESC
+	</select>
+	<update paramType="com.ruimin.ifs.pmp.report.process.bean.BthBalErrorsVO" id="manualAdjustment">
+		update 
+			bth_bal_err 
+		set 
+			CORR_STAT = #{corrStat},
+			LAST_UPD_TLR = #{lastUpdTlr},
+			LAST_UPD_DATE_TIME = #{lastUpdDateTime}
+		where
+			STLM_DATE =#{stlmDate}
+			and PAGY_NO =#{pagyNo}
+			and TXN_SSN =#{txnSsn}
+	</update>
+	<update paramType="com.ruimin.ifs.pmp.report.process.bean.BthBalErrorsVO" id="manualAdjustmentAudit">
+		update 
+			bth_bal_err 
+		set 
+			CORR_STAT = #{corrStat},
+			AUDIT_ID=#{auditId}
+		where
+			STLM_DATE =#{stlmDate}
+			and PAGY_NO =#{pagyNo}
+			and TXN_SSN =#{txnSsn}
+	</update>		
+	<update paramType="com.ruimin.ifs.pmp.report.process.bean.BthBalErrorsVO" id="BthBalErrors">
+		update 
+			bth_bal_err 
+		set 
+			REFUND_STAT = #{refundStat}
+		where
+			THIRD_SSN =#{thirdSsn} and REFUND_STAT <![CDATA[ <> '00']]>;
+	</update>
+		<update paramType="com.ruimin.ifs.pmp.report.process.bean.BthBalErrorsVO" id="BthBalErrorsAudit">
+		update 
+			bth_bal_err 
+		set 
+			REFUND_STAT = #{refundStat},
+			AUDIT_ID=#{auditId}
+		where
+			THIRD_SSN =#{thirdSsn};
+	</update>
+		<select id="returnsErrors" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagySwiftTxnBillInfo">
+			select *from pagy_swift_txn_bill_info a where a.MER_ORDER_ID=#{ThirdSsn};
+		</select>
+		<select id="returnsErrorsEcitic" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagyEciticTxnBillInfo">
+			select *from pagy_ecitic_txn_bill_info a where a.MER_ORDER_ID=#{ThirdSsn};
+		</select>
+			<select id="returnsErrorsAlipay" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagyAlipayTxnInfo">
+			select *from pagy_alipay_txn_info a where a.PAGY_SEQ_ID=#{ThirdSsn};		
+			</select>
+			<select id="returnsErrorsHomepay" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagyHomeTxnInfo">
+			select *from pagy_home_txn_info a where a.PAGY_SEQ_ID=#{ThirdSsn};		
+			</select>
+			<select id="returnsErrorsPA" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagyMixpayTxnInfo">
+			select *from pagy_mixpay_txn_info a where a.PAGY_SEQ_ID=#{ThirdSsn};		
+			</select>
+			<select id="QueryErrorsAlipay" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagyAlipayTxnInfo">
+			select *from pagy_alipay_txn_info a where a.ORIG_SEQ_ID=#{ThirdSsn};		
+			</select>
+			<select id="QueryErrorsSwiftpay" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagySwiftpassTxnInfo">
+			select *from pagy_swiftpass_txn_info a where a.ORIG_SEQ_ID=#{ThirdSsn} ORDER BY a.PAGY_SEQ_TM DESC;		
+			</select>
+			<select id="QueryErrorsEcitic" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagyEciticTxnInfo">
+			select *from pagy_ecitic_txn_info a where a.ORIG_SEQ_ID=#{ThirdSsn} ORDER BY a.PAGY_SEQ_TM DESC;		
+			</select>
+			<select id="QueryErrorsPA" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagyMixpayTxnInfo">
+			select *from pagy_mixpay_txn_info a where a.ORIG_SEQ_ID=#{ThirdSsn} ORDER BY a.PAGY_SEQ_TM DESC;		
+			</select>
+			<select id="QueryErrorsHomepay" paramType="String" resultType="com.ruimin.ifs.pmp.report.process.bean.PagyHomeTxnInfo">
+			select *from pagy_home_txn_info a where a.ORIG_SEQ_ID=#{ThirdSsn};		
+			</select>
+			
+			<select id="QuerySettlementMark" paramType="String" resultType="String">
+			select SETTLEMENT_MARK from pagy_sub_mcht_info a where a.MCHT_NO=#{settlementMark} and PAGY_NO='311'  LIMIT 1;		
+			</select>
+			<select id="QueryPagySubMcht" paramType="String" resultType="String">
+				select a.MCHT_NO from pagy_sub_mcht_info a where a.PAGY_NO ='312' and a.PAY_MCHT_NO=#{mchtNo};
+			</select>
+			  <select id="selectByPrimaryKey" paramType="map" resultType="com.ruimin.ifs.pmp.report.process.bean.BthAcctNoParam" >
+	    select  *from bth_acct_no_param
+	    where PAYG_NO = #{paygNo}
+	      and ACCT_NO_FLAG = #{ACCT_NO_FLAG}
+  </select>
+</mapper>
